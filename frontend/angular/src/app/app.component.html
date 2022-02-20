@@ -5,7 +5,11 @@
   <h1>ngface demo application</h1>
   <br>
   <div class="ngface-flex-row">
-    <text-input [form]="form" [widgetId]="'name'"></text-input>
-    <text-input [form]="form" [widgetId]="'place-of-birth'"></text-input>
+    <ngface-text-input [form]="form" [widgetId]="'name'"></ngface-text-input>
+    <ngface-text-input [form]="form" [widgetId]="'place-of-birth'"></ngface-text-input>
+  </div>
+  <div class="ngface-flex-row">
+    <ngface-button [form]="form" [widgetId]="'button-ok'"></ngface-button>
+    <ngface-button [form]="form" [widgetId]="'button-cancel'"></ngface-button>
   </div>
 </div>

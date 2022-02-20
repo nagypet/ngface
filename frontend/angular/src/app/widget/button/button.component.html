@@ -1,0 +1,8 @@
+<div class="ngface-button">
+  <button type="button" (click)="onClick()" mat-raised-button [ngClass]="getClass()"
+          [id]="getData().id"
+          [disabled]="!getData().enabled"
+  >
+    {{getData().label}}
+  </button>
+</div>

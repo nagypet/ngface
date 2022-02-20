@@ -1,8 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-02-20 13:35:25.
+// Generated using typescript-generator version 2.17.558 on 2022-02-20 15:40:32.
 
 export namespace TypeModels {
+
+    export interface Button extends Widget<Button> {
+        style: Style;
+    }
 
     export interface Form {
         id: string;
@@ -50,5 +54,7 @@ export namespace TypeModels {
         type: string;
         message: string;
     }
+
+    export type Style = "NONE" | "PRIMARY" | "ACCENT" | "WARN";
 
 }

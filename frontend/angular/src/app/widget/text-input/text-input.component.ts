@@ -4,7 +4,7 @@ import TextInput = TypeModels.TextInput;
 import Form = TypeModels.Form;
 
 @Component({
-  selector: 'text-input',
+  selector: 'ngface-text-input',
   templateUrl: './text-input.component.html',
   styleUrls: ['./text-input.component.scss']
 })
