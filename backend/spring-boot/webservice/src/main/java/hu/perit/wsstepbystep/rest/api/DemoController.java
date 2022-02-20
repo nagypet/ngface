@@ -1,5 +1,6 @@
 package hu.perit.wsstepbystep.rest.api;
 
+import hu.perit.ngface.widget.button.Button;
 import hu.perit.ngface.widget.form.Form;
 import hu.perit.ngface.widget.input.TextInput;
 import hu.perit.ngface.widget.input.constraint.Required;
@@ -28,6 +29,9 @@ public class DemoController implements DemoApi
                 )
                 .addWidget(new TextInput("place-of-birth")
                         .label("Place of birth")
-                );
+                )
+                .addWidget(Button.OK)
+                .addWidget(Button.CANCEL)
+                ;
     }
 }

@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -20,7 +20,7 @@ import java.util.Map;
 public class Form
 {
     private final String id;
-    private final Map<String, Widget<?>> widgets = new HashMap<>();
+    private final Map<String, Widget<?>> widgets = new LinkedHashMap<>();
 
     // For JSon deserialization
     protected Form()
