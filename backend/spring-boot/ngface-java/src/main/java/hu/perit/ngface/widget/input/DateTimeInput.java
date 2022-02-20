@@ -1,9 +1,11 @@
-package hu.perit.ngface.control.input;
+package hu.perit.ngface.widget.input;
 
-import hu.perit.ngface.base.Input;
+import hu.perit.ngface.widget.base.Input;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.time.LocalDateTime;
 
 /**
  * @author Peter Nagy
@@ -11,9 +13,9 @@ import lombok.ToString;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString(callSuper = true)
-public class TextInput extends Input<String, TextInput>
+public class DateTimeInput extends Input<LocalDateTime, DateTimeInput>
 {
-    public TextInput(String id)
+    public DateTimeInput(String id)
     {
         super(id);
     }

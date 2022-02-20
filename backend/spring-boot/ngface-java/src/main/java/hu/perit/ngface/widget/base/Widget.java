@@ -1,4 +1,4 @@
-package hu.perit.ngface.base;
+package hu.perit.ngface.widget.base;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.EqualsAndHashCode;

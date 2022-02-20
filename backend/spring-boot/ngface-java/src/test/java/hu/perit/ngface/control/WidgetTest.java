@@ -1,10 +1,10 @@
 package hu.perit.ngface.control;
 
-import hu.perit.ngface.base.Widget;
-import hu.perit.ngface.constraints.Min;
-import hu.perit.ngface.control.input.DateInput;
-import hu.perit.ngface.control.input.NumericInput;
-import hu.perit.ngface.control.input.TextInput;
+import hu.perit.ngface.widget.base.Widget;
+import hu.perit.ngface.widget.input.constraint.Min;
+import hu.perit.ngface.widget.input.DateInput;
+import hu.perit.ngface.widget.input.NumericInput;
+import hu.perit.ngface.widget.input.TextInput;
 import hu.perit.spvitamin.core.StackTracer;
 import hu.perit.spvitamin.spring.json.JSonSerializer;
 import lombok.extern.slf4j.Slf4j;

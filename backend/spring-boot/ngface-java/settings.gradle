@@ -14,4 +14,7 @@
  * limitations under the License.
  */
 
+
+apply from: '../gradle/include-project-dependencies.gradle'
+
 rootProject.name = 'ngface-java'

@@ -1,11 +1,10 @@
 package hu.perit.wsstepbystep.rest.api;
 
-import hu.perit.wsstepbystep.rest.model.BookDTO;
+import hu.perit.ngface.widget.form.Form;
+import hu.perit.ngface.widget.input.TextInput;
+import hu.perit.ngface.widget.input.constraint.Required;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collections;
-import java.util.List;
 
 @RestController
 @Slf4j
@@ -15,9 +14,13 @@ public class DemoController implements DemoApi
     // getDemoForm()
     //------------------------------------------------------------------------------------------------------------------
     @Override
-    public List<BookDTO> getDemoForm()
+    public Form getDemoForm()
     {
         log.debug("getDemoForm()");
-        return Collections.emptyList();
+
+        return new Form("demo-form")
+                .addWidget(new TextInput("name")
+                        .placeholder("Your name")
+                        .addConstraint(new Required("Name is required!")));
     }
 }

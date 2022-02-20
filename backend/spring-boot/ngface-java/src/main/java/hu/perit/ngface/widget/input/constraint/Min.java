@@ -1,6 +1,6 @@
-package hu.perit.ngface.constraints;
+package hu.perit.ngface.widget.input.constraint;
 
-import hu.perit.ngface.base.Constraint;
+import hu.perit.ngface.widget.base.Constraint;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -13,14 +13,15 @@ public class Min extends Constraint<Min>
     private final Double min;
 
     // For JSon deserialization
-    protected Min()
+    private Min()
     {
+        super(null);
         this.min = null;
     }
 
     public Min(Double min, String message)
     {
-        message(message);
+        super(message);
         this.min = min;
     }
 }

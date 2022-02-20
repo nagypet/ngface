@@ -1,6 +1,6 @@
-package hu.perit.ngface.control.input;
+package hu.perit.ngface.widget.input;
 
-import hu.perit.ngface.base.Input;
+import hu.perit.ngface.widget.base.Input;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
