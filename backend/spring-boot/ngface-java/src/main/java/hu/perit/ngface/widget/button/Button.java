@@ -14,6 +14,7 @@ public class Button extends Widget<Button>
     public static final Button OK = new Button("button-ok").label("OK").style(Style.PRIMARY);
     public static final Button CANCEL = new Button("button-cancel").label("Cancel");
     public static final Button SAVE = new Button("button-save").label("Save").style(Style.PRIMARY);
+    public static final Button DELETE = new Button("button-delete").label("Delete").style(Style.WARN);
 
     public enum Style {
         NONE,

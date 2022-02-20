@@ -32,6 +32,7 @@ public class DemoController implements DemoApi
                 )
                 .addWidget(Button.OK)
                 .addWidget(Button.CANCEL)
+                .addWidget(Button.DELETE)
                 ;
     }
 }
