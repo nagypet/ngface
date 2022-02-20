@@ -1,3 +1,10 @@
-<input autocomplete="off">
-
-
+<div class="ngface-input-field">
+  <label>
+    {{getData().label}}
+    <span *ngIf="isRequired() && getData().enabled">*</span>
+  </label>
+  <input autocomplete="off"
+         [value]="getData().value"
+         [placeholder]="getData().placeholder !== null ? getData().placeholder : ''"
+         [matTooltip]="getData().tooltip" matTooltipPosition="above">
+</div>

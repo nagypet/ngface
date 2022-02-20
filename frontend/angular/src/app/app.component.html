@@ -1,5 +1,11 @@
-<p>ngface demo application</p>
 
 <router-outlet></router-outlet>
 
-<text-input></text-input>
+<div class="ngface-form">
+  <h1>ngface demo application</h1>
+  <br>
+  <div class="ngface-flex-row">
+    <text-input [form]="form" [widgetId]="'name'"></text-input>
+    <text-input [form]="form" [widgetId]="'place-of-birth'"></text-input>
+  </div>
+</div>

@@ -20,7 +20,14 @@ public class DemoController implements DemoApi
 
         return new Form("demo-form")
                 .addWidget(new TextInput("name")
+                        .value("Peter")
+                        .label("Owner's name")
                         .placeholder("Your name")
-                        .addConstraint(new Required("Name is required!")));
+                        .tooltip("Name of the account owner")
+                        .addConstraint(new Required("Name is required!"))
+                )
+                .addWidget(new TextInput("place-of-birth")
+                        .label("Place of birth")
+                );
     }
 }
