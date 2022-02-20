@@ -107,7 +107,8 @@ generateTypeScript {
     jsonLibrary = 'jackson2'
     classPatterns = [
             'hu.perit.ngface.widget.input.**',
-            'hu.perit.ngface.widget.form.**'
+            'hu.perit.ngface.widget.form.**',
+            'hu.perit.ngface.widget.button.**'
     ]
     outputFile = 'build/dto-models.ts'
     outputFileType = 'implementationFile'
