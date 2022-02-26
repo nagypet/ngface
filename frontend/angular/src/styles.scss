@@ -30,22 +30,29 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .ngface-input-field {
-  display:flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
+  width: 250px;
   margin-right: 20px;
 
-  input {
-    width: 250px;
+  .mat-form-field-flex {
+    height: 55px;
   }
 
-  label {
-    flex-shrink: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .mat-form-field-infix {
+    padding-top: 10px;
   }
+
+  mat-hint {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
 }
+
+/*
+.mat-form-field-appearance-outline .mat-form-field-prefix, .mat-form-field-appearance-outline .mat-form-field-suffix {
+  top: 0;
+}
+ */
 
 

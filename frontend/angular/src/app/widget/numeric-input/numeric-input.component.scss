@@ -1,0 +1,12 @@
+.ngface-number {
+  text-align: right;
+}
+
+input.ngface-number::-webkit-outer-spin-button,
+input.ngface-number::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.ngface-number {
+  -moz-appearance: textfield;
+}

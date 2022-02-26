@@ -31,7 +31,7 @@ public abstract class Widget<SUB extends Widget>
     private final String type = getClass().getSimpleName();
     private final String id;
     protected String label;
-    protected String tooltip;
+    protected String hint;
     protected boolean enabled = true;
 
     // For JSon deserialization
@@ -46,9 +46,9 @@ public abstract class Widget<SUB extends Widget>
         return (SUB) this;
     }
 
-    public SUB tooltip(String tooltip)
+    public SUB hint(String hint)
     {
-        this.tooltip = tooltip;
+        this.hint = hint;
         return (SUB) this;
     }
 

@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-02-20 15:40:32.
+// Generated using typescript-generator version 2.17.558 on 2022-02-26 09:01:43.
 
 export namespace TypeModels {
 
@@ -23,34 +23,48 @@ export namespace TypeModels {
 
     export interface NumericInput extends Input<number, NumericInput> {
         value: number;
+        precision: number;
     }
 
     export interface TextInput extends Input<string, TextInput> {
         value: string;
     }
 
-    export interface Min extends Constraint<Min> {
+    export interface Max extends Validator<Max> {
+        max: number;
+    }
+
+    export interface Min extends Validator<Min> {
         min: number;
     }
 
-    export interface Required extends Constraint<Required> {
+    export interface Pattern extends Validator<Pattern> {
+        pattern: string;
+    }
+
+    export interface Required extends Validator<Required> {
+    }
+
+    export interface Size extends Validator<Size> {
+        min: number;
+        max: number;
     }
 
     export interface Widget<SUB> {
         type: string;
         id: string;
         label: string;
-        tooltip: string;
+        hint: string;
         enabled: boolean;
     }
 
     export interface Input<T, SUB> extends Widget<SUB> {
         placeholder: string;
         value: T;
-        constraints: Constraint<any>[];
+        validators: Validator<any>[];
     }
 
-    export interface Constraint<SUB> {
+    export interface Validator<SUB> {
         type: string;
         message: string;
     }

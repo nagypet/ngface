@@ -1,9 +1,11 @@
 package hu.perit.ngface.widget.base;
 
+import hu.perit.ngface.widget.exception.ValidatorNotAllowedException;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Peter Nagy
@@ -17,7 +19,7 @@ public abstract class Input<T, SUB extends Input> extends Widget<SUB>
 {
     private String placeholder;
     private T value;
-    private final List<Constraint> constraints = new ArrayList<>();
+    private final List<Validator> validators = new ArrayList<>();
 
     public Input(String id)
     {
@@ -36,9 +38,20 @@ public abstract class Input<T, SUB extends Input> extends Widget<SUB>
         return (SUB) this;
     }
 
-    public SUB addConstraint(Constraint constraint)
+
+    public SUB addValidator(Validator validator)
     {
-        this.constraints.add(constraint);
+        Objects.requireNonNull(validator, "validator may not be null'");
+
+        if (!getAllowedValidators().contains(validator.getClass()))
+        {
+            throw new ValidatorNotAllowedException(String.format("'%s' does not allow validator of type '%s'!", getClass().getSimpleName(), validator.getClass().getSimpleName()));
+        }
+
+        this.validators.add(validator);
         return (SUB) this;
     }
+
+
+    protected abstract List<Class<?>> getAllowedValidators();
 }

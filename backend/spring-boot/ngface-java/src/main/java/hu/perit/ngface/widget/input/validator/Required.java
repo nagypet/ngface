@@ -1,12 +1,12 @@
-package hu.perit.ngface.widget.input.constraint;
+package hu.perit.ngface.widget.input.validator;
 
-import hu.perit.ngface.widget.base.Constraint;
+import hu.perit.ngface.widget.base.Validator;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class Required extends Constraint<Required>
+public class Required extends Validator<Required>
 {
     // For JSon deserialization
     private Required()

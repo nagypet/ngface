@@ -2,6 +2,7 @@
   <button type="button" (click)="onClick()" mat-raised-button [ngClass]="getClass()"
           [id]="getData().id"
           [disabled]="!getData().enabled"
+          [matTooltip]="getData().hint"
   >
     {{getData().label}}
   </button>

@@ -36,7 +36,7 @@ export class ButtonComponent implements OnInit
         label: 'undefined button',
         enabled: false,
         id: '',
-        tooltip: 'undefined tooltip'
+        hint: ''
       };
     }
     return <Button> this.form.widgets[this.widgetId];

@@ -1,28 +1,32 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {TypeModels} from '../../dto-models';
+import {InputBaseComponent} from '../input-base.component';
 import TextInput = TypeModels.TextInput;
-import Form = TypeModels.Form;
 
 @Component({
   selector: 'ngface-text-input',
   templateUrl: './text-input.component.html',
   styleUrls: ['./text-input.component.scss']
 })
-export class TextInputComponent implements OnInit {
+export class TextInputComponent extends InputBaseComponent implements OnInit, OnChanges
+{
 
-  @Input()
-  form: Form;
-
-  @Input()
-  widgetId: string;
-
-  constructor() {
+  constructor()
+  {
+    super();
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
   }
 
-  getData() : TextInput
+  ngOnChanges(): void
+  {
+    super.ngOnChanges();
+    this.formControl.setValue(this.getData().value);
+  }
+
+  getData(): TextInput
   {
     let widget = this.form?.widgets[this.widgetId];
     if (!widget || widget?.type !== 'TextInput')
@@ -32,17 +36,12 @@ export class TextInputComponent implements OnInit {
         placeholder: 'widget id: ' + this.widgetId,
         label: 'undefined label',
         value: '',
-        constraints: [],
+        validators: [],
         enabled: false,
         id: '',
-        tooltip: 'undefined tooltip'
-        };
+        hint: ''
+      };
     }
     return <TextInput> this.form.widgets[this.widgetId];
   }
-
-  isRequired(): boolean {
-    return !!this.getData().constraints?.find(c => c.type == 'Required');
-  }
-
 }

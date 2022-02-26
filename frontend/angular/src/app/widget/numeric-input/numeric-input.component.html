@@ -1,13 +1,12 @@
-<mat-form-field class="ngface-input-field" [floatLabel]="floatLabelControl.value">
+<mat-form-field class="ngface-input-field ngface-number" [floatLabel]="floatLabelControl.value">
   <mat-label>
     {{getData().label}}
     <span *ngIf="isRequired() && getData().enabled">*</span>
   </mat-label>
-  <input matInput type="text" autocomplete="off" [formControl]="formControl"
+  <input matInput type="number" autocomplete="off" [formControl]="formControl"
          [placeholder]="getData().placeholder !== null ? getData().placeholder : ''"
-         [attr.minlength]="getMinLength()"
-         [attr.maxLength]="getMaxLength()"
   >
+  <span matSuffix>EUR</span>
   <mat-hint>{{getData().hint}}</mat-hint>
   <mat-error *ngIf="formControl.errors">{{getValidationErrors()}}</mat-error>
 </mat-form-field>

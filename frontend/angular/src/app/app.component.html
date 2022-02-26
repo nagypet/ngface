@@ -1,16 +1,19 @@
-
 <router-outlet></router-outlet>
 
 <div class="ngface-form">
-  <h1>ngface demo application</h1>
-  <br>
-  <div class="ngface-flex-row">
-    <ngface-text-input [form]="form" [widgetId]="'name'"></ngface-text-input>
-    <ngface-text-input [form]="form" [widgetId]="'place-of-birth'"></ngface-text-input>
-  </div>
-  <div class="ngface-flex-row">
-    <ngface-button [form]="form" [widgetId]="'button-ok'"></ngface-button>
-    <ngface-button [form]="form" [widgetId]="'button-cancel'"></ngface-button>
-    <ngface-button [form]="form" [widgetId]="'button-delete'"></ngface-button>
-  </div>
+    <h1>ngface demo application</h1>
+    <br>
+    <div class="ngface-flex-row">
+      <ngface-text-input [form]="form" [widgetId]="'name'"></ngface-text-input>
+      <ngface-text-input [form]="form" [widgetId]="'place-of-birth'"></ngface-text-input>
+    </div>
+    <div class="ngface-flex-row">
+      <ngface-numeric-input [form]="form" [widgetId]="'amount'"></ngface-numeric-input>
+      <ngface-numeric-input [form]="form" [widgetId]="'count-samples'"></ngface-numeric-input>
+    </div>
+    <div class="ngface-flex-row">
+      <ngface-button [form]="form" [widgetId]="'button-ok'"></ngface-button>
+      <ngface-button [form]="form" [widgetId]="'button-cancel'"></ngface-button>
+      <ngface-button [form]="form" [widgetId]="'button-delete'"></ngface-button>
+    </div>
 </div>
