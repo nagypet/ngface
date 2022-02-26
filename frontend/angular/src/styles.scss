@@ -1,8 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .ngface-form {
   padding: 10px;
@@ -12,16 +18,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .ngface-flex-row {
   display: flex;
   margin-bottom: 20px;
+
   .ngface-flex-col {
     flex: 1;
     padding: 0px 12px;
     min-width: 0;
   }
+
   .ngface-flex-col-2 {
     flex: 2;
     padding: 0px 12px;
     min-width: 0;
   }
+
   .ngface-flex-col-3 {
     flex: 3;
     padding: 0px 12px;
@@ -49,10 +58,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 }
 
-/*
 .mat-form-field-appearance-outline .mat-form-field-prefix, .mat-form-field-appearance-outline .mat-form-field-suffix {
-  top: 0;
+  top: 0 !important;
+  margin-left: 0.2em;
 }
- */
-
-

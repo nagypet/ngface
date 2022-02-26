@@ -24,6 +24,7 @@ export class TextInputComponent extends InputBaseComponent implements OnInit, On
   {
     super.ngOnChanges();
     this.formControl.setValue(this.getData().value);
+    this.getData().enabled ? this.formControl.enable() : this.formControl.disable();
   }
 
   getData(): TextInput

@@ -23,6 +23,8 @@ import java.util.List;
 public class NumericInput extends Input<BigDecimal, NumericInput>
 {
     private int precision;
+    private String prefix;
+    private String suffix;
 
     public NumericInput(String id)
     {
@@ -38,6 +40,18 @@ public class NumericInput extends Input<BigDecimal, NumericInput>
     public NumericInput precision(int precision)
     {
         this.precision = precision;
+        return this;
+    }
+
+    public NumericInput prefix(String prefix)
+    {
+        this.prefix = prefix;
+        return this;
+    }
+
+    public NumericInput suffix(String suffix)
+    {
+        this.suffix = suffix;
         return this;
     }
 }

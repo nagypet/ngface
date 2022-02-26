@@ -1,12 +1,11 @@
 <mat-form-field class="ngface-input-field ngface-number" [floatLabel]="floatLabelControl.value">
-  <mat-label>
-    {{getData().label}}
-    <span *ngIf="isRequired() && getData().enabled">*</span>
-  </mat-label>
+  <mat-label>{{getData().label}}</mat-label>
   <input matInput type="number" autocomplete="off" [formControl]="formControl"
          [placeholder]="getData().placeholder !== null ? getData().placeholder : ''"
+         [required]="isRequired()"
   >
-  <span matSuffix>EUR</span>
+  <span matPrefix>{{getData().prefix}}</span>
+  <span matSuffix>{{getData().suffix}}</span>
   <mat-hint>{{getData().hint}}</mat-hint>
   <mat-error *ngIf="formControl.errors">{{getValidationErrors()}}</mat-error>
 </mat-form-field>

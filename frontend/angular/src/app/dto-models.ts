@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-02-26 09:01:43.
+// Generated using typescript-generator version 2.17.558 on 2022-02-26 13:27:15.
 
 export namespace TypeModels {
 
@@ -24,10 +24,15 @@ export namespace TypeModels {
     export interface NumericInput extends Input<number, NumericInput> {
         value: number;
         precision: number;
+        prefix: string;
+        suffix: string;
     }
 
     export interface TextInput extends Input<string, TextInput> {
         value: string;
+    }
+
+    export interface Email extends Validator<Email> {
     }
 
     export interface Max extends Validator<Max> {

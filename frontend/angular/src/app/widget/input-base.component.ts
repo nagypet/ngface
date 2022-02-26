@@ -58,6 +58,10 @@ export abstract class InputBaseComponent implements OnChanges
         validators.push(Validators.maxLength((<TypeModels.Size> validator).max));
         break;
 
+      case 'Email':
+        validators.push(Validators.email);
+        break;
+
       case 'Pattern':
         validators.push(Validators.pattern((<TypeModels.Pattern> validator).pattern));
         break;
@@ -117,6 +121,13 @@ export abstract class InputBaseComponent implements OnChanges
       return (<TypeModels.Size>sizeValidator).max;
     }
     return null;
+  }
+
+
+  isDisabled(): boolean
+  {
+    console.log(!this.getData().enabled);
+    return !this.getData().enabled;
   }
 
 
