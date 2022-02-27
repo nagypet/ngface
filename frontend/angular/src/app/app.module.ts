@@ -14,7 +14,11 @@ import {NumericInputComponent} from './ngface/numeric-input/numeric-input.compon
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
-import { DemoForm1Component } from './demo-form1/demo-form1.component';
+import {DemoForm1Component} from './demo-form1/demo-form1.component';
+import {DateInputComponent} from './ngface/date-input/date-input.component';
+import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import { DateRangeInputComponent } from './ngface/date-range-input/date-range-input.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,9 @@ import { DemoForm1Component } from './demo-form1/demo-form1.component';
     TextInputComponent,
     ButtonComponent,
     NumericInputComponent,
-    DemoForm1Component
+    DemoForm1Component,
+    DateInputComponent,
+    DateRangeInputComponent
   ],
   imports: [
     BrowserModule,
@@ -34,10 +40,13 @@ import { DemoForm1Component } from './demo-form1/demo-form1.component';
     MatTooltipModule,
     MatButtonModule,
     MatFormFieldModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
+    {provide: MAT_DATE_LOCALE, useValue: 'hu'},
   ],
   bootstrap: [AppComponent]
 })

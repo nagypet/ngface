@@ -2,6 +2,8 @@ package hu.perit.wsstepbystep.rest.api;
 
 import hu.perit.ngface.widget.button.Button;
 import hu.perit.ngface.widget.form.Form;
+import hu.perit.ngface.widget.input.DateInput;
+import hu.perit.ngface.widget.input.DateRangeInput;
 import hu.perit.ngface.widget.input.NumericInput;
 import hu.perit.ngface.widget.input.TextInput;
 import hu.perit.ngface.widget.input.validator.*;
@@ -9,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @RestController
 @Slf4j
@@ -68,6 +71,26 @@ public class DemoController implements DemoApi
                         .addValidator(new Required("Count of samples is required!"))
                         .addValidator(new Min(1.0, "The count have to be between 1 and 99!"))
                         .addValidator(new Max(99.0, "The count have to be between 1 and 99!"))
+                )
+                .addWidget(new DateInput("check-in-date")
+                        .label("Check-in")
+                        .value(LocalDate.now())
+                        .hint("DateInput")
+                )
+                .addWidget(new DateInput("check-out-date")
+                        .label("Check-out")
+                        .hint("DateInput")
+                )
+                .addWidget(new DateRangeInput("date-range")
+                        .label("Check-in - Check-out")
+                        .startDate(LocalDate.now())
+                        .endDate(LocalDate.now().plusDays(1))
+                        .hint("DateRangeInput")
+                )
+                .addWidget(new DateRangeInput("date-range2")
+                        .label("Check-in - Check-out")
+                        .placeholder("placeholder")
+                        .hint("DateRangeInput")
                 )
                 .addWidget(Button.OK.hint("OK button :-)"))
                 .addWidget(Button.CANCEL)

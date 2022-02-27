@@ -33,12 +33,22 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
       console.warn('Data is invalid!');
     } else
     {
-      console.log(this.formGroup.get('name')?.value);
-      console.log(this.formGroup.get('place-of-birth')?.value);
-      console.log(this.formGroup.get('email')?.value);
-      console.log(this.formGroup.get('role')?.value);
-      console.log(this.formGroup.get('amount')?.value);
-      console.log(this.formGroup.get('count-samples')?.value);
+      this.log('name');
+      this.log('place-of-birth');
+      this.log('email');
+      this.log('role');
+      this.log('amount');
+      this.log('count-samples');
+      this.log('check-in-date');
+      this.log('check-out-date');
+      this.log('date-range');
+      this.log('date-range-end');
     }
   }
+
+  private log(widgetId: string)
+  {
+    console.log(widgetId + ': ' + this.formGroup.get(widgetId)?.value);
+  }
+
 }

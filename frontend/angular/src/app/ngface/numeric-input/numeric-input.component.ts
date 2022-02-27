@@ -8,21 +8,11 @@ import NumericInput = TypeModels.NumericInput;
   templateUrl: './numeric-input.component.html',
   styleUrls: ['./numeric-input.component.scss']
 })
-export class NumericInputComponent extends InputBaseComponent implements OnInit, OnChanges
+export class NumericInputComponent extends InputBaseComponent
 {
   constructor()
   {
     super();
-  }
-
-  ngOnInit(): void
-  {
-  }
-
-  ngOnChanges(): void
-  {
-    super.ngOnChanges();
-    this.formControl.setValue(this.getValue());
   }
 
   getData(): NumericInput
@@ -31,7 +21,7 @@ export class NumericInputComponent extends InputBaseComponent implements OnInit,
     if (!widget || widget?.type !== 'NumericInput')
     {
       return {
-        type: 'TextInput',
+        type: 'NumericInput',
         precision: 0,
         value: 0,
         prefix: '',

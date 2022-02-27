@@ -8,23 +8,12 @@ import TextInput = TypeModels.TextInput;
   templateUrl: './text-input.component.html',
   styleUrls: ['./text-input.component.scss']
 })
-export class TextInputComponent extends InputBaseComponent implements OnInit, OnChanges
+export class TextInputComponent extends InputBaseComponent
 {
 
   constructor()
   {
     super();
-  }
-
-  ngOnInit(): void
-  {
-  }
-
-  ngOnChanges(): void
-  {
-    super.ngOnChanges();
-    this.formControl.setValue(this.getData().value);
-    this.getData().enabled ? this.formControl.enable() : this.formControl.disable();
   }
 
   getData(): TextInput
