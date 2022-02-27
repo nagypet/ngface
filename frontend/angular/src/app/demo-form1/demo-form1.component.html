@@ -13,9 +13,9 @@
       <ngface-numeric-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'count-samples'"></ngface-numeric-input>
     </div>
     <div class="ngface-row">
-      <ngface-button [form]="formData" [widgetId]="'button-ok'" (click)="onOk()"></ngface-button>
-      <ngface-button [form]="formData" [widgetId]="'button-cancel'"></ngface-button>
-      <ngface-button [form]="formData" [widgetId]="'button-delete'"></ngface-button>
+      <ngface-button [formData]="formData" [widgetId]="'button-ok'" (click)="onOk()"></ngface-button>
+      <ngface-button [formData]="formData" [widgetId]="'button-cancel'"></ngface-button>
+      <ngface-button [formData]="formData" [widgetId]="'button-delete'"></ngface-button>
     </div>
   </div>
 </div>

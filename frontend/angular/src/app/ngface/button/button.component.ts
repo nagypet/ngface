@@ -12,7 +12,7 @@ export class ButtonComponent implements OnInit
 {
 
   @Input()
-  form: Form;
+  formData: Form;
 
   @Input()
   widgetId: string;
@@ -27,7 +27,7 @@ export class ButtonComponent implements OnInit
 
   getData(): Button
   {
-    let widget = this.form?.widgets[this.widgetId];
+    let widget = this.formData?.widgets[this.widgetId];
     if (!widget || widget?.type !== 'Button')
     {
       return {
@@ -39,7 +39,7 @@ export class ButtonComponent implements OnInit
         hint: ''
       };
     }
-    return <Button> this.form.widgets[this.widgetId];
+    return <Button> this.formData.widgets[this.widgetId];
   }
 
   onClick()
