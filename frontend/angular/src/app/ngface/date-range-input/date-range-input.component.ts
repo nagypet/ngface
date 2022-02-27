@@ -44,7 +44,7 @@ export class DateRangeInputComponent extends InputBaseComponent implements OnCha
     });
     this.range.get('end')?.setValidators(endDateValidators);
 
-    this.getData().enabled ? this.formGroup.enable() : this.formGroup.disable();
+    this.getData().enabled ? this.range.enable() : this.range.disable();
 
     this.formGroup.addControl(this.widgetId, this.range);
   }

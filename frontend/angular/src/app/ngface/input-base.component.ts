@@ -104,7 +104,23 @@ export abstract class InputBaseComponent implements OnChanges
    * @param name
    * @private
    */
-  protected getValidator(validators: TypeModels.Validator<any>[] | undefined, name: string): TypeModels.Validator<any> | undefined
+  protected getValidator(name: string): TypeModels.Validator<any> | undefined
+  {
+    let validatorName = name;
+    if (name === 'minlength' || name === 'maxlength')
+    {
+      validatorName = 'Size';
+    }
+    return this.getData()?.validators?.find(c => c.type.toLowerCase() === validatorName.toLowerCase());
+  }
+
+
+  /**
+   * Returns a validator by name
+   * @param name
+   * @private
+   */
+  protected getValidatorFrom(validators: TypeModels.Validator<any>[] | undefined, name: string): TypeModels.Validator<any> | undefined
   {
     let validatorName = name;
     if (name === 'minlength' || name === 'maxlength')
@@ -120,13 +136,13 @@ export abstract class InputBaseComponent implements OnChanges
    */
   isRequired(): boolean
   {
-    return !!this.getValidator(this.getData()?.validators, 'Required');
+    return !!this.getValidator('Required');
   }
 
 
   getMinLength(): number | null
   {
-    var sizeValidator = this.getValidator(this.getData()?.validators, 'Size');
+    var sizeValidator = this.getValidator('Size');
     if (sizeValidator)
     {
       return (<TypeModels.Size> sizeValidator).min;
@@ -137,19 +153,12 @@ export abstract class InputBaseComponent implements OnChanges
 
   getMaxLength(): number | null
   {
-    var sizeValidator = this.getValidator(this.getData()?.validators, 'Size');
+    var sizeValidator = this.getValidator('Size');
     if (sizeValidator)
     {
       return (<TypeModels.Size> sizeValidator).max;
     }
     return null;
-  }
-
-
-  isDisabled(): boolean
-  {
-    console.log(!this.getData().enabled);
-    return !this.getData().enabled;
   }
 
 
@@ -167,7 +176,7 @@ export abstract class InputBaseComponent implements OnChanges
     {
       Object.keys(validationErrors).forEach(v =>
       {
-        let validator = this.getValidator(validators, v);
+        let validator = this.getValidatorFrom(validators, v);
         if (validator)
         {
           errorMessages.push(validator.message);

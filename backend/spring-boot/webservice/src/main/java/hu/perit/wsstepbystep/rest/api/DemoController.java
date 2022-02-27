@@ -93,6 +93,7 @@ public class DemoController implements DemoApi
                 .addWidget(new DateRangeInput("date-range2")
                         .label("Check-in - Check-out uninitialized")
                         .hint("DateRangeInput - date-range2")
+                        .enabled(false)
                 )
                 .addWidget(Button.OK.hint("OK button :-)"))
                 .addWidget(Button.CANCEL)
