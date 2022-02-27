@@ -86,6 +86,7 @@ public class DemoController implements DemoApi
                         .startDate(LocalDate.now())
                         .endDate(LocalDate.now().plusDays(1))
                         .hint("DateRangeInput")
+                        .addValidator(new Required("Date range is required!"))
                 )
                 .addWidget(new DateRangeInput("date-range2")
                         .label("Check-in - Check-out")

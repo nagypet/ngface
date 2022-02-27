@@ -2,7 +2,7 @@ import {Component, OnChanges} from '@angular/core';
 import {InputBaseComponent} from '../input-base.component';
 import {TypeModels} from '../../dto-models';
 import DateRangeInput = TypeModels.DateRangeInput;
-import {FormControl, ValidatorFn} from '@angular/forms';
+import {FormControl, FormGroup, ValidatorFn} from '@angular/forms';
 
 @Component({
   selector: 'ngface-date-range-input',
@@ -12,7 +12,10 @@ import {FormControl, ValidatorFn} from '@angular/forms';
 export class DateRangeInputComponent extends InputBaseComponent implements OnChanges
 {
 
-  formControlEndDate = new FormControl('', []);
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
 
   constructor()
   {
@@ -21,19 +24,19 @@ export class DateRangeInputComponent extends InputBaseComponent implements OnCha
 
   ngOnChanges(): void
   {
-    super.ngOnChanges();
+    //super.ngOnChanges();
 
-    this.formControlEndDate.setValue(this.getData().endDate);
+    this.range.setValue({start: this.getData().value, end: this.getData().endDate});
 
     let validators = new Array<ValidatorFn>();
     this.getData().validators?.forEach(v =>
     {
       this.createNgValidators(v).forEach(ngValidator => validators.push(ngValidator));
     });
-    this.formControlEndDate.setValidators(validators);
-    this.getData().enabled ? this.formControlEndDate.enable() : this.formControlEndDate.disable();
+    this.formGroup.setValidators(validators);
+    this.getData().enabled ? this.formGroup.enable() : this.formGroup.disable();
 
-    this.formGroup.addControl(this.widgetId + '-end', this.formControlEndDate);
+    this.formGroup.addControl(this.widgetId, this.range);
   }
 
 
@@ -55,5 +58,14 @@ export class DateRangeInputComponent extends InputBaseComponent implements OnCha
       };
     }
     return <DateRangeInput> this.formData.widgets[this.widgetId];
+  }
+
+
+  getValidationErrors()
+  {
+    var validationErrorsStart = this.getValidationErrorsFromFormControl(this.range.get('start'));
+    var validationErrorsEnd = this.getValidationErrorsFromFormControl(this.range.get('end'));
+
+    return validationErrorsStart.concat(validationErrorsEnd);
   }
 }

@@ -33,22 +33,29 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
       console.warn('Data is invalid!');
     } else
     {
-      this.log('name');
-      this.log('place-of-birth');
-      this.log('email');
-      this.log('role');
-      this.log('amount');
-      this.log('count-samples');
-      this.log('check-in-date');
-      this.log('check-out-date');
-      this.log('date-range');
-      this.log('date-range-end');
+      this.dumpSimpleControl('name');
+      this.dumpSimpleControl('place-of-birth');
+      this.dumpSimpleControl('email');
+      this.dumpSimpleControl('role');
+      this.dumpSimpleControl('amount');
+      this.dumpSimpleControl('count-samples');
+      this.dumpSimpleControl('check-in-date');
+      this.dumpSimpleControl('check-out-date');
+      this.dumpDateRangeControl('date-range');
+      this.dumpDateRangeControl('date-range2');
     }
   }
 
-  private log(widgetId: string)
+  private dumpSimpleControl(widgetId: string)
   {
-    console.log(widgetId + ': ' + this.formGroup.get(widgetId)?.value);
+    let submitValue = this.formGroup.get(widgetId)?.value;
+    console.log(widgetId + ': ' + submitValue?.toString());
+  }
+
+  private dumpDateRangeControl(widgetId: string)
+  {
+    let fg = this.formGroup.get(widgetId);
+    console.log(widgetId + ': start: ' + fg?.get('start')?.value + ' end: ' + fg?.get('end')?.value);
   }
 
 }

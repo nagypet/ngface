@@ -1,8 +1,8 @@
-import {FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators} from '@angular/forms';
 import {TypeModels} from '../dto-models';
 import {Component, Input, OnChanges} from '@angular/core';
-import Form = TypeModels.Form;
 import {ErrorStateMatcher} from '@angular/material/core';
+import Form = TypeModels.Form;
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher
@@ -104,7 +104,7 @@ export abstract class InputBaseComponent implements OnChanges
    * @param name
    * @private
    */
-  private getValidator(name: string): TypeModels.Validator<any> | undefined
+  protected getValidator(name: string): TypeModels.Validator<any> | undefined
   {
     let validatorName = name;
     if (name === 'minlength' || name === 'maxlength')
@@ -155,7 +155,13 @@ export abstract class InputBaseComponent implements OnChanges
 
   getValidationErrors()
   {
-    let validationErrors = this.formControl.errors;
+    return this.getValidationErrorsFromFormControl(this.formControl);
+  }
+
+
+  getValidationErrorsFromFormControl(fc: AbstractControl | null)
+  {
+    let validationErrors = fc?.errors;
     let errorMessages = new Array<string>();
     if (validationErrors)
     {
