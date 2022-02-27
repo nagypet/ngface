@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-02-27 10:50:41.
+// Generated using typescript-generator version 2.17.558 on 2022-02-27 13:47:06.
 
 export namespace TypeModels {
 
@@ -17,9 +17,16 @@ export namespace TypeModels {
         value: Date;
     }
 
-    export interface DateRangeInput extends Input<Date, DateRangeInput> {
+    export interface DateRangeInput extends Input<void, DateRangeInput> {
+        value: void;
+        startDate: DateRangeValue;
+        endDate: DateRangeValue;
+    }
+
+    export interface DateRangeValue {
+        placeholder: string;
         value: Date;
-        endDate: Date;
+        validators: Validator<any>[];
     }
 
     export interface DateTimeInput extends Input<Date, DateTimeInput> {

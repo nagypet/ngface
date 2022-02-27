@@ -24,16 +24,26 @@ export class DateRangeInputComponent extends InputBaseComponent implements OnCha
 
   ngOnChanges(): void
   {
-    //super.ngOnChanges();
+    let startDate = this.getData()?.startDate?.value ? this.getData()?.startDate?.value : '';
+    let endDate = this.getData()?.endDate?.value ? this.getData()?.endDate?.value : '';
+    this.range.setValue({start: startDate, end: endDate});
 
-    this.range.setValue({start: this.getData().value, end: this.getData().endDate});
-
-    let validators = new Array<ValidatorFn>();
-    this.getData().validators?.forEach(v =>
+    // Validators for startDate
+    let startDateValidators = new Array<ValidatorFn>();
+    this.getData().startDate?.validators?.forEach(v =>
     {
-      this.createNgValidators(v).forEach(ngValidator => validators.push(ngValidator));
+      this.createNgValidators(v).forEach(ngValidator => startDateValidators.push(ngValidator));
     });
-    this.formGroup.setValidators(validators);
+    this.range.get('start')?.setValidators(startDateValidators);
+
+    // Validators for endDate
+    let endDateValidators = new Array<ValidatorFn>();
+    this.getData().endDate?.validators?.forEach(v =>
+    {
+      this.createNgValidators(v).forEach(ngValidator => endDateValidators.push(ngValidator));
+    });
+    this.range.get('end')?.setValidators(endDateValidators);
+
     this.getData().enabled ? this.formGroup.enable() : this.formGroup.disable();
 
     this.formGroup.addControl(this.widgetId, this.range);
@@ -46,12 +56,21 @@ export class DateRangeInputComponent extends InputBaseComponent implements OnCha
     if (!widget || widget?.type !== 'DateRangeInput')
     {
       return {
-        type: 'DateRangeInput',
-        value: new Date(),
-        endDate: new Date(),
-        placeholder: 'widget id: ' + this.widgetId,
-        label: 'undefined label',
+        placeholder: '',
         validators: [],
+        value: undefined,
+        type: 'DateRangeInput',
+        startDate: {
+          value: new Date(),
+          placeholder: '',
+          validators: []
+        },
+        endDate: {
+          value: new Date(),
+          placeholder: '',
+          validators: []
+        },
+        label: 'undefined label',
         enabled: false,
         id: '',
         hint: ''
@@ -61,11 +80,12 @@ export class DateRangeInputComponent extends InputBaseComponent implements OnCha
   }
 
 
-  getValidationErrors()
+  getValidationErrors(): string
   {
-    var validationErrorsStart = this.getValidationErrorsFromFormControl(this.range.get('start'));
-    var validationErrorsEnd = this.getValidationErrorsFromFormControl(this.range.get('end'));
+    var validationErrorsStart = this.getValidationErrorsFromFormControl(this.range.get('start'), this.getData()?.startDate?.validators);
+    var validationErrorsEnd = this.getValidationErrorsFromFormControl(this.range.get('end'), this.getData()?.endDate?.validators);
 
-    return validationErrorsStart.concat(validationErrorsEnd);
+    var validationErrors = validationErrorsStart.concat(validationErrorsEnd);
+    return validationErrors?.join(' ');
   }
 }

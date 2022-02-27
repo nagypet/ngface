@@ -2,10 +2,7 @@ package hu.perit.wsstepbystep.rest.api;
 
 import hu.perit.ngface.widget.button.Button;
 import hu.perit.ngface.widget.form.Form;
-import hu.perit.ngface.widget.input.DateInput;
-import hu.perit.ngface.widget.input.DateRangeInput;
-import hu.perit.ngface.widget.input.NumericInput;
-import hu.perit.ngface.widget.input.TextInput;
+import hu.perit.ngface.widget.input.*;
 import hu.perit.ngface.widget.input.validator.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
@@ -83,15 +80,19 @@ public class DemoController implements DemoApi
                 )
                 .addWidget(new DateRangeInput("date-range")
                         .label("Check-in - Check-out")
-                        .startDate(LocalDate.now())
-                        .endDate(LocalDate.now().plusDays(1))
-                        .hint("DateRangeInput")
-                        .addValidator(new Required("Date range is required!"))
+                        .startDate(new DateRangeValue()
+                                .value(LocalDate.now())
+                                .placeholder("Start date")
+                                .addValidator(new Required("Start date is required!")))
+                        .endDate(new DateRangeValue()
+                                .value(LocalDate.now().plusDays(1))
+                                .placeholder("End date")
+                                .addValidator(new Required("End date is required!")))
+                        .hint("DateRangeInput - date-range")
                 )
                 .addWidget(new DateRangeInput("date-range2")
-                        .label("Check-in - Check-out")
-                        .placeholder("placeholder")
-                        .hint("DateRangeInput")
+                        .label("Check-in - Check-out uninitialized")
+                        .hint("DateRangeInput - date-range2")
                 )
                 .addWidget(Button.OK.hint("OK button :-)"))
                 .addWidget(Button.CANCEL)

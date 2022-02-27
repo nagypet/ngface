@@ -1,22 +1,21 @@
 package hu.perit.ngface.widget.input;
 
 import hu.perit.ngface.widget.base.Input;
-import hu.perit.ngface.widget.input.validator.Required;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString(callSuper = true)
-public class DateRangeInput extends Input<LocalDate, DateRangeInput>
+public class DateRangeInput extends Input<Void, DateRangeInput>
 {
-    private LocalDate endDate;
+    private DateRangeValue startDate;
+    private DateRangeValue endDate;
 
     public DateRangeInput(String id)
     {
@@ -26,18 +25,17 @@ public class DateRangeInput extends Input<LocalDate, DateRangeInput>
     @Override
     protected List<Class<?>> getAllowedValidators()
     {
-        return Arrays.asList(Required.class);
+        return Collections.emptyList();
     }
 
-
-    public DateRangeInput startDate(LocalDate startDate)
+    public DateRangeInput startDate(DateRangeValue startDate)
     {
-        this.value(startDate);
+        this.startDate = startDate;
         return this;
     }
 
 
-    public DateRangeInput endDate(LocalDate endDate)
+    public DateRangeInput endDate(DateRangeValue endDate)
     {
         this.endDate = endDate;
         return this;

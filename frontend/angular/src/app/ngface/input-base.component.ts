@@ -104,14 +104,14 @@ export abstract class InputBaseComponent implements OnChanges
    * @param name
    * @private
    */
-  protected getValidator(name: string): TypeModels.Validator<any> | undefined
+  protected getValidator(validators: TypeModels.Validator<any>[] | undefined, name: string): TypeModels.Validator<any> | undefined
   {
     let validatorName = name;
     if (name === 'minlength' || name === 'maxlength')
     {
       validatorName = 'Size';
     }
-    return this.getData().validators?.find(c => c.type.toLowerCase() === validatorName.toLowerCase());
+    return validators?.find(c => c.type.toLowerCase() === validatorName.toLowerCase());
   }
 
 
@@ -120,13 +120,13 @@ export abstract class InputBaseComponent implements OnChanges
    */
   isRequired(): boolean
   {
-    return !!this.getValidator('Required');
+    return !!this.getValidator(this.getData()?.validators, 'Required');
   }
 
 
   getMinLength(): number | null
   {
-    var sizeValidator = this.getValidator('Size');
+    var sizeValidator = this.getValidator(this.getData()?.validators, 'Size');
     if (sizeValidator)
     {
       return (<TypeModels.Size> sizeValidator).min;
@@ -137,7 +137,7 @@ export abstract class InputBaseComponent implements OnChanges
 
   getMaxLength(): number | null
   {
-    var sizeValidator = this.getValidator('Size');
+    var sizeValidator = this.getValidator(this.getData()?.validators, 'Size');
     if (sizeValidator)
     {
       return (<TypeModels.Size> sizeValidator).max;
@@ -153,13 +153,13 @@ export abstract class InputBaseComponent implements OnChanges
   }
 
 
-  getValidationErrors()
+  getValidationErrors(): string
   {
-    return this.getValidationErrorsFromFormControl(this.formControl);
+    return this.getValidationErrorsFromFormControl(this.formControl, this.getData()?.validators).join(' ');
   }
 
 
-  getValidationErrorsFromFormControl(fc: AbstractControl | null)
+  getValidationErrorsFromFormControl(fc: AbstractControl | null, validators: TypeModels.Validator<any>[] | undefined): string[]
   {
     let validationErrors = fc?.errors;
     let errorMessages = new Array<string>();
@@ -167,13 +167,13 @@ export abstract class InputBaseComponent implements OnChanges
     {
       Object.keys(validationErrors).forEach(v =>
       {
-        let validator = this.getValidator(v);
+        let validator = this.getValidator(validators, v);
         if (validator)
         {
           errorMessages.push(validator.message);
         }
       });
     }
-    return errorMessages.toString();
+    return errorMessages
   }
 }
