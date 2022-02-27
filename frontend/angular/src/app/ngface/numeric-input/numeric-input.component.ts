@@ -27,7 +27,7 @@ export class NumericInputComponent extends InputBaseComponent implements OnInit,
 
   getData(): NumericInput
   {
-    let widget = this.form?.widgets[this.widgetId];
+    let widget = this.formData?.widgets[this.widgetId];
     if (!widget || widget?.type !== 'NumericInput')
     {
       return {
@@ -44,7 +44,7 @@ export class NumericInputComponent extends InputBaseComponent implements OnInit,
         hint: ''
       };
     }
-    return <NumericInput> this.form.widgets[this.widgetId];
+    return <NumericInput> this.formData.widgets[this.widgetId];
   }
 
   getValue(): string | undefined

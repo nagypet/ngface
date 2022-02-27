@@ -29,7 +29,7 @@ export class TextInputComponent extends InputBaseComponent implements OnInit, On
 
   getData(): TextInput
   {
-    let widget = this.form?.widgets[this.widgetId];
+    let widget = this.formData?.widgets[this.widgetId];
     if (!widget || widget?.type !== 'TextInput')
     {
       return {
@@ -43,6 +43,6 @@ export class TextInputComponent extends InputBaseComponent implements OnInit, On
         hint: ''
       };
     }
-    return <TextInput> this.form.widgets[this.widgetId];
+    return <TextInput> this.formData.widgets[this.widgetId];
   }
 }

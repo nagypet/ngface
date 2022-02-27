@@ -1,0 +1,44 @@
+/*
+ * ngface-form
+ */
+.ngface-form {
+  padding: 20px;
+  border: solid var(--bs-primary) 1px;
+  border-radius: 5px;
+}
+
+/*
+ * ngface-row
+ */
+.ngface-row {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+/*
+ * ngface-input-field
+ */
+.ngface-input-field {
+  width: 250px;
+  margin-right: 20px;
+
+  .mat-form-field-flex {
+    height: 55px;
+  }
+
+  .mat-form-field-infix {
+    padding-top: 10px;
+  }
+
+  mat-hint {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+}
+
+.mat-form-field-appearance-outline .mat-form-field-prefix, .mat-form-field-appearance-outline .mat-form-field-suffix {
+  top: 0 !important;
+  margin-left: 0.2em;
+}

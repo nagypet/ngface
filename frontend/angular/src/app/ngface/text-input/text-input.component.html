@@ -5,6 +5,7 @@
          [attr.minlength]="getMinLength()"
          [attr.maxLength]="getMaxLength()"
          [required]="isRequired()"
+         [errorStateMatcher]="errorStateMatcher"
   >
   <mat-hint>{{getData().hint}}</mat-hint>
   <mat-error *ngIf="formControl.errors">{{getValidationErrors()}}</mat-error>

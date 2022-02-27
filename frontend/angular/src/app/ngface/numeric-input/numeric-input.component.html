@@ -3,6 +3,7 @@
   <input matInput type="number" autocomplete="off" [formControl]="formControl"
          [placeholder]="getData().placeholder !== null ? getData().placeholder : ''"
          [required]="isRequired()"
+         [errorStateMatcher]="errorStateMatcher"
   >
   <span matPrefix>{{getData().prefix}}</span>
   <span matSuffix>{{getData().suffix}}</span>

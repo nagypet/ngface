@@ -1,5 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
+import {TypeModels} from '../dto-models';
+import Form = TypeModels.Form;
 
 @Component({
   selector: 'ngface-form-base',
@@ -7,8 +9,8 @@ import {FormGroup} from '@angular/forms';
 })
 export abstract class FormBaseComponent
 {
-  @Input()
-  formGroup: FormGroup;
+  formData: Form;
+  formGroup = new FormGroup({});
 
   constructor()
   {

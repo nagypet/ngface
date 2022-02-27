@@ -14,13 +14,15 @@ import {NumericInputComponent} from './ngface/numeric-input/numeric-input.compon
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
+import { DemoForm1Component } from './demo-form1/demo-form1.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TextInputComponent,
     ButtonComponent,
-    NumericInputComponent
+    NumericInputComponent,
+    DemoForm1Component
   ],
   imports: [
     BrowserModule,

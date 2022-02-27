@@ -1,0 +1,21 @@
+<div class="container">
+  <h1>ngface demo application</h1>
+  <br>
+  <div class="ngface-form" (keydown.enter)="onOk()">
+    <div class="ngface-row">
+      <ngface-text-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'name'"></ngface-text-input>
+      <ngface-text-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'place-of-birth'"></ngface-text-input>
+      <ngface-text-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'email'"></ngface-text-input>
+      <ngface-text-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'role'"></ngface-text-input>
+    </div>
+    <div class="ngface-row">
+      <ngface-numeric-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'amount'"></ngface-numeric-input>
+      <ngface-numeric-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'count-samples'"></ngface-numeric-input>
+    </div>
+    <div class="ngface-row">
+      <ngface-button [form]="formData" [widgetId]="'button-ok'" (click)="onOk()"></ngface-button>
+      <ngface-button [form]="formData" [widgetId]="'button-cancel'"></ngface-button>
+      <ngface-button [form]="formData" [widgetId]="'button-delete'"></ngface-button>
+    </div>
+  </div>
+</div>

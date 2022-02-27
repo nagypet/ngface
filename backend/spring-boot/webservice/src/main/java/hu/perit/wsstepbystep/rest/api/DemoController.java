@@ -38,7 +38,7 @@ public class DemoController implements DemoApi
                 )
                 .addWidget(new TextInput("email")
                         .label("Email")
-                        .addValidator(new Required("Name is required!"))
+                        .addValidator(new Required("Email address is required!"))
                         .addValidator(new Email("Wrong email format!"))
                 )
                 .addWidget(new TextInput("role")

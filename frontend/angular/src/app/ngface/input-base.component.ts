@@ -1,7 +1,19 @@
-import {FormControl, ValidatorFn, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators} from '@angular/forms';
 import {TypeModels} from '../dto-models';
 import {Component, Input, OnChanges} from '@angular/core';
 import Form = TypeModels.Form;
+import {ErrorStateMatcher} from '@angular/material/core';
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher
+{
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean
+  {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
 
 @Component({
   selector: 'ngface-input-base',
@@ -10,7 +22,10 @@ import Form = TypeModels.Form;
 export abstract class InputBaseComponent implements OnChanges
 {
   @Input()
-  form: Form;
+  formGroup: FormGroup;
+
+  @Input()
+  formData: Form;
 
   @Input()
   widgetId: string;
@@ -18,6 +33,8 @@ export abstract class InputBaseComponent implements OnChanges
   floatLabelControl = new FormControl('auto');
 
   formControl = new FormControl('', []);
+
+  errorStateMatcher = new MyErrorStateMatcher();
 
   constructor()
   {
@@ -32,6 +49,8 @@ export abstract class InputBaseComponent implements OnChanges
       this.createNgValidators(v).forEach(ngValidator => validators.push(ngValidator));
     });
     this.formControl.setValidators(validators);
+
+    this.formGroup.addControl(this.widgetId, this.formControl);
   }
 
 
@@ -107,7 +126,7 @@ export abstract class InputBaseComponent implements OnChanges
     var sizeValidator = this.getValidator('Size');
     if (sizeValidator)
     {
-      return (<TypeModels.Size>sizeValidator).min;
+      return (<TypeModels.Size> sizeValidator).min;
     }
     return null;
   }
@@ -118,7 +137,7 @@ export abstract class InputBaseComponent implements OnChanges
     var sizeValidator = this.getValidator('Size');
     if (sizeValidator)
     {
-      return (<TypeModels.Size>sizeValidator).max;
+      return (<TypeModels.Size> sizeValidator).max;
     }
     return null;
   }
@@ -135,7 +154,7 @@ export abstract class InputBaseComponent implements OnChanges
   {
     let validationErrors = this.formControl.errors;
     let errorMessages = new Array<string>();
-    if (validationErrors != null)
+    if (validationErrors)
     {
       Object.keys(validationErrors).forEach(v =>
       {
