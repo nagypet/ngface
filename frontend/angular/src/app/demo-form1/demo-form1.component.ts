@@ -33,29 +33,13 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
       console.warn('Data is invalid!');
     } else
     {
-      this.dumpSimpleControl('name');
-      this.dumpSimpleControl('place-of-birth');
-      this.dumpSimpleControl('email');
-      this.dumpSimpleControl('role');
-      this.dumpSimpleControl('amount');
-      this.dumpSimpleControl('count-samples');
-      this.dumpSimpleControl('check-in-date');
-      this.dumpSimpleControl('check-out-date');
-      this.dumpDateRangeControl('date-range');
-      this.dumpDateRangeControl('date-range2');
+      let submit = new Map();
+      Object.keys(this.formGroup.controls).forEach(controlName =>
+      {
+        var dataType = this.formData.widgets[controlName]?.data?.type;
+        submit.set(controlName, {type: dataType, value: this.formGroup.controls[controlName]?.value});
+      });
+      console.log(submit);
     }
   }
-
-  private dumpSimpleControl(widgetId: string)
-  {
-    let submitValue = this.formGroup.get(widgetId)?.value;
-    console.log(widgetId + ': ' + submitValue?.toString());
-  }
-
-  private dumpDateRangeControl(widgetId: string)
-  {
-    let fg = this.formGroup.get(widgetId);
-    console.log(widgetId + ': start: ' + fg?.get('start')?.value + ' end: ' + fg?.get('end')?.value);
-  }
-
 }

@@ -1,7 +1,9 @@
 package hu.perit.ngface.widget.base;
 
 import hu.perit.ngface.widget.exception.ValidatorNotAllowedException;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,18 +15,18 @@ import java.util.Objects;
 
 @Getter
 @ToString(callSuper = true)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(callSuper = true)
-public abstract class Input<T, SUB extends Input> extends Widget<SUB>
+public abstract class Input<WD extends WidgetData, V, SUB extends Input> extends Widget<WD, SUB>
 {
     private String placeholder;
-    private T value;
-    private final List<Validator> validators = new ArrayList<>();
+    private final List<Validator<?>> validators = new ArrayList<>();
 
     public Input(String id)
     {
         super(id);
     }
+
+    protected abstract WD createDataFromSimpleValue(V value);
 
     public SUB placeholder(String placeholder)
     {
@@ -32,9 +34,9 @@ public abstract class Input<T, SUB extends Input> extends Widget<SUB>
         return (SUB) this;
     }
 
-    public SUB value(T value)
+    public synchronized SUB value(V value)
     {
-        this.value = value;
+        this.data = createDataFromSimpleValue(value);
         return (SUB) this;
     }
 

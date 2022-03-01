@@ -20,7 +20,7 @@ import java.util.Map;
 public class Form
 {
     private final String id;
-    private final Map<String, Widget<?>> widgets = new LinkedHashMap<>();
+    private final Map<String, Widget<?, ?>> widgets = new LinkedHashMap<>();
 
     // For JSon deserialization
     protected Form()
@@ -28,7 +28,7 @@ public class Form
         this.id = null;
     }
 
-    public Form addWidget(Widget<?> widget)
+    public Form addWidget(Widget<?, ?> widget)
     {
         this.widgets.put(widget.getId(), widget);
         return this;

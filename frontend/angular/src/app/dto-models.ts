@@ -1,47 +1,83 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-02-27 13:47:06.
+// Generated using typescript-generator version 2.17.558 on 2022-03-02 17:36:00.
 
 export namespace TypeModels {
 
-    export interface Button extends Widget<Button> {
+    export interface Button extends Widget<VoidWidgetData, Button> {
+        data: VoidWidgetData;
         style: Style;
     }
 
     export interface Form {
         id: string;
-        widgets: { [index: string]: Widget<any> };
+        widgets: { [index: string]: Widget<any, any> };
     }
 
-    export interface DateInput extends Input<Date, DateInput> {
-        value: Date;
+    export interface DateInput extends Input<DateInput.Data, Date, DateInput> {
+        data: DateInput.Data;
     }
 
-    export interface DateRangeInput extends Input<void, DateRangeInput> {
-        value: void;
-        startDate: DateRangeValue;
-        endDate: DateRangeValue;
+    export namespace DateInput {
+
+        export interface Data extends WidgetData {
+            value: Date;
+        }
+
     }
 
-    export interface DateRangeValue {
-        placeholder: string;
-        value: Date;
-        validators: Validator<any>[];
+    export interface DateRangeInput extends Input<DateRangeInput.Data, void, DateRangeInput> {
+        data: DateRangeInput.Data;
+        placeholder2: string;
+        validators2: Validator<any>[];
     }
 
-    export interface DateTimeInput extends Input<Date, DateTimeInput> {
-        value: Date;
+    export namespace DateRangeInput {
+
+        export interface Data extends WidgetData {
+            startDate: Date;
+            endDate: Date;
+        }
+
     }
 
-    export interface NumericInput extends Input<number, NumericInput> {
-        value: number;
+    export interface DateTimeInput extends Input<DateTimeInput.Data, Date, DateTimeInput> {
+        data: DateTimeInput.Data;
+    }
+
+    export namespace DateTimeInput {
+
+        export interface Data extends WidgetData {
+            value: Date;
+        }
+
+    }
+
+    export interface NumericInput extends Input<NumericInput.Data, number, NumericInput> {
+        data: NumericInput.Data;
         precision: number;
         prefix: string;
         suffix: string;
     }
 
-    export interface TextInput extends Input<string, TextInput> {
-        value: string;
+    export namespace NumericInput {
+
+        export interface Data extends WidgetData {
+            value: number;
+        }
+
+    }
+
+    export interface TextInput extends Input<TextInput.Data, string, TextInput> {
+        data: TextInput.Data;
+    }
+
+    export namespace TextInput {
+
+        export interface Data extends WidgetData {
+            value: string;
+        }
+
     }
 
     export interface Email extends Validator<Email> {
@@ -67,23 +103,30 @@ export namespace TypeModels {
         max: number;
     }
 
-    export interface Widget<SUB> {
+    export interface VoidWidgetData extends WidgetData {
+    }
+
+    export interface Widget<WD, SUB> {
         type: string;
         id: string;
         label: string;
         hint: string;
         enabled: boolean;
-    }
-
-    export interface Input<T, SUB> extends Widget<SUB> {
-        placeholder: string;
-        value: T;
-        validators: Validator<any>[];
+        data: WD;
     }
 
     export interface Validator<SUB> {
         type: string;
         message: string;
+    }
+
+    export interface WidgetData {
+        type: string;
+    }
+
+    export interface Input<WD, V, SUB> extends Widget<WD, SUB> {
+        placeholder: string;
+        validators: Validator<any>[];
     }
 
     export type Style = "NONE" | "PRIMARY" | "ACCENT" | "WARN";

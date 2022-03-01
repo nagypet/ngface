@@ -1,4 +1,4 @@
-package hu.perit.ngface.control;
+package hu.perit.ngface.widget.input;
 
 import hu.perit.ngface.widget.base.Widget;
 import hu.perit.ngface.widget.input.validator.Min;
@@ -23,31 +23,6 @@ class WidgetTest
 {
 
     @Test
-    void testTextInput()
-    {
-        TextInput originalControl = new TextInput("name")
-                .enabled(true)
-                .hint("Name input")
-                .placeholder("Type in your name!")
-                .value("Don Joe");
-
-        try
-        {
-            String json = new JSonSerializer().toJson(originalControl);
-            log.debug(json);
-            //assertEquals("{\"@class\":\"hu.perit.ngface.control.input.NgFaceTextInput\",\"id\":\"name_input\",\"tooltip\":\"Name input\",\"enabled\":true,\"placeholder\":\"Type in your name!\",\"value\":\"Peter Nagy\"}", json);
-            Widget deserializedControl = JSonSerializer.fromJson(json, Widget.class);
-            log.debug(deserializedControl.toString());
-            assertTrue(originalControl.equals(deserializedControl));
-        }
-        catch (IOException e)
-        {
-            log.error(StackTracer.toString(e));
-        }
-    }
-
-
-    @Test
     void testNumericInputWithFloat()
     {
         NumericInput originalControl = new NumericInput("amount")
@@ -56,7 +31,7 @@ class WidgetTest
                 .hint("Amount")
                 .placeholder("Type in the amount")
                 .precision(2)
-                .value(new BigDecimal("2.12"))
+                .data(new NumericInput.Data(new BigDecimal("2.12")))
                 .addValidator(new Min(0.0, "The smalles amount is 0 EUR"));
 
         try
@@ -85,7 +60,7 @@ class WidgetTest
                 .hint("Count of samples")
                 .placeholder("Type in the count of samples, you want to print")
                 .precision(0)
-                .value(new BigDecimal("10"))
+                .data(new NumericInput.Data(new BigDecimal("10")))
                 .addValidator(new Min(0.0, "The count have to be above 0!"));
 
         try
@@ -111,8 +86,7 @@ class WidgetTest
         DateInput originalControl = new DateInput("date")
                 .enabled(true)
                 .hint("Date input")
-                .placeholder("Effective date")
-                .value(LocalDate.of(2022, 2, 19));
+                .data(new DateInput.Data(LocalDate.of(2022, 2, 19)));
 
         try
         {

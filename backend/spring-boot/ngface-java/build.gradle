@@ -110,6 +110,13 @@ generateTypeScript {
             'hu.perit.ngface.widget.form.**',
             'hu.perit.ngface.widget.button.**'
     ]
+    customTypeNaming = [
+            'hu.perit.ngface.widget.input.TextInput$Data:TextInput.Data',
+            'hu.perit.ngface.widget.input.NumericInput$Data:NumericInput.Data',
+            'hu.perit.ngface.widget.input.DateInput$Data:DateInput.Data',
+            'hu.perit.ngface.widget.input.DateTimeInput$Data:DateTimeInput.Data',
+            'hu.perit.ngface.widget.input.DateRangeInput$Data:DateRangeInput.Data'
+    ]
     outputFile = 'build/dto-models.ts'
     outputFileType = 'implementationFile'
     outputKind = 'module'

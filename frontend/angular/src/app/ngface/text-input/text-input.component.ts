@@ -23,9 +23,9 @@ export class TextInputComponent extends InputBaseComponent
     {
       return {
         type: 'TextInput',
+        data: {type: 'TextInput.Data', value: ''},
         placeholder: 'widget id: ' + this.widgetId,
         label: 'undefined label',
-        value: '',
         validators: [],
         enabled: false,
         id: '',

@@ -1,5 +1,6 @@
 package hu.perit.ngface.widget.button;
 
+import hu.perit.ngface.widget.base.VoidWidgetData;
 import hu.perit.ngface.widget.base.Widget;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString(callSuper = true)
-public class Button extends Widget<Button>
+public class Button extends Widget<VoidWidgetData, Button>
 {
     public static final Button OK = new Button("button-ok").label("OK").style(Style.PRIMARY);
     public static final Button CANCEL = new Button("button-cancel").label("Cancel");

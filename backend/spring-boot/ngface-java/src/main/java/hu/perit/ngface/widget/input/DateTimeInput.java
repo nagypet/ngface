@@ -1,23 +1,20 @@
 package hu.perit.ngface.widget.input;
 
 import hu.perit.ngface.widget.base.Input;
+import hu.perit.ngface.widget.base.WidgetData;
 import hu.perit.ngface.widget.input.validator.Required;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * @author Peter Nagy
  */
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString(callSuper = true)
-public class DateTimeInput extends Input<LocalDateTime, DateTimeInput>
+public class DateTimeInput extends Input<DateTimeInput.Data, LocalDateTime, DateTimeInput>
 {
     public DateTimeInput(String id)
     {
@@ -25,8 +22,21 @@ public class DateTimeInput extends Input<LocalDateTime, DateTimeInput>
     }
 
     @Override
+    protected DateTimeInput.Data createDataFromSimpleValue(LocalDateTime value)
+    {
+        return new Data(value);
+    }
+
+    @Override
     protected List<Class<?>> getAllowedValidators()
     {
         return Arrays.asList(Required.class);
+    }
+
+    @ToString(callSuper = true)
+    @lombok.Data
+    public static class Data extends WidgetData
+    {
+        private final LocalDateTime value;
     }
 }

@@ -1,21 +1,23 @@
 package hu.perit.ngface.widget.input;
 
 import hu.perit.ngface.widget.base.Input;
-import lombok.AccessLevel;
+import hu.perit.ngface.widget.base.Validator;
+import hu.perit.ngface.widget.base.WidgetData;
+import hu.perit.ngface.widget.exception.ValidatorNotAllowedException;
+import hu.perit.ngface.widget.exception.ValueSetterNotAllowedException;
+import hu.perit.ngface.widget.input.validator.Required;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Collections;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString(callSuper = true)
-public class DateRangeInput extends Input<Void, DateRangeInput>
+public class DateRangeInput extends Input<DateRangeInput.Data, Void, DateRangeInput>
 {
-    private DateRangeValue startDate;
-    private DateRangeValue endDate;
+    private String placeholder2;
+    private final List<Validator<?>> validators2 = new ArrayList<>();
 
     public DateRangeInput(String id)
     {
@@ -23,21 +25,44 @@ public class DateRangeInput extends Input<Void, DateRangeInput>
     }
 
     @Override
+    protected DateRangeInput.Data createDataFromSimpleValue(Void value)
+    {
+        throw new ValueSetterNotAllowedException("DateRangeInput data requires two date values, please use the data property instead of value!");
+    }
+
+    @Override
     protected List<Class<?>> getAllowedValidators()
     {
-        return Collections.emptyList();
+        return Arrays.asList(Required.class);
     }
 
-    public DateRangeInput startDate(DateRangeValue startDate)
+
+    public DateRangeInput placeholder2(String placeholder)
     {
-        this.startDate = startDate;
+        this.placeholder2 = placeholder;
         return this;
     }
 
 
-    public DateRangeInput endDate(DateRangeValue endDate)
+    public DateRangeInput addValidator2(Validator validator)
     {
-        this.endDate = endDate;
+        Objects.requireNonNull(validator, "validator may not be null'");
+
+        if (!getAllowedValidators().contains(validator.getClass()))
+        {
+            throw new ValidatorNotAllowedException(String.format("'%s' does not allow validator of type '%s'!", getClass().getSimpleName(), validator.getClass().getSimpleName()));
+        }
+
+        this.validators2.add(validator);
         return this;
+    }
+
+
+    @ToString(callSuper = true)
+    @lombok.Data
+    public static class Data extends WidgetData
+    {
+        private final LocalDate startDate;
+        private final LocalDate endDate;
     }
 }

@@ -23,7 +23,7 @@ export class DateInputComponent extends InputBaseComponent
     {
       return {
         type: 'DateInput',
-        value: new Date(),
+        data: {type: 'DateInput.Data', value: new Date()},
         placeholder: 'widget id: ' + this.widgetId,
         label: 'undefined label',
         validators: [],

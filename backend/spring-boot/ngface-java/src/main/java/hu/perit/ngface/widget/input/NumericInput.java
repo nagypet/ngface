@@ -1,12 +1,11 @@
 package hu.perit.ngface.widget.input;
 
 import hu.perit.ngface.widget.base.Input;
+import hu.perit.ngface.widget.base.WidgetData;
 import hu.perit.ngface.widget.input.validator.Max;
 import hu.perit.ngface.widget.input.validator.Min;
 import hu.perit.ngface.widget.input.validator.Required;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.math.BigDecimal;
@@ -18,9 +17,8 @@ import java.util.List;
  */
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString(callSuper = true)
-public class NumericInput extends Input<BigDecimal, NumericInput>
+public class NumericInput extends Input<NumericInput.Data, BigDecimal, NumericInput>
 {
     private int precision;
     private String prefix;
@@ -29,6 +27,12 @@ public class NumericInput extends Input<BigDecimal, NumericInput>
     public NumericInput(String id)
     {
         super(id);
+    }
+
+    @Override
+    protected NumericInput.Data createDataFromSimpleValue(BigDecimal value)
+    {
+        return new Data(value);
     }
 
     @Override
@@ -53,5 +57,12 @@ public class NumericInput extends Input<BigDecimal, NumericInput>
     {
         this.suffix = suffix;
         return this;
+    }
+
+    @ToString(callSuper = true)
+    @lombok.Data
+    public static class Data extends WidgetData
+    {
+        private final BigDecimal value;
     }
 }

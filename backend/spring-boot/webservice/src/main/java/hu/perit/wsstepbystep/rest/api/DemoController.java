@@ -2,7 +2,10 @@ package hu.perit.wsstepbystep.rest.api;
 
 import hu.perit.ngface.widget.button.Button;
 import hu.perit.ngface.widget.form.Form;
-import hu.perit.ngface.widget.input.*;
+import hu.perit.ngface.widget.input.DateInput;
+import hu.perit.ngface.widget.input.DateRangeInput;
+import hu.perit.ngface.widget.input.NumericInput;
+import hu.perit.ngface.widget.input.TextInput;
 import hu.perit.ngface.widget.input.validator.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
@@ -80,14 +83,11 @@ public class DemoController implements DemoApi
                 )
                 .addWidget(new DateRangeInput("date-range")
                         .label("Check-in - Check-out")
-                        .startDate(new DateRangeValue()
-                                .value(LocalDate.now())
-                                .placeholder("Start date")
-                                .addValidator(new Required("Start date is required!")))
-                        .endDate(new DateRangeValue()
-                                .value(LocalDate.now().plusDays(1))
-                                .placeholder("End date")
-                                .addValidator(new Required("End date is required!")))
+                        .data(new DateRangeInput.Data(LocalDate.now(), LocalDate.now().plusDays(1)))
+                        .placeholder("Start date")
+                        .addValidator(new Required("Start date is required!"))
+                        .placeholder2("End date")
+                        .addValidator2(new Required("End date is required!"))
                         .hint("DateRangeInput - date-range")
                 )
                 .addWidget(new DateRangeInput("date-range2")

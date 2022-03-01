@@ -22,8 +22,8 @@ export class NumericInputComponent extends InputBaseComponent
     {
       return {
         type: 'NumericInput',
+        data: {type: 'NumericInput.Data', value: 0},
         precision: 0,
-        value: 0,
         prefix: '',
         suffix: '',
         placeholder: 'widget id: ' + this.widgetId,
@@ -39,6 +39,6 @@ export class NumericInputComponent extends InputBaseComponent
 
   getValue(): string | undefined
   {
-    return this.getData()?.value?.toFixed(this.getData()?.precision);
+    return this.getData()?.data?.value?.toFixed(this.getData()?.precision);
   }
 }

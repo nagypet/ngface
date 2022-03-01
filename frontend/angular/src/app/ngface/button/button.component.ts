@@ -31,6 +31,7 @@ export class ButtonComponent implements OnInit
     if (!widget || widget?.type !== 'Button')
     {
       return {
+        data: {type: 'VoidWidgetData'},
         style: 'NONE',
         type: '',
         label: 'undefined button',

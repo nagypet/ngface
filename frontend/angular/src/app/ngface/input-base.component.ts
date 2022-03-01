@@ -43,7 +43,7 @@ export abstract class InputBaseComponent implements OnChanges
 
   ngOnChanges(): void
   {
-    this.formControl.setValue(this.getData().value);
+    this.formControl.setValue(this.getData()?.data?.value);
 
     let validators = new Array<ValidatorFn>();
     this.getData().validators?.forEach(v =>
@@ -96,7 +96,7 @@ export abstract class InputBaseComponent implements OnChanges
   }
 
 
-  abstract getData(): TypeModels.Input<any, any>
+  abstract getData(): TypeModels.Input<any, any, any>
 
 
   /**
