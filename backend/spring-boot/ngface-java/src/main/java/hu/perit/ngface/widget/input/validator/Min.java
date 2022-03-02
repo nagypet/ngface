@@ -12,13 +12,6 @@ public class Min extends Validator<Min>
 {
     private final Double min;
 
-    // For JSon deserialization
-    private Min()
-    {
-        super(null);
-        this.min = null;
-    }
-
     public Min(Double min, String message)
     {
         super(message);

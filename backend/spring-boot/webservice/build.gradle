@@ -8,13 +8,11 @@ apply from: '../gradle/common.gradle'
 
 repositories {
 	mavenCentral()
-    maven {
-        url "http://perit.hu/maven"
-    }
+    mavenLocal()
 }
 
 ext {
-    set('spvitaminVersion', '1.3.8-RELEASE')
+    set('spvitaminVersion', '1.3.9-SNAPSHOT')
 }
 
 
@@ -31,6 +29,7 @@ dependencies {
     compile project(':ngface-java')
 
     implementation 'hu.perit.spvitamin:spvitamin-core'
+    implementation 'hu.perit.spvitamin:spvitamin-spring-general'
     implementation 'hu.perit.spvitamin:spvitamin-spring-server'
     implementation 'hu.perit.spvitamin:spvitamin-spring-admin'
     implementation 'hu.perit.spvitamin:spvitamin-spring-security'

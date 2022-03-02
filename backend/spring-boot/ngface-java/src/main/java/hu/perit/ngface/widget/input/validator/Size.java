@@ -13,13 +13,6 @@ public class Size extends Validator<Size>
     private int min = 0;
     private int max = Integer.MAX_VALUE;
 
-    // For JSon deserialization
-    private Size()
-    {
-        super(null);
-    }
-
-
     public Size(String message)
     {
         super(message);

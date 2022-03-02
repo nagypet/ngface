@@ -8,13 +8,6 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class Required extends Validator<Required>
 {
-    // For JSon deserialization
-    private Required()
-    {
-        super(null);
-    }
-
-
     public Required(String message)
     {
         super(message);

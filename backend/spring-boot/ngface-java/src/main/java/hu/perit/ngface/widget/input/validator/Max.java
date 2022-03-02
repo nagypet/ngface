@@ -12,13 +12,6 @@ public class Max extends Validator<Max>
 {
     private final Double max;
 
-    // For JSon deserialization
-    private Max()
-    {
-        super(null);
-        this.max = null;
-    }
-
     public Max(Double max, String message)
     {
         super(message);

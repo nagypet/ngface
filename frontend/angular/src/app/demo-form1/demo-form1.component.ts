@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {DemoService} from '../services/demo.service';
 import {FormBaseComponent} from '../ngface/form-base.component';
+import {TypeModels} from '../dto-models';
+import WidgetData = TypeModels.WidgetData;
+import TextInput = TypeModels.TextInput;
+import {any} from 'codelyzer/util/function';
 
 @Component({
   selector: 'app-demo-form1',
@@ -33,13 +37,30 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
       console.warn('Data is invalid!');
     } else
     {
-      let submit = new Map();
+      let submitData: {[key: string]: WidgetData} = {};
       Object.keys(this.formGroup.controls).forEach(controlName =>
       {
-        var dataType = this.formData.widgets[controlName]?.data?.type;
-        submit.set(controlName, {type: dataType, value: this.formGroup.controls[controlName]?.value});
+        var widgetType: string = this.formData.widgets[controlName]?.type;
+        switch (widgetType)
+        {
+          case 'TextInput':
+          case 'NumericInput':
+          case 'DateInput':
+          case 'DateTimeInput':
+            submitData[controlName] = <TypeModels.Value<any>>{type: widgetType + ".Data", value: this.formGroup.controls[controlName]?.value};
+            break;
+
+          case 'DateRangeInput':
+            submitData[controlName] = <TypeModels.DateRangeInput.Data>{type: widgetType + ".Data", startDate: this.formGroup.controls[controlName]?.value?.start, endDate: this.formGroup.controls[controlName]?.value?.end};
+            break;
+        }
       });
-      console.log(submit);
+
+      console.log(submitData);
+
+      this.demoService.submitDemoForm({widgetDataMap: submitData}).subscribe(
+        () => console.log('sumbitted'),
+        error => console.log(error));
     }
   }
 }

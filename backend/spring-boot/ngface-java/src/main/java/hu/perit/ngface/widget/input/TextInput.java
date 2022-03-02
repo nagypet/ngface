@@ -1,14 +1,14 @@
 package hu.perit.ngface.widget.input;
 
 import hu.perit.ngface.widget.base.Input;
+import hu.perit.ngface.widget.base.Value;
 import hu.perit.ngface.widget.base.WidgetData;
 import hu.perit.ngface.widget.input.validator.Email;
 import hu.perit.ngface.widget.input.validator.Pattern;
 import hu.perit.ngface.widget.input.validator.Required;
 import hu.perit.ngface.widget.input.validator.Size;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.Arrays;
@@ -40,9 +40,18 @@ public class TextInput extends Input<TextInput.Data, String, TextInput>
 
 
     @ToString(callSuper = true)
-    @lombok.Data
-    public static class Data extends WidgetData
+    @Getter
+    public static class Data extends Value<String>
     {
-        private final String value;
+        public Data(String value)
+        {
+            super(value);
+        }
+
+        // For JSon deserialization
+        private Data()
+        {
+            super(null);
+        }
     }
 }

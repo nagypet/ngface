@@ -1,7 +1,7 @@
 package hu.perit.ngface.widget.input;
 
 import hu.perit.ngface.widget.base.Input;
-import hu.perit.ngface.widget.base.WidgetData;
+import hu.perit.ngface.widget.base.Value;
 import hu.perit.ngface.widget.input.validator.Max;
 import hu.perit.ngface.widget.input.validator.Min;
 import hu.perit.ngface.widget.input.validator.Required;
@@ -60,9 +60,19 @@ public class NumericInput extends Input<NumericInput.Data, BigDecimal, NumericIn
     }
 
     @ToString(callSuper = true)
-    @lombok.Data
-    public static class Data extends WidgetData
+    @Getter
+    public static class Data extends Value<BigDecimal>
     {
-        private final BigDecimal value;
+        // For JSon deserialization
+        public Data(BigDecimal value)
+        {
+            super(value);
+        }
+
+        // For JSon deserialization
+        private Data()
+        {
+            super(null);
+        }
     }
 }

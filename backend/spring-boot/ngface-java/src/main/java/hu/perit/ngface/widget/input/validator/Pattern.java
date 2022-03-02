@@ -12,14 +12,6 @@ public class Pattern extends Validator<Pattern>
 {
     private final String pattern;
 
-    // For JSon deserialization
-    private Pattern()
-    {
-        super(null);
-        this.pattern = null;
-    }
-
-
     public Pattern(String pattern, String message)
     {
         super(message);

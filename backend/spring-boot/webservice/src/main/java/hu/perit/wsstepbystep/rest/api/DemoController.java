@@ -1,5 +1,6 @@
 package hu.perit.wsstepbystep.rest.api;
 
+import hu.perit.ngface.widget.base.WidgetData;
 import hu.perit.ngface.widget.button.Button;
 import hu.perit.ngface.widget.form.Form;
 import hu.perit.ngface.widget.input.DateInput;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -99,5 +101,19 @@ public class DemoController implements DemoApi
                 .addWidget(Button.CANCEL)
                 .addWidget(Button.DELETE)
                 ;
+    }
+
+    @Override
+    public void submitDemoForm(SubmitFormData submitFormData)
+    {
+        log.debug("submitDemoForm()");
+
+        if (submitFormData.getWidgetDataMap() != null)
+        {
+            for (Map.Entry<String, WidgetData> entry : submitFormData.getWidgetDataMap().entrySet())
+            {
+                log.debug(String.format("%s: %s", entry.getKey(), entry.getValue().toString()));
+            }
+        }
     }
 }

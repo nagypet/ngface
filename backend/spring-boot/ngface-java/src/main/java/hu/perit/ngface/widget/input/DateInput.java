@@ -1,9 +1,10 @@
 package hu.perit.ngface.widget.input;
 
 import hu.perit.ngface.widget.base.Input;
-import hu.perit.ngface.widget.base.WidgetData;
+import hu.perit.ngface.widget.base.Value;
 import hu.perit.ngface.widget.exception.PropertyNotAllowedException;
 import hu.perit.ngface.widget.input.validator.Required;
+import lombok.Getter;
 import lombok.ToString;
 
 import java.time.LocalDate;
@@ -41,9 +42,18 @@ public class DateInput extends Input<DateInput.Data, LocalDate, DateInput>
     }
 
     @ToString(callSuper = true)
-    @lombok.Data
-    public static class Data extends WidgetData
+    @Getter
+    public static class Data extends Value<LocalDate>
     {
-        private final LocalDate value;
+        public Data(LocalDate value)
+        {
+            super(value);
+        }
+
+        // For JSon deserialization
+        private Data()
+        {
+            super(null);
+        }
     }
 }

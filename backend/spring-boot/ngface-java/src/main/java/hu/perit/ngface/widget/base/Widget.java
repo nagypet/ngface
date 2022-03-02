@@ -1,11 +1,5 @@
 package hu.perit.ngface.widget.base;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import hu.perit.ngface.widget.input.DateInput;
-import hu.perit.ngface.widget.input.DateTimeInput;
-import hu.perit.ngface.widget.input.NumericInput;
-import hu.perit.ngface.widget.input.TextInput;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +12,6 @@ import lombok.ToString;
 @Getter
 @RequiredArgsConstructor
 @ToString
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
-@JsonSubTypes({ //
-        @JsonSubTypes.Type(value = TextInput.class, name = "TextInput"),
-        @JsonSubTypes.Type(value = NumericInput.class, name = "NumericInput"),
-        @JsonSubTypes.Type(value = DateInput.class, name = "DateInput"),
-        @JsonSubTypes.Type(value = DateTimeInput.class, name = "DateTimeInput")
-})
 @EqualsAndHashCode
 public abstract class Widget<WD extends WidgetData, SUB extends Widget>
 {
@@ -34,12 +21,6 @@ public abstract class Widget<WD extends WidgetData, SUB extends Widget>
     protected String hint;
     protected boolean enabled = true;
     protected WD data;
-
-    // For JSon deserialization
-    protected Widget()
-    {
-        this.id = null;
-    }
 
     public SUB label(String label)
     {

@@ -7,6 +7,7 @@ import hu.perit.ngface.widget.exception.ValidatorNotAllowedException;
 import hu.perit.ngface.widget.exception.ValueSetterNotAllowedException;
 import hu.perit.ngface.widget.input.validator.Required;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
@@ -59,10 +60,18 @@ public class DateRangeInput extends Input<DateRangeInput.Data, Void, DateRangeIn
 
 
     @ToString(callSuper = true)
-    @lombok.Data
+    @RequiredArgsConstructor
+    @Getter
     public static class Data extends WidgetData
     {
         private final LocalDate startDate;
         private final LocalDate endDate;
+
+        // For JSon deserialization
+        private Data()
+        {
+            this.startDate = null;
+            this.endDate = null;
+        }
     }
 }

@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-02 17:36:00.
+// Generated using typescript-generator version 2.17.558 on 2022-03-02 22:59:12.
 
 export namespace TypeModels {
 
@@ -20,7 +20,7 @@ export namespace TypeModels {
 
     export namespace DateInput {
 
-        export interface Data extends WidgetData {
+        export interface Data extends Value<Date> {
             value: Date;
         }
 
@@ -47,7 +47,7 @@ export namespace TypeModels {
 
     export namespace DateTimeInput {
 
-        export interface Data extends WidgetData {
+        export interface Data extends Value<Date> {
             value: Date;
         }
 
@@ -62,7 +62,7 @@ export namespace TypeModels {
 
     export namespace NumericInput {
 
-        export interface Data extends WidgetData {
+        export interface Data extends Value<number> {
             value: number;
         }
 
@@ -74,7 +74,7 @@ export namespace TypeModels {
 
     export namespace TextInput {
 
-        export interface Data extends WidgetData {
+        export interface Data extends Value<string> {
             value: string;
         }
 
@@ -127,6 +127,10 @@ export namespace TypeModels {
     export interface Input<WD, V, SUB> extends Widget<WD, SUB> {
         placeholder: string;
         validators: Validator<any>[];
+    }
+
+    export interface Value<V> extends WidgetData {
+        value: V;
     }
 
     export type Style = "NONE" | "PRIMARY" | "ACCENT" | "WARN";

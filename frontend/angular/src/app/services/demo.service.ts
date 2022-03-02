@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {TypeModels} from '../dto-models';
+import WidgetData = TypeModels.WidgetData;
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +35,15 @@ export class DemoService
 
   public getDemoForm(): Observable<any> {
     return this.httpClient.get(DemoService.getServiceUrl('/demo'));
+  }
+
+  public submitDemoForm(submitFormData: {widgetDataMap: any}): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    return this.httpClient.post(DemoService.getServiceUrl('/demo'), submitFormData, httpOptions);
   }
 
 }

@@ -2,13 +2,10 @@ package hu.perit.ngface.widget.button;
 
 import hu.perit.ngface.widget.base.VoidWidgetData;
 import hu.perit.ngface.widget.base.Widget;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString(callSuper = true)
 public class Button extends Widget<VoidWidgetData, Button>
 {
