@@ -53,6 +53,10 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
           case 'DateRangeInput':
             submitData[controlName] = <TypeModels.DateRangeInput.Data>{type: widgetType + ".Data", startDate: this.formGroup.controls[controlName]?.value?.start, endDate: this.formGroup.controls[controlName]?.value?.end};
             break;
+
+          case 'Select':
+            submitData[controlName] = <TypeModels.Select.Data>{type: widgetType + ".Data", selected: this.formGroup.controls[controlName]?.value};
+            break;
         }
       });
 

@@ -15,7 +15,8 @@ import lombok.ToString;
         @JsonSubTypes.Type(value = NumericInput.Data.class, name = "NumericInput.Data"),
         @JsonSubTypes.Type(value = DateInput.Data.class, name = "DateInput.Data"),
         @JsonSubTypes.Type(value = DateTimeInput.Data.class, name = "DateTimeInput.Data"),
-        @JsonSubTypes.Type(value = DateRangeInput.Data.class, name = "DateRangeInput.Data")
+        @JsonSubTypes.Type(value = DateRangeInput.Data.class, name = "DateRangeInput.Data"),
+        @JsonSubTypes.Type(value = Select.Data.class, name = "Select.Data")
 })
 @EqualsAndHashCode
 public class WidgetData

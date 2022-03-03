@@ -3,10 +3,7 @@ package hu.perit.wsstepbystep.rest.api;
 import hu.perit.ngface.widget.base.WidgetData;
 import hu.perit.ngface.widget.button.Button;
 import hu.perit.ngface.widget.form.Form;
-import hu.perit.ngface.widget.input.DateInput;
-import hu.perit.ngface.widget.input.DateRangeInput;
-import hu.perit.ngface.widget.input.NumericInput;
-import hu.perit.ngface.widget.input.TextInput;
+import hu.perit.ngface.widget.input.*;
 import hu.perit.ngface.widget.input.validator.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
@@ -96,6 +93,25 @@ public class DemoController implements DemoApi
                         .label("Check-in - Check-out uninitialized")
                         .hint("DateRangeInput - date-range2")
                         .enabled(false)
+                )
+                .addWidget(new Select("select")
+                        .label("Select")
+                        .data(new Select.Data()
+                                .addOption(new Select.Option("id_first", "First option"))
+                                .addOption(new Select.Option("id_second", "Second option"))
+                        )
+                        .placeholder("Select an option!")
+                        .hint("no default")
+                )
+                .addWidget(new Select("select2")
+                        .label("Select")
+                        .data(new Select.Data()
+                                .addOption(new Select.Option("id_first", "First option"))
+                                .addOption(new Select.Option("id_second", "Second option"))
+                                .selected("id_first")
+                        )
+                        .placeholder("Select an option!")
+                        .hint("First option is default")
                 )
                 .addWidget(Button.OK.hint("OK button :-)"))
                 .addWidget(Button.CANCEL)

@@ -1,6 +1,7 @@
 package hu.perit.ngface.widget.base;
 
 import hu.perit.ngface.widget.exception.ValidatorNotAllowedException;
+import hu.perit.ngface.widget.exception.ValueSetterNotAllowedException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -26,7 +27,10 @@ public abstract class Input<WD extends WidgetData, V, SUB extends Input> extends
         super(id);
     }
 
-    protected abstract WD createDataFromSimpleValue(V value);
+    protected WD createDataFromSimpleValue(V value)
+    {
+        throw new ValueSetterNotAllowedException(String.format("value property is not allowed on '%s'!", getClass().getSimpleName()));
+    }
 
     public SUB placeholder(String placeholder)
     {

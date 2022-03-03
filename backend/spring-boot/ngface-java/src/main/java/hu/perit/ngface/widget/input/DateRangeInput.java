@@ -26,12 +26,6 @@ public class DateRangeInput extends Input<DateRangeInput.Data, Void, DateRangeIn
     }
 
     @Override
-    protected DateRangeInput.Data createDataFromSimpleValue(Void value)
-    {
-        throw new ValueSetterNotAllowedException("DateRangeInput data requires two date values, please use the data property instead of value!");
-    }
-
-    @Override
     protected List<Class<?>> getAllowedValidators()
     {
         return Arrays.asList(Required.class);

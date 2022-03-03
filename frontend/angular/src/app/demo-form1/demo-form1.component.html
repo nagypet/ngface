@@ -19,6 +19,10 @@
       <ngface-date-range-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'date-range2'"></ngface-date-range-input>
     </div>
     <div class="ngface-row">
+      <ngface-select [formGroup]="formGroup" [formData]="formData" [widgetId]="'select'"></ngface-select>
+      <ngface-select [formGroup]="formGroup" [formData]="formData" [widgetId]="'select2'"></ngface-select>
+    </div>
+    <div class="ngface-row">
       <ngface-button [formData]="formData" [widgetId]="'button-ok'" (click)="onOk()"></ngface-button>
       <ngface-button [formData]="formData" [widgetId]="'button-cancel'"></ngface-button>
       <ngface-button [formData]="formData" [widgetId]="'button-delete'"></ngface-button>

@@ -43,16 +43,21 @@ export abstract class InputBaseComponent implements OnChanges
 
   ngOnChanges(): void
   {
+    // Setting the value
     this.formControl.setValue(this.getData()?.data?.value);
 
+    // Validators
     let validators = new Array<ValidatorFn>();
     this.getData().validators?.forEach(v =>
     {
       this.createNgValidators(v).forEach(ngValidator => validators.push(ngValidator));
     });
     this.formControl.setValidators(validators);
+
+    // Enabled status
     this.getData().enabled ? this.formControl.enable() : this.formControl.disable();
 
+    // Adding FormControl to the FormGroup
     this.formGroup.addControl(this.widgetId, this.formControl);
   }
 

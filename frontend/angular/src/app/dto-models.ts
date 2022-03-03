@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-02 22:59:12.
+// Generated using typescript-generator version 2.17.558 on 2022-03-03 07:36:25.
 
 export namespace TypeModels {
 
@@ -66,6 +66,24 @@ export namespace TypeModels {
             value: number;
         }
 
+    }
+
+    export interface Select extends Input<Select.Data, void, Select> {
+        data: Select.Data;
+    }
+
+    export namespace Select {
+
+        export interface Data extends WidgetData {
+            options: Option[];
+            selected: string;
+        }
+
+    }
+
+    export interface Option {
+        id: string;
+        value: string;
     }
 
     export interface TextInput extends Input<TextInput.Data, string, TextInput> {
