@@ -2,12 +2,11 @@ package hu.perit.ngface.widget.input;
 
 import hu.perit.ngface.widget.base.Input;
 import hu.perit.ngface.widget.base.WidgetData;
+import hu.perit.ngface.widget.input.validator.Required;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Select extends Input<Select.Data, Void, Select>
 {
@@ -20,7 +19,7 @@ public class Select extends Input<Select.Data, Void, Select>
     @Override
     protected List<Class<?>> getAllowedValidators()
     {
-        return Collections.emptyList();
+        return Arrays.asList(Required.class);
     }
 
     @ToString
@@ -35,12 +34,12 @@ public class Select extends Input<Select.Data, Void, Select>
     @Getter
     public static class Data extends WidgetData
     {
-        private final List<Select.Option> options = new ArrayList<>();
+        private final Map<String, String> options = new LinkedHashMap<>();
         private String selected;
 
         public Data addOption(Select.Option option)
         {
-            this.options.add(option);
+            this.options.put(option.id, option.value);
             return this;
         }
 

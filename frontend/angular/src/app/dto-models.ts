@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-03 07:36:25.
+// Generated using typescript-generator version 2.17.558 on 2022-03-03 08:14:46.
 
 export namespace TypeModels {
 
@@ -75,7 +75,7 @@ export namespace TypeModels {
     export namespace Select {
 
         export interface Data extends WidgetData {
-            options: Option[];
+            options: { [index: string]: string };
             selected: string;
         }
 

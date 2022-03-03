@@ -40,7 +40,8 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
       let submitData: {[key: string]: WidgetData} = {};
       Object.keys(this.formGroup.controls).forEach(controlName =>
       {
-        var widgetType: string = this.formData.widgets[controlName]?.type;
+        let widget = this.formData.widgets[controlName];
+        let widgetType: string = widget?.type;
         switch (widgetType)
         {
           case 'TextInput':
@@ -55,7 +56,10 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
             break;
 
           case 'Select':
-            submitData[controlName] = <TypeModels.Select.Data>{type: widgetType + ".Data", selected: this.formGroup.controls[controlName]?.value};
+            let selected = this.formGroup.controls[controlName]?.value;
+            let selectedOption: { [index: string]: string } = {};
+            selectedOption[selected] = widget?.data.options[selected];
+            submitData[controlName] = <TypeModels.Select.Data>{type: widgetType + ".Data", options: selectedOption, selected: selected};
             break;
         }
       });

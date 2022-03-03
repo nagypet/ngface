@@ -26,7 +26,7 @@ export class SelectComponent extends InputBaseComponent implements OnChanges {
     {
       return {
         type: 'Select',
-        data: {type: 'Select.Data', options: [], selected: ''},
+        data: {type: 'Select.Data', options: {}, selected: ''},
         placeholder: '',
         validators: [],
         label: 'undefined label',
@@ -38,4 +38,14 @@ export class SelectComponent extends InputBaseComponent implements OnChanges {
     return <TypeModels.Select> this.formData.widgets[this.widgetId];
   }
 
+
+  getOptionIds(): string[]
+  {
+    return Object.keys(this.getData().data?.options);
+  }
+
+  getOptionValue(id: string): string | null
+  {
+    return this.getData().data?.options[id];
+  }
 }

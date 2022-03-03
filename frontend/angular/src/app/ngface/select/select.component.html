@@ -5,9 +5,9 @@
               [required]="isRequired()"
               [errorStateMatcher]="errorStateMatcher"
   >
-    <mat-option *ngFor="let option of getData().data?.options"
-                [value]="option.id"
-    >{{option.value}}</mat-option>
+    <mat-option *ngFor="let optionId of getOptionIds()"
+                [value]="optionId"
+    >{{getOptionValue(optionId)}}</mat-option>
   </mat-select>
   <mat-hint>{{getData().hint}}</mat-hint>
   <mat-error *ngIf="formControl.errors">{{getValidationErrors()}}</mat-error>
