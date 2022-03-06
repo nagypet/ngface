@@ -4,14 +4,16 @@ import hu.perit.ngface.widget.base.Input;
 import hu.perit.ngface.widget.base.Validator;
 import hu.perit.ngface.widget.base.WidgetData;
 import hu.perit.ngface.widget.exception.ValidatorNotAllowedException;
-import hu.perit.ngface.widget.exception.ValueSetterNotAllowedException;
 import hu.perit.ngface.widget.input.validator.Required;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 @Getter
 @ToString(callSuper = true)

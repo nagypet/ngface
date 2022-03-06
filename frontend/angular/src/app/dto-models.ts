@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-03 08:14:46.
+// Generated using typescript-generator version 2.17.558 on 2022-03-06 13:11:01.
 
 export namespace TypeModels {
 
@@ -149,6 +149,25 @@ export namespace TypeModels {
 
     export interface Value<V> extends WidgetData {
         value: V;
+    }
+
+    export namespace Table {
+
+        export interface Data extends WidgetData {
+            columns: Column[];
+            rows: Row[];
+        }
+
+    }
+
+    export interface Column {
+        id: string;
+        text: string;
+    }
+
+    export interface Row {
+        id: string;
+        cells: string[];
     }
 
     export type Style = "NONE" | "PRIMARY" | "ACCENT" | "WARN";

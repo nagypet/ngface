@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {TypeModels} from '../dto-models';
-import WidgetData = TypeModels.WidgetData;
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +8,9 @@ import WidgetData = TypeModels.WidgetData;
 export class DemoService
 {
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient)
+  {
+  }
 
   private static getServiceUrl(path: string): string
   {
@@ -33,14 +33,27 @@ export class DemoService
   }
 
 
-  public getDemoForm(): Observable<any> {
-    return this.httpClient.get(DemoService.getServiceUrl('/demo'));
+  public getDemoForm(pageNumber?: number, pageSize?: number): Observable<any>
+  {
+    let params = new HttpParams();
+    if (pageNumber)
+    {
+      params.set('pageNumber', pageNumber.toString());
+    }
+    if (pageSize)
+    {
+      params.set('pageSize', pageSize.toString());
+    }
+
+    return this.httpClient.get(DemoService.getServiceUrl('/demo'), {params});
   }
 
-  public submitDemoForm(submitFormData: {widgetDataMap: any}): Observable<any> {
+
+  public submitDemoForm(submitFormData: { widgetDataMap: any }): Observable<any>
+  {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json'
+        'Content-Type': 'application/json'
       })
     };
     return this.httpClient.post(DemoService.getServiceUrl('/demo'), submitFormData, httpOptions);
