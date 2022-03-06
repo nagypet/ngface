@@ -7,26 +7,24 @@ import hu.perit.ngface.widget.form.Form;
 import hu.perit.ngface.widget.input.*;
 import hu.perit.ngface.widget.input.validator.*;
 import hu.perit.ngface.widget.table.Column;
+import hu.perit.ngface.widget.table.Paginator;
 import hu.perit.ngface.widget.table.Row;
 import hu.perit.ngface.widget.table.Table;
-import hu.perit.spvitamin.spring.json.JSonSerializer;
-import hu.perit.spvitamin.spring.json.JsonSerializable;
-import lombok.Data;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class DemoController implements DemoApi
 {
+    private final DemoDataSource demoDataSource;
+
     //------------------------------------------------------------------------------------------------------------------
     // getDemoForm()
     //------------------------------------------------------------------------------------------------------------------
@@ -142,56 +140,8 @@ public class DemoController implements DemoApi
     }
 
 
-    @Data
-    public static class TableData
-    {
-        private List<Item> items;
-
-        @Data
-        public static class Item
-        {
-            private Long id;
-            private String name;
-            private Double weight;
-            private String symbol;
-        }
-    }
-
-    
-    private static final String TABLE_DATA = "{\"items\": [" +
-            "{\"id\": 1, \"name\": \"Hydrogen\", \"weight\": 1.0079, \"symbol\": \"H\"}," +
-            "{\"id\": 2, \"name\": \"Helium\", \"weight\": 4.0026, \"symbol\": \"He\"}," +
-            "{\"id\": 3, \"name\": \"Lithium\", \"weight\": 6.941, \"symbol\": \"Li\"}," +
-            "{\"id\": 4, \"name\": \"Beryllium\", \"weight\": 9.0122, \"symbol\": \"Be\"}," +
-            "{\"id\": 5, \"name\": \"Boron\", \"weight\": 10.811, \"symbol\": \"B\"}," +
-            "{\"id\": 6, \"name\": \"Carbon\", \"weight\": 12.0107, \"symbol\": \"C\"}," +
-            "{\"id\": 7, \"name\": \"Nitrogen\", \"weight\": 14.0067, \"symbol\": \"N\"}," +
-            "{\"id\": 8, \"name\": \"Oxygen\", \"weight\": 15.9994, \"symbol\": \"O\"}," +
-            "{\"id\": 9, \"name\": \"Fluorine\", \"weight\": 18.9984, \"symbol\": \"F\"}," +
-            "{\"id\": 10, \"name\": \"Neon\", \"weight\": 20.1797, \"symbol\": \"Ne\"}," +
-            "{\"id\": 11, \"name\": \"Sodium\", \"weight\": 22.9897, \"symbol\": \"Na\"}," +
-            "{\"id\": 12, \"name\": \"Magnesium\", \"weight\": 24.305, \"symbol\": \"Mg\"}," +
-            "{\"id\": 13, \"name\": \"Aluminum\", \"weight\": 26.9815, \"symbol\": \"Al\"}," +
-            "{\"id\": 14, \"name\": \"Silicon\", \"weight\": 28.0855, \"symbol\": \"Si\"}," +
-            "{\"id\": 15, \"name\": \"Phosphorus\", \"weight\": 30.9738, \"symbol\": \"P\"}," +
-            "{\"id\": 16, \"name\": \"Sulfur\", \"weight\": 32.065, \"symbol\": \"S\"}," +
-            "{\"id\": 17, \"name\": \"Chlorine\", \"weight\": 35.453, \"symbol\": \"Cl\"}," +
-            "{\"id\": 18, \"name\": \"Argon\", \"weight\": 39.948, \"symbol\": \"Ar\"}," +
-            "{\"id\": 19, \"name\": \"Potassium\", \"weight\": 39.0983, \"symbol\": \"K\"}," +
-            "{\"id\": 20, \"name\": \"Calcium\", \"weight\": 40.078, \"symbol\": \"Ca\"}]}";
-
     private Widget<?, ?> getTable(Long pageNumber, Long pageSize)
     {
-        TableData tableData = null;
-        try
-        {
-            tableData = JsonSerializable.fromJson(TABLE_DATA, TableData.class);
-        }
-        catch (IOException e)
-        {
-            // do nothing
-        }
-
         Table table = new Table("table")
                 .data(new Table.Data()
                         .addColumn(new Column("id").text("Id"))
@@ -200,14 +150,16 @@ public class DemoController implements DemoApi
                         .addColumn(new Column("symbol").text("Symbol"))
                 );
 
-        for (TableData.Item item: tableData.getItems())
+        for (DemoDataSource.DataRow item: this.demoDataSource.getDemoData(pageNumber, pageSize))
         {
-            table.getData().addRow(new Row(item.id.toString())
-                    .addCell(item.id.toString())
-                    .addCell(item.name)
-                    .addCell(item.weight.toString())
-                    .addCell(item.symbol));
+            table.getData().addRow(new Row(item.getId().toString())
+                    .addCell(item.getId().toString())
+                    .addCell(item.getName())
+                    .addCell(item.getWeight().toString())
+                    .addCell(item.getSymbol()));
         }
+
+        table.getData().paginator(new Paginator(10, this.demoDataSource.getLength()));
         return table;
     }
 

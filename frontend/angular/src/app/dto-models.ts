@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-06 13:11:01.
+// Generated using typescript-generator version 2.17.558 on 2022-03-06 15:01:22.
 
 export namespace TypeModels {
 
@@ -121,6 +121,35 @@ export namespace TypeModels {
         max: number;
     }
 
+    export interface Column {
+        id: string;
+        text: string;
+    }
+
+    export interface Paginator {
+        pageSize: number;
+        length: number;
+    }
+
+    export interface Row {
+        id: string;
+        cells: string[];
+    }
+
+    export interface Table extends Widget<Table.Data, Table> {
+        data: Table.Data;
+    }
+
+    export namespace Table {
+
+        export interface Data extends WidgetData {
+            columns: Column[];
+            rows: Row[];
+            paginator: Paginator;
+        }
+
+    }
+
     export interface VoidWidgetData extends WidgetData {
     }
 
@@ -149,25 +178,6 @@ export namespace TypeModels {
 
     export interface Value<V> extends WidgetData {
         value: V;
-    }
-
-    export namespace Table {
-
-        export interface Data extends WidgetData {
-            columns: Column[];
-            rows: Row[];
-        }
-
-    }
-
-    export interface Column {
-        id: string;
-        text: string;
-    }
-
-    export interface Row {
-        id: string;
-        cells: string[];
     }
 
     export type Style = "NONE" | "PRIMARY" | "ACCENT" | "WARN";

@@ -37,9 +37,9 @@
 
   <!--[length]="dataSource?.data?.length"-->
   <mat-paginator #paginator
-                 [length]="100"
+                 [length]="getPaginator().length"
                  [pageIndex]="0"
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 20]">
+                 [pageSize]="getPaginator().pageSize"
+                 [pageSizeOptions]="[5, 10, 20]" (click)="onPaginatorClick()">
   </mat-paginator>
 </div>

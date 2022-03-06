@@ -35,17 +35,11 @@ export class DemoService
 
   public getDemoForm(pageNumber?: number, pageSize?: number): Observable<any>
   {
-    let params = new HttpParams();
-    if (pageNumber)
-    {
-      params.set('pageNumber', pageNumber.toString());
-    }
-    if (pageSize)
-    {
-      params.set('pageSize', pageSize.toString());
-    }
-
-    return this.httpClient.get(DemoService.getServiceUrl('/demo'), {params});
+    return this.httpClient.get(DemoService.getServiceUrl('/demo'), {
+      params: new HttpParams()
+        .set('pageNumber', pageNumber !== undefined ? pageNumber.toString() : '')
+        .set('pageSize', pageSize !== undefined ? pageSize.toString() : '')
+    });
   }
 
 

@@ -24,6 +24,7 @@ public class Table extends Widget<Table.Data, Table>
     {
         private final List<Column> columns = new ArrayList<>();
         private final List<Row> rows = new ArrayList<>();
+        private Paginator paginator;
 
         public Data addColumn(Column column)
         {
@@ -34,6 +35,12 @@ public class Table extends Widget<Table.Data, Table>
         public Data addRow(Row row)
         {
             this.rows.add(row);
+            return this;
+        }
+
+        public Data paginator(Paginator paginator)
+        {
+            this.paginator = paginator;
             return this;
         }
     }
