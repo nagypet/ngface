@@ -1,0 +1,64 @@
+.ngface-data-table {
+  width: 100%;
+  margin: 20px auto;
+
+  .size-xsmall{
+    width: 50px;
+  }
+  .size-small{
+    width: 100px;
+  }
+  .size-medium{
+    width: 200px;
+  }
+  .size-large{
+    width: 300px;
+  }
+  .size-xlarge{
+    width: 500px;
+  }
+
+  .align-left {
+    text-align: left;
+  }
+  .align-center {
+    text-align: center;
+  }
+  .align-right {
+    text-align: right;
+  }
+}
+
+table.mat-table {
+  background-color: transparent !important;
+}
+
+table {
+  width: 100%;
+  border: rgba(0, 0, 0, .12) solid 1px;
+  border-radius: 5px;
+  border-collapse: separate;
+}
+
+table tr:last-child td /*To remove the last border*/
+{
+  border-bottom: 0 solid
+}
+
+tr.mat-header-row {
+  height: 30px;
+  background-color: aliceblue;
+}
+
+tr.mat-row, tr.mat-footer-row {
+  height: 36px;
+}
+
+th, td {
+  padding: 0 20px!important;
+}
+
+//th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+th.mat-header-cell {
+  border-right-width: 1px;
+}

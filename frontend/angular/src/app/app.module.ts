@@ -17,10 +17,14 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {DemoForm1Component} from './demo-form1/demo-form1.component';
 import {DateInputComponent} from './ngface/date-input/date-input.component';
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from '@angular/material/core';
-import { DateRangeInputComponent } from './ngface/date-range-input/date-range-input.component';
+import {DateRangeInputComponent} from './ngface/date-range-input/date-range-input.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { SelectComponent } from './ngface/select/select.component';
+import {SelectComponent} from './ngface/select/select.component';
 import {MatSelectModule} from '@angular/material/select';
+import {MatTableModule} from '@angular/material/table';
+import {DataTableComponent} from './ngface/data-table/data-table.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,8 @@ import {MatSelectModule} from '@angular/material/select';
     DemoForm1Component,
     DateInputComponent,
     DateRangeInputComponent,
-    SelectComponent
+    SelectComponent,
+    DataTableComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +53,9 @@ import {MatSelectModule} from '@angular/material/select';
     MatNativeDateModule,
     MatSelectModule,
     MatOptionModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
