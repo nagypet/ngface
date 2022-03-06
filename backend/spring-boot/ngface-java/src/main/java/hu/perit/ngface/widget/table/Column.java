@@ -11,6 +11,7 @@ public class Column
 {
     private final String id;
     private String text;
+    private Boolean sortable = Boolean.FALSE;
 
     // For JSon deserialization
     private Column()
@@ -21,6 +22,12 @@ public class Column
     public Column text(String text)
     {
         this.text = text;
+        return this;
+    }
+
+    public Column sortable(Boolean sortable)
+    {
+        this.sortable = sortable;
         return this;
     }
 }

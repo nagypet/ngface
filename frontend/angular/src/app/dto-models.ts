@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-06 15:01:22.
+// Generated using typescript-generator version 2.17.558 on 2022-03-06 21:18:27.
 
 export namespace TypeModels {
 
@@ -124,6 +124,7 @@ export namespace TypeModels {
     export interface Column {
         id: string;
         text: string;
+        sortable: boolean;
     }
 
     export interface Paginator {
@@ -133,7 +134,7 @@ export namespace TypeModels {
 
     export interface Row {
         id: string;
-        cells: string[];
+        cells: { [index: string]: string };
     }
 
     export interface Table extends Widget<Table.Data, Table> {

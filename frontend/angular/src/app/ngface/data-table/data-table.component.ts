@@ -1,12 +1,21 @@
-import {AfterViewInit, Component, Input, OnChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {DataTableDataSource, DataTableItem} from './data-table-datasource';
+import {DataTableDataSource} from './data-table-datasource';
 import {DemoService} from '../../services/demo.service';
-import {tap} from 'rxjs/operators';
 import {TypeModels} from '../../dto-models';
 import Form = TypeModels.Form;
+import {tap} from 'rxjs/operators';
+import {merge} from 'rxjs';
+
+export interface TableReloadEvent
+{
+  pageIndex: number;
+  pageSize: number;
+  sortColumn: string;
+  sortDirection: string;
+}
 
 @Component({
   selector: 'ngface-data-table',
@@ -21,13 +30,16 @@ export class DataTableComponent implements OnChanges, AfterViewInit
   @Input()
   widgetId: string;
 
+  @Output()
+  tableReloadEvent: EventEmitter<TableReloadEvent> = new EventEmitter();
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<DataTableItem>;
+  @ViewChild(MatTable) table!: MatTable<any>;
   dataSource: DataTableDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns: string[] = ['id', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = [];
 
   constructor(private demoService: DemoService)
   {
@@ -36,20 +48,27 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   ngOnChanges(): void
   {
-    this.dataSource.loadData(0, this.getPaginator().pageSize);
+    this.displayedColumns = [];
+    this.getData().data.columns.forEach(col => this.displayedColumns.push(col.id));
+    this.dataSource.setWidgetData(this.getData());
   }
+
 
   ngAfterViewInit(): void
   {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
 
-    this.paginator.page
+    merge(this.sort.sortChange, this.paginator.page)
       .pipe(
-        tap(() => this.dataSource.loadData(this.paginator.pageIndex, this.paginator.pageSize))
+        tap(() => this.onPaginatorChanged())
       )
       .subscribe();
+  }
+
+  onPaginatorChanged()
+  {
+    let event: TableReloadEvent = {pageIndex: this.paginator.pageIndex, pageSize: this.paginator.pageSize, sortColumn: this.sort.active, sortDirection: this.sort.direction};
+    this.tableReloadEvent.emit(event);
   }
 
   getHeaderText(column: string): string
@@ -58,10 +77,9 @@ export class DataTableComponent implements OnChanges, AfterViewInit
     return headerText ? headerText : column;
   }
 
-  getCellText(row: any, column: string): string
+  getCellText(row: TypeModels.Row, column: string): string
   {
-    //console.log(row, column);
-    return row[column];
+    return row.cells[column];
   }
 
 
@@ -84,16 +102,17 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   getPaginator(): TypeModels.Paginator
   {
-    if (!this.getData()?.data?.paginator)
+    if (!this.getData().data?.paginator)
     {
       return {pageSize: 10, length: 0};
     }
 
-    return this.getData()?.data?.paginator;
+    return this.getData().data?.paginator;
   }
 
-  onPaginatorClick()
+  isColumnSortable(column: string): boolean
   {
-    console.log('onPaginatorClick');
+    let sortable = this.getData().data?.columns.find(i => (i.id === column))?.sortable;
+    return sortable != undefined ? sortable : false;
   }
 }

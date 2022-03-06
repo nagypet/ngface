@@ -23,7 +23,7 @@
       <ngface-select [formGroup]="formGroup" [formData]="formData" [widgetId]="'select2'"></ngface-select>
       <ngface-select [formGroup]="formGroup" [formData]="formData" [widgetId]="'select3'"></ngface-select>
     </div>
-    <ngface-data-table [formData]="formData" [widgetId]="'table'"></ngface-data-table>
+    <ngface-data-table [formData]="formData" [widgetId]="'table'" (tableReloadEvent)="onTableReload($event)"></ngface-data-table>
     <div class="ngface-row">
       <ngface-button [formData]="formData" [widgetId]="'button-ok'" (click)="onOk()"></ngface-button>
       <ngface-button [formData]="formData" [widgetId]="'button-cancel'"></ngface-button>

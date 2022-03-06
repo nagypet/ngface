@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @ToString
@@ -13,7 +13,7 @@ import java.util.List;
 public class Row
 {
     private final String id;
-    protected final List<String> cells = new ArrayList<>();
+    protected final Map<String, String> cells = new LinkedHashMap<>();
 
     // For JSon deserialization
     private Row()
@@ -21,9 +21,9 @@ public class Row
         this.id = null;
     }
 
-    public Row addCell(String cellText)
+    public Row putCell(String colId, String text)
     {
-        this.cells.add(cellText);
+        this.cells.put(colId, text);
         return this;
     }
 }

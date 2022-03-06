@@ -14,7 +14,12 @@ public interface DemoApi
     // getDemoForm()
     //------------------------------------------------------------------------------------------------------------------
     @GetMapping(BASE_URL_DEMO)
-    Form getDemoForm(@RequestParam(required = false) Long pageNumber, @RequestParam(required = false) Long pageSize);
+    Form getDemoForm(
+            @RequestParam(required = false) Long pageNumber,
+            @RequestParam(required = false) Long pageSize,
+            @RequestParam(required = false) String sortColumn,
+            @RequestParam(required = false) String sortDirection
+    );
 
     //------------------------------------------------------------------------------------------------------------------
     // submitDemoForm()

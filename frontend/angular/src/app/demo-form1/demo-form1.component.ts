@@ -2,9 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {DemoService} from '../services/demo.service';
 import {FormBaseComponent} from '../ngface/form-base.component';
 import {TypeModels} from '../dto-models';
+import {TableReloadEvent} from '../ngface/data-table/data-table.component';
 import WidgetData = TypeModels.WidgetData;
-import TextInput = TypeModels.TextInput;
-import {any} from 'codelyzer/util/function';
 
 @Component({
   selector: 'app-demo-form1',
@@ -70,5 +69,15 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
         () => console.log('sumbitted'),
         error => console.log(error));
     }
+  }
+
+
+  onTableReload($event: TableReloadEvent)
+  {
+    this.demoService.getDemoForm($event.pageIndex, $event.pageSize, $event.sortColumn, $event.sortDirection).subscribe(data =>
+    {
+      console.log(data);
+      this.formData = data;
+    });
   }
 }

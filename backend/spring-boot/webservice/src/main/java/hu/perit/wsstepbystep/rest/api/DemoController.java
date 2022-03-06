@@ -29,9 +29,9 @@ public class DemoController implements DemoApi
     // getDemoForm()
     //------------------------------------------------------------------------------------------------------------------
     @Override
-    public Form getDemoForm(Long pageNumber, Long pageSize)
+    public Form getDemoForm(Long pageNumber, Long pageSize, String sortColumn, String sortDirection)
     {
-        log.debug("getDemoForm(pageNumber: {}, pageSize: {})", pageNumber, pageSize);
+        log.debug("getDemoForm(pageNumber: {}, pageSize: {}, sortColumn: {}, sortDirection: {})", pageNumber, pageSize, sortColumn, sortDirection);
 
         return new Form("demo-form")
                 .addWidget(new TextInput("name")
@@ -132,7 +132,7 @@ public class DemoController implements DemoApi
                         .placeholder("Select an option!")
                         .hint("First option is default")
                 )
-                .addWidget(getTable(pageNumber, pageSize))
+                .addWidget(getTable(pageNumber, pageSize, sortColumn, sortDirection))
                 .addWidget(Button.OK.hint("OK button :-)"))
                 .addWidget(Button.CANCEL)
                 .addWidget(Button.DELETE)
@@ -140,23 +140,23 @@ public class DemoController implements DemoApi
     }
 
 
-    private Widget<?, ?> getTable(Long pageNumber, Long pageSize)
+    private Widget<?, ?> getTable(Long pageNumber, Long pageSize, String sortColumn, String sortDirection)
     {
         Table table = new Table("table")
                 .data(new Table.Data()
-                        .addColumn(new Column("id").text("Id"))
-                        .addColumn(new Column("name").text("Name"))
+                        .addColumn(new Column("id").text("Id").sortable(true))
+                        .addColumn(new Column("name").text("Name").sortable(true))
                         .addColumn(new Column("weight").text("Weight"))
                         .addColumn(new Column("symbol").text("Symbol"))
                 );
 
-        for (DemoDataSource.DataRow item: this.demoDataSource.getDemoData(pageNumber, pageSize))
+        for (DemoDataSource.DataRow item: this.demoDataSource.getDemoData(pageNumber, pageSize, sortColumn, sortDirection))
         {
             table.getData().addRow(new Row(item.getId().toString())
-                    .addCell(item.getId().toString())
-                    .addCell(item.getName())
-                    .addCell(item.getWeight().toString())
-                    .addCell(item.getSymbol()));
+                    .putCell("id", item.getId().toString())
+                    .putCell("name", item.getName())
+                    .putCell("weight", item.getWeight().toString())
+                    .putCell("symbol", item.getSymbol()));
         }
 
         table.getData().paginator(new Paginator(10, this.demoDataSource.getLength()));
