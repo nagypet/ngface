@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-06 21:18:27.
+// Generated using typescript-generator version 2.17.558 on 2022-03-06 22:28:28.
 
 export namespace TypeModels {
 
@@ -130,6 +130,7 @@ export namespace TypeModels {
     export interface Paginator {
         pageSize: number;
         length: number;
+        pageSizeOptions: number[];
     }
 
     export interface Row {

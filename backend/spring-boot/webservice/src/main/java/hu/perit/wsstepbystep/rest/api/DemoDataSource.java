@@ -1,6 +1,7 @@
 package hu.perit.wsstepbystep.rest.api;
 
 import hu.perit.spvitamin.spring.json.JsonSerializable;
+import hu.perit.wsstepbystep.config.Constants;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.math.NumberUtils.min;
 
 @Service
 public class DemoDataSource
@@ -72,11 +75,12 @@ public class DemoDataSource
     public List<DataRow> getDemoData(Long pageNumber, Long pageSize, String sortColumn, String sortDirection)
     {
         int pageNumberInt = getIntValueWithDefault(pageNumber, 0);
-        int pageSizeInt = getIntValueWithDefault(pageSize, 10);
+        int pageSizeInt = getIntValueWithDefault(pageSize, Constants.DEFAULT_PAGESIZE);
 
-        int firstIndex = pageNumberInt * pageSizeInt;
+        int fromIndex = pageNumberInt * pageSizeInt;
+        int toIndex = min(this.data.dataRows.size(), fromIndex + pageSizeInt);
 
-        if (firstIndex >= this.data.dataRows.size())
+        if (fromIndex >= this.data.dataRows.size())
         {
             return Collections.emptyList();
         }
@@ -101,11 +105,11 @@ public class DemoDataSource
 
         if (comparator == null)
         {
-            return this.data.dataRows.subList(firstIndex, firstIndex + pageSizeInt);
+            return this.data.dataRows.subList(fromIndex, toIndex);
         }
 
         List<DataRow> sortedList = this.data.dataRows.stream().sorted(comparator).collect(Collectors.toList());
-        return sortedList.subList(firstIndex, firstIndex + pageSizeInt);
+        return sortedList.subList(fromIndex, toIndex);
     }
 
 

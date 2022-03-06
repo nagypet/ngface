@@ -10,12 +10,14 @@ import hu.perit.ngface.widget.table.Column;
 import hu.perit.ngface.widget.table.Paginator;
 import hu.perit.ngface.widget.table.Row;
 import hu.perit.ngface.widget.table.Table;
+import hu.perit.wsstepbystep.config.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Map;
 
 @RestController
@@ -159,7 +161,7 @@ public class DemoController implements DemoApi
                     .putCell("symbol", item.getSymbol()));
         }
 
-        table.getData().paginator(new Paginator(10, this.demoDataSource.getLength()));
+        table.getData().paginator(new Paginator(Constants.DEFAULT_PAGESIZE, this.demoDataSource.getLength(), Arrays.asList(3, 5, 10, 20)));
         return table;
     }
 

@@ -90,7 +90,7 @@ export class DataTableComponent implements OnChanges, AfterViewInit
     {
       return {
         type: 'Table',
-        data: {type: 'TextInput.Data', columns: [], rows: [], paginator: {pageSize: 10, length: 0}},
+        data: {type: 'TextInput.Data', columns: [], rows: [], paginator: {pageSize: 5, length: 0, pageSizeOptions: []}},
         label: 'undefined label',
         enabled: false,
         id: '',
@@ -104,7 +104,7 @@ export class DataTableComponent implements OnChanges, AfterViewInit
   {
     if (!this.getData().data?.paginator)
     {
-      return {pageSize: 10, length: 0};
+      return {pageSize: 5, length: 0, pageSizeOptions: []};
     }
 
     return this.getData().data?.paginator;
