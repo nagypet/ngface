@@ -3,10 +3,10 @@
 
     <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
       <div *ngIf="isColumnSortable(column)">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{getHeaderText(column)}}</th>
+        <th [class]="getThClass(column)" mat-header-cell *matHeaderCellDef mat-sort-header>{{getHeaderText(column)}}</th>
       </div>
       <div *ngIf="!isColumnSortable(column)">
-        <th mat-header-cell *matHeaderCellDef>{{getHeaderText(column)}}</th>
+        <th [class]="getThClass(column)" mat-header-cell *matHeaderCellDef>{{getHeaderText(column)}}</th>
       </div>
       <td mat-cell *matCellDef="let row">{{getCellText(row, column)}}</td>
     </ng-container>

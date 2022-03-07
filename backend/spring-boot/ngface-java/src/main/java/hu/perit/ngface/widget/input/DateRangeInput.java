@@ -3,7 +3,7 @@ package hu.perit.ngface.widget.input;
 import hu.perit.ngface.widget.base.Input;
 import hu.perit.ngface.widget.base.Validator;
 import hu.perit.ngface.widget.base.WidgetData;
-import hu.perit.ngface.widget.exception.ValidatorNotAllowedException;
+import hu.perit.ngface.widget.exception.NgFaceException;
 import hu.perit.ngface.widget.input.validator.Required;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +47,7 @@ public class DateRangeInput extends Input<DateRangeInput.Data, Void, DateRangeIn
 
         if (!getAllowedValidators().contains(validator.getClass()))
         {
-            throw new ValidatorNotAllowedException(String.format("'%s' does not allow validator of type '%s'!", getClass().getSimpleName(), validator.getClass().getSimpleName()));
+            throw new NgFaceException(String.format("'%s' does not allow validator of type '%s'!", getClass().getSimpleName(), validator.getClass().getSimpleName()));
         }
 
         this.validators2.add(validator);

@@ -145,9 +145,9 @@ public class DemoController implements DemoApi
     private Widget<?, ?> getTable(Long pageNumber, Long pageSize, String sortColumn, String sortDirection)
     {
         Table table = new Table("table")
-                .addColumn(new Column("id").text("Id").sortable(true))
-                .addColumn(new Column("name").text("Name").sortable(true))
-                .addColumn(new Column("weight").text("Weight"))
+                .addColumn(new Column("id").text("Id").sortable(true).size(Column.Size.S))
+                .addColumn(new Column("name").text("Name").sortable(true).size(Column.Size.L))
+                .addColumn(new Column("weight").text("Weight").size(Column.Size.S))
                 .addColumn(new Column("symbol").text("Symbol"));
 
         for (DemoDataSource.DataRow item : this.demoDataSource.getDemoData(pageNumber, pageSize, sortColumn, sortDirection))

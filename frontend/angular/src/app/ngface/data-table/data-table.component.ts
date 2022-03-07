@@ -48,8 +48,7 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   ngOnChanges(): void
   {
-    this.displayedColumns = [];
-    this.getData().columns.forEach(col => this.displayedColumns.push(col.id));
+    this.displayedColumns = Object.keys(this.getData().columns)
     this.dataSource.setWidgetData(this.getData());
   }
 
@@ -73,7 +72,7 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   getHeaderText(column: string): string
   {
-    let headerText = this.getData().columns.find(i => (i.id === column))?.text;
+    let headerText = this.getData().columns[column]?.text;
     return headerText ? headerText : column;
   }
 
@@ -90,7 +89,7 @@ export class DataTableComponent implements OnChanges, AfterViewInit
     {
       return {
         type: 'Table',
-        columns: [],
+        columns: {},
         rows: [],
         paginator: {pageSize: 5, length: 0, pageSizeOptions: []},
         data: {type: 'TextInput.Data'},
@@ -115,7 +114,26 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   isColumnSortable(column: string): boolean
   {
-    let sortable = this.getData().columns.find(i => (i.id === column))?.sortable;
+    let sortable = this.getData().columns[column]?.sortable;
     return sortable != undefined ? sortable : false;
+  }
+
+  getThClass(column: string): string | null
+  {
+    switch (this.getData().columns[column].size)
+    {
+      case 'XS':
+        return 'size-xsmall';
+      case 'S':
+        return 'size-small';
+      case 'M':
+        return 'size-medium';
+      case 'L':
+        return 'size-large';
+      case 'XL':
+        return 'size-xlarge';
+    }
+
+    return null;
   }
 }

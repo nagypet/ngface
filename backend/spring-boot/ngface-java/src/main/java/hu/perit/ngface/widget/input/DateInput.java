@@ -2,7 +2,7 @@ package hu.perit.ngface.widget.input;
 
 import hu.perit.ngface.widget.base.Input;
 import hu.perit.ngface.widget.base.Value;
-import hu.perit.ngface.widget.exception.PropertyNotAllowedException;
+import hu.perit.ngface.widget.exception.NgFaceException;
 import hu.perit.ngface.widget.input.validator.Required;
 import lombok.Getter;
 import lombok.ToString;
@@ -38,7 +38,7 @@ public class DateInput extends Input<DateInput.Data, LocalDate, DateInput>
 
     public DateInput placeholder(String placeholder)
     {
-        throw new PropertyNotAllowedException("Placeholder is not allowed on DateInput");
+        throw new NgFaceException("Placeholder is not allowed on DateInput");
     }
 
     @ToString(callSuper = true)

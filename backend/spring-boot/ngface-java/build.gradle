@@ -119,7 +119,8 @@ generateTypeScript {
             'hu.perit.ngface.widget.input.DateTimeInput$Data:DateTimeInput.Data',
             'hu.perit.ngface.widget.input.DateRangeInput$Data:DateRangeInput.Data',
             'hu.perit.ngface.widget.input.Select$Data:Select.Data',
-            'hu.perit.ngface.widget.table.Table$Data:Table.Data'
+            'hu.perit.ngface.widget.table.Table$Data:Table.Data',
+            'hu.perit.ngface.widget.table.Column$Size:Column.Size'
     ]
     outputFile = 'build/dto-models.ts'
     outputFileType = 'implementationFile'
