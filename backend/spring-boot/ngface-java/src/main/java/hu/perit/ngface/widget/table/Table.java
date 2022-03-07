@@ -12,9 +12,31 @@ import java.util.List;
 @ToString(callSuper = true)
 public class Table extends Widget<Table.Data, Table>
 {
+    private final List<Column> columns = new ArrayList<>();
+    private final List<Row> rows = new ArrayList<>();
+    private Paginator paginator;
+
     public Table(String id)
     {
         super(id);
+    }
+
+    public Table addColumn(Column column)
+    {
+        this.columns.add(column);
+        return this;
+    }
+
+    public Table addRow(Row row)
+    {
+        this.rows.add(row);
+        return this;
+    }
+
+    public Table paginator(Paginator paginator)
+    {
+        this.paginator = paginator;
+        return this;
     }
 
 
@@ -22,26 +44,5 @@ public class Table extends Widget<Table.Data, Table>
     @Getter
     public static class Data extends WidgetData
     {
-        private final List<Column> columns = new ArrayList<>();
-        private final List<Row> rows = new ArrayList<>();
-        private Paginator paginator;
-
-        public Data addColumn(Column column)
-        {
-            this.columns.add(column);
-            return this;
-        }
-
-        public Data addRow(Row row)
-        {
-            this.rows.add(row);
-            return this;
-        }
-
-        public Data paginator(Paginator paginator)
-        {
-            this.paginator = paginator;
-            return this;
-        }
     }
 }

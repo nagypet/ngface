@@ -5,9 +5,9 @@ import {MatTable} from '@angular/material/table';
 import {DataTableDataSource} from './data-table-datasource';
 import {DemoService} from '../../services/demo.service';
 import {TypeModels} from '../../dto-models';
-import Form = TypeModels.Form;
 import {tap} from 'rxjs/operators';
 import {merge} from 'rxjs';
+import Form = TypeModels.Form;
 
 export interface TableReloadEvent
 {
@@ -49,7 +49,7 @@ export class DataTableComponent implements OnChanges, AfterViewInit
   ngOnChanges(): void
   {
     this.displayedColumns = [];
-    this.getData().data.columns.forEach(col => this.displayedColumns.push(col.id));
+    this.getData().columns.forEach(col => this.displayedColumns.push(col.id));
     this.dataSource.setWidgetData(this.getData());
   }
 
@@ -73,7 +73,7 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   getHeaderText(column: string): string
   {
-    let headerText = this.getData().data?.columns.find(i => (i.id === column))?.text;
+    let headerText = this.getData().columns.find(i => (i.id === column))?.text;
     return headerText ? headerText : column;
   }
 
@@ -90,7 +90,10 @@ export class DataTableComponent implements OnChanges, AfterViewInit
     {
       return {
         type: 'Table',
-        data: {type: 'TextInput.Data', columns: [], rows: [], paginator: {pageSize: 5, length: 0, pageSizeOptions: []}},
+        columns: [],
+        rows: [],
+        paginator: {pageSize: 5, length: 0, pageSizeOptions: []},
+        data: {type: 'TextInput.Data'},
         label: 'undefined label',
         enabled: false,
         id: '',
@@ -102,17 +105,17 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   getPaginator(): TypeModels.Paginator
   {
-    if (!this.getData().data?.paginator)
+    if (!this.getData().paginator)
     {
       return {pageSize: 5, length: 0, pageSizeOptions: []};
     }
 
-    return this.getData().data?.paginator;
+    return this.getData().paginator;
   }
 
   isColumnSortable(column: string): boolean
   {
-    let sortable = this.getData().data?.columns.find(i => (i.id === column))?.sortable;
+    let sortable = this.getData().columns.find(i => (i.id === column))?.sortable;
     return sortable != undefined ? sortable : false;
   }
 }

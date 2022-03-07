@@ -145,23 +145,21 @@ public class DemoController implements DemoApi
     private Widget<?, ?> getTable(Long pageNumber, Long pageSize, String sortColumn, String sortDirection)
     {
         Table table = new Table("table")
-                .data(new Table.Data()
-                        .addColumn(new Column("id").text("Id").sortable(true))
-                        .addColumn(new Column("name").text("Name").sortable(true))
-                        .addColumn(new Column("weight").text("Weight"))
-                        .addColumn(new Column("symbol").text("Symbol"))
-                );
+                .addColumn(new Column("id").text("Id").sortable(true))
+                .addColumn(new Column("name").text("Name").sortable(true))
+                .addColumn(new Column("weight").text("Weight"))
+                .addColumn(new Column("symbol").text("Symbol"));
 
-        for (DemoDataSource.DataRow item: this.demoDataSource.getDemoData(pageNumber, pageSize, sortColumn, sortDirection))
+        for (DemoDataSource.DataRow item : this.demoDataSource.getDemoData(pageNumber, pageSize, sortColumn, sortDirection))
         {
-            table.getData().addRow(new Row(item.getId().toString())
+            table.addRow(new Row(item.getId().toString())
                     .putCell("id", item.getId().toString())
                     .putCell("name", item.getName())
                     .putCell("weight", item.getWeight().toString())
                     .putCell("symbol", item.getSymbol()));
         }
 
-        table.getData().paginator(new Paginator(Constants.DEFAULT_PAGESIZE, this.demoDataSource.getLength(), Arrays.asList(3, 5, 10, 20)));
+        table.paginator(new Paginator(Constants.DEFAULT_PAGESIZE, this.demoDataSource.getLength(), Arrays.asList(3, 5, 10, 20)));
         return table;
     }
 

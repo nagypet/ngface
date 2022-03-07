@@ -42,7 +42,7 @@ export class DataTableDataSource extends DataSource<TypeModels.Row>
   {
     if (tableData)
     {
-      this.dataSubject.next(tableData.data?.rows);
+      this.dataSubject.next(tableData.rows);
     }
   }
 }
