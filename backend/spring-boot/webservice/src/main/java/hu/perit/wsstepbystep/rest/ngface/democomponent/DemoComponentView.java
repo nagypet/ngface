@@ -1,5 +1,6 @@
 package hu.perit.wsstepbystep.rest.ngface.democomponent;
 
+import hu.perit.ngface.view.ComponentView;
 import hu.perit.ngface.widget.button.Button;
 import hu.perit.ngface.widget.form.Form;
 import hu.perit.ngface.widget.input.*;
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 @RequiredArgsConstructor
-public class DemoComponentView
+public class DemoComponentView implements ComponentView
 {
     public static final String OWNERS_NAME_ID = "name";
     public static final String PLACE_OF_BIRTH_ID = "place-of-birth";
@@ -25,7 +26,7 @@ public class DemoComponentView
 
     private final DemoComponentData data;
 
-    public Form getDemoForm()
+    public Form getForm()
     {
         return new Form("demo-form")
                 .addWidget(new TextInput(OWNERS_NAME_ID)

@@ -25,12 +25,11 @@ public class DemoController implements DemoApi
     @Override
     public Form getDemoForm(Long pageNumber, Long pageSize, String sortColumn, String sortDirection)
     {
-        log.debug("getDemoForm(pageNumber: {}, pageSize: {}, sortColumn: {}, sortDirection: {})", pageNumber, pageSize, sortColumn, sortDirection);
+        DemoComponentDataProviderParams params = new DemoComponentDataProviderParams(pageNumber, pageSize, sortColumn, sortDirection);
+        log.debug("getDemoForm({})", params);
 
-        DemoComponentView view = new DemoComponentView(
-                this.demoComponentDataProvider.getData(
-                        new DemoComponentDataProviderParams(pageNumber, pageSize, sortColumn, sortDirection)));
-        return view.getDemoForm();
+        DemoComponentData data = this.demoComponentDataProvider.getData(params);
+        return new DemoComponentView(data).getForm();
     }
 
 
