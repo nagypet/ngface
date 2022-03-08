@@ -12,8 +12,6 @@ import hu.perit.ngface.widget.table.Table;
 import hu.perit.wsstepbystep.config.Constants;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Arrays;
 
 @RequiredArgsConstructor
@@ -23,6 +21,14 @@ public class DemoComponentView implements ComponentView
     public static final String PLACE_OF_BIRTH_ID = "place-of-birth";
     public static final String EMAIL_ID = "email";
     public static final String ROLE_ID = "role";
+    public static final String AMOUNT_ID = "amount";
+    public static final String COUNT_SAMPLES_ID = "count-samples";
+    public static final String CHECK_IN_DATE_ID = "check-in-date";
+    public static final String CHECK_OUT_DATE_ID = "check-out-date";
+    public static final String DATE_RANGE_ID = "date-range";
+    public static final String SELECT_ID = "select";
+    public static final String SELECT2_ID = "select2";
+    public static final String SELECT3_ID = "select3";
 
     private final DemoComponentData data;
 
@@ -55,40 +61,41 @@ public class DemoComponentView implements ComponentView
                         .hint("Disabled control")
                         .enabled(false)
                 )
-                .addWidget(new NumericInput("amount")
+                .addWidget(new NumericInput(AMOUNT_ID)
                         .label("Amount")
                         .hint("Must be between 0 and 99.999 EUR")
                         .placeholder("Type in the amount")
                         .precision(2)
-                        .value(new BigDecimal("2.123456789"))
+                        .value(this.data.getAmount())
                         .prefix("EUR")
                         .addValidator(new Required("Amount is required!"))
                         .addValidator(new Min(0.01, "The min amount is 0,01 EUR"))
                         .addValidator(new Max(99999.99, "The max amount is 99.999,99 EUR"))
                 )
-                .addWidget(new NumericInput("count-samples")
+                .addWidget(new NumericInput(COUNT_SAMPLES_ID)
                         .label("Count of samples")
                         .hint("Must be between 1-99")
                         .placeholder("Type in the count of samples, you want to print")
                         .precision(0)
-                        .value(new BigDecimal("10"))
+                        .value(this.data.getCountSamples())
                         .suffix("pcs")
                         .addValidator(new Required("Count of samples is required!"))
                         .addValidator(new Min(1.0, "The count have to be between 1 and 99!"))
                         .addValidator(new Max(99.0, "The count have to be between 1 and 99!"))
                 )
-                .addWidget(new DateInput("check-in-date")
+                .addWidget(new DateInput(CHECK_IN_DATE_ID)
+                        .value(this.data.getCheckInDate())
                         .label("Check-in")
-                        .value(LocalDate.now())
                         .hint("DateInput")
                 )
-                .addWidget(new DateInput("check-out-date")
+                .addWidget(new DateInput(CHECK_OUT_DATE_ID)
+                        .value(this.data.getCheckOutDate())
                         .label("Check-out")
                         .hint("DateInput")
                 )
-                .addWidget(new DateRangeInput("date-range")
+                .addWidget(new DateRangeInput(DATE_RANGE_ID)
                         .label("Check-in - Check-out")
-                        .data(new DateRangeInput.Data(LocalDate.now(), LocalDate.now().plusDays(1)))
+                        .data(this.data.getDateRange())
                         .placeholder("Start date")
                         .addValidator(new Required("Start date is required!"))
                         .placeholder2("End date")
@@ -100,32 +107,22 @@ public class DemoComponentView implements ComponentView
                         .hint("DateRangeInput - date-range2")
                         .enabled(false)
                 )
-                .addWidget(new Select("select")
+                .addWidget(new Select(SELECT_ID)
                         .label("Select")
-                        .data(new Select.Data()
-                                .addOption(new Select.Option("id_first", "First option"))
-                                .addOption(new Select.Option("id_second", "Second option"))
-                        )
+                        .data(this.data.getSelectData())
                         .placeholder("Select an option!")
                         .hint("no default, required")
                         .addValidator(new Required("Must select an option!"))
                 )
-                .addWidget(new Select("select2")
+                .addWidget(new Select(SELECT2_ID)
                         .label("Select")
-                        .data(new Select.Data()
-                                .addOption(new Select.Option("id_first", "First option"))
-                                .addOption(new Select.Option("id_second", "Second option"))
-                        )
+                        .data(this.data.getSelect2Data())
                         .placeholder("Select an option!")
                         .hint("no default, not required")
                 )
                 .addWidget(new Select("select3")
                         .label("Select")
-                        .data(new Select.Data()
-                                .addOption(new Select.Option("id_first", "First option"))
-                                .addOption(new Select.Option("id_second", "Second option"))
-                                .selected("id_first")
-                        )
+                        .data(this.data.getSelect3Data())
                         .placeholder("Select an option!")
                         .hint("First option is default")
                 )

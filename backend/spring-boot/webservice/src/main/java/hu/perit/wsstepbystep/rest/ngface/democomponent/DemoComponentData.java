@@ -1,9 +1,12 @@
 package hu.perit.wsstepbystep.rest.ngface.democomponent;
 
-import hu.perit.ngface.widget.input.TextInput;
 import hu.perit.ngface.data.SubmitFormData;
+import hu.perit.ngface.widget.input.DateRangeInput;
+import hu.perit.ngface.widget.input.Select;
 import lombok.Data;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -19,15 +22,31 @@ public class DemoComponentData
     private String placeOfBirth;
     private String email;
     private String role;
+    private BigDecimal amount;
+    private BigDecimal countSamples;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
+    private DateRangeInput.Data dateRange;
+    private Select.Data selectData;
+    private Select.Data select2Data;
+    private Select.Data select3Data;
     private List<DemoTableDataProvider.DataRow> tableRows;
     private int totalTableRowCount;
 
     public void formSubmitted(SubmitFormData submitFormData)
     {
-        this.ownersName = submitFormData.get(DemoComponentView.OWNERS_NAME_ID, TextInput.Data.class).getValue();
-        this.placeOfBirth = submitFormData.get(DemoComponentView.PLACE_OF_BIRTH_ID, TextInput.Data.class).getValue();
-        this.email = submitFormData.get(DemoComponentView.EMAIL_ID, TextInput.Data.class).getValue();
-        this.role = submitFormData.get(DemoComponentView.ROLE_ID, TextInput.Data.class).getValue();
+        this.ownersName = submitFormData.getTextInputValue(DemoComponentView.OWNERS_NAME_ID);
+        this.placeOfBirth = submitFormData.getTextInputValue(DemoComponentView.PLACE_OF_BIRTH_ID);
+        this.email = submitFormData.getTextInputValue(DemoComponentView.EMAIL_ID);
+        this.role = submitFormData.getTextInputValue(DemoComponentView.ROLE_ID);
+        this.amount = submitFormData.getNumericInputValue(DemoComponentView.AMOUNT_ID);
+        this.countSamples = submitFormData.getNumericInputValue(DemoComponentView.COUNT_SAMPLES_ID);
+        this.checkInDate = submitFormData.getDateInputValue(DemoComponentView.CHECK_IN_DATE_ID);
+        this.checkOutDate = submitFormData.getDateInputValue(DemoComponentView.CHECK_OUT_DATE_ID);
+        this.dateRange = submitFormData.get(DemoComponentView.DATE_RANGE_ID, DateRangeInput.Data.class);
+        this.selectData = submitFormData.get(DemoComponentView.SELECT_ID, Select.Data.class);
+        this.select2Data = submitFormData.get(DemoComponentView.SELECT2_ID, Select.Data.class);
+        this.select3Data = submitFormData.get(DemoComponentView.SELECT3_ID, Select.Data.class);
     }
 
 }

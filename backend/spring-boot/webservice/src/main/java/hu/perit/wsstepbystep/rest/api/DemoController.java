@@ -1,9 +1,10 @@
 package hu.perit.wsstepbystep.rest.api;
 
-import hu.perit.ngface.data.ComponentDataProvider;
+import hu.perit.ngface.data.ComponentController;
 import hu.perit.ngface.data.SubmitFormData;
 import hu.perit.ngface.widget.base.WidgetData;
 import hu.perit.ngface.widget.form.Form;
+import hu.perit.wsstepbystep.rest.ngface.democomponent.DemoComponentController;
 import hu.perit.wsstepbystep.rest.ngface.democomponent.DemoComponentData;
 import hu.perit.wsstepbystep.rest.ngface.democomponent.DemoComponentView;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DemoController implements DemoApi
 {
-    private final ComponentDataProvider<DemoComponentData> demoComponentDataProvider;
+    private final ComponentController<DemoComponentController.Params, DemoComponentData> demoComponentController;
 
     //------------------------------------------------------------------------------------------------------------------
     // getDemoForm()
@@ -25,10 +26,10 @@ public class DemoController implements DemoApi
     @Override
     public Form getDemoForm(Long pageNumber, Long pageSize, String sortColumn, String sortDirection)
     {
-        DemoComponentDataProviderParams params = new DemoComponentDataProviderParams(pageNumber, pageSize, sortColumn, sortDirection);
+        DemoComponentController.Params params = new DemoComponentController.Params(pageNumber, pageSize, sortColumn, sortDirection);
         log.debug("getDemoForm({})", params);
 
-        DemoComponentData data = this.demoComponentDataProvider.getData(params);
+        DemoComponentData data = this.demoComponentController.initializeData(params);
         return new DemoComponentView(data).getForm();
     }
 
@@ -48,7 +49,7 @@ public class DemoController implements DemoApi
 
         DemoComponentData data = new DemoComponentData();
         data.formSubmitted(submitFormData);
-        this.demoComponentDataProvider.setData(data);
+        this.demoComponentController.onSave(data);
     }
 
 }

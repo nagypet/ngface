@@ -2,9 +2,14 @@ package hu.perit.ngface.data;
 
 import hu.perit.ngface.widget.base.WidgetData;
 import hu.perit.ngface.widget.exception.NgFaceBadRequestException;
+import hu.perit.ngface.widget.input.DateInput;
+import hu.perit.ngface.widget.input.NumericInput;
+import hu.perit.ngface.widget.input.TextInput;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,6 +31,24 @@ public class SubmitFormData
             throw new NgFaceBadRequestException(String.format("Widget type mismatch! Expected type: %s, actual type %s", dataClass.getSimpleName(), widgetData.getClass().getSimpleName()));
         }
         return (T) widgetData;
+    }
+
+
+    public String getTextInputValue(String id)
+    {
+        return get(id, TextInput.Data.class).getValue();
+    }
+
+
+    public BigDecimal getNumericInputValue(String id)
+    {
+        return get(id, NumericInput.Data.class).getValue();
+    }
+
+
+    public LocalDate getDateInputValue(String id)
+    {
+        return get(id, DateInput.Data.class).getValue();
     }
 
 
