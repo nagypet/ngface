@@ -1,5 +1,6 @@
 package hu.perit.wsstepbystep.rest.api;
 
+import hu.perit.ngface.data.SubmitFormData;
 import hu.perit.ngface.widget.form.Form;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

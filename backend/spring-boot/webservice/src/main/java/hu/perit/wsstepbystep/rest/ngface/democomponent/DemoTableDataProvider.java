@@ -1,4 +1,4 @@
-package hu.perit.wsstepbystep.rest.api;
+package hu.perit.wsstepbystep.rest.ngface.democomponent;
 
 import hu.perit.spvitamin.spring.json.JsonSerializable;
 import hu.perit.wsstepbystep.config.Constants;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.math.NumberUtils.min;
 
 @Service
-public class DemoDataSource
+public class DemoTableDataProvider
 {
     private TableData data;
 
@@ -72,7 +72,7 @@ public class DemoDataSource
     }
 
 
-    public List<DataRow> getDemoData(Long pageNumber, Long pageSize, String sortColumn, String sortDirection)
+    public List<DataRow> getTableRows(Long pageNumber, Long pageSize, String sortColumn, String sortDirection)
     {
         int pageNumberInt = getIntValueWithDefault(pageNumber, 0);
         int pageSizeInt = getIntValueWithDefault(pageSize, Constants.DEFAULT_PAGESIZE);
