@@ -37,7 +37,7 @@ apply plugin: 'cz.habarta.typescript-generator'
 
 
 ext {
-    set('spvitaminVersion', '1.3.9-SNAPSHOT')
+    set('spvitaminVersion', '1.3.9-RELEASE')
 }
 
 sourceCompatibility = 1.8
