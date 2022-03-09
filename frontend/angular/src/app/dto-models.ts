@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-07 07:31:43.
+// Generated using typescript-generator version 2.17.558 on 2022-03-09 06:55:41.
 
 export namespace TypeModels {
 
@@ -137,6 +137,7 @@ export namespace TypeModels {
     export interface Row {
         id: string;
         cells: { [index: string]: string };
+        selected: boolean;
     }
 
     export interface Table extends Widget<Table.Data, Table> {
@@ -144,6 +145,7 @@ export namespace TypeModels {
         columns: { [index: string]: Column };
         rows: Row[];
         paginator: Paginator;
+        selectMode: SelectMode;
     }
 
     export namespace Table {
@@ -190,5 +192,7 @@ export namespace TypeModels {
         export type Size = "XS" | "S" | "M" | "L" | "XL";
 
     }
+
+    export type SelectMode = "NONE" | "SINGLE" | "MULTI";
 
 }

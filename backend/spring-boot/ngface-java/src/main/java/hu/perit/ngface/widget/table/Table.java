@@ -15,9 +15,17 @@ import java.util.Map;
 @ToString(callSuper = true)
 public class Table extends Widget<Table.Data, Table>
 {
+    public enum SelectMode
+    {
+        NONE,
+        SINGLE,
+        MULTI
+    }
+
     private final Map<String, Column> columns = new LinkedHashMap<>();
     private final List<Row> rows = new ArrayList<>();
     private Paginator paginator;
+    private SelectMode selectMode = SelectMode.NONE;
 
     public Table(String id)
     {
@@ -37,7 +45,7 @@ public class Table extends Widget<Table.Data, Table>
 
     public Table addRow(Row row)
     {
-        if (!this.columns.keySet().equals(row.cells.keySet()))
+        if (!this.columns.keySet().equals(row.getCells().keySet()))
         {
             throw new NgFaceException("The 'row' property contains uknkown column ids!");
         }
@@ -52,6 +60,12 @@ public class Table extends Widget<Table.Data, Table>
         return this;
     }
 
+
+    public Table selectMode(SelectMode selectMode)
+    {
+        this.selectMode = selectMode;
+        return this;
+    }
 
     @ToString(callSuper = true)
     @Getter

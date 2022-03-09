@@ -33,6 +33,9 @@ export class DataTableComponent implements OnChanges, AfterViewInit
   @Output()
   tableReloadEvent: EventEmitter<TableReloadEvent> = new EventEmitter();
 
+  @Output()
+  rowClickEvent: EventEmitter<TypeModels.Row> = new EventEmitter();
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<any>;
@@ -96,7 +99,8 @@ export class DataTableComponent implements OnChanges, AfterViewInit
         label: 'undefined label',
         enabled: false,
         id: '',
-        hint: ''
+        hint: '',
+        selectMode: 'NONE'
       };
     }
     return <TypeModels.Table> this.formData.widgets[this.widgetId];
@@ -135,5 +139,44 @@ export class DataTableComponent implements OnChanges, AfterViewInit
     }
 
     return null;
+  }
+
+  getOptionalClasses(): string
+  {
+    switch (this.getData().selectMode)
+    {
+      case 'NONE':
+        return '';
+      case 'SINGLE':
+      case 'MULTI':
+        return 'ngface-data-table-selectable';
+    }
+
+    return '';
+  }
+
+  onRowClick(row: TypeModels.Row)
+  {
+    if (this.getData().selectMode === 'SINGLE')
+    {
+      this.getData().rows.forEach(r => r.selected = false);
+      row.selected = true;
+    }
+    if (this.getData().selectMode === 'MULTI')
+    {
+      row.selected = !row.selected;
+    }
+
+    this.rowClickEvent.emit(row);
+  }
+
+  getRowClasses(row: TypeModels.Row): string
+  {
+    if (row.selected)
+    {
+      return 'ngface-row-selected';
+    }
+
+    return '';
   }
 }

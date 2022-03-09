@@ -1,4 +1,4 @@
-<div class="ngface-data-table">
+<div class="ngface-data-table" [ngClass]="getOptionalClasses()">
   <table mat-table matSort aria-label="Elements">
 
     <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
@@ -37,7 +37,10 @@
     <!--    </ng-container>-->
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        (click)="onRowClick(row)"
+        [ngClass]="getRowClasses(row)"
+    ></tr>
   </table>
 
   <!--[length]="dataSource?.data?.length"-->

@@ -126,7 +126,9 @@ public class DemoComponentView implements ComponentView
                         .placeholder("Select an option!")
                         .hint("First option is default")
                 )
-                .addWidget(getTable())
+                .addWidget(getTable("table", Table.SelectMode.NONE))
+                .addWidget(getTable("table-singleselect", Table.SelectMode.SINGLE))
+                .addWidget(getTable("table-multiselect", Table.SelectMode.MULTI))
                 .addWidget(Button.OK.hint("OK button :-)"))
                 .addWidget(Button.CANCEL)
                 .addWidget(Button.DELETE)
@@ -134,9 +136,9 @@ public class DemoComponentView implements ComponentView
     }
 
 
-    private Table getTable()
+    private Table getTable(String id, Table.SelectMode selectMode)
     {
-        Table table = new Table("table")
+        Table table = new Table(id)
                 .addColumn(new Column("id").text("Id").sortable(true).size(Column.Size.S))
                 .addColumn(new Column("name").text("Name").sortable(true).size(Column.Size.L))
                 .addColumn(new Column("weight").text("Weight").size(Column.Size.S))
@@ -151,7 +153,9 @@ public class DemoComponentView implements ComponentView
                     .putCell("symbol", item.getSymbol()));
         }
 
-        table.paginator(new Paginator(Constants.DEFAULT_PAGESIZE, this.data.getTotalTableRowCount(), Arrays.asList(3, 5, 10, 20)));
+        table
+                .paginator(new Paginator(Constants.DEFAULT_PAGESIZE, this.data.getTotalTableRowCount(), Arrays.asList(3, 5, 10, 20)))
+                .selectMode(selectMode);
         return table;
     }
 }

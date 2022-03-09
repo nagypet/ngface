@@ -2,28 +2,34 @@
   width: 100%;
   margin: 20px auto;
 
-  .size-xsmall{
+  .size-xsmall {
     width: 50px;
   }
-  .size-small{
+
+  .size-small {
     width: 100px;
   }
-  .size-medium{
+
+  .size-medium {
     width: 200px;
   }
-  .size-large{
+
+  .size-large {
     width: 300px;
   }
-  .size-xlarge{
+
+  .size-xlarge {
     width: 500px;
   }
 
   .align-left {
     text-align: left;
   }
+
   .align-center {
     text-align: center;
   }
+
   .align-right {
     text-align: right;
   }
@@ -54,8 +60,28 @@ tr.mat-row, tr.mat-footer-row {
   height: 36px;
 }
 
+.mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+}
+
+// Selectable
+.ngface-data-table-selectable {
+  .mat-row .mat-cell {
+    cursor: pointer;
+  }
+
+  .mat-row:hover .mat-cell {
+    border-color: rgba(0, 0, 0, .12);
+  }
+
+  .ngface-row-selected {
+    background-color: aliceblue;
+  }
+}
+
 th, td {
-  padding: 0 20px!important;
+  padding: 0 20px !important;
 }
 
 //th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
