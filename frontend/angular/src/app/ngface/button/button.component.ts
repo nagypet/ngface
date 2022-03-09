@@ -45,7 +45,7 @@ export class ButtonComponent implements OnInit
 
   onClick()
   {
-    console.log('clicked');
+    console.log('Button clicked');
   }
 
   getClass()

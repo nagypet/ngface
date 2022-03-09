@@ -128,6 +128,7 @@ public class DemoComponentView implements ComponentView
                 )
                 .addWidget(getTable("table", Table.SelectMode.NONE))
                 .addWidget(getTable("table-singleselect", Table.SelectMode.SINGLE))
+                .addWidget(new Button("button-details").label("Details"))
                 .addWidget(getTable("table-multiselect", Table.SelectMode.MULTI))
                 .addWidget(Button.OK.hint("OK button :-)"))
                 .addWidget(Button.CANCEL)

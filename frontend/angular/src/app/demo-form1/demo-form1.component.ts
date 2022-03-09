@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {DemoService} from '../services/demo.service';
 import {FormBaseComponent} from '../ngface/form-base.component';
-import {TypeModels} from '../dto-models';
 import {TableReloadEvent} from '../ngface/data-table/data-table.component';
-import WidgetData = TypeModels.WidgetData;
+import {TypeModels} from '../dto-models';
 
 @Component({
   selector: 'app-demo-form1',
@@ -24,9 +23,29 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     {
       console.log(data);
       this.formData = data;
+      this.enableButtons();
     });
   }
 
+
+  enableButtons()
+  {
+    const button: TypeModels.Button = <TypeModels.Button> this.formData?.widgets['button-details'];
+    button.enabled = false;
+
+    var selectedRow = this.getSelectedRow();
+    if (selectedRow)
+    {
+      button.enabled = true;
+    }
+  }
+
+
+  private getSelectedRow(): TypeModels.Row | undefined
+  {
+    const table: TypeModels.Table = <TypeModels.Table> this.formData?.widgets['table-singleselect'];
+    return table.rows.find(r => r.selected);
+  }
 
   onOk()
   {
@@ -36,33 +55,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
       console.warn('Data is invalid!');
     } else
     {
-      let submitData: {[key: string]: WidgetData} = {};
-      Object.keys(this.formGroup.controls).forEach(controlName =>
-      {
-        let widget = this.formData.widgets[controlName];
-        let widgetType: string = widget?.type;
-        switch (widgetType)
-        {
-          case 'TextInput':
-          case 'NumericInput':
-          case 'DateInput':
-          case 'DateTimeInput':
-            submitData[controlName] = <TypeModels.Value<any>>{type: widgetType + ".Data", value: this.formGroup.controls[controlName]?.value};
-            break;
-
-          case 'DateRangeInput':
-            submitData[controlName] = <TypeModels.DateRangeInput.Data>{type: widgetType + ".Data", startDate: this.formGroup.controls[controlName]?.value?.start, endDate: this.formGroup.controls[controlName]?.value?.end};
-            break;
-
-          case 'Select':
-            let selected = this.formGroup.controls[controlName]?.value;
-            let selectedOption: { [index: string]: string } = {};
-            selectedOption[selected] = widget?.data.options[selected];
-            submitData[controlName] = <TypeModels.Select.Data>{type: widgetType + ".Data", options: selectedOption, selected: selected};
-            break;
-        }
-      });
-
+      const submitData = this.getSubmitData();
       console.log(submitData);
 
       this.demoService.submitDemoForm({widgetDataMap: submitData}).subscribe(
@@ -79,5 +72,20 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
       console.log(data);
       this.formData = data;
     });
+  }
+
+
+  onDetails()
+  {
+    var selectedRow = this.getSelectedRow();
+    if (selectedRow)
+    {
+      console.log(selectedRow);
+    }
+  }
+
+  onSingleSelectTableRowClick()
+  {
+    this.enableButtons();
   }
 }
