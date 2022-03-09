@@ -1,4 +1,4 @@
-package hu.perit.wsstepbystep.rest.ngface.democomponent;
+package hu.perit.wsstepbystep.ngface.democomponent;
 
 import hu.perit.spvitamin.spring.json.JsonSerializable;
 import hu.perit.wsstepbystep.config.Constants;

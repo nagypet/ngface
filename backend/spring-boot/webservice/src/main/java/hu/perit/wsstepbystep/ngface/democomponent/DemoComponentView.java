@@ -1,4 +1,4 @@
-package hu.perit.wsstepbystep.rest.ngface.democomponent;
+package hu.perit.wsstepbystep.ngface.democomponent;
 
 import hu.perit.ngface.view.ComponentView;
 import hu.perit.ngface.widget.button.Button;
