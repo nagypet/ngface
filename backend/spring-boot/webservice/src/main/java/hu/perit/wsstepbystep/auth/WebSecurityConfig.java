@@ -119,7 +119,8 @@ public class WebSecurityConfig
         {
             SimpleHttpSecurityBuilder.newInstance(http) //
                     .scope( //
-                            DemoApi.BASE_URL_DEMO + "/**" //
+                            DemoApi.BASE_URL_DEMO + "/**",
+                            DemoApi.BASE_URL_TABLE_DETAILS + "/**"
                     ) //
                     .permitAll();
 

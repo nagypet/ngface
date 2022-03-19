@@ -22,6 +22,19 @@
   width: 250px;
   margin-right: 20px;
 
+  mat-hint {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+
+/*
+ * mat-form-field styles
+ */
+
+.mat-form-field-appearance-outline {
   .mat-form-field-flex {
     height: 55px;
   }
@@ -30,14 +43,44 @@
     padding-top: 10px;
   }
 
-  mat-hint {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  .mat-form-field-prefix, .mat-form-field-suffix {
+    top: 0 !important;
+    margin-left: 0.2em;
   }
+}
+
+.mat-form-field-appearance-fill {
+  .mat-form-field-prefix, .mat-form-field-suffix {
+    margin-left: 0.2em;
+  }
+}
+
+
+/*
+.mat-form-field-appearance-outline .mat-form-field-flex {
+  height: 55px;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding-top: 10px;
 }
 
 .mat-form-field-appearance-outline .mat-form-field-prefix, .mat-form-field-appearance-outline .mat-form-field-suffix {
   top: 0 !important;
   margin-left: 0.2em;
+}
+ */
+
+/*
+ * ngface modal dialog styles
+ */
+.ngface-modal-dialog-backdrop {
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+}
+
+.mat-dialog-content {
+  border-top: rgba(0, 0, 0, .12) solid 1px;
+  border-bottom: rgba(0, 0, 0, .12) solid 1px;
+  padding-top: 10px!important;
 }

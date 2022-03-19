@@ -1,5 +1,6 @@
 package hu.perit.wsstepbystep.ngface.democomponent;
 
+import hu.perit.spvitamin.core.typehelpers.LongUtils;
 import hu.perit.spvitamin.spring.json.JsonSerializable;
 import hu.perit.wsstepbystep.config.Constants;
 import lombok.Data;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.math.NumberUtils.min;
@@ -18,8 +20,6 @@ import static org.apache.commons.lang3.math.NumberUtils.min;
 @Service
 public class DemoTableDataProvider
 {
-    private TableData data;
-
     @Data
     public static class DataRow
     {
@@ -33,7 +33,6 @@ public class DemoTableDataProvider
     private static class TableData
     {
         private List<DataRow> dataRows;
-
     }
 
     private static final String TABLE_DATA = "{\"dataRows\": [" +
@@ -59,6 +58,8 @@ public class DemoTableDataProvider
             "{\"id\": 20, \"name\": \"Calcium\", \"weight\": 40.078, \"symbol\": \"Ca\"}]}";
 
 
+    private TableData data;
+
     @PostConstruct
     private void init() throws IOException
     {
@@ -69,6 +70,12 @@ public class DemoTableDataProvider
     public int getLength()
     {
         return this.data.dataRows.size();
+    }
+
+
+    public Optional<DataRow> getTableRow(Long id)
+    {
+        return this.data.dataRows.stream().filter(r -> LongUtils.equals(r.id, id)).findFirst();
     }
 
 

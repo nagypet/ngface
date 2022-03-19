@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface DemoApi
 {
     String BASE_URL_DEMO = "/demo";
+    String BASE_URL_TABLE_DETAILS = "/table-details";
 
     //------------------------------------------------------------------------------------------------------------------
     // getDemoForm()
@@ -22,9 +23,26 @@ public interface DemoApi
             @RequestParam(required = false) String sortDirection
     );
 
+
     //------------------------------------------------------------------------------------------------------------------
     // submitDemoForm()
     //------------------------------------------------------------------------------------------------------------------
     @PostMapping(BASE_URL_DEMO)
     void submitDemoForm(@RequestBody SubmitFormData submitFormData);
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // getTableDetailsForm()
+    //------------------------------------------------------------------------------------------------------------------
+    @GetMapping(BASE_URL_TABLE_DETAILS)
+    Form getTableDetailsForm(
+            @RequestParam Long id
+    );
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // submitTableDetailsForm()
+    //------------------------------------------------------------------------------------------------------------------
+    @PostMapping(BASE_URL_TABLE_DETAILS)
+    void submitTableDetailsForm(@RequestBody SubmitFormData submitFormData);
 }

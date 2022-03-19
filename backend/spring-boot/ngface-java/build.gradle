@@ -110,7 +110,8 @@ generateTypeScript {
             'hu.perit.ngface.widget.input.**',
             'hu.perit.ngface.widget.form.**',
             'hu.perit.ngface.widget.button.**',
-            'hu.perit.ngface.widget.table.**'
+            'hu.perit.ngface.widget.table.**',
+            'hu.perit.ngface.data.SubmitFormData'
     ]
     customTypeNaming = [
             'hu.perit.ngface.widget.input.TextInput$Data:TextInput.Data',

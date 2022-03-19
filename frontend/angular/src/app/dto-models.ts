@@ -1,8 +1,13 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-09 06:55:41.
+// Generated using typescript-generator version 2.17.558 on 2022-03-19 11:41:33.
 
 export namespace TypeModels {
+
+    export interface SubmitFormData {
+        id: string;
+        widgetDataMap: { [index: string]: WidgetData };
+    }
 
     export interface Button extends Widget<VoidWidgetData, Button> {
         data: VoidWidgetData;
@@ -11,6 +16,7 @@ export namespace TypeModels {
 
     export interface Form {
         id: string;
+        title: string;
         widgets: { [index: string]: Widget<any, any> };
     }
 
@@ -155,6 +161,10 @@ export namespace TypeModels {
 
     }
 
+    export interface WidgetData {
+        type: string;
+    }
+
     export interface VoidWidgetData extends WidgetData {
     }
 
@@ -170,10 +180,6 @@ export namespace TypeModels {
     export interface Validator<SUB> {
         type: string;
         message: string;
-    }
-
-    export interface WidgetData {
-        type: string;
     }
 
     export interface Input<WD, V, SUB> extends Widget<WD, SUB> {

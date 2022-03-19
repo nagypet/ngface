@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content (keydown.enter)="onOkClick()">
+  <ngface-text-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'symbol'" cdkFocusInitial></ngface-text-input>
+  <ngface-numeric-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'weight'"></ngface-numeric-input>
+</div>
+<div mat-dialog-actions>
+  <ngface-button [formData]="formData" [widgetId]="'button-ok'" (click)="onOkClick()"></ngface-button>
+  <ngface-button [formData]="formData" [widgetId]="'button-cancel'" (click)="onCancelClick()"></ngface-button>
+  <!--
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="getSubmitData()" cdkFocusInitial>Ok</button>
+  -->
+</div>

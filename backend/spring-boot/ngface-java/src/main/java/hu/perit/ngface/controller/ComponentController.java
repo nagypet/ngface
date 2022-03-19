@@ -1,4 +1,4 @@
-package hu.perit.ngface.data;
+package hu.perit.ngface.controller;
 
 /**
  *

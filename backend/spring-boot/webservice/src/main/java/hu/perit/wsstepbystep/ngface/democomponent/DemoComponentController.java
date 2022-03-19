@@ -1,6 +1,6 @@
 package hu.perit.wsstepbystep.ngface.democomponent;
 
-import hu.perit.ngface.data.ComponentController;
+import hu.perit.ngface.controller.ComponentController;
 import hu.perit.ngface.widget.input.DateRangeInput;
 import hu.perit.ngface.widget.input.Select;
 import lombok.Data;

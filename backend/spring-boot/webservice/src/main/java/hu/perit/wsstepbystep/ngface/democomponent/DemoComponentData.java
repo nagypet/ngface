@@ -1,5 +1,6 @@
 package hu.perit.wsstepbystep.ngface.democomponent;
 
+import hu.perit.ngface.data.ComponentData;
 import hu.perit.ngface.data.SubmitFormData;
 import hu.perit.ngface.widget.input.DateRangeInput;
 import hu.perit.ngface.widget.input.Select;
@@ -16,7 +17,7 @@ import java.util.List;
  * @author Peter Nagy
  */
 @Data
-public class DemoComponentData
+public class DemoComponentData implements ComponentData
 {
     private String ownersName;
     private String placeOfBirth;
@@ -33,6 +34,7 @@ public class DemoComponentData
     private List<DemoTableDataProvider.DataRow> tableRows;
     private int totalTableRowCount;
 
+    @Override
     public void formSubmitted(SubmitFormData submitFormData)
     {
         this.ownersName = submitFormData.getTextInputValue(DemoComponentView.OWNERS_NAME_ID);
