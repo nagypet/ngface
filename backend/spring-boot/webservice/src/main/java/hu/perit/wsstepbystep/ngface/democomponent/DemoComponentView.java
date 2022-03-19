@@ -155,7 +155,7 @@ public class DemoComponentView implements ComponentView
                     .putCell("symbol", item.getSymbol())
                     .putCell("actions", new ActionCell(List.of(
                             new Action("edit").label("Edit").icon("edit"),
-                            new Action("delete").label("Delete").icon("delete")
+                            new Action("delete").label("Delete").icon("delete").enabled(false)
                     )))
             );
         }

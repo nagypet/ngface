@@ -28,8 +28,15 @@
 
         <!-- Cell content -->
         <td [class]="getTdClass(column)" mat-cell *matCellDef="let row">{{getCellText(row, column)}}
-          <button *ngFor="let action of getActions(row, column)" mat-icon-button>
-            <mat-icon class="material-icons-outlined ngface-mat-icon" (click)="$event.stopPropagation(); actionClick(row, action.id)" [matTooltip]="action.label" matTooltipPosition="above" matTooltipClass="ngface-tooltip">{{action.icon}}</mat-icon>
+          <button *ngFor="let action of getActions(row, column)" mat-icon-button [disabled]="!action.enabled">
+            <mat-icon class="material-icons-outlined ngface-mat-icon"
+                      [ngClass]="getActionClass(action)"
+                      (click)="$event.stopPropagation(); actionClick(row, action.id)"
+                      [matTooltip]="action.enabled ? action.label : ''"
+                      matTooltipPosition="above"
+                      matTooltipClass="ngface-tooltip">
+              {{action.icon}}
+            </mat-icon>
           </button>
         </td>
       </div>

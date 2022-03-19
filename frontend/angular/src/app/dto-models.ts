@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-19 16:55:53.
+// Generated using typescript-generator version 2.17.558 on 2022-03-19 22:27:45.
 
 export namespace TypeModels {
 
@@ -131,6 +131,7 @@ export namespace TypeModels {
         id: string;
         label: string;
         icon: string;
+        enabled: boolean;
     }
 
     export interface Column {

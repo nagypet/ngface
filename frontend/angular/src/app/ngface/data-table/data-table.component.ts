@@ -260,4 +260,14 @@ export class DataTableComponent implements OnChanges, AfterViewInit
     }
     return null;
   }
+
+  getActionClass(action: TypeModels.Action): string
+  {
+    if (action.enabled)
+    {
+      return 'ngface-mat-icon-enabled';
+    }
+
+    return 'ngface-mat-icon-disabled';
+  }
 }
