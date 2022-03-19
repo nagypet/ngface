@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-19 11:41:33.
+// Generated using typescript-generator version 2.17.558 on 2022-03-19 13:54:17.
 
 export namespace TypeModels {
 
@@ -132,6 +132,7 @@ export namespace TypeModels {
         text: string;
         sortable: boolean;
         size: Column.Size;
+        textAlign: TextAlign;
     }
 
     export interface Paginator {
@@ -195,9 +196,11 @@ export namespace TypeModels {
 
     export namespace Column {
 
-        export type Size = "XS" | "S" | "M" | "L" | "XL";
+        export type Size = "AUTO" | "XS" | "S" | "M" | "L" | "XL";
 
     }
+
+    export type TextAlign = "LEFT" | "CENTER" | "RIGHT";
 
     export type SelectMode = "NONE" | "SINGLE" | "MULTI";
 

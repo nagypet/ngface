@@ -141,6 +141,21 @@ export class DataTableComponent implements OnChanges, AfterViewInit
     return null;
   }
 
+  getTdClass(column: string): string | null
+  {
+    switch (this.getData().columns[column].textAlign)
+    {
+      case 'LEFT':
+        return 'align-left';
+      case 'CENTER':
+        return 'align-center';
+      case 'RIGHT':
+        return 'align-right';
+    }
+
+    return null;
+  }
+
   getOptionalClasses(): string
   {
     switch (this.getData().selectMode)
@@ -179,4 +194,5 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
     return '';
   }
+
 }

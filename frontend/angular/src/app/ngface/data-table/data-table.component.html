@@ -8,33 +8,8 @@
       <div *ngIf="!isColumnSortable(column)">
         <th [class]="getThClass(column)" mat-header-cell *matHeaderCellDef>{{getHeaderText(column)}}</th>
       </div>
-      <td mat-cell *matCellDef="let row">{{getCellText(row, column)}}</td>
+      <td [class]="getTdClass(column)" mat-cell *matCellDef="let row">{{getCellText(row, column)}}</td>
     </ng-container>
-
-
-    <!--    &lt;!&ndash; Id Column &ndash;&gt;-->
-    <!--    <ng-container matColumnDef="id">-->
-    <!--      <th class="size-small" mat-header-cell *matHeaderCellDef mat-sort-header>Id (S)</th>-->
-    <!--      <td class="align-center" mat-cell *matCellDef="let row">{{row.id}}</td>-->
-    <!--    </ng-container>-->
-
-    <!--    &lt;!&ndash; Name Column &ndash;&gt;-->
-    <!--    <ng-container matColumnDef="name">-->
-    <!--      <th class="size-large" mat-header-cell *matHeaderCellDef mat-sort-header>Name (L)</th>-->
-    <!--      <td mat-cell *matCellDef="let element">{{element.name}}</td>-->
-    <!--    </ng-container>-->
-
-    <!--    &lt;!&ndash; Weight Column &ndash;&gt;-->
-    <!--    <ng-container matColumnDef="weight">-->
-    <!--      <th class="size-small" mat-header-cell *matHeaderCellDef>Weight (S)</th>-->
-    <!--      <td class="align-right" mat-cell *matCellDef="let element">{{element.weight}}</td>-->
-    <!--    </ng-container>-->
-
-    <!--    &lt;!&ndash; Symbol Column &ndash;&gt;-->
-    <!--    <ng-container matColumnDef="symbol">-->
-    <!--      <th mat-header-cell *matHeaderCellDef>Symbol</th>-->
-    <!--      <td mat-cell *matCellDef="let element">{{element.symbol}}</td>-->
-    <!--    </ng-container>-->
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"

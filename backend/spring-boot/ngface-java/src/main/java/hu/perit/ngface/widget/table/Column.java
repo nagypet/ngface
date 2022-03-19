@@ -11,6 +11,7 @@ public class Column
 {
     public enum Size
     {
+        AUTO,
         XS,
         S,
         M,
@@ -18,10 +19,18 @@ public class Column
         XL
     }
 
+    public enum TextAlign
+    {
+        LEFT,
+        CENTER,
+        RIGHT
+    }
+
     private final String id;
     private String text;
     private Boolean sortable = Boolean.FALSE;
-    private Size size;
+    private Size size = Size.AUTO;
+    private TextAlign textAlign = TextAlign.LEFT;
 
     // For JSon deserialization
     private Column()
@@ -44,6 +53,12 @@ public class Column
     public Column size(Size size)
     {
         this.size = size;
+        return this;
+    }
+
+    public Column textAlign(TextAlign textAlign)
+    {
+        this.textAlign = textAlign;
         return this;
     }
 }

@@ -142,7 +142,7 @@ public class DemoComponentView implements ComponentView
         Table table = new Table(id)
                 .addColumn(new Column("id").text("Id").sortable(true).size(Column.Size.S))
                 .addColumn(new Column("name").text("Name").sortable(true).size(Column.Size.L))
-                .addColumn(new Column("weight").text("Weight").size(Column.Size.S))
+                .addColumn(new Column("weight").text("Weight").size(Column.Size.S).textAlign(Column.TextAlign.RIGHT))
                 .addColumn(new Column("symbol").text("Symbol"));
 
         for (DemoTableDataProvider.DataRow item : this.data.getTableRows())
@@ -150,7 +150,7 @@ public class DemoComponentView implements ComponentView
             table.addRow(new Row(item.getId().toString())
                     .putCell("id", item.getId().toString())
                     .putCell("name", item.getName())
-                    .putCell("weight", item.getWeight().toString())
+                    .putCell("weight", String.format("%.2f", item.getWeight()))
                     .putCell("symbol", item.getSymbol()));
         }
 
