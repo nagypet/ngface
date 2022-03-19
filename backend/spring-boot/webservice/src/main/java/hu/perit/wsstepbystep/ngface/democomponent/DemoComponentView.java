@@ -129,7 +129,7 @@ public class DemoComponentView implements ComponentView
                 .addWidget(getTable("table", Table.SelectMode.NONE))
                 .addWidget(getTable("table-singleselect", Table.SelectMode.SINGLE))
                 .addWidget(new Button("button-details").label("Details"))
-                .addWidget(getTable("table-multiselect", Table.SelectMode.MULTI))
+                .addWidget(getTable("table-multiselect", Table.SelectMode.CHECKBOX))
                 .addWidget(Button.OK.hint("OK button :-)"))
                 .addWidget(Button.CANCEL)
                 .addWidget(Button.DELETE)
@@ -150,7 +150,7 @@ public class DemoComponentView implements ComponentView
             table.addRow(new Row(item.getId().toString())
                     .putCell("id", item.getId().toString())
                     .putCell("name", item.getName())
-                    .putCell("weight", String.format("%.2f", item.getWeight()))
+                    .putCell("weight", String.valueOf(item.getWeight()))
                     .putCell("symbol", item.getSymbol()));
         }
 

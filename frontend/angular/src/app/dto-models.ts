@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-19 13:54:17.
+// Generated using typescript-generator version 2.17.558 on 2022-03-19 15:38:27.
 
 export namespace TypeModels {
 
@@ -202,6 +202,6 @@ export namespace TypeModels {
 
     export type TextAlign = "LEFT" | "CENTER" | "RIGHT";
 
-    export type SelectMode = "NONE" | "SINGLE" | "MULTI";
+    export type SelectMode = "NONE" | "SINGLE" | "MULTI" | "CHECKBOX";
 
 }

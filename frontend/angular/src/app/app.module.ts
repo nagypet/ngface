@@ -27,6 +27,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import { DemoDialog1Component } from './demo-dialog1/demo-dialog1.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatSortModule,
     FormsModule,
     MatDialogModule,
+    MatCheckboxModule,
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},

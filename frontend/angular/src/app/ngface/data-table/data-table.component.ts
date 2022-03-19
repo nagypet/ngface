@@ -8,6 +8,7 @@ import {TypeModels} from '../../dto-models';
 import {tap} from 'rxjs/operators';
 import {merge} from 'rxjs';
 import Form = TypeModels.Form;
+import {MatCheckboxChange} from '@angular/material/checkbox';
 
 export interface TableReloadEvent
 {
@@ -42,7 +43,7 @@ export class DataTableComponent implements OnChanges, AfterViewInit
   dataSource: DataTableDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns: string[] = [];
+  displayedColumns: string[];
 
   constructor(private demoService: DemoService)
   {
@@ -51,7 +52,12 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   ngOnChanges(): void
   {
-    this.displayedColumns = Object.keys(this.getData().columns)
+    this.displayedColumns = [];
+    if (this.getData().selectMode === 'CHECKBOX')
+    {
+      this.displayedColumns = ['___checkbox-column___'];
+    }
+    Object.keys(this.getData().columns).forEach(c => this.displayedColumns.push(c));
     this.dataSource.setWidgetData(this.getData());
   }
 
@@ -124,7 +130,12 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   getThClass(column: string): string | null
   {
-    switch (this.getData().columns[column].size)
+    if (column === '___checkbox-column___')
+    {
+      return 'size-xsmall';
+    }
+
+    switch (this.getData().columns[column]?.size)
     {
       case 'XS':
         return 'size-xsmall';
@@ -143,7 +154,7 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   getTdClass(column: string): string | null
   {
-    switch (this.getData().columns[column].textAlign)
+    switch (this.getData().columns[column]?.textAlign)
     {
       case 'LEFT':
         return 'align-left';
@@ -164,6 +175,7 @@ export class DataTableComponent implements OnChanges, AfterViewInit
         return '';
       case 'SINGLE':
       case 'MULTI':
+      case 'CHECKBOX':
         return 'ngface-data-table-selectable';
     }
 
@@ -177,7 +189,7 @@ export class DataTableComponent implements OnChanges, AfterViewInit
       this.getData().rows.forEach(r => r.selected = false);
       row.selected = true;
     }
-    if (this.getData().selectMode === 'MULTI')
+    if (this.getData().selectMode === 'MULTI' || this.getData().selectMode === 'CHECKBOX')
     {
       row.selected = !row.selected;
     }
@@ -195,4 +207,23 @@ export class DataTableComponent implements OnChanges, AfterViewInit
     return '';
   }
 
+  masterToggle($event: MatCheckboxChange)
+  {
+    this.getData().rows.forEach(r => r.selected = $event.checked);
+  }
+
+  isChecked(row: TypeModels.Row): boolean
+  {
+    return row.selected;
+  }
+
+  isAnySelected(): boolean
+  {
+    return !!this.getData().rows.find(r => !!r.selected);
+  }
+
+  isAllSelected()
+  {
+    return this.getData().rows.filter(r => !r.selected).length === 0;
+  }
 }

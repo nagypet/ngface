@@ -19,7 +19,8 @@ public class Table extends Widget<Table.Data, Table>
     {
         NONE,
         SINGLE,
-        MULTI
+        MULTI,
+        CHECKBOX
     }
 
     private final Map<String, Column> columns = new LinkedHashMap<>();
