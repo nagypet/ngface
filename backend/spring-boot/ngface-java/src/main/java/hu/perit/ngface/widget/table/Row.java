@@ -1,5 +1,7 @@
 package hu.perit.ngface.widget.table;
 
+import hu.perit.ngface.widget.table.cell.Cell;
+import hu.perit.ngface.widget.table.cell.TextCell;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -14,7 +16,7 @@ import java.util.Map;
 public class Row
 {
     private final String id;
-    private final Map<String, String> cells = new LinkedHashMap<>();
+    private final Map<String, Cell<?>> cells = new LinkedHashMap<>();
     private boolean selected;
 
     // For JSon deserialization
@@ -25,7 +27,13 @@ public class Row
 
     public Row putCell(String colId, String text)
     {
-        this.cells.put(colId, text);
+        this.cells.put(colId, new TextCell(text));
+        return this;
+    }
+
+    public Row putCell(String colId, Cell<?> cell)
+    {
+        this.cells.put(colId, cell);
         return this;
     }
 

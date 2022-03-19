@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DemoService} from '../services/demo.service';
 import {FormBaseComponent} from '../ngface/form-base.component';
-import {TableReloadEvent} from '../ngface/data-table/data-table.component';
+import {ActionClickEvent, TableReloadEvent} from '../ngface/data-table/data-table.component';
 import {TypeModels} from '../dto-models';
 import {MatDialog} from '@angular/material/dialog';
 import {DemoDialog1Component} from '../demo-dialog1/demo-dialog1.component';
@@ -80,39 +80,52 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
 
   onDetails()
   {
-    let selectedRow = this.getSingleSelectTableSelectedRow();
-    if (selectedRow)
-    {
-      console.log(selectedRow);
-      this.demoService.getTableDetailsForm(selectedRow.id).subscribe(dialogData =>
-      {
-        console.log(dialogData);
-        const dialogRef = this.dialog.open(DemoDialog1Component, {
-          width: '590px',
-          data: dialogData,
-          backdropClass: 'ngface-modal-dialog-backdrop'
-        });
-
-        dialogRef.afterClosed().subscribe(result =>
-        {
-          console.log(result);
-          if (result)
-          {
-            this.demoService.submitTableDetailsForm({id: selectedRow!.id, widgetDataMap: result}).subscribe(
-              () => console.log('sumbitted'),
-              error => console.log(error));
-
-            // reload table content
-            selectedRow!.cells['symbol'] = result['symbol'].value;
-            selectedRow!.cells['weight'] = result['weight'].value;
-          }
-        });
-      });
-    }
+    this.doEditAction(this.getSingleSelectTableSelectedRow());
   }
 
   onSingleSelectTableRowClick()
   {
     this.enableButtons();
+  }
+
+  onActionClick($event: ActionClickEvent)
+  {
+    if ($event.actionId === 'edit')
+    {
+      this.doEditAction($event.row);
+    }
+  }
+
+  private doEditAction(row: TypeModels.Row | undefined)
+  {
+    if (!row)
+    {
+      return;
+    }
+
+    this.demoService.getTableDetailsForm(row.id).subscribe(dialogData =>
+    {
+      console.log(dialogData);
+      const dialogRef = this.dialog.open(DemoDialog1Component, {
+        width: '590px',
+        data: dialogData,
+        backdropClass: 'ngface-modal-dialog-backdrop'
+      });
+
+      dialogRef.afterClosed().subscribe(result =>
+      {
+        console.log(result);
+        if (result)
+        {
+          this.demoService.submitTableDetailsForm({id: row.id, widgetDataMap: result}).subscribe(
+            () => console.log('sumbitted'),
+            error => console.log(error));
+
+          // reload table content
+          row.cells['symbol'].value = result['symbol'].value;
+          row.cells['weight'].value = result['weight'].value;
+        }
+      });
+    });
   }
 }

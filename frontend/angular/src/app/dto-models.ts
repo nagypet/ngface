@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-19 15:38:27.
+// Generated using typescript-generator version 2.17.558 on 2022-03-19 16:55:53.
 
 export namespace TypeModels {
 
@@ -127,6 +127,12 @@ export namespace TypeModels {
         max: number;
     }
 
+    export interface Action {
+        id: string;
+        label: string;
+        icon: string;
+    }
+
     export interface Column {
         id: string;
         text: string;
@@ -143,7 +149,7 @@ export namespace TypeModels {
 
     export interface Row {
         id: string;
-        cells: { [index: string]: string };
+        cells: { [index: string]: Cell<any> };
         selected: boolean;
     }
 
@@ -160,6 +166,19 @@ export namespace TypeModels {
         export interface Data extends WidgetData {
         }
 
+    }
+
+    export interface ActionCell extends Cell<Action[]> {
+        value: Action[];
+    }
+
+    export interface Cell<V> {
+        type: string;
+        value: V;
+    }
+
+    export interface TextCell extends Cell<string> {
+        value: string;
     }
 
     export interface WidgetData {

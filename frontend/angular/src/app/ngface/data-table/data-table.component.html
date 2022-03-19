@@ -18,13 +18,20 @@
       </div>
 
       <div *ngIf="column !== '___checkbox-column___'">
+        <!-- Header text -->
         <div *ngIf="isColumnSortable(column)">
           <th [class]="getThClass(column)" mat-header-cell *matHeaderCellDef mat-sort-header>{{getHeaderText(column)}}</th>
         </div>
         <div *ngIf="!isColumnSortable(column)">
           <th [class]="getThClass(column)" mat-header-cell *matHeaderCellDef>{{getHeaderText(column)}}</th>
         </div>
-        <td [class]="getTdClass(column)" mat-cell *matCellDef="let row">{{getCellText(row, column)}}</td>
+
+        <!-- Cell content -->
+        <td [class]="getTdClass(column)" mat-cell *matCellDef="let row">{{getCellText(row, column)}}
+          <button *ngFor="let action of getActions(row, column)" mat-icon-button>
+            <mat-icon class="material-icons-outlined ngface-mat-icon" (click)="$event.stopPropagation(); actionClick(row, action.id)" [matTooltip]="action.label" matTooltipPosition="above" matTooltipClass="ngface-tooltip">{{action.icon}}</mat-icon>
+          </button>
+        </td>
       </div>
 
     </ng-container>

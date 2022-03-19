@@ -9,6 +9,7 @@ import {tap} from 'rxjs/operators';
 import {merge} from 'rxjs';
 import Form = TypeModels.Form;
 import {MatCheckboxChange} from '@angular/material/checkbox';
+import ActionCell = TypeModels.ActionCell;
 
 export interface TableReloadEvent
 {
@@ -16,6 +17,12 @@ export interface TableReloadEvent
   pageSize: number;
   sortColumn: string;
   sortDirection: string;
+}
+
+export interface ActionClickEvent
+{
+  row: TypeModels.Row;
+  actionId: string;
 }
 
 @Component({
@@ -36,6 +43,9 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   @Output()
   rowClickEvent: EventEmitter<TypeModels.Row> = new EventEmitter();
+
+  @Output()
+  actionClickEvent: EventEmitter<ActionClickEvent> = new EventEmitter();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -75,7 +85,12 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   onPaginatorChanged()
   {
-    let event: TableReloadEvent = {pageIndex: this.paginator.pageIndex, pageSize: this.paginator.pageSize, sortColumn: this.sort.active, sortDirection: this.sort.direction};
+    let event: TableReloadEvent = {
+      pageIndex: this.paginator.pageIndex,
+      pageSize: this.paginator.pageSize,
+      sortColumn: this.sort.active,
+      sortDirection: this.sort.direction
+    };
     this.tableReloadEvent.emit(event);
   }
 
@@ -87,7 +102,12 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   getCellText(row: TypeModels.Row, column: string): string
   {
-    return row.cells[column];
+    let cell = row.cells[column];
+    if (cell.type === 'TextCell')
+    {
+      return cell.value;
+    }
+    return '';
   }
 
 
@@ -225,5 +245,19 @@ export class DataTableComponent implements OnChanges, AfterViewInit
   isAllSelected()
   {
     return this.getData().rows.filter(r => !r.selected).length === 0;
+  }
+
+  actionClick(row: TypeModels.Row, actionId: string)
+  {
+    this.actionClickEvent.emit({row: row, actionId: actionId});
+  }
+
+  getActions(row: TypeModels.Row, column: string): TypeModels.Action[] | null
+  {
+    if (row.cells[column].type === 'ActionCell')
+    {
+      return (<ActionCell> row.cells[column]).value;
+    }
+    return null;
   }
 }

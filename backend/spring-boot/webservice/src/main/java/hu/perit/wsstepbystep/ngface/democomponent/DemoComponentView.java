@@ -5,14 +5,14 @@ import hu.perit.ngface.widget.button.Button;
 import hu.perit.ngface.widget.form.Form;
 import hu.perit.ngface.widget.input.*;
 import hu.perit.ngface.widget.input.validator.*;
-import hu.perit.ngface.widget.table.Column;
-import hu.perit.ngface.widget.table.Paginator;
-import hu.perit.ngface.widget.table.Row;
-import hu.perit.ngface.widget.table.Table;
+import hu.perit.ngface.widget.table.*;
+import hu.perit.ngface.widget.table.cell.ActionCell;
+import hu.perit.ngface.widget.table.cell.TextCell;
 import hu.perit.wsstepbystep.config.Constants;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class DemoComponentView implements ComponentView
@@ -143,7 +143,8 @@ public class DemoComponentView implements ComponentView
                 .addColumn(new Column("id").text("Id").sortable(true).size(Column.Size.S))
                 .addColumn(new Column("name").text("Name").sortable(true).size(Column.Size.L))
                 .addColumn(new Column("weight").text("Weight").size(Column.Size.S).textAlign(Column.TextAlign.RIGHT))
-                .addColumn(new Column("symbol").text("Symbol"));
+                .addColumn(new Column("symbol").text("Symbol").size(Column.Size.S))
+                .addColumn(new Column("actions").text("Actions"));
 
         for (DemoTableDataProvider.DataRow item : this.data.getTableRows())
         {
@@ -151,7 +152,12 @@ public class DemoComponentView implements ComponentView
                     .putCell("id", item.getId().toString())
                     .putCell("name", item.getName())
                     .putCell("weight", String.valueOf(item.getWeight()))
-                    .putCell("symbol", item.getSymbol()));
+                    .putCell("symbol", item.getSymbol())
+                    .putCell("actions", new ActionCell(List.of(
+                            new Action("edit").label("Edit").icon("edit"),
+                            new Action("delete").label("Delete").icon("delete")
+                    )))
+            );
         }
 
         table
