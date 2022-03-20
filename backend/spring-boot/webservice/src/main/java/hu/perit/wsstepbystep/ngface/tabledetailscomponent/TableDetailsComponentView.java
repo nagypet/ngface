@@ -25,7 +25,7 @@ public class TableDetailsComponentView implements ComponentView
                 .title(String.format("Details of %s", this.data.getName()))
                 .addWidget(new TextInput(SYMBOL).value(this.data.getSymbol()).label("Symbol").addValidator(new Required("Symbol is required!")))
                 .addWidget(new NumericInput(WEIGHT).value(BigDecimal.valueOf(this.data.getWeight())).label("Weight").suffix("g").addValidator(new Required("Weight is required!")))
-                .addWidget(Button.OK)
+                .addWidget(Button.SAVE)
                 .addWidget(Button.CANCEL)
                 ;
     }
