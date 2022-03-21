@@ -1,5 +1,6 @@
 <div class="ngface-data-table" [ngClass]="getOptionalClasses()">
-  <table mat-table matSort aria-label="Elements">
+  <label *ngIf="getData().label">{{getData().label}}</label>
+  <table mat-table matSort>
 
     <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
 

@@ -1,3 +1,8 @@
+# ngface
+
+Key concepts:
+- MVC pattern
+
 # Open issues
 
 - NumericInputnál csak a megadott számú tizedes jegyet lehessen beírni
