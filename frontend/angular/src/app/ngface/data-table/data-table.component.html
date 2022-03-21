@@ -34,8 +34,7 @@
                       [ngClass]="getActionClass(action)"
                       (click)="$event.stopPropagation(); actionClick(row, action.id)"
                       [matTooltip]="action.enabled ? action.label : ''"
-                      matTooltipPosition="above"
-                      matTooltipClass="ngface-tooltip">
+                      matTooltipPosition="above">
               {{action.icon}}
             </mat-icon>
           </button>
