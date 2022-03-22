@@ -26,7 +26,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     {
       console.log(data);
       this.formData = data;
-      this.enableButtons();
+      //this.enableButtons();
     });
   }
 

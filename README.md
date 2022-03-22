@@ -1,5 +1,6 @@
 # ngface
 
+![](docs/screenshot.jpg)
 Key concepts:
 - MVC pattern
 
