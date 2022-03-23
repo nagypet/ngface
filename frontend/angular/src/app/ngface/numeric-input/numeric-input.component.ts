@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {TypeModels} from '../../dto-models';
 import {InputBaseComponent} from '../input-base.component';
 import NumericInput = TypeModels.NumericInput;
@@ -29,6 +29,15 @@ export class NumericInputComponent extends InputBaseComponent
   constructor()
   {
     super();
+  }
+
+  onChange()
+  {
+    let formattedValue = this.getFormattedValueAsText(this.formControl.value);
+    if (this.formControl.value != formattedValue)
+    {
+      this.formControl.setValue(formattedValue);
+    }
   }
 
   getData(): NumericInput
@@ -53,8 +62,18 @@ export class NumericInputComponent extends InputBaseComponent
     return <NumericInput> this.formData.widgets[this.widgetId];
   }
 
-  getValue(): string | undefined
+  getValue(): string
   {
-    return this.getData()?.data?.value?.toFixed(this.getData()?.precision);
+    return this.getFormattedValueAsText(this.getData()?.data?.value);
+  }
+
+  getFormattedValueAsText(value: number): string
+  {
+    return Number(value).toFixed(this.getData()?.precision);
+  }
+
+  onFocusOut()
+  {
+    this.formControl.setValue(this.getFormattedValueAsText(this.formControl.value));
   }
 }

@@ -16,6 +16,7 @@
 
 package hu.perit.ngface.widget.input;
 
+import hu.perit.ngface.formating.NumericFormat;
 import hu.perit.ngface.widget.base.Input;
 import hu.perit.ngface.widget.base.Value;
 import hu.perit.ngface.widget.input.validator.Max;
@@ -74,6 +75,15 @@ public class NumericInput extends Input<NumericInput.Data, BigDecimal, NumericIn
         this.suffix = suffix;
         return this;
     }
+
+    public NumericInput format(NumericFormat format)
+    {
+        this.precision = format.getPrecision();
+        this.suffix = format.getSuffix();
+        this.prefix = format.getPrefix();
+        return this;
+    }
+
 
     @ToString(callSuper = true)
     @Getter

@@ -16,6 +16,7 @@
 
 package hu.perit.wsstepbystep.ngface.democomponent;
 
+import hu.perit.ngface.formating.FormatCurrency;
 import hu.perit.ngface.view.ComponentView;
 import hu.perit.ngface.widget.button.Button;
 import hu.perit.ngface.widget.form.Form;
@@ -39,6 +40,7 @@ public class DemoComponentView implements ComponentView
     public static final String ROLE_ID = "role";
     public static final String AMOUNT_ID = "amount";
     public static final String COUNT_SAMPLES_ID = "count-samples";
+    public static final String ACCOUNT_NO = "account-no";
     public static final String CHECK_IN_DATE_ID = "check-in-date";
     public static final String CHECK_OUT_DATE_ID = "check-out-date";
     public static final String DATE_RANGE_ID = "date-range";
@@ -79,11 +81,10 @@ public class DemoComponentView implements ComponentView
                 )
                 .addWidget(new NumericInput(AMOUNT_ID)
                         .label("Amount")
-                        .hint("Must be between 0 and 99.999 EUR")
+                        .hint("Must be between 0 and 99.999,99 EUR")
                         .placeholder("Type in the amount")
-                        .precision(2)
+                        .format(FormatCurrency.EUR)
                         .value(this.data.getAmount())
-                        .prefix("EUR")
                         .addValidator(new Required("Amount is required!"))
                         .addValidator(new Min(0.01, "The min amount is 0,01 EUR"))
                         .addValidator(new Max(99999.99, "The max amount is 99.999,99 EUR"))
@@ -98,6 +99,11 @@ public class DemoComponentView implements ComponentView
                         .addValidator(new Required("Count of samples is required!"))
                         .addValidator(new Min(1.0, "The count have to be between 1 and 99!"))
                         .addValidator(new Max(99.0, "The count have to be between 1 and 99!"))
+                )
+                .addWidget(new TextInput(ACCOUNT_NO)
+                        .label("Account number")
+                        //.value("alma")
+                        .placeholder("00000000-00000000-00000000")
                 )
                 .addWidget(new DateInput(CHECK_IN_DATE_ID)
                         .value(this.data.getCheckInDate())

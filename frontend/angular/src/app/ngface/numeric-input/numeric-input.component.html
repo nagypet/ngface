@@ -20,6 +20,8 @@
          [placeholder]="getData().placeholder !== null ? getData().placeholder : ''"
          [required]="isRequired()"
          [errorStateMatcher]="errorStateMatcher"
+         (ngModelChange)="onChange()"
+         (focusout)="onFocusOut()"
   >
   <span matPrefix>{{getData().prefix}}</span>
   <span matSuffix>{{getData().suffix}}</span>
