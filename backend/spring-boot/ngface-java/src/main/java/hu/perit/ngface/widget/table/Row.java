@@ -16,13 +16,16 @@
 
 package hu.perit.ngface.widget.table;
 
+import hu.perit.ngface.formating.NumericFormat;
 import hu.perit.ngface.widget.table.cell.Cell;
+import hu.perit.ngface.widget.table.cell.NumericCell;
 import hu.perit.ngface.widget.table.cell.TextCell;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -44,6 +47,18 @@ public class Row
     public Row putCell(String colId, String text)
     {
         this.cells.put(colId, new TextCell(text));
+        return this;
+    }
+
+    public Row putCell(String colId, BigDecimal value)
+    {
+        this.cells.put(colId, new NumericCell(value));
+        return this;
+    }
+
+    public Row putCell(String colId, BigDecimal value, NumericFormat format)
+    {
+        this.cells.put(colId, new NumericCell(value).format(format));
         return this;
     }
 

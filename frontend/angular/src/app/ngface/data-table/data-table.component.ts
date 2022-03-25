@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
@@ -26,6 +26,8 @@ import {merge} from 'rxjs';
 import Form = TypeModels.Form;
 import {MatCheckboxChange} from '@angular/material/checkbox';
 import ActionCell = TypeModels.ActionCell;
+import NumericCell = TypeModels.NumericCell;
+import {formatNumber} from '@angular/common';
 
 export interface TableReloadEvent
 {
@@ -71,7 +73,7 @@ export class DataTableComponent implements OnChanges, AfterViewInit
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns: string[];
 
-  constructor(private demoService: DemoService)
+  constructor(private demoService: DemoService, @Inject(LOCALE_ID) public locale: string)
   {
     this.dataSource = new DataTableDataSource(demoService);
   }
@@ -123,7 +125,37 @@ export class DataTableComponent implements OnChanges, AfterViewInit
     {
       return cell.value;
     }
+    if (cell.type === 'NumericCell')
+    {
+      let numericCell = <NumericCell> cell;
+      let formattedNumber = numericCell.prefix ?? '' + this.getFormattedValueAsText(numericCell);
+      if (numericCell.suffix)
+      {
+        formattedNumber += ' ' + numericCell.suffix;
+      }
+      return formattedNumber;
+    }
     return '';
+  }
+
+
+  getFormattedValueAsText(numericCell: NumericCell): string
+  {
+    if (isNaN(numericCell.value))
+    {
+      return '';
+    }
+    return formatNumber(numericCell.value, this.locale, this.getDigitsInfo(numericCell.precision));
+  }
+
+  getDigitsInfo(precision: number): string
+  {
+    // '0.2-2'
+    if (precision !== null)
+    {
+      return `0.${precision}-${precision}`;
+    }
+    return '0.0-99';
   }
 
 

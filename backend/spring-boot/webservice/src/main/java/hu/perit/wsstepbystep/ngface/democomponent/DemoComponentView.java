@@ -24,10 +24,10 @@ import hu.perit.ngface.widget.input.*;
 import hu.perit.ngface.widget.input.validator.*;
 import hu.perit.ngface.widget.table.*;
 import hu.perit.ngface.widget.table.cell.ActionCell;
-import hu.perit.ngface.widget.table.cell.TextCell;
 import hu.perit.wsstepbystep.config.Constants;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -165,8 +165,10 @@ public class DemoComponentView implements ComponentView
                 .label("Elements")
                 .addColumn(new Column("id").text("Id").sortable(true).size(Column.Size.S))
                 .addColumn(new Column("name").text("Name").sortable(true).size(Column.Size.L))
-                .addColumn(new Column("weight").text("Weight").size(Column.Size.S).textAlign(Column.TextAlign.RIGHT))
+                .addColumn(new Column("weight").text("Weight").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
                 .addColumn(new Column("symbol").text("Symbol").size(Column.Size.S))
+                .addColumn(new Column("price-eur").text("Price EUR").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
+                .addColumn(new Column("price-huf").text("Price HUF").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
                 .addColumn(new Column("actions").text("Actions"));
 
         for (DemoTableDataProvider.DataRow item : this.data.getTableRows())
@@ -174,8 +176,10 @@ public class DemoComponentView implements ComponentView
             table.addRow(new Row(item.getId().toString())
                     .putCell("id", item.getId().toString())
                     .putCell("name", item.getName())
-                    .putCell("weight", String.valueOf(item.getWeight()))
+                    .putCell("weight", BigDecimal.valueOf(item.getWeight()), Constants.ATOMIC_WEIGHT_FORMAT)
                     .putCell("symbol", item.getSymbol())
+                    .putCell("price-eur", BigDecimal.valueOf(item.getWeight()), FormatCurrency.EUR)
+                    .putCell("price-huf", BigDecimal.valueOf(item.getWeight() * 370), FormatCurrency.HUF)
                     .putCell("actions", new ActionCell(List.of(
                             new Action("edit").label("Edit").icon("edit"),
                             new Action("delete").label("Delete").icon("delete").enabled(false)

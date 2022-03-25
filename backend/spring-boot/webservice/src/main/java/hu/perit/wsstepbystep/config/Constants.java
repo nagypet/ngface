@@ -16,7 +16,11 @@
 
 package hu.perit.wsstepbystep.config;
 
+import hu.perit.ngface.formating.NumericFormat;
+
 public class Constants
 {
     public static final int DEFAULT_PAGESIZE = 5;
+
+    public static final NumericFormat ATOMIC_WEIGHT_FORMAT = new NumericFormat().precision(4).suffix("g/mol");
 }

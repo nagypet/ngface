@@ -37,7 +37,7 @@ import java.util.List;
 @ToString(callSuper = true)
 public class NumericInput extends Input<NumericInput.Data, BigDecimal, NumericInput>
 {
-    private int precision;
+    private Integer precision;
     private String prefix;
     private String suffix;
 
@@ -58,7 +58,7 @@ public class NumericInput extends Input<NumericInput.Data, BigDecimal, NumericIn
         return Arrays.asList(Required.class, Min.class, Max.class);
     }
 
-    public NumericInput precision(int precision)
+    public NumericInput precision(Integer precision)
     {
         this.precision = precision;
         return this;

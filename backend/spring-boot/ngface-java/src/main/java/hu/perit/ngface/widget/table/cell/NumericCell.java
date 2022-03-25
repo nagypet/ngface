@@ -14,32 +14,48 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.formating;
+package hu.perit.ngface.widget.table.cell;
 
+import hu.perit.ngface.formating.NumericFormat;
 import lombok.Getter;
 
-@Getter
-public class NumericFormat<SUB extends NumericFormat> extends AbstractFormat
-{
-    protected Integer precision;
-    protected String prefix;
-    protected String suffix;
+import java.math.BigDecimal;
 
-    public SUB precision(Integer precision)
+@Getter
+public class NumericCell extends Cell<BigDecimal>
+{
+    private Integer precision;
+    private String prefix;
+    private String suffix;
+
+    public NumericCell(BigDecimal value)
+    {
+        super(value);
+    }
+
+    public NumericCell precision(Integer precision)
     {
         this.precision = precision;
-        return (SUB) this;
+        return this;
     }
 
-    public SUB prefix(String prefix)
+    public NumericCell prefix(String prefix)
     {
         this.prefix = prefix;
-        return (SUB) this;
+        return this;
     }
 
-    public SUB suffix(String suffix)
+    public NumericCell suffix(String suffix)
     {
         this.suffix = suffix;
-        return (SUB) this;
+        return this;
+    }
+
+    public NumericCell format(NumericFormat format)
+    {
+        this.precision = format.getPrecision();
+        this.suffix = format.getSuffix();
+        this.prefix = format.getPrefix();
+        return this;
     }
 }

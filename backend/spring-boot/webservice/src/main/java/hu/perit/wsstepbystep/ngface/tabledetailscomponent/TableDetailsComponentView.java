@@ -22,6 +22,7 @@ import hu.perit.ngface.widget.form.Form;
 import hu.perit.ngface.widget.input.NumericInput;
 import hu.perit.ngface.widget.input.TextInput;
 import hu.perit.ngface.widget.input.validator.Required;
+import hu.perit.wsstepbystep.config.Constants;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
@@ -40,7 +41,12 @@ public class TableDetailsComponentView implements ComponentView
         return new Form(data.getId())
                 .title(String.format("Details of %s", this.data.getName()))
                 .addWidget(new TextInput(SYMBOL).value(this.data.getSymbol()).label("Symbol").addValidator(new Required("Symbol is required!")))
-                .addWidget(new NumericInput(WEIGHT).value(BigDecimal.valueOf(this.data.getWeight())).label("Weight").suffix("g").addValidator(new Required("Weight is required!")))
+                .addWidget(new NumericInput(WEIGHT)
+                        .value(BigDecimal.valueOf(this.data.getWeight()))
+                        .label("Weight")
+                        .format(Constants.ATOMIC_WEIGHT_FORMAT)
+                        .addValidator(new Required("Weight is required!"))
+                )
                 .addWidget(Button.SAVE)
                 .addWidget(Button.CANCEL)
                 ;

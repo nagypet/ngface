@@ -123,7 +123,11 @@ export class NumericInputComponent extends InputBaseComponent
   {
     // '0.2-2'
     let precision = this.getData()?.precision;
-    return `0.${precision}-${precision}`;
+    if (precision !== null)
+    {
+      return `0.${precision}-${precision}`;
+    }
+    return '0.0-99';
   }
 
   escapeRegExp(string: string)
