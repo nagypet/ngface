@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -44,6 +44,12 @@ import {MatSortModule} from '@angular/material/sort';
 import { DemoDialog1Component } from './demo-dialog1/demo-dialog1.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {NumericInputFilterDirective} from './ngface/directives/NumericInputFilterDirective';
+import {registerLocaleData} from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+import localeDeExtra from '@angular/common/locales/extra/de';
+
+registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
 @NgModule({
   declarations: [
@@ -56,7 +62,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     DateRangeInputComponent,
     SelectComponent,
     DataTableComponent,
-    DemoDialog1Component
+    DemoDialog1Component,
+    NumericInputFilterDirective
   ],
   imports: [
     BrowserModule,
@@ -83,6 +90,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
     {provide: MAT_DATE_LOCALE, useValue: 'hu'},
+    {provide: LOCALE_ID, useValue: 'de-DE' }
   ],
   bootstrap: [AppComponent]
 })
