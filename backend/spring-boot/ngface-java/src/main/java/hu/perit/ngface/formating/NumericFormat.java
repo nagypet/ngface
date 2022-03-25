@@ -19,27 +19,27 @@ package hu.perit.ngface.formating;
 import lombok.Getter;
 
 @Getter
-public class NumericFormat<SUB extends NumericFormat> extends AbstractFormat
+public class NumericFormat extends AbstractFormat
 {
     protected Integer precision;
     protected String prefix;
     protected String suffix;
 
-    public SUB precision(Integer precision)
+    public NumericFormat precision(Integer precision)
     {
         this.precision = precision;
-        return (SUB) this;
+        return this;
     }
 
-    public SUB prefix(String prefix)
+    public NumericFormat prefix(String prefix)
     {
         this.prefix = prefix;
-        return (SUB) this;
+        return this;
     }
 
-    public SUB suffix(String suffix)
+    public NumericFormat suffix(String suffix)
     {
         this.suffix = suffix;
-        return (SUB) this;
+        return this;
     }
 }

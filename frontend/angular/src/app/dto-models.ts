@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-25 17:34:35.
+// Generated using typescript-generator version 2.17.558 on 2022-03-25 23:45:15.
 
 export namespace TypeModels {
 
@@ -61,9 +61,7 @@ export namespace TypeModels {
 
     export interface NumericInput extends Input<NumericInput.Data, number, NumericInput> {
         data: NumericInput.Data;
-        precision: number;
-        prefix: string;
-        suffix: string;
+        format: NumericFormat;
     }
 
     export namespace NumericInput {
@@ -180,9 +178,7 @@ export namespace TypeModels {
 
     export interface NumericCell extends Cell<number> {
         value: number;
-        precision: number;
-        prefix: string;
-        suffix: string;
+        format: NumericFormat;
     }
 
     export interface TextCell extends Cell<string> {
@@ -210,6 +206,12 @@ export namespace TypeModels {
         message: string;
     }
 
+    export interface NumericFormat extends AbstractFormat {
+        precision: number;
+        prefix: string;
+        suffix: string;
+    }
+
     export interface Input<WD, V, SUB> extends Widget<WD, SUB> {
         placeholder: string;
         validators: Validator<any>[];
@@ -217,6 +219,10 @@ export namespace TypeModels {
 
     export interface Value<V> extends WidgetData {
         value: V;
+    }
+
+    export interface AbstractFormat {
+        validators: Validator<any>[];
     }
 
     export type Style = "NONE" | "PRIMARY" | "ACCENT" | "WARN";

@@ -23,8 +23,8 @@
          (blur)="onBlur($event.target)"
          (ngModelChange)="onChange()"
   >
-  <span matPrefix>{{getData().prefix}}</span>
-  <span matSuffix>{{getData().suffix}}</span>
+  <span matPrefix>{{getData().format.prefix}}</span>
+  <span matSuffix>{{getData().format.suffix}}</span>
   <mat-hint>{{getData().hint}}</mat-hint>
   <mat-error *ngIf="formControl.errors">{{getValidationErrors()}}</mat-error>
 </mat-form-field>

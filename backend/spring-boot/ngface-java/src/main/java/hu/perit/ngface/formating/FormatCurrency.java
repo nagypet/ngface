@@ -19,11 +19,11 @@ package hu.perit.ngface.formating;
 import lombok.Data;
 
 @Data
-public class FormatCurrency extends NumericFormat<FormatCurrency>
+public class FormatCurrency extends NumericFormat
 {
-    public static final FormatCurrency EUR = new FormatCurrency("€");
-    public static final FormatCurrency USD = new FormatCurrency("$");
-    public static final FormatCurrency HUF = new FormatCurrency("Ft").precision(0);
+    public static final NumericFormat EUR = new FormatCurrency("€");
+    public static final NumericFormat USD = new FormatCurrency("$");
+    public static final NumericFormat HUF = new FormatCurrency("Ft").precision(0);
 
     public FormatCurrency(String currency)
     {

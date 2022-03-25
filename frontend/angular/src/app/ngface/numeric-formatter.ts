@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.widget.table.cell;
+import {formatNumber} from '@angular/common';
 
-import hu.perit.ngface.formating.NumericFormat;
-import lombok.Getter;
-
-import java.math.BigDecimal;
-
-@Getter
-public class NumericCell extends Cell<BigDecimal>
+export class NumericFormatter
 {
-    private NumericFormat format = new NumericFormat();
-
-    public NumericCell(BigDecimal value)
+  public static getFormattedValueAsText(value: number, precision: number, locale: string): string
+  {
+    if (isNaN(value))
     {
-        super(value);
+      return '';
     }
+    return formatNumber(value, locale, this.getDigitsInfo(precision));
+  }
 
-    public NumericCell format(NumericFormat format)
+  static getDigitsInfo(precision: number): string
+  {
+    // '0.2-2'
+    if (precision !== null)
     {
-        this.format = format;
-        return this;
+      return `0.${precision}-${precision}`;
     }
+    return '0.0-99';
+  }
 }

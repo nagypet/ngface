@@ -16,6 +16,7 @@
 
 package hu.perit.ngface.widget.input;
 
+import hu.perit.ngface.formating.NumericFormat;
 import hu.perit.ngface.widget.base.Widget;
 import hu.perit.ngface.widget.input.validator.Min;
 import hu.perit.ngface.widget.input.DateInput;
@@ -46,7 +47,7 @@ class WidgetTest
                 .label("Amount")
                 .hint("Amount")
                 .placeholder("Type in the amount")
-                .precision(2)
+                .format(new NumericFormat().precision(2))
                 .data(new NumericInput.Data(new BigDecimal("2.12")))
                 .addValidator(new Min(0.0, "The smalles amount is 0 EUR"));
 
@@ -75,7 +76,7 @@ class WidgetTest
                 .label("Count of samples")
                 .hint("Count of samples")
                 .placeholder("Type in the count of samples, you want to print")
-                .precision(0)
+                .format(new NumericFormat().precision(0))
                 .data(new NumericInput.Data(new BigDecimal("10")))
                 .addValidator(new Min(0.0, "The count have to be above 0!"));
 

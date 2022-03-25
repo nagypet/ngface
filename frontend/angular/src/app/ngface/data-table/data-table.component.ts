@@ -28,6 +28,7 @@ import {MatCheckboxChange} from '@angular/material/checkbox';
 import ActionCell = TypeModels.ActionCell;
 import NumericCell = TypeModels.NumericCell;
 import {formatNumber} from '@angular/common';
+import {NumericFormatter} from '../numeric-formatter';
 
 export interface TableReloadEvent
 {
@@ -128,34 +129,14 @@ export class DataTableComponent implements OnChanges, AfterViewInit
     if (cell.type === 'NumericCell')
     {
       let numericCell = <NumericCell> cell;
-      let formattedNumber = numericCell.prefix ?? '' + this.getFormattedValueAsText(numericCell);
-      if (numericCell.suffix)
+      let formattedNumber = numericCell.format.prefix ?? '' + NumericFormatter.getFormattedValueAsText(numericCell.value, numericCell.format.precision, this.locale);
+      if (numericCell.format.suffix)
       {
-        formattedNumber += ' ' + numericCell.suffix;
+        formattedNumber += ' ' + numericCell.format.suffix;
       }
       return formattedNumber;
     }
     return '';
-  }
-
-
-  getFormattedValueAsText(numericCell: NumericCell): string
-  {
-    if (isNaN(numericCell.value))
-    {
-      return '';
-    }
-    return formatNumber(numericCell.value, this.locale, this.getDigitsInfo(numericCell.precision));
-  }
-
-  getDigitsInfo(precision: number): string
-  {
-    // '0.2-2'
-    if (precision !== null)
-    {
-      return `0.${precision}-${precision}`;
-    }
-    return '0.0-99';
   }
 
 

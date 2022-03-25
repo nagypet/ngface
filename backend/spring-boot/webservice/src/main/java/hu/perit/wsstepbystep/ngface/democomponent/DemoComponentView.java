@@ -17,6 +17,7 @@
 package hu.perit.wsstepbystep.ngface.democomponent;
 
 import hu.perit.ngface.formating.FormatCurrency;
+import hu.perit.ngface.formating.NumericFormat;
 import hu.perit.ngface.view.ComponentView;
 import hu.perit.ngface.widget.button.Button;
 import hu.perit.ngface.widget.form.Form;
@@ -93,9 +94,8 @@ public class DemoComponentView implements ComponentView
                         .label("Count of samples")
                         .hint("Must be between 1-99")
                         .placeholder("Type in the count of samples, you want to print")
-                        .precision(0)
+                        .format(new NumericFormat().precision(0).suffix("pcs"))
                         .value(this.data.getCountSamples())
-                        .suffix("pcs")
                         .addValidator(new Required("Count of samples is required!"))
                         .addValidator(new Min(1.0, "The count have to be between 1 and 99!"))
                         .addValidator(new Max(99.0, "The count have to be between 1 and 99!"))

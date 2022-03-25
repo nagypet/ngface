@@ -13,6 +13,7 @@ A standardized backend-frontend communication using **widgets**.
 - Spring boot and Angular are used, but other fronend/backend technologies can be implemented
 - The design can be customized
 - MVC pattern is used in the backend
+- Predefined and custom formatters can be assigned to widgets and table cells, such as `FormatCurrency.EUR`
 - Backend code can be mostly generated similar to `ng generate` 
 
 ## Why?
@@ -174,7 +175,12 @@ public class TableDetailsComponentView implements ComponentView
         return new Form(data.getId())
                 .title(String.format("Details of %s", this.data.getName()))
                 .addWidget(new TextInput(SYMBOL).value(this.data.getSymbol()).label("Symbol").addValidator(new Required("Symbol is required!")))
-                .addWidget(new NumericInput(WEIGHT).value(BigDecimal.valueOf(this.data.getWeight())).label("Weight").suffix("g").addValidator(new Required("Weight is required!")))
+                .addWidget(new NumericInput(WEIGHT)
+                        .value(BigDecimal.valueOf(this.data.getWeight()))
+                        .label("Weight")
+                        .format(Constants.ATOMIC_WEIGHT_FORMAT)
+                        .addValidator(new Required("Weight is required!"))
+                )
                 .addWidget(Button.SAVE)
                 .addWidget(Button.CANCEL)
                 ;

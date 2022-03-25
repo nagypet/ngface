@@ -17,7 +17,8 @@
 import {Component, Inject, LOCALE_ID} from '@angular/core';
 import {TypeModels} from '../../dto-models';
 import {InputBaseComponent} from '../input-base.component';
-import {formatNumber, getLocaleNumberSymbol, NumberSymbol} from '@angular/common';
+import {getLocaleNumberSymbol, NumberSymbol} from '@angular/common';
+import {NumericFormatter} from '../numeric-formatter';
 import NumericInput = TypeModels.NumericInput;
 
 @Component({
@@ -58,7 +59,7 @@ export class NumericInputComponent extends InputBaseComponent
     }
 
     let parsedValue = this.formControl.value;
-    let formattedValue = this.getFormattedValueAsText(parsedValue);
+    let formattedValue = NumericFormatter.getFormattedValueAsText(parsedValue, this.getData().format.precision, this.locale);
 
     console.log('intl value: ' + formattedValue);
     (<HTMLInputElement> target).value = formattedValue;
@@ -74,9 +75,7 @@ export class NumericInputComponent extends InputBaseComponent
       return {
         type: 'NumericInput',
         data: {type: 'NumericInput.Data', value: 0},
-        precision: 0,
-        prefix: '',
-        suffix: '',
+        format: {precision: 0, prefix: '', suffix: '', validators: []},
         placeholder: 'widget id: ' + this.widgetId,
         label: 'undefined label',
         validators: [],
@@ -90,16 +89,7 @@ export class NumericInputComponent extends InputBaseComponent
 
   getValue(): string
   {
-    return this.getFormattedValueAsText(this.getData()?.data?.value);
-  }
-
-  getFormattedValueAsText(value: number): string
-  {
-    if (isNaN(value))
-    {
-      return '';
-    }
-    return formatNumber(value, this.locale, this.getDigitsInfo());
+    return NumericFormatter.getFormattedValueAsText(this.getData()?.data?.value, this.getData().format.precision, this.locale);
   }
 
   private parseIntlValue(): number
@@ -117,17 +107,6 @@ export class NumericInputComponent extends InputBaseComponent
     let parsedValue = parseFloat(valueString);
     console.log('parsedValue: ' + parsedValue);
     return parsedValue;
-  }
-
-  getDigitsInfo(): string
-  {
-    // '0.2-2'
-    let precision = this.getData()?.precision;
-    if (precision !== null)
-    {
-      return `0.${precision}-${precision}`;
-    }
-    return '0.0-99';
   }
 
   escapeRegExp(string: string)

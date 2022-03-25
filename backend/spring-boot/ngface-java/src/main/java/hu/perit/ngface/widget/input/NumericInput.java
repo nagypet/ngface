@@ -37,9 +37,7 @@ import java.util.List;
 @ToString(callSuper = true)
 public class NumericInput extends Input<NumericInput.Data, BigDecimal, NumericInput>
 {
-    private Integer precision;
-    private String prefix;
-    private String suffix;
+    private NumericFormat format = new NumericFormat();
 
     public NumericInput(String id)
     {
@@ -58,29 +56,9 @@ public class NumericInput extends Input<NumericInput.Data, BigDecimal, NumericIn
         return Arrays.asList(Required.class, Min.class, Max.class);
     }
 
-    public NumericInput precision(Integer precision)
-    {
-        this.precision = precision;
-        return this;
-    }
-
-    public NumericInput prefix(String prefix)
-    {
-        this.prefix = prefix;
-        return this;
-    }
-
-    public NumericInput suffix(String suffix)
-    {
-        this.suffix = suffix;
-        return this;
-    }
-
     public NumericInput format(NumericFormat format)
     {
-        this.precision = format.getPrecision();
-        this.suffix = format.getSuffix();
-        this.prefix = format.getPrefix();
+        this.format = format;
         return this;
     }
 
