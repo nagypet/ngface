@@ -161,6 +161,11 @@ The view class receives the data in the constructor. Its task is to create the F
 - validators
 
 ```java
+public class Constants
+{
+    public static final NumericFormat ATOMIC_WEIGHT_FORMAT = new NumericFormat().precision(4).suffix("g/mol");
+}
+
 @RequiredArgsConstructor
 public class TableDetailsComponentView implements ComponentView
 {
