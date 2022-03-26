@@ -51,6 +51,7 @@ public class DemoComponentView implements ComponentView
 
     private final DemoComponentData data;
 
+    @Override
     public Form getForm()
     {
         return new Form("demo-form")

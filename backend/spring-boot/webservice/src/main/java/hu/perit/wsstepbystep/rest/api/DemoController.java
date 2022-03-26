@@ -42,9 +42,9 @@ public class DemoController implements DemoApi
     // getDemoForm()
     //------------------------------------------------------------------------------------------------------------------
     @Override
-    public Form getDemoForm(Long pageNumber, Long pageSize, String sortColumn, String sortDirection)
+    public Form getDemoForm(Long pageNumber, Long pageSize, String sortColumn, String sortDirection, String rowId)
     {
-        DemoComponentController.Params params = new DemoComponentController.Params(pageNumber, pageSize, sortColumn, sortDirection);
+        DemoComponentController.Params params = new DemoComponentController.Params(pageNumber, pageSize, sortColumn, sortDirection, rowId);
         log.debug("getDemoForm({})", params);
 
         DemoComponentData data = this.demoComponentController.initializeData(params);

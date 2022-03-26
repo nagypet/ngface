@@ -138,6 +138,11 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
             error => console.log(error));
 
           // reload table content
+          this.demoService.getDemoForm(undefined, undefined, undefined, undefined, row.id).subscribe(data =>
+          {
+            console.log(data);
+          });
+
           row.cells['symbol'].value = result['symbol'].value;
           row.cells['weight'].value = result['weight'].value;
         }

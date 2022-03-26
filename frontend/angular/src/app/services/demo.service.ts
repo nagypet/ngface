@@ -50,7 +50,7 @@ export class DemoService
   }
 
 
-  public getDemoForm(pageNumber?: number, pageSize?: number, sortColumn?: string, sortDirection?: string): Observable<any>
+  public getDemoForm(pageNumber?: number, pageSize?: number, sortColumn?: string, sortDirection?: string, rowId?:string): Observable<any>
   {
     return this.httpClient.get(DemoService.getServiceUrl('/demo'), {
       params: new HttpParams()
@@ -58,6 +58,7 @@ export class DemoService
         .set('pageSize', pageSize !== undefined ? pageSize.toString() : '')
         .set('sortColumn', sortColumn !== undefined ? sortColumn : '')
         .set('sortDirection', sortDirection !== undefined ? sortDirection : '')
+        .set('rowId', rowId !== undefined ? rowId : '')
     });
   }
 

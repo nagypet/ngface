@@ -22,10 +22,13 @@ import hu.perit.ngface.widget.input.Select;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Peter Nagy
@@ -43,6 +46,7 @@ public class DemoComponentController implements ComponentController<DemoComponen
         private final Long pageSize;
         private final String sortColumn;
         private final String sortDirection;
+        private final String rowId;
     }
 
     private final DemoTableDataProvider demoTableDataProvider;
@@ -66,8 +70,20 @@ public class DemoComponentController implements ComponentController<DemoComponen
         data.setSelect3Data(new Select.Data()
                 .addOption(new Select.Option("id_first", "First option"))
                 .addOption(new Select.Option("id_second", "Second option")).selected("id_first"));
-        data.setTableRows(this.demoTableDataProvider.getTableRows(params.getPageNumber(), params.getPageSize(), params.getSortColumn(), params.getSortDirection()));
-        data.setTotalTableRowCount(this.demoTableDataProvider.getLength());
+        if (StringUtils.isNotBlank(params.rowId))
+        {
+            Optional<DemoTableDataProvider.DataRow> optTableRow = this.demoTableDataProvider.getTableRow(Long.parseLong(params.rowId));
+            if (optTableRow.isPresent())
+            {
+                data.setTableRows(List.of(optTableRow.get()));
+            }
+            data.setTotalTableRowCount(optTableRow.isPresent() ? 1 : 0);
+        }
+        else
+        {
+            data.setTableRows(this.demoTableDataProvider.getTableRows(params.getPageNumber(), params.getPageSize(), params.getSortColumn(), params.getSortDirection()));
+            data.setTotalTableRowCount(this.demoTableDataProvider.getLength());
+        }
         return data;
     }
 
