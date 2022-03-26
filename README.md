@@ -256,27 +256,34 @@ export class DemoDialog1Component extends FormBaseComponent implements OnInit
       return;
     }
 
+    // Reading dialog data from the baclend
     this.demoService.getTableDetailsForm(row.id).subscribe(dialogData =>
     {
       console.log(dialogData);
+      // Open dialog
       const dialogRef = this.dialog.open(DemoDialog1Component, {
         width: '590px',
         data: dialogData,
         backdropClass: 'ngface-modal-dialog-backdrop'
       });
 
+      // Subscribe to afterClosed
       dialogRef.afterClosed().subscribe(result =>
       {
         console.log(result);
         if (result)
         {
+          // Submitting new data to the backend
           this.demoService.submitTableDetailsForm({id: row.id, widgetDataMap: result}).subscribe(
             () => console.log('sumbitted'),
             error => console.log(error));
 
           // reload table content
-          row.cells['symbol'].value = result['symbol'].value;
-          row.cells['weight'].value = result['weight'].value;
+          this.demoService.getDemoForm(undefined, undefined, undefined, undefined, row.id).subscribe(data =>
+          {
+            console.log(data);
+            row.cells = data.widgets['table-multiselect'].rows[0].cells;
+          });
         }
       });
     });
