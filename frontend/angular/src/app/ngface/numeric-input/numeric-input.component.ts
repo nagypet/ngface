@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {Component, Inject, LOCALE_ID} from '@angular/core';
+import {AfterViewInit, Component, Inject, LOCALE_ID} from '@angular/core';
 import {TypeModels} from '../../dto-models';
 import {InputBaseComponent} from '../input-base.component';
 import {getLocaleNumberSymbol, NumberSymbol} from '@angular/common';
@@ -26,11 +26,17 @@ import NumericInput = TypeModels.NumericInput;
   templateUrl: './numeric-input.component.html',
   styleUrls: ['./numeric-input.component.scss']
 })
-export class NumericInputComponent extends InputBaseComponent
+export class NumericInputComponent extends InputBaseComponent implements AfterViewInit
 {
   constructor(@Inject(LOCALE_ID) public locale: string)
   {
     super();
+  }
+
+
+  ngAfterViewInit()
+  {
+    this.onChange();
   }
 
   /**
@@ -42,7 +48,14 @@ export class NumericInputComponent extends InputBaseComponent
     console.log('onChange original value:' + this.formControl.value);
     let parsedValue = this.parseIntlValue();
     console.log('onChange:' + parsedValue.toString());
-    this.formControl.setValue(parsedValue.toString(), {emitModelToViewChange: false});
+    if (isNaN(parsedValue))
+    {
+      this.formControl.setValue('', {emitModelToViewChange: false});
+    }
+    else
+    {
+      this.formControl.setValue(parsedValue.toString(), {emitModelToViewChange: false});
+    }
   }
 
 
@@ -54,6 +67,11 @@ export class NumericInputComponent extends InputBaseComponent
   onBlur(target: EventTarget | null)
   {
     if (!target)
+    {
+      return;
+    }
+
+    if (!this.formControl.value)
     {
       return;
     }
