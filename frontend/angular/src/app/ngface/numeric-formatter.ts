@@ -18,9 +18,9 @@ import {formatNumber} from '@angular/common';
 
 export class NumericFormatter
 {
-  public static getFormattedValueAsText(value: number, precision: number, locale: string): string
+  public static getFormattedValueAsText(value: number | null, precision: number, locale: string): string
   {
-    if (isNaN(value))
+    if (!value || isNaN(value))
     {
       return '';
     }

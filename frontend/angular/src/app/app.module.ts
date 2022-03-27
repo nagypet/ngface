@@ -48,6 +48,7 @@ import {NumericInputFilterDirective} from './ngface/directives/NumericInputFilte
 import {registerLocaleData} from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
+import { IntlNumericInputComponent } from './ngface/numeric-input/intl-numeric-input/intl-numeric-input.component';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -63,7 +64,8 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     SelectComponent,
     DataTableComponent,
     DemoDialog1Component,
-    NumericInputFilterDirective
+    NumericInputFilterDirective,
+    IntlNumericInputComponent
   ],
   imports: [
     BrowserModule,

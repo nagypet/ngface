@@ -60,7 +60,7 @@ export abstract class InputBaseComponent implements OnChanges
   ngOnChanges(): void
   {
     // Setting the value
-    this.formControl.setValue(this.getValue());
+    this.formControl.setValue(this.getData().data?.value);
 
     // Validators
     let validators = new Array<ValidatorFn>();
@@ -188,9 +188,14 @@ export abstract class InputBaseComponent implements OnChanges
   }
 
 
-  getValidationErrors(): string
+  getValidationErrors(): string | null
   {
-    return this.getValidationErrorsFromFormControl(this.formControl, this.getData()?.validators).join(' ');
+    if (this.formControl.errors)
+    {
+      return this.getValidationErrorsFromFormControl(this.formControl, this.getData()?.validators).join(' ');
+    }
+
+    return null;
   }
 
 
