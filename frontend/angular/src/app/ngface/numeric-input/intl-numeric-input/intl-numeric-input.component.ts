@@ -52,7 +52,7 @@ export class IntlNumericInputComponent implements ControlValueAccessor
   set precision(precision: number)
   {
     this._precision = precision;
-    this.valueText = NumericFormatter.getFormattedValueAsText(this.value, this.precision, this.locale);
+    this.rewriteValue();
   }
 
   get precision()
@@ -70,13 +70,13 @@ export class IntlNumericInputComponent implements ControlValueAccessor
   validationErrors: string | null;
 
   valueText: string;
-  value: number | null;
+  value?: number;
 
   floatLabelControl = new FormControl('auto');
 
   errorStateMatcher = new MyErrorStateMatcher(this);
 
-  onChangeFn = (value: number | null) =>
+  onChangeFn = (value?: number) =>
   {
   };
 
@@ -105,12 +105,35 @@ export class IntlNumericInputComponent implements ControlValueAccessor
   /**
    * Converting ISO => intl
    */
-  writeValue(value: number | null)
+  writeValue(value?: number)
   {
     console.log('writeValue: ' + value);
-    this.valueText = NumericFormatter.getFormattedValueAsText(value, this.precision, this.locale);
+    this.rewriteValue(value);
     this.value = value;
   }
+
+
+  rewriteValue(value?: number)
+  {
+    let v: number | undefined;
+    if (value !== undefined)
+    {
+      v = value;
+    }
+    else
+    {
+      v = this.value;
+    }
+
+    if (v && !isNaN(v))
+    {
+      this.valueText = NumericFormatter.getFormattedValueAsText(v, this.precision, this.locale);
+    } else
+    {
+      this.valueText = '';
+    }
+  }
+
 
   markAsTouched()
   {
@@ -155,8 +178,8 @@ export class IntlNumericInputComponent implements ControlValueAccessor
         this.onChangeFn(parsedValue);
       } else
       {
-        this.value = null;
-        this.onChangeFn(null);
+        this.value = undefined;
+        this.onChangeFn(undefined);
       }
     }
   }
@@ -184,6 +207,6 @@ export class IntlNumericInputComponent implements ControlValueAccessor
       return;
     }
 
-    this.writeValue(this.value);
+    this.rewriteValue();
   }
 }
