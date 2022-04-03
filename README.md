@@ -290,7 +290,15 @@ export class DemoDialog1Component extends FormBaseComponent implements OnInit
 
 ## Backend code generator
 
-See the `generator` subproject.
+See the [`generator`](https://github.com/nagypet/ngface/tree/development/backend/spring-boot/generator) subproject.
+
+```
+c:\np\github\ngface\backend\spring-boot\webservice\src\main\java\hu\perit\wsstepbystep\ngfacecomponent>ngf -n New
+NewComponentDTO.java generated
+NewComponentController.java generated
+NewComponentView.java generated
+```
+![](docs/screenshot4.jpg)
 
 
 # Open issues
