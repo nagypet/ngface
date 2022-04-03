@@ -14,36 +14,36 @@
  * limitations under the License.
  */
 
-package hu.perit.wsstepbystep.ngface.tabledetailscomponent;
+package hu.perit.wsstepbystep.ngfacecomponent.tabledetailscomponent;
 
-import hu.perit.ngface.data.ComponentData;
-import hu.perit.ngface.data.WData;
-import hu.perit.ngface.data.WId;
+import hu.perit.ngface.data.ComponentDTO;
+import hu.perit.ngface.data.DTOValue;
+import hu.perit.ngface.data.DTOId;
 import lombok.Data;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.Size;
 
 @Data
-public class TableDetailsComponentData extends ComponentData
+public class TableDetailsComponentDTO extends ComponentDTO
 {
     public static final String WEIGHT = "weight";
     public static final String SYMBOL = "symbol";
 
     // Id of the data row
-    @WId
+    @DTOId
     private String id;
 
-    // Name of the modal. Not annotated with @WData because it will not be sumbitted by the frontend
+    // Name of the modal. Not annotated with @DTOValue because it will not be sumbitted by the frontend
     private String name;
 
     // Weight data element
-    @WData(id = WEIGHT)
+    @DTOValue(id = WEIGHT)
     @DecimalMax("100.0")
     private Double weight;
 
     // Symbol data element
-    @WData(id = SYMBOL)
+    @DTOValue(id = SYMBOL)
     @Size(min = 2, max = 10)
     private String symbol;
 }

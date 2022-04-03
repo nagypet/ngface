@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hu.perit.wsstepbystep.ngface.democomponent;
+package hu.perit.wsstepbystep.ngfacecomponent.democomponent;
 
 import hu.perit.ngface.formating.FormatCurrency;
 import hu.perit.ngface.formating.NumericFormat;
@@ -35,13 +35,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DemoComponentView implements ComponentView
 {
-    private final DemoComponentData data;
+    private final DemoComponentDTO data;
 
     @Override
     public Form getForm()
     {
         return new Form("demo-form")
-                .addWidget(new TextInput(DemoComponentData.OWNERS_NAME_ID)
+                .addWidget(new TextInput(DemoComponentDTO.OWNERS_NAME_ID)
                         .value(this.data.getOwnersName())
                         .label("Owner's name")
                         .placeholder("Your name")
@@ -50,24 +50,24 @@ public class DemoComponentView implements ComponentView
                         .addValidator(new Pattern("[A-Z]{1}[a-z]*", "Name has to begin with an uppercase letter and may contain only letters!"))
                         .addValidator(new Size("The name must be max 15 chars long!").max(15))
                 )
-                .addWidget(new TextInput(DemoComponentData.PLACE_OF_BIRTH_ID)
+                .addWidget(new TextInput(DemoComponentDTO.PLACE_OF_BIRTH_ID)
                         .value(this.data.getPlaceOfBirth())
                         .label("Place of birth")
                         .hint("Very long tooltip to see how it is rendered. kjh gkjhg kjhg kjhg kjgh kjhg kjhg kjhg kjhg kjhg kjhg kjg khjg kjhg kjh")
                 )
-                .addWidget(new TextInput(DemoComponentData.EMAIL_ID)
+                .addWidget(new TextInput(DemoComponentDTO.EMAIL_ID)
                         .value(this.data.getEmail())
                         .label("Email")
                         .addValidator(new Required("Email address is required!"))
                         .addValidator(new Email("Wrong email format!"))
                 )
-                .addWidget(new TextInput(DemoComponentData.ROLE_ID)
+                .addWidget(new TextInput(DemoComponentDTO.ROLE_ID)
                         .value(this.data.getRole())
                         .label("User's role")
                         .hint("Disabled control")
                         .enabled(false)
                 )
-                .addWidget(new NumericInput(DemoComponentData.AMOUNT_ID)
+                .addWidget(new NumericInput(DemoComponentDTO.AMOUNT_ID)
                         .label("Amount")
                         .hint("Must be between 0 and 99.999,99 EUR")
                         .placeholder("Type in the amount")
@@ -77,7 +77,7 @@ public class DemoComponentView implements ComponentView
                         .addValidator(new Min(0.01, "The min amount is 0,01 EUR"))
                         .addValidator(new Max(99999.99, "The max amount is 99.999,99 EUR"))
                 )
-                .addWidget(new NumericInput(DemoComponentData.COUNT_SAMPLES_ID)
+                .addWidget(new NumericInput(DemoComponentDTO.COUNT_SAMPLES_ID)
                         .label("Count of samples")
                         .hint("Must be between 1-99")
                         .placeholder("Type in the count of samples, you want to print")
@@ -87,22 +87,22 @@ public class DemoComponentView implements ComponentView
                         .addValidator(new Min(1.0, "The count have to be between 1 and 99!"))
                         .addValidator(new Max(99.0, "The count have to be between 1 and 99!"))
                 )
-                .addWidget(new TextInput(DemoComponentData.ACCOUNT_NO)
+                .addWidget(new TextInput(DemoComponentDTO.ACCOUNT_NO)
                         .label("Account number")
                         //.value("alma")
                         .placeholder("00000000-00000000-00000000")
                 )
-                .addWidget(new DateInput(DemoComponentData.CHECK_IN_DATE_ID)
+                .addWidget(new DateInput(DemoComponentDTO.CHECK_IN_DATE_ID)
                         .value(this.data.getCheckInDate())
                         .label("Check-in")
                         .hint("DateInput")
                 )
-                .addWidget(new DateInput(DemoComponentData.CHECK_OUT_DATE_ID)
+                .addWidget(new DateInput(DemoComponentDTO.CHECK_OUT_DATE_ID)
                         .value(this.data.getCheckOutDate())
                         .label("Check-out")
                         .hint("DateInput")
                 )
-                .addWidget(new DateRangeInput(DemoComponentData.DATE_RANGE_ID)
+                .addWidget(new DateRangeInput(DemoComponentDTO.DATE_RANGE_ID)
                         .label("Check-in - Check-out")
                         .data(this.data.getDateRange())
                         .placeholder("Start date")
@@ -116,14 +116,14 @@ public class DemoComponentView implements ComponentView
                         .hint("DateRangeInput - date-range2")
                         .enabled(false)
                 )
-                .addWidget(new Select(DemoComponentData.SELECT_ID)
+                .addWidget(new Select(DemoComponentDTO.SELECT_ID)
                         .label("Select")
                         .data(this.data.getSelectData())
                         .placeholder("Select an option!")
                         .hint("no default, required")
                         .addValidator(new Required("Must select an option!"))
                 )
-                .addWidget(new Select(DemoComponentData.SELECT2_ID)
+                .addWidget(new Select(DemoComponentDTO.SELECT2_ID)
                         .label("Select")
                         .data(this.data.getSelect2Data())
                         .placeholder("Select an option!")

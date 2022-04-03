@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hu.perit.wsstepbystep.ngface.democomponent;
+package hu.perit.wsstepbystep.ngfacecomponent.democomponent;
 
 import hu.perit.spvitamin.core.typehelpers.LongUtils;
 import hu.perit.spvitamin.spring.json.JsonSerializable;

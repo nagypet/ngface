@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hu.perit.wsstepbystep.ngface.tabledetailscomponent;
+package hu.perit.wsstepbystep.ngfacecomponent.tabledetailscomponent;
 
 import hu.perit.ngface.view.ComponentView;
 import hu.perit.ngface.widget.button.Button;
@@ -28,19 +28,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TableDetailsComponentView implements ComponentView
 {
-    private final TableDetailsComponentData data;
+    private final TableDetailsComponentDTO data;
 
     @Override
     public Form getForm()
     {
         return new Form(data.getId())
                 .title(String.format("Details of %s", this.data.getName()))
-                .addWidget(new TextInput(TableDetailsComponentData.SYMBOL)
+                .addWidget(new TextInput(TableDetailsComponentDTO.SYMBOL)
                         .value(this.data.getSymbol())
                         .label("Symbol")
                         .addValidator(new Required("Symbol is required!"))
                 )
-                .addWidget(new NumericInput(TableDetailsComponentData.WEIGHT)
+                .addWidget(new NumericInput(TableDetailsComponentDTO.WEIGHT)
                         .value(this.data.getWeight())
                         .label("Weight")
                         .format(Constants.ATOMIC_WEIGHT_FORMAT)

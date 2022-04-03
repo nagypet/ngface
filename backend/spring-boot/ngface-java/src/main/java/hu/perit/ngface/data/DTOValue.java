@@ -16,6 +16,8 @@
 
 package hu.perit.ngface.data;
 
+import hu.perit.ngface.widget.base.WidgetData;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -25,6 +27,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
-public @interface WId
+public @interface DTOValue
 {
+    String id() default "";
+
+    Class<? extends WidgetData> type() default WidgetData.class;
 }

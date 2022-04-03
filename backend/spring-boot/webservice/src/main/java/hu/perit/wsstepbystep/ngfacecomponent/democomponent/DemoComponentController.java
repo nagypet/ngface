@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hu.perit.wsstepbystep.ngface.democomponent;
+package hu.perit.wsstepbystep.ngfacecomponent.democomponent;
 
 import hu.perit.ngface.controller.ComponentController;
 import hu.perit.ngface.widget.input.DateRangeInput;
@@ -25,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +36,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class DemoComponentController implements ComponentController<DemoComponentController.Params, DemoComponentData>
+public class DemoComponentController implements ComponentController<DemoComponentController.Params, DemoComponentDTO>
 {
     @Data
     public static class Params
@@ -52,9 +51,9 @@ public class DemoComponentController implements ComponentController<DemoComponen
     private final DemoTableDataProvider demoTableDataProvider;
 
     @Override
-    public DemoComponentData initializeData(Params params)
+    public DemoComponentDTO initializeData(Params params)
     {
-        DemoComponentData data = new DemoComponentData();
+        DemoComponentDTO data = new DemoComponentDTO();
         data.setOwnersName("Peter");
         data.setRole("Admin");
         data.setAmount(2.123456789);
@@ -88,7 +87,7 @@ public class DemoComponentController implements ComponentController<DemoComponen
     }
 
     @Override
-    public void onSave(DemoComponentData data)
+    public void onSave(DemoComponentDTO data)
     {
         // Here you can save the submitted data
     }

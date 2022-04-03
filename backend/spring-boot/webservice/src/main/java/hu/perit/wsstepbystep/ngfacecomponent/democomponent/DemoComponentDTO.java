@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package hu.perit.wsstepbystep.ngface.democomponent;
+package hu.perit.wsstepbystep.ngfacecomponent.democomponent;
 
-import hu.perit.ngface.data.ComponentData;
-import hu.perit.ngface.data.WData;
+import hu.perit.ngface.data.ComponentDTO;
+import hu.perit.ngface.data.DTOValue;
 import hu.perit.ngface.widget.input.DateRangeInput;
 import hu.perit.ngface.widget.input.Select;
 import lombok.Data;
@@ -34,7 +34,7 @@ import java.util.List;
  */
 @Data
 @Slf4j
-public class DemoComponentData extends ComponentData
+public class DemoComponentDTO extends ComponentDTO
 {
     public static final String OWNERS_NAME_ID = "name";
     public static final String PLACE_OF_BIRTH_ID = "place-of-birth";
@@ -50,40 +50,40 @@ public class DemoComponentData extends ComponentData
     public static final String SELECT2_ID = "select2";
     public static final String SELECT3_ID = "select3";
 
-    @WData(id = OWNERS_NAME_ID)
+    @DTOValue(id = OWNERS_NAME_ID)
     private String ownersName;
 
-    @WData(id = PLACE_OF_BIRTH_ID)
+    @DTOValue(id = PLACE_OF_BIRTH_ID)
     private String placeOfBirth;
 
-    @WData(id = EMAIL_ID)
+    @DTOValue(id = EMAIL_ID)
     private String email;
 
-    @WData(id = ROLE_ID)
+    @DTOValue(id = ROLE_ID)
     private String role;
 
-    @WData(id = AMOUNT_ID)
+    @DTOValue(id = AMOUNT_ID)
     private Double amount;
 
-    @WData(id = COUNT_SAMPLES_ID)
+    @DTOValue(id = COUNT_SAMPLES_ID)
     private Long countSamples;
 
-    @WData(id = CHECK_IN_DATE_ID)
+    @DTOValue(id = CHECK_IN_DATE_ID)
     private LocalDate checkInDate;
 
-    @WData(id = CHECK_OUT_DATE_ID)
+    @DTOValue(id = CHECK_OUT_DATE_ID)
     private LocalDate checkOutDate;
 
-    @WData(id = DATE_RANGE_ID)
+    @DTOValue(id = DATE_RANGE_ID)
     private DateRangeInput.Data dateRange;
 
-    @WData(id = SELECT_ID)
+    @DTOValue(id = SELECT_ID)
     private Select.Data selectData;
 
-    @WData(id = SELECT2_ID)
+    @DTOValue(id = SELECT2_ID)
     private Select.Data select2Data;
 
-    @WData(id = SELECT3_ID)
+    @DTOValue(id = SELECT3_ID)
     private Select.Data select3Data;
 
     private List<DemoTableDataProvider.DataRow> tableRows;

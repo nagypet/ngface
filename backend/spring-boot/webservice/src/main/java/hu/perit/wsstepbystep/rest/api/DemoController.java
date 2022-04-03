@@ -19,12 +19,12 @@ package hu.perit.wsstepbystep.rest.api;
 import hu.perit.ngface.controller.ComponentController;
 import hu.perit.ngface.data.SubmitFormData;
 import hu.perit.ngface.widget.form.Form;
-import hu.perit.wsstepbystep.ngface.democomponent.DemoComponentController;
-import hu.perit.wsstepbystep.ngface.democomponent.DemoComponentData;
-import hu.perit.wsstepbystep.ngface.democomponent.DemoComponentView;
-import hu.perit.wsstepbystep.ngface.tabledetailscomponent.TableDetailsComponentController;
-import hu.perit.wsstepbystep.ngface.tabledetailscomponent.TableDetailsComponentData;
-import hu.perit.wsstepbystep.ngface.tabledetailscomponent.TableDetailsComponentView;
+import hu.perit.wsstepbystep.ngfacecomponent.democomponent.DemoComponentController;
+import hu.perit.wsstepbystep.ngfacecomponent.democomponent.DemoComponentDTO;
+import hu.perit.wsstepbystep.ngfacecomponent.democomponent.DemoComponentView;
+import hu.perit.wsstepbystep.ngfacecomponent.tabledetailscomponent.TableDetailsComponentController;
+import hu.perit.wsstepbystep.ngfacecomponent.tabledetailscomponent.TableDetailsComponentDTO;
+import hu.perit.wsstepbystep.ngfacecomponent.tabledetailscomponent.TableDetailsComponentView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,8 +34,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DemoController implements DemoApi
 {
-    private final ComponentController<DemoComponentController.Params, DemoComponentData> demoComponentController;
-    private final ComponentController<TableDetailsComponentController.Params, TableDetailsComponentData> tableDetailsComponentController;
+    private final ComponentController<DemoComponentController.Params, DemoComponentDTO> demoComponentController;
+    private final ComponentController<TableDetailsComponentController.Params, TableDetailsComponentDTO> tableDetailsComponentController;
 
 
     //------------------------------------------------------------------------------------------------------------------
@@ -47,7 +47,7 @@ public class DemoController implements DemoApi
         DemoComponentController.Params params = new DemoComponentController.Params(pageNumber, pageSize, sortColumn, sortDirection, rowId);
         log.debug("getDemoForm({})", params);
 
-        DemoComponentData data = this.demoComponentController.initializeData(params);
+        DemoComponentDTO data = this.demoComponentController.initializeData(params);
         return new DemoComponentView(data).getForm();
     }
 
@@ -60,7 +60,7 @@ public class DemoController implements DemoApi
     {
         log.debug("submitDemoForm({})", submitFormData);
 
-        DemoComponentData data = new DemoComponentData();
+        DemoComponentDTO data = new DemoComponentDTO();
         data.formSubmitted(submitFormData);
         this.demoComponentController.onSave(data);
     }
@@ -75,7 +75,7 @@ public class DemoController implements DemoApi
         TableDetailsComponentController.Params params = new TableDetailsComponentController.Params(id);
         log.debug("getTableDetailsForm({})", params);
 
-        TableDetailsComponentData data = this.tableDetailsComponentController.initializeData(params);
+        TableDetailsComponentDTO data = this.tableDetailsComponentController.initializeData(params);
         return new TableDetailsComponentView(data).getForm();
     }
 
@@ -88,7 +88,7 @@ public class DemoController implements DemoApi
     {
         log.debug("submitTableDetailsForm({})", submitFormData);
 
-        TableDetailsComponentData data = new TableDetailsComponentData();
+        TableDetailsComponentDTO data = new TableDetailsComponentDTO();
         data.formSubmitted(submitFormData);
         this.tableDetailsComponentController.onSave(data);
     }

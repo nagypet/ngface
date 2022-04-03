@@ -38,7 +38,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
-public abstract class ComponentData
+public abstract class ComponentDTO
 {
     public void formSubmitted(SubmitFormData submitFormData)
     {
@@ -46,8 +46,8 @@ public abstract class ComponentData
 
         for (Field property : properties)
         {
-            handleWIdAnnotation(submitFormData, property);
-            handleWDataAnnotation(submitFormData, property);
+            handleDTOIdAnnotation(submitFormData, property);
+            handleDTOValueAnnotation(submitFormData, property);
         }
 
         validate();
@@ -60,7 +60,7 @@ public abstract class ComponentData
     {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
-        Set<ConstraintViolation<ComponentData>> violations = validator.validate(this);
+        Set<ConstraintViolation<ComponentDTO>> violations = validator.validate(this);
         if (!violations.isEmpty())
         {
             throw new ConstraintViolationException(violations);
@@ -68,13 +68,13 @@ public abstract class ComponentData
     }
 
 
-    private void handleWDataAnnotation(SubmitFormData submitFormData, Field property)
+    private void handleDTOValueAnnotation(SubmitFormData submitFormData, Field property)
     {
-        WData wDataAnnotation = property.getAnnotation(WData.class);
-        if (wDataAnnotation != null)
+        DTOValue dtoValueAnnotation = property.getAnnotation(DTOValue.class);
+        if (dtoValueAnnotation != null)
         {
-            String id = StringUtils.isNotBlank(wDataAnnotation.id()) ? wDataAnnotation.id() : property.getName();
-            Class<? extends WidgetData> dataClass = getDataClass(wDataAnnotation, property);
+            String id = StringUtils.isNotBlank(dtoValueAnnotation.id()) ? dtoValueAnnotation.id() : property.getName();
+            Class<? extends WidgetData> dataClass = getDataClass(dtoValueAnnotation, property);
             if (dataClass != null)
             {
                 WidgetData widgetData = submitFormData.get(id, dataClass);
@@ -85,10 +85,10 @@ public abstract class ComponentData
     }
 
 
-    private void handleWIdAnnotation(SubmitFormData submitFormData, Field property)
+    private void handleDTOIdAnnotation(SubmitFormData submitFormData, Field property)
     {
-        WId wIdAnnotation = property.getAnnotation(WId.class);
-        if (wIdAnnotation != null)
+        DTOId dtoIdAnnotation = property.getAnnotation(DTOId.class);
+        if (dtoIdAnnotation != null)
         {
             Optional<Method> setter = ReflectionUtils.getSetter(this.getClass(), property.getName());
             setter.ifPresent(method -> invokeSetter(method, submitFormData.getId()));
@@ -187,11 +187,11 @@ public abstract class ComponentData
     }
 
 
-    private Class<? extends WidgetData> getDataClass(WData wDataAnnotation, Field property)
+    private Class<? extends WidgetData> getDataClass(DTOValue DTOValueAnnotation, Field property)
     {
-        if (!wDataAnnotation.type().equals(WidgetData.class))
+        if (!DTOValueAnnotation.type().equals(WidgetData.class))
         {
-            return wDataAnnotation.type();
+            return DTOValueAnnotation.type();
         }
 
         // calculating WidgetData class from the property type

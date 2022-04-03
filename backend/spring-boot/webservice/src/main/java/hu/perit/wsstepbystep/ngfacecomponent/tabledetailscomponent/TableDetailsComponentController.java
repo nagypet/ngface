@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package hu.perit.wsstepbystep.ngface.tabledetailscomponent;
+package hu.perit.wsstepbystep.ngfacecomponent.tabledetailscomponent;
 
 import hu.perit.ngface.controller.ComponentController;
-import hu.perit.wsstepbystep.ngface.democomponent.DemoTableDataProvider;
+import hu.perit.wsstepbystep.ngfacecomponent.democomponent.DemoTableDataProvider;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TableDetailsComponentController implements ComponentController<TableDetailsComponentController.Params, TableDetailsComponentData>
+public class TableDetailsComponentController implements ComponentController<TableDetailsComponentController.Params, TableDetailsComponentDTO>
 {
     @Data
     public static class Params
@@ -40,9 +40,9 @@ public class TableDetailsComponentController implements ComponentController<Tabl
 
 
     @Override
-    public TableDetailsComponentData initializeData(Params params)
+    public TableDetailsComponentDTO initializeData(Params params)
     {
-        TableDetailsComponentData data = new TableDetailsComponentData();
+        TableDetailsComponentDTO data = new TableDetailsComponentDTO();
         Optional<DemoTableDataProvider.DataRow> optTableRow = this.demoTableDataProvider.getTableRow(params.id);
         if (optTableRow.isPresent())
         {
@@ -59,7 +59,7 @@ public class TableDetailsComponentController implements ComponentController<Tabl
 
 
     @Override
-    public void onSave(TableDetailsComponentData data)
+    public void onSave(TableDetailsComponentDTO data)
     {
         Optional<DemoTableDataProvider.DataRow> optTableRow = this.demoTableDataProvider.getTableRow(Long.valueOf(data.getId()));
         if (optTableRow.isPresent())
