@@ -23,6 +23,11 @@ import hu.perit.ngface.widget.input.TextInput;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -30,6 +35,7 @@ import java.lang.reflect.Parameter;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 public abstract class ComponentData
@@ -44,7 +50,21 @@ public abstract class ComponentData
             handleWDataAnnotation(submitFormData, property);
         }
 
+        validate();
+
         log.debug(this.toString());
+    }
+
+
+    private void validate()
+    {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<ComponentData>> violations = validator.validate(this);
+        if (!violations.isEmpty())
+        {
+            throw new ConstraintViolationException(violations);
+        }
     }
 
 

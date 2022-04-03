@@ -21,6 +21,9 @@ import hu.perit.ngface.data.WData;
 import hu.perit.ngface.data.WId;
 import lombok.Data;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.Size;
+
 @Data
 public class TableDetailsComponentData extends ComponentData
 {
@@ -36,9 +39,11 @@ public class TableDetailsComponentData extends ComponentData
 
     // Weight data element
     @WData(id = WEIGHT)
+    @DecimalMax("100.0")
     private Double weight;
 
     // Symbol data element
     @WData(id = SYMBOL)
+    @Size(min = 2, max = 10)
     private String symbol;
 }
