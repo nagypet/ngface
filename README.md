@@ -53,7 +53,7 @@ public void submitTableDetailsForm(SubmitFormData submitFormData)
 }
 ```
 
-### ngface.tabledetailscomponent package
+### ngfacecomponent.tabledetailscomponent package
 
 Each ngface backend component consists of 3 classes:
 - DTO class
