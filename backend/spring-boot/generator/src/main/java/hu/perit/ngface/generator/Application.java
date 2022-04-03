@@ -57,7 +57,7 @@ public class Application
 
             config.put(Constants.PACKAGE, getPackageName(config));
 
-            processFile("Data.java", config);
+            processFile("DTO.java", config);
             processFile("Controller.java", config);
             processFile("View.java", config);
         }

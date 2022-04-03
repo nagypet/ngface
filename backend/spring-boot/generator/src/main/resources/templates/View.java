@@ -4,15 +4,13 @@ import hu.perit.ngface.view.ComponentView;
 import hu.perit.ngface.widget.form.Form;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
-
 @RequiredArgsConstructor
 public class ${NAME}ComponentView implements ComponentView
 {
 //    public static final String WEIGHT = "weight";
 //    public static final String SYMBOL = "symbol";
 
-    private final ${NAME}ComponentData data;
+    private final ${NAME}ComponentDTO data;
 
     @Override
     public Form getForm()

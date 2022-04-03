@@ -31,61 +31,61 @@ This example is responsible for handling the communication with the frontend in 
 
 ### Rest controller
 ```java
-    //------------------------------------------------------------------------------------------------------------------
-    // getTableDetailsForm()
-    //------------------------------------------------------------------------------------------------------------------
-    @Override
-    public Form getTableDetailsForm(Long id)
-    {
-        TableDetailsComponentController.Params params = new TableDetailsComponentController.Params(id);
-        log.debug("getTableDetailsForm({})", params);
+@Override
+public Form getTableDetailsForm(Long id)
+{
+    TableDetailsComponentController.Params params = new TableDetailsComponentController.Params(id);
+    log.debug("getTableDetailsForm({})", params);
 
-        TableDetailsComponentData data = this.tableDetailsComponentController.initializeData(params);
-        return new TableDetailsComponentView(data).getForm();
-    }
+    TableDetailsComponentDTO data = this.tableDetailsComponentController.initializeData(params);
+    return new TableDetailsComponentView(data).getForm();
+}
 
 
-    //------------------------------------------------------------------------------------------------------------------
-    // submitTableDetailsForm()
-    //------------------------------------------------------------------------------------------------------------------
-    @Override
-    public void submitTableDetailsForm(SubmitFormData submitFormData)
-    {
-        log.debug("submitTableDetailsForm({})", submitFormData);
+@Override
+public void submitTableDetailsForm(SubmitFormData submitFormData)
+{
+    log.debug("submitTableDetailsForm({})", submitFormData);
 
-        TableDetailsComponentData data = new TableDetailsComponentData();
-        data.formSubmitted(submitFormData);
-        this.tableDetailsComponentController.onSave(data);
-    }
-
+    TableDetailsComponentDTO data = new TableDetailsComponentDTO();
+    data.formSubmitted(submitFormData);
+    this.tableDetailsComponentController.onSave(data);
+}
 ```
 
 ### ngface.tabledetailscomponent package
 
 Each ngface backend component consists of 3 classes:
-- Data class
+- DTO class
 - Controller class
 - View class
 
 #### Data class
-The data class holds all the data which will be shown on the form. When the form will be submitted the `formSubmitted` method will be called with the content as a map. 
+The data class holds all the data which will be shown on the form. When the form is submitted the `formSubmitted` method of the parent class will be called with the content as a map. The individual values will be extracted by reflection in the parent class according the `@DTOValue` annotation. 
 
 ```java
 @Data
-public class TableDetailsComponentData implements ComponentData
+public class TableDetailsComponentDTO extends ComponentDTO
 {
-    private String id;
-    private String name;
-    private Double weight;
-    private String symbol;
+    public static final String WEIGHT = "weight";
+    public static final String SYMBOL = "symbol";
 
-    @Override
-    public void formSubmitted(SubmitFormData submitFormData)
-    {
-        this.id = submitFormData.getId();
-        this.weight = submitFormData.getNumericInputValue(TableDetailsComponentView.WEIGHT).doubleValue();
-        this.symbol = submitFormData.getTextInputValue(TableDetailsComponentView.SYMBOL);
-    }
+    // Id of the data row
+    @DTOId
+    private String id;
+
+    // Name of the modal. Not annotated with @DTOValue because it will not be sumbitted by the frontend
+    private String name;
+
+    // Weight data element
+    @DTOValue(id = WEIGHT)
+    @DecimalMax("100.0")
+    private Double weight;
+
+    // Symbol data element
+    @DTOValue(id = SYMBOL)
+    @Size(min = 2, max = 10)
+    private String symbol;
 }
 ```
 
@@ -107,7 +107,7 @@ The controller class is a Spring service, which is called from the Rest controll
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TableDetailsComponentController implements ComponentController<TableDetailsComponentController.Params, TableDetailsComponentData>
+public class TableDetailsComponentController implements ComponentController<TableDetailsComponentController.Params, TableDetailsComponentDTO>
 {
     @Data
     public static class Params
@@ -119,9 +119,9 @@ public class TableDetailsComponentController implements ComponentController<Tabl
 
 
     @Override
-    public TableDetailsComponentData initializeData(Params params)
+    public TableDetailsComponentDTO initializeData(Params params)
     {
-        TableDetailsComponentData data = new TableDetailsComponentData();
+        TableDetailsComponentDTO data = new TableDetailsComponentDTO();
         Optional<DemoTableDataProvider.DataRow> optTableRow = this.demoTableDataProvider.getTableRow(params.id);
         if (optTableRow.isPresent())
         {
@@ -138,7 +138,7 @@ public class TableDetailsComponentController implements ComponentController<Tabl
 
 
     @Override
-    public void onSave(TableDetailsComponentData data)
+    public void onSave(TableDetailsComponentDTO data)
     {
         Optional<DemoTableDataProvider.DataRow> optTableRow = this.demoTableDataProvider.getTableRow(Long.valueOf(data.getId()));
         if (optTableRow.isPresent())
@@ -161,27 +161,23 @@ The view class receives the data in the constructor. Its task is to create the F
 - validators
 
 ```java
-public class Constants
-{
-    public static final NumericFormat ATOMIC_WEIGHT_FORMAT = new NumericFormat().precision(4).suffix("g/mol");
-}
-
 @RequiredArgsConstructor
 public class TableDetailsComponentView implements ComponentView
 {
-    public static final String WEIGHT = "weight";
-    public static final String SYMBOL = "symbol";
-
-    private final TableDetailsComponentData data;
+    private final TableDetailsComponentDTO data;
 
     @Override
     public Form getForm()
     {
         return new Form(data.getId())
                 .title(String.format("Details of %s", this.data.getName()))
-                .addWidget(new TextInput(SYMBOL).value(this.data.getSymbol()).label("Symbol").addValidator(new Required("Symbol is required!")))
-                .addWidget(new NumericInput(WEIGHT)
-                        .value(BigDecimal.valueOf(this.data.getWeight()))
+                .addWidget(new TextInput(TableDetailsComponentDTO.SYMBOL)
+                        .value(this.data.getSymbol())
+                        .label("Symbol")
+                        .addValidator(new Required("Symbol is required!"))
+                )
+                .addWidget(new NumericInput(TableDetailsComponentDTO.WEIGHT)
+                        .value(this.data.getWeight())
                         .label("Weight")
                         .format(Constants.ATOMIC_WEIGHT_FORMAT)
                         .addValidator(new Required("Weight is required!"))
@@ -275,23 +271,30 @@ export class DemoDialog1Component extends FormBaseComponent implements OnInit
         {
           // Submitting new data to the backend
           this.demoService.submitTableDetailsForm({id: row.id, widgetDataMap: result}).subscribe(
-            () => console.log('sumbitted'),
+            () =>
+            {
+              console.log('sumbitted');
+              // reload table content
+              this.demoService.getDemoForm(undefined, undefined, undefined, undefined, row.id).subscribe(data =>
+              {
+                console.log(data);
+                row.cells = data.widgets['table-multiselect'].rows[0].cells;
+              });
+            },
             error => console.log(error));
-
-          // reload table content
-          this.demoService.getDemoForm(undefined, undefined, undefined, undefined, row.id).subscribe(data =>
-          {
-            console.log(data);
-            row.cells = data.widgets['table-multiselect'].rows[0].cells;
-          });
         }
       });
     });
   }
 ```
+
+## Backend code generator
+
+See the `generator` subproject.
+
+
 # Open issues
 
-- NumericInputnál csak a megadott számú tizedes jegyet lehessen beírni
 - DateRangeInput típusú inputoknál időzóna eltérés
 - DateInput formázás magyar dátumformátumra
 - Kellene PasswordInput. Vagy legyen a TextInputnak egy plusz paramétere vagy egy speciális validátora

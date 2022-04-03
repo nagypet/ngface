@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ${NAME}ComponentController implements ComponentController<${NAME}ComponentController.Params, ${NAME}ComponentData>
+public class ${NAME}ComponentController implements ComponentController<${NAME}ComponentController.Params, ${NAME}ComponentDTO>
 {
     @Data
     public static class Params
@@ -21,15 +21,15 @@ public class ${NAME}ComponentController implements ComponentController<${NAME}Co
 
 
     @Override
-    public ${NAME}ComponentData initializeData(Params params)
+    public ${NAME}ComponentDTO initializeData(Params params)
     {
-        ${NAME}ComponentData data = new ${NAME}ComponentData();
+        ${NAME}ComponentDTO data = new ${NAME}ComponentDTO();
         return data;
     }
 
 
     @Override
-    public void onSave(${NAME}ComponentData data)
+    public void onSave(${NAME}ComponentDTO data)
     {
     }
 }
