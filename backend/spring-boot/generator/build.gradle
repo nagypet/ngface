@@ -15,9 +15,18 @@
  * limitations under the License.
  */
 
+buildscript {
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.1.0'
+    }
+}
+
+
 plugins {
     id 'application'
 }
+
+apply plugin: 'com.github.johnrengelman.shadow'
 
 sourceCompatibility = 11
 
