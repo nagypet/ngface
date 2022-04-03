@@ -21,7 +21,6 @@ import hu.perit.ngface.data.DTOValue;
 import hu.perit.ngface.widget.input.DateRangeInput;
 import hu.perit.ngface.widget.input.Select;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -33,7 +32,6 @@ import java.util.List;
  * @author Peter Nagy
  */
 @Data
-@Slf4j
 public class DemoComponentDTO extends ComponentDTO
 {
     public static final String OWNERS_NAME_ID = "name";

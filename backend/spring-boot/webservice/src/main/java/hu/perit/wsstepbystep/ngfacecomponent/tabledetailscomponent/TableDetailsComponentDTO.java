@@ -17,8 +17,8 @@
 package hu.perit.wsstepbystep.ngfacecomponent.tabledetailscomponent;
 
 import hu.perit.ngface.data.ComponentDTO;
-import hu.perit.ngface.data.DTOValue;
 import hu.perit.ngface.data.DTOId;
+import hu.perit.ngface.data.DTOValue;
 import lombok.Data;
 
 import javax.validation.constraints.DecimalMax;
