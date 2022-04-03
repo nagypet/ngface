@@ -62,6 +62,29 @@ public class NumericInput extends Input<NumericInput.Data, BigDecimal, NumericIn
         return this;
     }
 
+    public NumericInput value(Integer value)
+    {
+        this.value(new BigDecimal(value));
+        return this;
+    }
+
+    public NumericInput value(Long value)
+    {
+        this.value(new BigDecimal(value));
+        return this;
+    }
+
+    public NumericInput value(Float value)
+    {
+        this.value(new BigDecimal(value));
+        return this;
+    }
+
+    public NumericInput value(Double value)
+    {
+        this.value(new BigDecimal(value));
+        return this;
+    }
 
     @ToString(callSuper = true)
     @Getter

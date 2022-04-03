@@ -138,15 +138,17 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
         {
           // Submitting new data to the backend
           this.demoService.submitTableDetailsForm({id: row.id, widgetDataMap: result}).subscribe(
-            () => console.log('sumbitted'),
+            () =>
+            {
+              console.log('sumbitted');
+              // reload table content
+              this.demoService.getDemoForm(undefined, undefined, undefined, undefined, row.id).subscribe(data =>
+              {
+                console.log(data);
+                row.cells = data.widgets['table-multiselect'].rows[0].cells;
+              });
+            },
             error => console.log(error));
-
-          // reload table content
-          this.demoService.getDemoForm(undefined, undefined, undefined, undefined, row.id).subscribe(data =>
-          {
-            console.log(data);
-            row.cells = data.widgets['table-multiselect'].rows[0].cells;
-          });
         }
       });
     });

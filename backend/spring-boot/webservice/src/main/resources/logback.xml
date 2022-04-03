@@ -83,6 +83,10 @@
 		<appender-ref ref="application-message"/>
 	</logger>
 
+	<logger name="hu.perit.ngface" level="DEBUG" additivity="false">
+		<appender-ref ref="application-message"/>
+	</logger>
+
 	<!--
 	<logger name="com.netflix.discovery" level="OFF"/>
 	<logger name="org.springframework.transaction" level="DEBUG"/>

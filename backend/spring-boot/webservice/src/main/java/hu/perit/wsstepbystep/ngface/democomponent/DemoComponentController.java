@@ -57,8 +57,8 @@ public class DemoComponentController implements ComponentController<DemoComponen
         DemoComponentData data = new DemoComponentData();
         data.setOwnersName("Peter");
         data.setRole("Admin");
-        data.setAmount(new BigDecimal("2.123456789"));
-        data.setCountSamples(new BigDecimal("10"));
+        data.setAmount(2.123456789);
+        data.setCountSamples(10L);
         data.setCheckInDate(LocalDate.now());
         data.setDateRange(new DateRangeInput.Data(LocalDate.now(), LocalDate.now().plusDays(1)));
         data.setSelectData(new Select.Data()
@@ -90,6 +90,6 @@ public class DemoComponentController implements ComponentController<DemoComponen
     @Override
     public void onSave(DemoComponentData data)
     {
-        log.debug(data.toString());
+        // Here you can save the submitted data
     }
 }

@@ -17,12 +17,12 @@
 package hu.perit.wsstepbystep.ngface.democomponent;
 
 import hu.perit.ngface.data.ComponentData;
-import hu.perit.ngface.data.SubmitFormData;
+import hu.perit.ngface.data.WData;
 import hu.perit.ngface.widget.input.DateRangeInput;
 import hu.perit.ngface.widget.input.Select;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -33,38 +33,59 @@ import java.util.List;
  * @author Peter Nagy
  */
 @Data
-public class DemoComponentData implements ComponentData
+@Slf4j
+public class DemoComponentData extends ComponentData
 {
+    public static final String OWNERS_NAME_ID = "name";
+    public static final String PLACE_OF_BIRTH_ID = "place-of-birth";
+    public static final String EMAIL_ID = "email";
+    public static final String ROLE_ID = "role";
+    public static final String AMOUNT_ID = "amount";
+    public static final String COUNT_SAMPLES_ID = "count-samples";
+    public static final String ACCOUNT_NO = "account-no";
+    public static final String CHECK_IN_DATE_ID = "check-in-date";
+    public static final String CHECK_OUT_DATE_ID = "check-out-date";
+    public static final String DATE_RANGE_ID = "date-range";
+    public static final String SELECT_ID = "select";
+    public static final String SELECT2_ID = "select2";
+    public static final String SELECT3_ID = "select3";
+
+    @WData(id = OWNERS_NAME_ID)
     private String ownersName;
+
+    @WData(id = PLACE_OF_BIRTH_ID)
     private String placeOfBirth;
+
+    @WData(id = EMAIL_ID)
     private String email;
+
+    @WData(id = ROLE_ID)
     private String role;
-    private BigDecimal amount;
-    private BigDecimal countSamples;
+
+    @WData(id = AMOUNT_ID)
+    private Double amount;
+
+    @WData(id = COUNT_SAMPLES_ID)
+    private Long countSamples;
+
+    @WData(id = CHECK_IN_DATE_ID)
     private LocalDate checkInDate;
+
+    @WData(id = CHECK_OUT_DATE_ID)
     private LocalDate checkOutDate;
+
+    @WData(id = DATE_RANGE_ID)
     private DateRangeInput.Data dateRange;
+
+    @WData(id = SELECT_ID)
     private Select.Data selectData;
+
+    @WData(id = SELECT2_ID)
     private Select.Data select2Data;
+
+    @WData(id = SELECT3_ID)
     private Select.Data select3Data;
+
     private List<DemoTableDataProvider.DataRow> tableRows;
     private int totalTableRowCount;
-
-    @Override
-    public void formSubmitted(SubmitFormData submitFormData)
-    {
-        this.ownersName = submitFormData.getTextInputValue(DemoComponentView.OWNERS_NAME_ID);
-        this.placeOfBirth = submitFormData.getTextInputValue(DemoComponentView.PLACE_OF_BIRTH_ID);
-        this.email = submitFormData.getTextInputValue(DemoComponentView.EMAIL_ID);
-        this.role = submitFormData.getTextInputValue(DemoComponentView.ROLE_ID);
-        this.amount = submitFormData.getNumericInputValue(DemoComponentView.AMOUNT_ID);
-        this.countSamples = submitFormData.getNumericInputValue(DemoComponentView.COUNT_SAMPLES_ID);
-        this.checkInDate = submitFormData.getDateInputValue(DemoComponentView.CHECK_IN_DATE_ID);
-        this.checkOutDate = submitFormData.getDateInputValue(DemoComponentView.CHECK_OUT_DATE_ID);
-        this.dateRange = submitFormData.get(DemoComponentView.DATE_RANGE_ID, DateRangeInput.Data.class);
-        this.selectData = submitFormData.get(DemoComponentView.SELECT_ID, Select.Data.class);
-        this.select2Data = submitFormData.get(DemoComponentView.SELECT2_ID, Select.Data.class);
-        this.select3Data = submitFormData.get(DemoComponentView.SELECT3_ID, Select.Data.class);
-    }
-
 }

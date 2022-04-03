@@ -17,22 +17,28 @@
 package hu.perit.wsstepbystep.ngface.tabledetailscomponent;
 
 import hu.perit.ngface.data.ComponentData;
-import hu.perit.ngface.data.SubmitFormData;
+import hu.perit.ngface.data.WData;
+import hu.perit.ngface.data.WId;
 import lombok.Data;
 
 @Data
-public class TableDetailsComponentData implements ComponentData
+public class TableDetailsComponentData extends ComponentData
 {
-    private String id;
-    private String name;
-    private Double weight;
-    private String symbol;
+    public static final String WEIGHT = "weight";
+    public static final String SYMBOL = "symbol";
 
-    @Override
-    public void formSubmitted(SubmitFormData submitFormData)
-    {
-        this.id = submitFormData.getId();
-        this.weight = submitFormData.getNumericInputValue(TableDetailsComponentView.WEIGHT).doubleValue();
-        this.symbol = submitFormData.getTextInputValue(TableDetailsComponentView.SYMBOL);
-    }
+    // Id of the data row
+    @WId
+    private String id;
+
+    // Name of the modal. Not annotated with @WData because it will not be sumbitted by the frontend
+    private String name;
+
+    // Weight data element
+    @WData(id = WEIGHT)
+    private Double weight;
+
+    // Symbol data element
+    @WData(id = SYMBOL)
+    private String symbol;
 }

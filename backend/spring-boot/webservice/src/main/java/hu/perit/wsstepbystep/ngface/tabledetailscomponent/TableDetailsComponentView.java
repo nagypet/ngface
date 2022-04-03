@@ -25,14 +25,9 @@ import hu.perit.ngface.widget.input.validator.Required;
 import hu.perit.wsstepbystep.config.Constants;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
-
 @RequiredArgsConstructor
 public class TableDetailsComponentView implements ComponentView
 {
-    public static final String WEIGHT = "weight";
-    public static final String SYMBOL = "symbol";
-
     private final TableDetailsComponentData data;
 
     @Override
@@ -40,9 +35,13 @@ public class TableDetailsComponentView implements ComponentView
     {
         return new Form(data.getId())
                 .title(String.format("Details of %s", this.data.getName()))
-                .addWidget(new TextInput(SYMBOL).value(this.data.getSymbol()).label("Symbol").addValidator(new Required("Symbol is required!")))
-                .addWidget(new NumericInput(WEIGHT)
-                        .value(BigDecimal.valueOf(this.data.getWeight()))
+                .addWidget(new TextInput(TableDetailsComponentData.SYMBOL)
+                        .value(this.data.getSymbol())
+                        .label("Symbol")
+                        .addValidator(new Required("Symbol is required!"))
+                )
+                .addWidget(new NumericInput(TableDetailsComponentData.WEIGHT)
+                        .value(this.data.getWeight())
                         .label("Weight")
                         .format(Constants.ATOMIC_WEIGHT_FORMAT)
                         .addValidator(new Required("Weight is required!"))
