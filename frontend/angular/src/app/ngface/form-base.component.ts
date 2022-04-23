@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {TypeModels} from '../dto-models';
 import Form = TypeModels.Form;
@@ -33,9 +33,9 @@ export abstract class FormBaseComponent
   {
   }
 
-  getSubmitData(): {[key: string]: WidgetData}
+  getSubmitData(): { [key: string]: WidgetData }
   {
-    let submitData: {[key: string]: WidgetData} = {};
+    let submitData: { [key: string]: WidgetData } = {};
     Object.keys(this.formGroup.controls).forEach(controlName =>
     {
       let widget = this.formData.widgets[controlName];
@@ -44,24 +44,57 @@ export abstract class FormBaseComponent
       {
         case 'TextInput':
         case 'NumericInput':
+          submitData[controlName] = <TypeModels.Value<any>> {
+            type: widgetType + '.Data',
+            value: this.formGroup.controls[controlName]?.value
+          };
+          break;
+
         case 'DateInput':
         case 'DateTimeInput':
-          submitData[controlName] = <TypeModels.Value<any>>{type: widgetType + ".Data", value: this.formGroup.controls[controlName]?.value};
+          // Converting to local date without time zone information
+          let myDate = this.formGroup.controls[controlName]?.value;
+          submitData[controlName] = <TypeModels.Value<any>> {
+            type: widgetType + '.Data',
+            value: FormBaseComponent.getLocalDateTime(myDate)
+          };
           break;
 
         case 'DateRangeInput':
-          submitData[controlName] = <TypeModels.DateRangeInput.Data>{type: widgetType + ".Data", startDate: this.formGroup.controls[controlName]?.value?.start, endDate: this.formGroup.controls[controlName]?.value?.end};
+          submitData[controlName] = <TypeModels.DateRangeInput.Data> {
+            type: widgetType + '.Data',
+            startDate: FormBaseComponent.getLocalDateTime(this.formGroup.controls[controlName]?.value?.start),
+            endDate: FormBaseComponent.getLocalDateTime(this.formGroup.controls[controlName]?.value?.end)
+          };
           break;
 
         case 'Select':
           let selected = this.formGroup.controls[controlName]?.value;
           let selectedOption: { [index: string]: string } = {};
           selectedOption[selected] = widget?.data.options[selected];
-          submitData[controlName] = <TypeModels.Select.Data>{type: widgetType + ".Data", options: selectedOption, selected: selected};
+          submitData[controlName] = <TypeModels.Select.Data> {type: widgetType + '.Data', options: selectedOption, selected: selected};
           break;
       }
     });
 
     return submitData;
+  }
+
+
+  private static getLocalDateTime(date: Date): Date | null
+  {
+    if (!date)
+    {
+      return null;
+    }
+
+    if (date instanceof Date)
+    {
+      const offset = date.getTimezoneOffset();
+      let convertedDate: Date = new Date();
+      convertedDate.setTime(date.getTime() - (offset * 60 * 1000));
+      return convertedDate;
+    }
+    return new Date(date);
   }
 }

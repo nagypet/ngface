@@ -16,10 +16,13 @@
 
 <mat-form-field class="ngface-input-field" [floatLabel]="floatLabelControl.value">
   <mat-label>{{getData().label}}</mat-label>
-  <input matInput type="date" autocomplete="off" [formControl]="formControl"
+  <input matInput autocomplete="off" [matDatepicker]="picker"
+         [formControl]="formControl"
          [required]="isRequired()"
          [errorStateMatcher]="errorStateMatcher"
   >
   <mat-hint>{{getData().hint}}</mat-hint>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
   <mat-error *ngIf="formControl.errors">{{getValidationErrors()}}</mat-error>
 </mat-form-field>
