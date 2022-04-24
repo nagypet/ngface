@@ -1,0 +1,45 @@
+.ngface-excel-filter {
+  width: 200px;
+  height: 230px;
+  z-index: 99;
+  position: absolute;
+  right: 0;
+  //border: rgba(0, 0, 0, .12) solid 1px;
+  //border-radius: 5px;
+  background-color: white;
+}
+
+.searchbox {
+  input, input:focus {
+    border: rgba(0, 0, 0, .12) solid 1px;
+    width: 100%;
+    outline: none;
+  }
+
+  mat-icon {
+    position: absolute;
+    right: 0;
+    transform: scale(0.7);
+  }
+}
+
+.listbox {
+  border: rgba(0, 0, 0, .12) solid 1px;
+  border-top: none;
+  overflow: auto;
+  max-height: 180px;
+}
+
+.list-item {
+  padding: 2px 10px;
+  margin: 2px;
+}
+
+.list-item:hover {
+  background-color: rgba(0, 0, 0, .12);
+}
+
+.action-bar {
+  border: rgba(0, 0, 0, .12) solid 1px;
+  border-top: none;
+}

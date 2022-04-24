@@ -101,7 +101,11 @@ tr.mat-row, tr.mat-footer-row {
   }
 }
 
-th, td {
+th {
+  padding: 0 6px 0 20px !important;
+}
+
+td {
   padding: 0 20px !important;
 }
 

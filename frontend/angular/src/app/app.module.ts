@@ -49,6 +49,8 @@ import {registerLocaleData} from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { IntlNumericInputComponent } from './ngface/numeric-input/intl-numeric-input/intl-numeric-input.component';
+import { SortFilterHeaderComponent } from './ngface/data-table/sort-filter-header/sort-filter-header.component';
+import { ExcelFilterComponent } from './ngface/data-table/excel-filter/excel-filter.component';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -65,7 +67,9 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     DataTableComponent,
     DemoDialog1Component,
     NumericInputFilterDirective,
-    IntlNumericInputComponent
+    IntlNumericInputComponent,
+    SortFilterHeaderComponent,
+    ExcelFilterComponent
   ],
   imports: [
     BrowserModule,

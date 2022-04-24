@@ -20,13 +20,16 @@
 
     <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
 
+      <!-- First column -->
       <div *ngIf="column === '___checkbox-column___'">
+        <!-- Header text -->
         <th [class]="getThClass(column)" mat-header-cell *matHeaderCellDef>
           <mat-checkbox (change)="$event ? masterToggle($event) : null"
                         [checked]="isAllSelected()"
                         [indeterminate]="isAnySelected() && !isAllSelected()">
           </mat-checkbox>
         </th>
+        <!-- Cell content -->
         <td mat-cell *matCellDef="let row">
           <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? onRowClick(row) : null"
                         [checked]="isChecked(row)">
@@ -34,19 +37,18 @@
         </td>
       </div>
 
+      <!-- Other columns -->
       <div *ngIf="column !== '___checkbox-column___'">
         <!-- Header text -->
-        <div *ngIf="isColumnSortable(column)">
-          <th [class]="getThClass(column)" mat-header-cell *matHeaderCellDef mat-sort-header>{{getHeaderText(column)}}</th>
-        </div>
-        <div *ngIf="!isColumnSortable(column)">
-          <th [class]="getThClass(column)" mat-header-cell *matHeaderCellDef>{{getHeaderText(column)}}</th>
-        </div>
+        <th [class]="getThClass(column)" mat-header-cell *matHeaderCellDef ngface-sort-filter-header
+            [text]="getHeaderText(column)"
+            [sortable]="isColumnSortable(column)"
+            [filterable]="true"></th>
 
         <!-- Cell content -->
         <td [class]="getTdClass(column)" mat-cell *matCellDef="let row">{{getCellText(row, column)}}
           <button *ngFor="let action of getActions(row, column)" mat-icon-button [disabled]="!action.enabled">
-            <mat-icon class="material-icons-outlined ngface-mat-icon"
+            <mat-icon class="material-icons-outlined"
                       [ngClass]="getActionClass(action)"
                       (click)="$event.stopPropagation(); actionClick(row, action.id)"
                       [matTooltip]="action.enabled ? action.label : ''"

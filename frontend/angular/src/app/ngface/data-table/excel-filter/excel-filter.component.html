@@ -1,0 +1,18 @@
+<div style="position: relative">
+  <div class="ngface-excel-filter" (click)="$event.stopPropagation()">
+    <div class="searchbox" >
+      <input type="text" placeholder="Search...">
+      <mat-icon>search</mat-icon>
+    </div>
+    <div class="listbox">
+      <ul class="list-item" *ngFor="let choice of choises" (click)="onItemSelected(choice)">
+        <mat-checkbox [checked]="choice.selected"></mat-checkbox>
+        {{choice.text}}
+      </ul>
+    </div>
+    <div class="action-bar">
+      <button (click)="onOk()">OK</button>
+      <button (click)="onCancel()">Cancel</button>
+    </div>
+  </div>
+</div>
