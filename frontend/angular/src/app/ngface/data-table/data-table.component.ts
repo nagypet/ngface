@@ -23,12 +23,12 @@ import {DemoService} from '../../services/demo.service';
 import {TypeModels} from '../../dto-models';
 import {tap} from 'rxjs/operators';
 import {merge} from 'rxjs';
-import Form = TypeModels.Form;
 import {MatCheckboxChange} from '@angular/material/checkbox';
+import {NumericFormatter} from '../numeric-formatter';
+import {SearchEvent, SearchItem} from './excel-filter/excel-filter.component';
+import Form = TypeModels.Form;
 import ActionCell = TypeModels.ActionCell;
 import NumericCell = TypeModels.NumericCell;
-import {formatNumber} from '@angular/common';
-import {NumericFormatter} from '../numeric-formatter';
 
 export interface TableReloadEvent
 {
@@ -44,6 +44,13 @@ export interface ActionClickEvent
   row: TypeModels.Row;
   actionId: string;
 }
+
+export interface TableSearchEvent
+{
+  column: string;
+  searchEvent: SearchEvent;
+}
+
 
 @Component({
   selector: 'ngface-data-table',
@@ -66,6 +73,9 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   @Output()
   actionClickEvent: EventEmitter<ActionClickEvent> = new EventEmitter();
+
+  @Output()
+  searchEvent: EventEmitter<TableSearchEvent> = new EventEmitter();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -177,6 +187,18 @@ export class DataTableComponent implements OnChanges, AfterViewInit
   {
     let sortable = this.getData().columns[column]?.sortable;
     return sortable != undefined ? sortable : false;
+  }
+
+  isColumnFilterable(column: string): boolean
+  {
+    let filterable = this.getData().columns[column]?.filterable;
+    return filterable != undefined ? filterable : false;
+  }
+
+  getColumnFilter(column: string): TypeModels.Filter | undefined
+  {
+    let filter = this.getData().columns[column]?.filter
+    return filter != undefined ? filter : undefined;
   }
 
   getThClass(column: string): string | null
@@ -301,4 +323,11 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
     return 'ngface-mat-icon-disabled';
   }
+
+
+  onSearchEvent(column: string, $event: SearchEvent)
+  {
+    this.searchEvent.emit({column: column, searchEvent: $event});
+  }
+
 }

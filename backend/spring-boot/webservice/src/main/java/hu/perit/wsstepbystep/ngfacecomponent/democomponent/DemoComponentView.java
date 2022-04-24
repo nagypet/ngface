@@ -21,14 +21,26 @@ import hu.perit.ngface.formating.NumericFormat;
 import hu.perit.ngface.view.ComponentView;
 import hu.perit.ngface.widget.button.Button;
 import hu.perit.ngface.widget.form.Form;
-import hu.perit.ngface.widget.input.*;
-import hu.perit.ngface.widget.input.validator.*;
-import hu.perit.ngface.widget.table.*;
+import hu.perit.ngface.widget.input.DateInput;
+import hu.perit.ngface.widget.input.DateRangeInput;
+import hu.perit.ngface.widget.input.NumericInput;
+import hu.perit.ngface.widget.input.Select;
+import hu.perit.ngface.widget.input.TextInput;
+import hu.perit.ngface.widget.input.validator.Email;
+import hu.perit.ngface.widget.input.validator.Max;
+import hu.perit.ngface.widget.input.validator.Min;
+import hu.perit.ngface.widget.input.validator.Pattern;
+import hu.perit.ngface.widget.input.validator.Required;
+import hu.perit.ngface.widget.input.validator.Size;
+import hu.perit.ngface.widget.table.Action;
+import hu.perit.ngface.widget.table.Column;
+import hu.perit.ngface.widget.table.Paginator;
+import hu.perit.ngface.widget.table.Row;
+import hu.perit.ngface.widget.table.Table;
 import hu.perit.ngface.widget.table.cell.ActionCell;
 import hu.perit.wsstepbystep.config.Constants;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -151,9 +163,9 @@ public class DemoComponentView implements ComponentView
         Table table = new Table(id)
                 .label("Elements")
                 .addColumn(new Column("id").text("Id").sortable(true).size(Column.Size.S))
-                .addColumn(new Column("name").text("Name").sortable(true).size(Column.Size.L))
+                .addColumn(new Column("name").text("Name").sortable(true).size(Column.Size.L).filterable(true).filter(this.data.getNameFilter()))
                 .addColumn(new Column("weight").text("Weight").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
-                .addColumn(new Column("symbol").text("Symbol").size(Column.Size.S))
+                .addColumn(new Column("symbol").text("Symbol").size(Column.Size.S).filterable(true).filter(this.data.getSymbolFilter()))
                 .addColumn(new Column("price-eur").text("Price EUR").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
                 .addColumn(new Column("price-huf").text("Price HUF").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
                 .addColumn(new Column("actions").text("Actions"));
@@ -163,10 +175,10 @@ public class DemoComponentView implements ComponentView
             table.addRow(new Row(item.getId().toString())
                     .putCell("id", item.getId().toString())
                     .putCell("name", item.getName())
-                    .putCell("weight", BigDecimal.valueOf(item.getWeight()), Constants.ATOMIC_WEIGHT_FORMAT)
+                    .putCell("weight", item.getWeight(), Constants.ATOMIC_WEIGHT_FORMAT)
                     .putCell("symbol", item.getSymbol())
-                    .putCell("price-eur", BigDecimal.valueOf(item.getWeight()), FormatCurrency.EUR)
-                    .putCell("price-huf", BigDecimal.valueOf(item.getWeight() * 370), FormatCurrency.HUF)
+                    .putCell("price-eur", item.getWeight(), FormatCurrency.EUR)
+                    .putCell("price-huf", item.getWeight() * 370, FormatCurrency.HUF)
                     .putCell("actions", new ActionCell(List.of(
                             new Action("edit").label("Edit").icon("edit"),
                             new Action("delete").label("Delete").icon("delete").enabled(false)

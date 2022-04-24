@@ -17,10 +17,11 @@
 import {Component, OnInit} from '@angular/core';
 import {DemoService} from '../services/demo.service';
 import {FormBaseComponent} from '../ngface/form-base.component';
-import {ActionClickEvent, TableReloadEvent} from '../ngface/data-table/data-table.component';
+import {ActionClickEvent, TableReloadEvent, TableSearchEvent} from '../ngface/data-table/data-table.component';
 import {TypeModels} from '../dto-models';
 import {MatDialog} from '@angular/material/dialog';
 import {DemoDialog1Component} from '../demo-dialog1/demo-dialog1.component';
+import {SearchItem} from '../ngface/data-table/excel-filter/excel-filter.component';
 
 
 @Component({
@@ -89,7 +90,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     this.demoService.getDemoForm($event.pageIndex, $event.pageSize, $event.sortColumn, $event.sortDirection).subscribe(data =>
     {
       console.log(data);
-      $event.dataSource.setWidgetData(<TypeModels.Table>data.widgets['table-multiselect']);
+      $event.dataSource.setWidgetData(<TypeModels.Table> data.widgets['table-multiselect']);
     });
   }
 
@@ -104,7 +105,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     this.enableButtons();
   }
 
-  onActionClick($event: ActionClickEvent)
+  onTableActionClick($event: ActionClickEvent)
   {
     if ($event.actionId === 'edit')
     {
@@ -153,5 +154,18 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
         }
       });
     });
+  }
+
+
+  onTableSearchEvent($event: TableSearchEvent)
+  {
+    console.log($event);
+
+    let c: SearchItem[] = [];
+    for (let i = 0; i < $event.searchEvent.searchText.length; i++)
+    {
+      c.push({text: 'alma', selected: false});
+    }
+    $event.searchEvent.searchResultProvider.choises = c;
   }
 }

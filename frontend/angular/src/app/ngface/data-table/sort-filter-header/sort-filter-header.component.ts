@@ -1,4 +1,6 @@
-import {Component, HostListener, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {SearchEvent} from '../excel-filter/excel-filter.component';
+import {TypeModels} from '../../../dto-models';
 
 @Component({
   exportAs: 'ngFaceSortFilterHeader',
@@ -16,6 +18,12 @@ export class SortFilterHeaderComponent implements OnInit {
 
   @Input()
   filterable: boolean;
+
+  @Input()
+  filter: TypeModels.Filter | undefined;
+
+  @Output()
+  searchEvent: EventEmitter<SearchEvent> = new EventEmitter();
 
   showExcelFilter = false;
 
@@ -39,5 +47,10 @@ export class SortFilterHeaderComponent implements OnInit {
   onEscape()
   {
     this.showExcelFilter = false;
+  }
+
+  onSearchEvent($event: SearchEvent)
+  {
+    this.searchEvent.emit($event);
   }
 }

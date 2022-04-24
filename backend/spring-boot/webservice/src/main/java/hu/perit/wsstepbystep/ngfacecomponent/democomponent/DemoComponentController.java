@@ -83,6 +83,8 @@ public class DemoComponentController implements ComponentController<DemoComponen
             data.setTableRows(this.demoTableDataProvider.getTableRows(params.getPageNumber(), params.getPageSize(), params.getSortColumn(), params.getSortDirection()));
             data.setTotalTableRowCount(this.demoTableDataProvider.getLength());
         }
+        data.setNameFilter(this.demoTableDataProvider.getNameFilter());
+        data.setSymbolFilter(this.demoTableDataProvider.getSymbolFilter());
         return data;
     }
 

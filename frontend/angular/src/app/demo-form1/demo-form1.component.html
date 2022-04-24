@@ -47,7 +47,11 @@
       <ngface-button [formData]="formData" [widgetId]="'button-details'" (click)="onDetails()"></ngface-button>
     </div>
     -->
-    <ngface-data-table [formData]="formData" [widgetId]="'table-multiselect'" (tableReloadEvent)="onTableReload($event)" (actionClickEvent)="onActionClick($event)"></ngface-data-table>
+    <ngface-data-table [formData]="formData" [widgetId]="'table-multiselect'"
+                       (tableReloadEvent)="onTableReload($event)"
+                       (actionClickEvent)="onTableActionClick($event)"
+                       (searchEvent)="onTableSearchEvent($event)">
+    </ngface-data-table>
     <div class="ngface-row">
       <ngface-button [formData]="formData" [widgetId]="'button-ok'" (click)="onOkClick()"></ngface-button>
       <ngface-button [formData]="formData" [widgetId]="'button-cancel'"></ngface-button>

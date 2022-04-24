@@ -6,4 +6,4 @@
   </button>
 </div>
 
-<ngface-excel-filter *ngIf="showExcelFilter"></ngface-excel-filter>
+<ngface-excel-filter *ngIf="showExcelFilter" [filter]="filter" (searchEvent)="onSearchEvent($event)"></ngface-excel-filter>

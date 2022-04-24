@@ -16,6 +16,7 @@
 
 package hu.perit.wsstepbystep.ngfacecomponent.democomponent;
 
+import hu.perit.ngface.widget.table.Filter;
 import hu.perit.spvitamin.core.typehelpers.LongUtils;
 import hu.perit.spvitamin.spring.json.JsonSerializable;
 import hu.perit.wsstepbystep.config.Constants;
@@ -133,6 +134,22 @@ public class DemoTableDataProvider
 
         List<DataRow> sortedList = this.data.dataRows.stream().sorted(comparator).collect(Collectors.toList());
         return sortedList.subList(fromIndex, toIndex);
+    }
+
+
+    public Filter getNameFilter()
+    {
+        Filter filter = new Filter();
+        filter.filters(this.data.dataRows.stream().map(DataRow::getName).distinct().sorted().collect(Collectors.toList()));
+        return filter;
+    }
+
+
+    public Filter getSymbolFilter()
+    {
+        Filter filter = new Filter();
+        filter.filters(this.data.dataRows.stream().map(DataRow::getSymbol).distinct().sorted().collect(Collectors.toList()));
+        return filter;
     }
 
 

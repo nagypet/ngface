@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-03-25 23:45:15.
+// Generated using typescript-generator version 2.17.558 on 2022-04-24 20:47:25.
 
 export namespace TypeModels {
 
@@ -136,8 +136,14 @@ export namespace TypeModels {
         id: string;
         text: string;
         sortable: boolean;
+        filterable: boolean;
         size: Column.Size;
         textAlign: TextAlign;
+        filter: Filter;
+    }
+
+    export interface Filter {
+        filters: string[];
     }
 
     export interface Paginator {

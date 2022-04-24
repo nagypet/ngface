@@ -62,6 +62,54 @@ public class Row
         return this;
     }
 
+    public Row putCell(String colId, Integer value)
+    {
+        this.cells.put(colId, new NumericCell(new BigDecimal(value)));
+        return this;
+    }
+
+    public Row putCell(String colId, Integer value, NumericFormat format)
+    {
+        this.cells.put(colId, new NumericCell(new BigDecimal(value)).format(format));
+        return this;
+    }
+
+    public Row putCell(String colId, Long value)
+    {
+        this.cells.put(colId, new NumericCell(new BigDecimal(value)));
+        return this;
+    }
+
+    public Row putCell(String colId, Long value, NumericFormat format)
+    {
+        this.cells.put(colId, new NumericCell(new BigDecimal(value)).format(format));
+        return this;
+    }
+
+    public Row putCell(String colId, Float value)
+    {
+        this.cells.put(colId, new NumericCell(new BigDecimal(value)));
+        return this;
+    }
+
+    public Row putCell(String colId, Float value, NumericFormat format)
+    {
+        this.cells.put(colId, new NumericCell(new BigDecimal(value)).format(format));
+        return this;
+    }
+
+    public Row putCell(String colId, Double value)
+    {
+        this.cells.put(colId, new NumericCell(new BigDecimal(value)));
+        return this;
+    }
+
+    public Row putCell(String colId, Double value, NumericFormat format)
+    {
+        this.cells.put(colId, new NumericCell(new BigDecimal(value)).format(format));
+        return this;
+    }
+
     public Row putCell(String colId, Cell<?> cell)
     {
         this.cells.put(colId, cell);

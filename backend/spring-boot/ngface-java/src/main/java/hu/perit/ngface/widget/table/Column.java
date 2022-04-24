@@ -45,8 +45,10 @@ public class Column
     private final String id;
     private String text;
     private Boolean sortable = Boolean.FALSE;
+    private Boolean filterable = Boolean.FALSE;
     private Size size = Size.AUTO;
     private TextAlign textAlign = TextAlign.LEFT;
+    private Filter filter;
 
     // For JSon deserialization
     private Column()
@@ -63,6 +65,18 @@ public class Column
     public Column sortable(Boolean sortable)
     {
         this.sortable = sortable;
+        return this;
+    }
+
+    public Column filterable(Boolean filterable)
+    {
+        this.filterable = filterable;
+        return this;
+    }
+
+    public Column filter(Filter filter)
+    {
+        this.filter = filter;
         return this;
     }
 

@@ -20,6 +20,7 @@ import hu.perit.ngface.data.ComponentDTO;
 import hu.perit.ngface.data.DTOValue;
 import hu.perit.ngface.widget.input.DateRangeInput;
 import hu.perit.ngface.widget.input.Select;
+import hu.perit.ngface.widget.table.Filter;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -86,4 +87,6 @@ public class DemoComponentDTO extends ComponentDTO
 
     private List<DemoTableDataProvider.DataRow> tableRows;
     private int totalTableRowCount;
+    private Filter nameFilter;
+    private Filter symbolFilter;
 }

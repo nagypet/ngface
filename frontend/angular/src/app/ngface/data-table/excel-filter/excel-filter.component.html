@@ -1,18 +1,18 @@
 <div style="position: relative">
   <div class="ngface-excel-filter" (click)="$event.stopPropagation()">
-    <div class="searchbox" >
-      <input type="text" placeholder="Search...">
+    <div class="searchbox">
+      <input type="text" placeholder="Search..." [formControl]="formControlSearch" (ngModelChange)="onChange($event)">
       <mat-icon>search</mat-icon>
     </div>
     <div class="listbox">
-      <ul class="list-item" *ngFor="let choice of choises" (click)="onItemSelected(choice)">
-        <mat-checkbox [checked]="choice.selected"></mat-checkbox>
-        {{choice.text}}
-      </ul>
+      <div class="list-item" *ngFor="let choice of searchResultProvider.choises" (click)="onItemSelected(choice)">
+        <mat-checkbox [checked]="choice.selected" (click)="$event.stopPropagation()"></mat-checkbox>
+        <span>{{choice.text}}</span>
+      </div>
     </div>
-    <div class="action-bar">
-      <button (click)="onOk()">OK</button>
-      <button (click)="onCancel()">Cancel</button>
+    <div class="action-bar" style="background-color: white">
+      <button mat-button (click)="onOk()">OK</button>
+      <button mat-button (click)="onCancel()">Cancel</button>
     </div>
   </div>
 </div>

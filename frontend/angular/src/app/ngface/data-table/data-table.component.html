@@ -43,7 +43,11 @@
         <th [class]="getThClass(column)" mat-header-cell *matHeaderCellDef ngface-sort-filter-header
             [text]="getHeaderText(column)"
             [sortable]="isColumnSortable(column)"
-            [filterable]="true"></th>
+            [filterable]="isColumnFilterable(column)"
+            [filter]="getColumnFilter(column)"
+            (searchEvent)="onSearchEvent(column, $event)"
+        >
+        </th>
 
         <!-- Cell content -->
         <td [class]="getTdClass(column)" mat-cell *matCellDef="let row">{{getCellText(row, column)}}
