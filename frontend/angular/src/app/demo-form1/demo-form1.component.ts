@@ -89,7 +89,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     this.demoService.getDemoForm($event.pageIndex, $event.pageSize, $event.sortColumn, $event.sortDirection).subscribe(data =>
     {
       console.log(data);
-      this.formData = data;
+      $event.dataSource.setWidgetData(<TypeModels.Table>data.widgets['table-multiselect']);
     });
   }
 
@@ -145,6 +145,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
               this.demoService.getDemoForm(undefined, undefined, undefined, undefined, row.id).subscribe(data =>
               {
                 console.log(data);
+                // @ts-ignore
                 row.cells = data.widgets['table-multiselect'].rows[0].cells;
               });
             },

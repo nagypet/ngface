@@ -36,6 +36,7 @@ export interface TableReloadEvent
   pageSize: number;
   sortColumn: string;
   sortDirection: string;
+  dataSource: DataTableDataSource;
 }
 
 export interface ActionClickEvent
@@ -97,18 +98,19 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
-        tap(() => this.onPaginatorChanged())
+        tap(() => this.onPaginatorChanged(this.dataSource))
       )
       .subscribe();
   }
 
-  onPaginatorChanged()
+  onPaginatorChanged(dataSource: DataTableDataSource)
   {
     let event: TableReloadEvent = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
       sortColumn: this.sort.active,
-      sortDirection: this.sort.direction
+      sortDirection: this.sort.direction,
+      dataSource: dataSource
     };
     this.tableReloadEvent.emit(event);
   }
