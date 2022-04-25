@@ -166,6 +166,6 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     {
       c.push({text: 'alma', selected: false});
     }
-    $event.searchEvent.searchResultProvider.choises = c;
+    $event.searchEvent.filterCriteriaProvider.criteria = c;
   }
 }

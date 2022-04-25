@@ -140,7 +140,7 @@ public class DemoTableDataProvider
     public Filter getNameFilter()
     {
         Filter filter = new Filter();
-        filter.filters(this.data.dataRows.stream().map(DataRow::getName).distinct().sorted().collect(Collectors.toList()));
+        filter.criteria(this.data.dataRows.stream().map(DataRow::getName).distinct().sorted().collect(Collectors.toList()));
         return filter;
     }
 
@@ -148,7 +148,7 @@ public class DemoTableDataProvider
     public Filter getSymbolFilter()
     {
         Filter filter = new Filter();
-        filter.filters(this.data.dataRows.stream().map(DataRow::getSymbol).distinct().sorted().collect(Collectors.toList()));
+        filter.criteria(this.data.dataRows.stream().map(DataRow::getSymbol).distinct().sorted().collect(Collectors.toList()));
         return filter;
     }
 

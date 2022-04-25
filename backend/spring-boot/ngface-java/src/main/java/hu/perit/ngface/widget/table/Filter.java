@@ -18,6 +18,7 @@ package hu.perit.ngface.widget.table;
 
 import lombok.Getter;
 import lombok.ToString;
+import org.apache.commons.lang3.BooleanUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,15 +30,24 @@ public class Filter
 {
     private static int MAX_SIZE = 100;
 
-    private List<String> filters;
+    // If there are more then MAX_SIZE criteria, then they will not be provided, but must be searched for
+    private Boolean remote = Boolean.FALSE;
+    private List<String> criteria;
 
-    public Filter filters(Collection<String> filters)
+    public Filter remote(Boolean remote)
     {
-        this.filters = new ArrayList<>();
+        this.remote = BooleanUtils.isTrue(remote);
+        return this;
+    }
+
+
+    public Filter criteria(Collection<String> filters)
+    {
+        this.criteria = new ArrayList<>();
         for (String filter : filters)
         {
-            this.filters.add(filter);
-            if (this.filters.size() >= MAX_SIZE)
+            this.criteria.add(filter);
+            if (this.criteria.size() >= MAX_SIZE)
             {
                 break;
             }

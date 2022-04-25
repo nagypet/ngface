@@ -5,9 +5,9 @@
       <mat-icon>search</mat-icon>
     </div>
     <div class="listbox">
-      <div class="list-item" *ngFor="let choice of searchResultProvider.choises" (click)="onItemSelected(choice)">
-        <mat-checkbox [checked]="choice.selected" (click)="$event.stopPropagation()"></mat-checkbox>
-        <span>{{choice.text}}</span>
+      <div class="list-item" *ngFor="let criteria of filterCriteriaProvider.criteria" (click)="onItemSelected(criteria)">
+        <mat-checkbox [checked]="criteria.selected" (click)="$event.stopPropagation()"></mat-checkbox>
+        <span>{{criteria.text}}</span>
       </div>
     </div>
     <div class="action-bar" style="background-color: white">

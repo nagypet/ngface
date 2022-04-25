@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-04-24 20:47:25.
+// Generated using typescript-generator version 2.17.558 on 2022-04-25 07:09:24.
 
 export namespace TypeModels {
 
@@ -143,7 +143,8 @@ export namespace TypeModels {
     }
 
     export interface Filter {
-        filters: string[];
+        remote: boolean;
+        criteria: string[];
     }
 
     export interface Paginator {

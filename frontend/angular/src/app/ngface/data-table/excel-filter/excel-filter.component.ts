@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {TypeModels} from '../../../dto-models';
+import {FilterCriteriaProvider} from './filter-criteria-provider';
 
 export interface SearchItem
 {
@@ -12,30 +13,8 @@ export interface SearchItem
 export interface SearchEvent
 {
   searchText: string;
-  searchResultProvider: SearchResultProvider;
+  filterCriteriaProvider: FilterCriteriaProvider;
 }
-
-export class SearchResultProvider
-{
-  private _choises: SearchItem[] = [];
-  get choises(): SearchItem[]
-  {
-    return this._choises;
-  }
-  set choises(value: SearchItem[])
-  {
-    this._choises = value;
-  }
-
-  constructor(filter?: TypeModels.Filter)
-  {
-    if (filter)
-    {
-      filter.filters.forEach(f => this._choises.push({text: f, selected: false}));
-    }
-  }
-}
-
 
 @Component({
   selector: 'ngface-excel-filter',
@@ -52,7 +31,7 @@ export class ExcelFilterComponent implements OnInit, OnChanges
   @Output()
   searchEvent: EventEmitter<SearchEvent> = new EventEmitter();
 
-  searchResultProvider: SearchResultProvider = new SearchResultProvider();
+  filterCriteriaProvider: FilterCriteriaProvider = new FilterCriteriaProvider();
 
   constructor()
   {
@@ -64,7 +43,7 @@ export class ExcelFilterComponent implements OnInit, OnChanges
 
   ngOnChanges(): void
   {
-    this.searchResultProvider = new SearchResultProvider(this.filter);
+    this.filterCriteriaProvider = new FilterCriteriaProvider(this.filter);
   }
 
   onItemSelected(choice: SearchItem)
@@ -84,7 +63,13 @@ export class ExcelFilterComponent implements OnInit, OnChanges
 
   onChange($event: string)
   {
-    this.searchEvent.emit({searchText: $event, searchResultProvider: this.searchResultProvider});
+    if (this.filter?.remote)
+    {
+      this.searchEvent.emit({searchText: $event, filterCriteriaProvider: this.filterCriteriaProvider});
+    } else
+    {
+      this.filterCriteriaProvider.searchText = $event;
+    }
   }
 
 }
