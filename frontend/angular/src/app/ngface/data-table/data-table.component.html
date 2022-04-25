@@ -31,7 +31,8 @@
         </th>
         <!-- Cell content -->
         <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? onRowClick(row) : null"
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? onRowClick(row) : null"
                         [checked]="isChecked(row)">
           </mat-checkbox>
         </td>

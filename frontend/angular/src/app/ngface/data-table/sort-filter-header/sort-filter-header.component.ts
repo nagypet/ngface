@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {SearchEvent} from '../excel-filter/excel-filter.component';
 import {TypeModels} from '../../../dto-models';
 
@@ -8,7 +8,8 @@ import {TypeModels} from '../../../dto-models';
   templateUrl: './sort-filter-header.component.html',
   styleUrls: ['./sort-filter-header.component.scss']
 })
-export class SortFilterHeaderComponent implements OnInit {
+export class SortFilterHeaderComponent implements OnInit
+{
 
   @Input()
   text: string;
@@ -27,13 +28,15 @@ export class SortFilterHeaderComponent implements OnInit {
 
   showExcelFilter = false;
 
-  constructor() {
+  constructor(private el: ElementRef)
+  {
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
   }
 
-  onClick()
+  onClick($event: MouseEvent)
   {
     this.showExcelFilter = !this.showExcelFilter;
   }
@@ -41,7 +44,10 @@ export class SortFilterHeaderComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   onDocumentClick($event: any)
   {
-    this.showExcelFilter = false;
+    if (this.el.nativeElement.childNodes[0].children[1] !== $event.path[1])
+    {
+      this.showExcelFilter = false;
+    }
   }
 
   onEscape()
