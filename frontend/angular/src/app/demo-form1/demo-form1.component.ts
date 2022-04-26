@@ -21,7 +21,6 @@ import {ActionClickEvent, TableReloadEvent, TableSearchEvent} from '../ngface/da
 import {TypeModels} from '../dto-models';
 import {MatDialog} from '@angular/material/dialog';
 import {DemoDialog1Component} from '../demo-dialog1/demo-dialog1.component';
-import {SearchItem} from '../ngface/data-table/excel-filter/excel-filter.component';
 
 
 @Component({
@@ -161,11 +160,11 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
   {
     console.log($event);
 
-    let c: SearchItem[] = [];
+    let c: string[] = [];
     for (let i = 0; i < $event.searchEvent.searchText.length; i++)
     {
-      c.push({text: 'alma', selected: false});
+      c.push('alma');
     }
-    $event.searchEvent.filterCriteriaProvider.criteria = c;
+    $event.searchEvent.filterCriteriaProvider.setCriteria(c);
   }
 }

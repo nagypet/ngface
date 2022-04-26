@@ -15,18 +15,24 @@
  */
 
 import {TypeModels} from '../../../dto-models';
-import {SearchItem} from './excel-filter.component';
+import {FilterCriteriaItem} from './excel-filter.component';
 
 export class FilterCriteriaProvider
 {
   // criteria
-  private _criteria: SearchItem[] = [];
-  set criteria(value: SearchItem[])
+  private _criteria: FilterCriteriaItem[] = [];
+
+  setCriteria(value: string[] | undefined)
   {
-    this._criteria = value;
+    this._criteria = [];
+    this._criteria.push({masterSelect: true, text: '(Select All)', selected: true});
+    if (value)
+    {
+      value.forEach(c => this._criteria.push({masterSelect: false, text: c, selected: true}));
+    }
   }
 
-  get criteria(): SearchItem[]
+  get criteria(): FilterCriteriaItem[]
   {
     return this.applySearchText();
   }
@@ -46,14 +52,11 @@ export class FilterCriteriaProvider
 
   constructor(filter?: TypeModels.Filter)
   {
-    if (filter)
-    {
-      filter.criteria.forEach(f => this._criteria.push({text: f, selected: false}));
-    }
+    this.setCriteria(filter?.criteria);
   }
 
   // Filter _criteria by searchText
-  private applySearchText(): SearchItem[]
+  private applySearchText(): FilterCriteriaItem[]
   {
     return this._criteria.filter(c => this.contains(c.text, this._searchText));
   }
@@ -65,6 +68,11 @@ export class FilterCriteriaProvider
     {
       return true;
     }
-    return text.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0
+    return text.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0;
+  }
+
+  selectAll(b: boolean)
+  {
+    this._criteria.forEach(c => c.selected = b);
   }
 }

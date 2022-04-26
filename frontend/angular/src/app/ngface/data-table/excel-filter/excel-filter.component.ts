@@ -3,8 +3,9 @@ import {FormControl} from '@angular/forms';
 import {TypeModels} from '../../../dto-models';
 import {FilterCriteriaProvider} from './filter-criteria-provider';
 
-export interface SearchItem
+export interface FilterCriteriaItem
 {
+  masterSelect: boolean;
   text: string;
   selected: boolean;
 }
@@ -46,9 +47,21 @@ export class ExcelFilterComponent implements OnInit, OnChanges
     this.filterCriteriaProvider = new FilterCriteriaProvider(this.filter);
   }
 
-  onItemSelected(choice: SearchItem)
+  onItemSelected(choice: FilterCriteriaItem, b?: boolean)
   {
-    choice.selected = !choice.selected;
+    let newValue = b?? !choice.selected;
+    if (choice.masterSelect)
+    {
+      this.filterCriteriaProvider.selectAll(newValue)
+    }
+    else {
+      choice.selected = newValue;
+    }
+  }
+
+  onCheckBoxClicked(choice: FilterCriteriaItem, $event: boolean)
+  {
+    this.onItemSelected(choice, $event);
   }
 
   onCancel()
