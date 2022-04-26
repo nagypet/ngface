@@ -19,13 +19,12 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {DataTableDataSource} from './data-table-datasource';
-import {DemoService} from '../../services/demo.service';
 import {TypeModels} from '../../dto-models';
 import {tap} from 'rxjs/operators';
 import {merge} from 'rxjs';
 import {MatCheckboxChange} from '@angular/material/checkbox';
 import {NumericFormatter} from '../numeric-formatter';
-import {SearchEvent, SearchItem} from './excel-filter/excel-filter.component';
+import {SearchEvent} from './excel-filter/excel-filter.component';
 import Form = TypeModels.Form;
 import ActionCell = TypeModels.ActionCell;
 import NumericCell = TypeModels.NumericCell;
@@ -80,14 +79,13 @@ export class DataTableComponent implements OnChanges, AfterViewInit
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<any>;
-  dataSource: DataTableDataSource;
+  dataSource: DataTableDataSource = new DataTableDataSource();
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns: string[];
 
-  constructor(private demoService: DemoService, @Inject(LOCALE_ID) public locale: string)
+  constructor(@Inject(LOCALE_ID) public locale: string)
   {
-    this.dataSource = new DataTableDataSource(demoService);
   }
 
   ngOnChanges(): void
@@ -197,7 +195,7 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   getColumnFilter(column: string): TypeModels.Filter | undefined
   {
-    let filter = this.getData().columns[column]?.filter
+    let filter = this.getData().columns[column]?.filter;
     return filter != undefined ? filter : undefined;
   }
 
@@ -282,7 +280,7 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   masterToggle($event: MatCheckboxChange)
   {
-    this.getData().rows.forEach(r => r.selected = $event.checked);
+    this.dataSource.getRows().forEach(r => r.selected = $event.checked);
   }
 
   isChecked(row: TypeModels.Row): boolean
@@ -292,12 +290,12 @@ export class DataTableComponent implements OnChanges, AfterViewInit
 
   isAnySelected(): boolean
   {
-    return !!this.getData().rows.find(r => !!r.selected);
+    return !!this.dataSource.getRows().find(r => !!r.selected);
   }
 
   isAllSelected()
   {
-    return this.getData().rows.filter(r => !r.selected).length === 0;
+    return this.dataSource.getRows().filter(r => !r.selected).length === 0;
   }
 
   actionClick(row: TypeModels.Row, actionId: string)

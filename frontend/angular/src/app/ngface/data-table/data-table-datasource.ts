@@ -16,7 +16,6 @@
 
 import {DataSource} from '@angular/cdk/collections';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {DemoService} from '../../services/demo.service';
 import {TypeModels} from '../../dto-models';
 
 
@@ -28,9 +27,8 @@ import {TypeModels} from '../../dto-models';
 export class DataTableDataSource extends DataSource<TypeModels.Row>
 {
   private dataSubject = new BehaviorSubject<TypeModels.Row[]>([]);
-  private loadingSubject = new BehaviorSubject<boolean>(false);
 
-  constructor(private demoService: DemoService)
+  constructor()
   {
     super();
   }
@@ -60,5 +58,10 @@ export class DataTableDataSource extends DataSource<TypeModels.Row>
     {
       this.dataSubject.next(tableData.rows);
     }
+  }
+
+  getRows(): TypeModels.Row[]
+  {
+    return this.dataSubject.getValue();
   }
 }
