@@ -49,16 +49,18 @@ export class FilterCriteriaProvider
     return this._searchText;
   }
 
+  private remote = false;
 
   constructor(filter?: TypeModels.Filter)
   {
     this.setCriteria(filter?.criteria);
+    this.remote = filter?.remote ?? false;
   }
 
   // Filter _criteria by searchText
   private applySearchText(): FilterCriteriaItem[]
   {
-    return this._criteria.filter(c => this.contains(c.text, this._searchText));
+    return this._criteria.filter(c => c.masterSelect || this.contains(c.text, this._searchText));
   }
 
   // returns true if text contains searchTerm
@@ -74,5 +76,25 @@ export class FilterCriteriaProvider
   selectAll(b: boolean)
   {
     this._criteria.forEach(c => c.selected = b);
+  }
+
+
+  isAnySelected()
+  {
+    return !!this._criteria
+      .filter(r => !r.masterSelect)
+      .find(r => r.selected);
+  }
+
+  isAllSelected()
+  {
+    if (this.remote)
+    {
+      return false;
+    }
+    return (this._criteria
+        .filter(r => !r.masterSelect)
+        .filter(r => !r.selected).length === 0)
+      && (this.applySearchText().length === this._criteria.length);
   }
 }

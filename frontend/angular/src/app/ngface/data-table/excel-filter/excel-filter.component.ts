@@ -49,12 +49,12 @@ export class ExcelFilterComponent implements OnInit, OnChanges
 
   onItemSelected(choice: FilterCriteriaItem, b?: boolean)
   {
-    let newValue = b?? !choice.selected;
+    let newValue = b ?? !choice.selected;
     if (choice.masterSelect)
     {
-      this.filterCriteriaProvider.selectAll(newValue)
-    }
-    else {
+      this.filterCriteriaProvider.selectAll(newValue);
+    } else
+    {
       choice.selected = newValue;
     }
   }
@@ -85,4 +85,36 @@ export class ExcelFilterComponent implements OnInit, OnChanges
     }
   }
 
+  isAnySelected(criteria: FilterCriteriaItem): boolean
+  {
+    if (!criteria.masterSelect)
+    {
+      return criteria.selected;
+    } else
+    {
+      return this.filterCriteriaProvider.isAnySelected();
+    }
+  }
+
+  isAllSelected(criteria: FilterCriteriaItem): boolean
+  {
+    if (!criteria.masterSelect)
+    {
+      return criteria.selected;
+    } else
+    {
+      return this.filterCriteriaProvider.isAllSelected();
+    }
+  }
+
+  isCheckBoxEnabled(criteria: FilterCriteriaItem)
+  {
+    if (!criteria.masterSelect)
+    {
+      return true;
+    } else
+    {
+      return this.filterCriteriaProvider.criteria.find(c => !c.masterSelect);
+    }
+  }
 }
