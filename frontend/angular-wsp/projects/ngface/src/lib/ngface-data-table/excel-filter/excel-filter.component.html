@@ -1,0 +1,22 @@
+<div style="position: relative">
+  <div class="ngface-excel-filter" (click)="$event.stopPropagation()">
+    <div class="searchbox">
+      <input type="text" placeholder="Search..." [formControl]="formControlSearch" (ngModelChange)="onChange($event)">
+      <mat-icon>search</mat-icon>
+    </div>
+    <div class="listbox">
+      <div class="list-item" *ngFor="let criteria of filterCriteriaProvider.criteria" (click)="onItemSelected(criteria)">
+        <mat-checkbox [(ngModel)]="criteria.selected"
+                      [disabled]="!isCheckBoxEnabled(criteria)"
+                      [indeterminate]="isAnySelected(criteria) && !isAllSelected(criteria)"
+                      (ngModelChange)="onCheckBoxClicked(criteria, $event)"
+                      (click)="$event.stopPropagation()"></mat-checkbox>
+        <span>{{criteria.text}}</span>
+      </div>
+    </div>
+    <div class="action-bar" style="background-color: white">
+      <button mat-button (click)="onOk()">OK</button>
+      <button mat-button (click)="onCancel()">Cancel</button>
+    </div>
+  </div>
+</div>
