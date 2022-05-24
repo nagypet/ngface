@@ -25,6 +25,7 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {HttpClientModule} from '@angular/common/http';
 import {registerLocaleData} from '@angular/common';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
@@ -41,6 +42,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     BrowserModule,
     NgfaceModule,
     HttpClientModule,
+    MatDialogModule,
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
