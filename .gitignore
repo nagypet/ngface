@@ -31,7 +31,6 @@ AdminGUI/dist
 .gradle
 build
 out
-bin
 polc
 distributions
 backup/
