@@ -16,8 +16,8 @@
 
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {TypeModels} from '../dto-models';
 import {FormBaseComponent} from '../../../../ngface/src/lib/form-base.component';
+import {Ngface} from '../../../../ngface/src/lib/ngface-models';
 
 @Component({
   selector: 'app-demo-dialog1',
@@ -27,7 +27,7 @@ import {FormBaseComponent} from '../../../../ngface/src/lib/form-base.component'
 export class DemoDialog1Component extends FormBaseComponent implements OnInit
 {
   constructor(public dialogRef: MatDialogRef<DemoDialog1Component>,
-              @Inject(MAT_DIALOG_DATA) public data: TypeModels.Form)
+              @Inject(MAT_DIALOG_DATA) public data: Ngface.Form)
   {
     super();
   }

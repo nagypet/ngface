@@ -16,8 +16,8 @@
 
 import {Component, OnChanges} from '@angular/core';
 import {InputBaseComponent} from '../input-base.component';
-import {TypeModels} from '../dto-models';
-import DateRangeInput = TypeModels.DateRangeInput;
+import {Ngface} from '../ngface-models';
+import DateRangeInput = Ngface.DateRangeInput;
 import {FormControl, FormGroup, ValidatorFn} from '@angular/forms';
 
 @Component({

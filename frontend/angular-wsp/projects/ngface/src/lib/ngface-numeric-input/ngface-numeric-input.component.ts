@@ -15,9 +15,9 @@
  */
 
 import {Component, Inject, LOCALE_ID} from '@angular/core';
-import {TypeModels} from '../dto-models';
+import {Ngface} from '../ngface-models';
 import {InputBaseComponent} from '../input-base.component';
-import NumericInput = TypeModels.NumericInput;
+import NumericInput = Ngface.NumericInput;
 
 @Component({
   selector: 'ngface-numeric-input',

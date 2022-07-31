@@ -17,18 +17,25 @@
 package hu.perit.ngface.widget.table.cell;
 
 import hu.perit.ngface.formating.NumericFormat;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 
 @Getter
-public class NumericCell extends Cell<BigDecimal>
+@EqualsAndHashCode(callSuper = true)
+public class NumericCell extends Cell<BigDecimal, NumericCell>
 {
     private NumericFormat format = new NumericFormat();
 
     public NumericCell(BigDecimal value)
     {
         super(value);
+    }
+
+    public NumericCell(Long value)
+    {
+        super(value != null ? new BigDecimal(value) : null);
     }
 
     public NumericCell format(NumericFormat format)

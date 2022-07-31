@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package hu.perit.wsstepbystep.ngfacecomponent.tabledetailscomponent;
+package hu.perit.wsstepbystep.ngface.tabledetailscomponent;
 
 import hu.perit.ngface.controller.ComponentController;
-import hu.perit.wsstepbystep.ngfacecomponent.democomponent.DemoTableDataProvider;
+import hu.perit.ngface.data.TableActionParams;
+import hu.perit.wsstepbystep.service.api.TableRowDTO;
+import hu.perit.wsstepbystep.service.api.DemoTableDataProvider;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,14 +45,14 @@ public class TableDetailsComponentController implements ComponentController<Tabl
     public TableDetailsComponentDTO initializeData(Params params)
     {
         TableDetailsComponentDTO data = new TableDetailsComponentDTO();
-        Optional<DemoTableDataProvider.DataRow> optTableRow = this.demoTableDataProvider.getTableRow(params.id);
+        Optional<TableRowDTO> optTableRow = this.demoTableDataProvider.getTableRowById(params.id);
         if (optTableRow.isPresent())
         {
-            DemoTableDataProvider.DataRow dataRow = optTableRow.get();
+            TableRowDTO tableRowDTO = optTableRow.get();
             data.setId(String.valueOf(params.id));
-            data.setName(dataRow.getName());
-            data.setSymbol(dataRow.getSymbol());
-            data.setWeight(dataRow.getWeight());
+            data.setName(tableRowDTO.getName());
+            data.setSymbol(tableRowDTO.getSymbol());
+            data.setWeight(tableRowDTO.getWeight());
             return data;
         }
 
@@ -61,12 +63,18 @@ public class TableDetailsComponentController implements ComponentController<Tabl
     @Override
     public void onSave(TableDetailsComponentDTO data)
     {
-        Optional<DemoTableDataProvider.DataRow> optTableRow = this.demoTableDataProvider.getTableRow(Long.valueOf(data.getId()));
+        Optional<TableRowDTO> optTableRow = this.demoTableDataProvider.getTableRowById(Long.valueOf(data.getId()));
         if (optTableRow.isPresent())
         {
-            DemoTableDataProvider.DataRow dataRow = optTableRow.get();
-            dataRow.setWeight(data.getWeight());
-            dataRow.setSymbol(data.getSymbol());
+            TableRowDTO tableRowDTO = optTableRow.get();
+            tableRowDTO.setWeight(data.getWeight());
+            tableRowDTO.setSymbol(data.getSymbol());
         }
+    }
+
+    @Override
+    public void onActionClick(TableActionParams tableActionParams)
+    {
+
     }
 }

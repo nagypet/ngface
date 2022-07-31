@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
-import {SearchEvent} from '../excel-filter/excel-filter.component';
-import {TypeModels} from '../../dto-models';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {FilterChangeEvent, ValueSetSearchEvent} from '../excel-filter/excel-filter.component';
+import {Ngface} from '../../ngface-models';
+import {SortDirection} from "@angular/material/sort";
 
 @Component({
   exportAs: 'ngFaceSortFilterHeader',
@@ -24,7 +25,7 @@ import {TypeModels} from '../../dto-models';
   templateUrl: './sort-filter-header.component.html',
   styleUrls: ['./sort-filter-header.component.scss']
 })
-export class SortFilterHeaderComponent implements OnInit
+export class SortFilterHeaderComponent implements OnInit, OnChanges
 {
 
   @Input()
@@ -34,13 +35,19 @@ export class SortFilterHeaderComponent implements OnInit
   sortable: boolean;
 
   @Input()
+  sorter?: Ngface.Sorter;
+
+  @Input()
   filterable: boolean;
 
   @Input()
-  filter: TypeModels.Filter | undefined;
+  filterer?: Ngface.Filterer;
 
   @Output()
-  searchEvent: EventEmitter<SearchEvent> = new EventEmitter();
+  searchEvent: EventEmitter<ValueSetSearchEvent> = new EventEmitter();
+
+  @Output()
+  filtererChangeEvent: EventEmitter<Ngface.Filterer> = new EventEmitter();
 
   showExcelFilter = false;
 
@@ -52,7 +59,11 @@ export class SortFilterHeaderComponent implements OnInit
   {
   }
 
-  onClick($event: MouseEvent)
+  ngOnChanges(): void
+  {
+  }
+
+  onFilterIconClick($event: MouseEvent)
   {
     this.showExcelFilter = !this.showExcelFilter;
   }
@@ -71,8 +82,30 @@ export class SortFilterHeaderComponent implements OnInit
     this.showExcelFilter = false;
   }
 
-  onSearchEvent($event: SearchEvent)
+  onValueSetSearch($event: ValueSetSearchEvent)
   {
     this.searchEvent.emit($event);
+  }
+
+  onFiltererChange($event: FilterChangeEvent)
+  {
+    console.log($event);
+    this.filterer = $event.filterer;
+    if (this.filterer)
+    {
+      this.filterer.active = $event.changed;
+    }
+    this.showExcelFilter = false;
+    this.filtererChangeEvent.emit($event.changed ? $event.filterer : undefined);
+  }
+
+  onExcelFilterClose()
+  {
+    this.showExcelFilter = false;
+  }
+
+  getClass(): string
+  {
+    return this.filterer?.active ? 'ngface-filter-header-set' : '';
   }
 }

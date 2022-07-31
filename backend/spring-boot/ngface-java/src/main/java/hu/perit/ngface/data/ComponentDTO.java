@@ -18,6 +18,7 @@ package hu.perit.ngface.data;
 
 import hu.perit.ngface.reflection.ReflectionUtils;
 import hu.perit.ngface.widget.base.WidgetData;
+import hu.perit.ngface.widget.exception.NgFaceBadRequestException;
 import hu.perit.ngface.widget.input.NumericInput;
 import hu.perit.ngface.widget.input.TextInput;
 import lombok.extern.slf4j.Slf4j;
@@ -77,9 +78,16 @@ public abstract class ComponentDTO
             Class<? extends WidgetData> dataClass = getDataClass(dtoValueAnnotation, property);
             if (dataClass != null)
             {
-                WidgetData widgetData = submitFormData.get(id, dataClass);
-                Optional<Method> setter = ReflectionUtils.getSetter(this.getClass(), property.getName());
-                setter.ifPresent(method -> invokeSetter(method, widgetData));
+                try
+                {
+                    WidgetData widgetData = submitFormData.get(id, dataClass);
+                    Optional<Method> setter = ReflectionUtils.getSetter(this.getClass(), property.getName());
+                    setter.ifPresent(method -> invokeSetter(method, widgetData));
+                }
+                catch (NgFaceBadRequestException ex)
+                {
+                    log.debug(ex.toString());
+                }
             }
         }
     }
@@ -187,11 +195,11 @@ public abstract class ComponentDTO
     }
 
 
-    private Class<? extends WidgetData> getDataClass(DTOValue DTOValueAnnotation, Field property)
+    private Class<? extends WidgetData> getDataClass(DTOValue dtoValueAnnotation, Field property)
     {
-        if (!DTOValueAnnotation.type().equals(WidgetData.class))
+        if (!dtoValueAnnotation.type().equals(WidgetData.class))
         {
-            return DTOValueAnnotation.type();
+            return dtoValueAnnotation.type();
         }
 
         // calculating WidgetData class from the property type

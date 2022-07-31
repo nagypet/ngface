@@ -16,6 +16,7 @@
 
 package hu.perit.ngface.widget.base;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -23,6 +24,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @RequiredArgsConstructor
 @Getter
+@EqualsAndHashCode(callSuper = true)
 public class Value<V> extends WidgetData
 {
     private final V value;

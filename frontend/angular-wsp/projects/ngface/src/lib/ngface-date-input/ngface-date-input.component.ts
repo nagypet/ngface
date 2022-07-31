@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {InputBaseComponent} from '../input-base.component';
-import {TypeModels} from '../dto-models';
-import DateInput = TypeModels.DateInput;
+import {Ngface} from '../ngface-models';
+import DateInput = Ngface.DateInput;
 
 @Component({
   selector: 'ngface-date-input',

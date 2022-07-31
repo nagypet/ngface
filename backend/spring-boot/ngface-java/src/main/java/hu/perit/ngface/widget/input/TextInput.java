@@ -18,13 +18,11 @@ package hu.perit.ngface.widget.input;
 
 import hu.perit.ngface.widget.base.Input;
 import hu.perit.ngface.widget.base.Value;
-import hu.perit.ngface.widget.base.WidgetData;
 import hu.perit.ngface.widget.input.validator.Email;
 import hu.perit.ngface.widget.input.validator.Pattern;
 import hu.perit.ngface.widget.input.validator.Required;
 import hu.perit.ngface.widget.input.validator.Size;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.Arrays;

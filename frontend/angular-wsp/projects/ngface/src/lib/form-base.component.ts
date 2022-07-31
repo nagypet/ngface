@@ -16,9 +16,9 @@
 
 import {Component} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {TypeModels} from './dto-models';
-import Form = TypeModels.Form;
-import WidgetData = TypeModels.WidgetData;
+import {Ngface} from './ngface-models';
+import Form = Ngface.Form;
+import WidgetData = Ngface.WidgetData;
 
 @Component({
   selector: 'ngface-form-base',
@@ -44,7 +44,7 @@ export abstract class FormBaseComponent
       {
         case 'TextInput':
         case 'NumericInput':
-          submitData[controlName] = <TypeModels.Value<any>> {
+          submitData[controlName] = <Ngface.Value<any>> {
             type: widgetType + '.Data',
             value: this.formGroup.controls[controlName]?.value
           };
@@ -54,14 +54,14 @@ export abstract class FormBaseComponent
         case 'DateTimeInput':
           // Converting to local date without time zone information
           let myDate = this.formGroup.controls[controlName]?.value;
-          submitData[controlName] = <TypeModels.Value<any>> {
+          submitData[controlName] = <Ngface.Value<any>> {
             type: widgetType + '.Data',
             value: FormBaseComponent.getLocalDateTime(myDate)
           };
           break;
 
         case 'DateRangeInput':
-          submitData[controlName] = <TypeModels.DateRangeInput.Data> {
+          submitData[controlName] = <Ngface.DateRangeInput.Data> {
             type: widgetType + '.Data',
             startDate: FormBaseComponent.getLocalDateTime(this.formGroup.controls[controlName]?.value?.start),
             endDate: FormBaseComponent.getLocalDateTime(this.formGroup.controls[controlName]?.value?.end)
@@ -72,7 +72,7 @@ export abstract class FormBaseComponent
           let selected = this.formGroup.controls[controlName]?.value;
           let selectedOption: { [index: string]: string } = {};
           selectedOption[selected] = widget?.data.options[selected];
-          submitData[controlName] = <TypeModels.Select.Data> {type: widgetType + '.Data', options: selectedOption, selected: selected};
+          submitData[controlName] = <Ngface.Select.Data> {type: widgetType + '.Data', options: selectedOption, selected: selected};
           break;
       }
     });

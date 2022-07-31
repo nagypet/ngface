@@ -18,11 +18,13 @@ package hu.perit.ngface.widget.button;
 
 import hu.perit.ngface.widget.base.VoidWidgetData;
 import hu.perit.ngface.widget.base.Widget;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class Button extends Widget<VoidWidgetData, Button>
 {
     public static final Button OK = new Button("button-ok").label("OK").style(Style.PRIMARY);

@@ -17,7 +17,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {TypeModels} from '../dto-models';
+import {Ngface} from '../../../../ngface/src/lib/ngface-models';
 
 @Injectable({
   providedIn: 'root'
@@ -35,42 +35,42 @@ export class DemoService
     const protocol = window.location.protocol;
     const port = window.location.port;
 
-    let url = '';
-    if (port === '4200')
-    {
-      // running on dev environment
-      url = 'http://localhost:4200' + path;
-    } else
-    {
-      url = protocol + '//' + host + ':' + port + path;
-    }
+    let url = protocol + '//' + host + ':' + port + path;
 
     console.log('Connecting to \'' + url + '\'');
     return url;
   }
 
 
-  public getDemoForm(pageNumber?: number, pageSize?: number, sortColumn?: string, sortDirection?: string, rowId?:string): Observable<any>
+  public getDemoForm(searchRequest: Ngface.DataRetrievalParams): Observable<any>
   {
-    return this.httpClient.get(DemoService.getServiceUrl('/demo'), {
+    var headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json; charset=utf-8');
+    return this.httpClient.post(DemoService.getServiceUrl('/demo/get'), searchRequest, {headers: headers});
+  }
+
+
+  public getDemoFormTableRow(rowId: string): Observable<any>
+  {
+    var headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json; charset=utf-8');
+
+    return this.httpClient.get(DemoService.getServiceUrl('/demo/get'), {
+      headers: headers,
       params: new HttpParams()
-        .set('pageNumber', pageNumber !== undefined ? pageNumber.toString() : '')
-        .set('pageSize', pageSize !== undefined ? pageSize.toString() : '')
-        .set('sortColumn', sortColumn !== undefined ? sortColumn : '')
-        .set('sortDirection', sortDirection !== undefined ? sortDirection : '')
-        .set('rowId', rowId !== undefined ? rowId : '')
+        .set('rowId', rowId)
     });
   }
 
 
-  public submitDemoForm(submitFormData: TypeModels.SubmitFormData): Observable<any>
+  public submitDemoForm(submitFormData: Ngface.SubmitFormData): Observable<any>
   {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(DemoService.getServiceUrl('/demo'), submitFormData, httpOptions);
+    return this.httpClient.post(DemoService.getServiceUrl('/demo/submit'), submitFormData, httpOptions);
   }
 
 
@@ -82,7 +82,7 @@ export class DemoService
     });
   }
 
-  submitTableDetailsForm(submitFormData: TypeModels.SubmitFormData): Observable<any>
+  submitTableDetailsForm(submitFormData: Ngface.SubmitFormData): Observable<any>
   {
     const httpOptions = {
       headers: new HttpHeaders({

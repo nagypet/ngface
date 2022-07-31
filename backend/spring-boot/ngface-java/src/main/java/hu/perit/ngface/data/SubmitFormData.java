@@ -25,6 +25,7 @@ import hu.perit.ngface.widget.input.TextInput;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Map;
@@ -33,7 +34,9 @@ import java.util.Map;
 @Setter
 public class SubmitFormData
 {
+    @NotNull
     private String id;
+    @NotNull
     private Map<String, WidgetData> widgetDataMap;
 
     @JsonIgnore
@@ -83,14 +86,14 @@ public class SubmitFormData
     @Override
     public String toString()
     {
-        final StringBuffer sb = new StringBuffer("SubmitFormData{");
+        final StringBuilder sb = new StringBuilder("SubmitFormData{");
         sb.append("id='").append(id).append('\'');
         sb.append(", widgetDataMap=[");
         if (!isEmpty())
         {
             for (Map.Entry<String, WidgetData> entry : this.widgetDataMap.entrySet())
             {
-                sb.append(String.format("\n\t'%s' => %s", entry.getKey(), entry.getValue().toString()));
+                sb.append(String.format("%n\t'%s' => %s", entry.getKey(), entry.getValue().toString()));
             }
         }
         sb.append("]}");

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hu.perit.wsstepbystep.ngfacecomponent.tabledetailscomponent;
+package hu.perit.wsstepbystep.ngface.tabledetailscomponent;
 
 import hu.perit.ngface.data.ComponentDTO;
 import hu.perit.ngface.data.DTOId;

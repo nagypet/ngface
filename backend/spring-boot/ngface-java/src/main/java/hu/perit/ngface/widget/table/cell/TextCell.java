@@ -16,7 +16,7 @@
 
 package hu.perit.ngface.widget.table.cell;
 
-public class TextCell extends Cell<String>
+public class TextCell extends Cell<String, TextCell>
 {
     public TextCell(String text)
     {

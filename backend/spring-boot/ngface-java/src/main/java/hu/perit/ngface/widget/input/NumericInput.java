@@ -22,6 +22,7 @@ import hu.perit.ngface.widget.base.Value;
 import hu.perit.ngface.widget.input.validator.Max;
 import hu.perit.ngface.widget.input.validator.Min;
 import hu.perit.ngface.widget.input.validator.Required;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -35,6 +36,7 @@ import java.util.List;
 
 @Getter
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class NumericInput extends Input<NumericInput.Data, BigDecimal, NumericInput>
 {
     private NumericFormat format = new NumericFormat();
@@ -64,25 +66,25 @@ public class NumericInput extends Input<NumericInput.Data, BigDecimal, NumericIn
 
     public NumericInput value(Integer value)
     {
-        this.value(new BigDecimal(value));
+        this.value(value != null ? BigDecimal.valueOf(value) : null);
         return this;
     }
 
     public NumericInput value(Long value)
     {
-        this.value(new BigDecimal(value));
+        this.value(value != null ? BigDecimal.valueOf(value) : null);
         return this;
     }
 
     public NumericInput value(Float value)
     {
-        this.value(new BigDecimal(value));
+        this.value(value != null ? BigDecimal.valueOf(value) : null);
         return this;
     }
 
     public NumericInput value(Double value)
     {
-        this.value(new BigDecimal(value));
+        this.value(value != null ? BigDecimal.valueOf(value) : null);
         return this;
     }
 

@@ -19,11 +19,17 @@ package hu.perit.ngface.widget.input;
 import hu.perit.ngface.widget.base.Input;
 import hu.perit.ngface.widget.base.WidgetData;
 import hu.perit.ngface.widget.input.validator.Required;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class Select extends Input<Select.Data, Void, Select>
 {
     public Select(String id)

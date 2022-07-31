@@ -51,7 +51,7 @@ public class DateInput extends Input<DateInput.Data, LocalDate, DateInput>
         return Arrays.asList(Required.class);
     }
 
-
+    @Override
     public DateInput placeholder(String placeholder)
     {
         throw new NgFaceException("Placeholder is not allowed on DateInput");

@@ -1,28 +1,23 @@
-/*
- * Copyright 2020-2022 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.17.558 on 2022-04-25 07:09:24.
+// Generated using typescript-generator version 2.36.1070 on 2022-07-08 10:31:09.
 
-export namespace TypeModels {
+export namespace Ngface {
+
+    export interface DataRetrievalParams {
+        page: DataRetrievalParams.Page | undefined;
+        sort: DataRetrievalParams.Sort | undefined;
+        filters: DataRetrievalParams.Filter[] | undefined;
+    }
 
     export interface SubmitFormData {
         id: string;
         widgetDataMap: { [index: string]: WidgetData };
+    }
+
+    export interface TableActionParams {
+        actionId: string;
+        rowId: string;
     }
 
     export interface Button extends Widget<VoidWidgetData, Button> {
@@ -43,6 +38,7 @@ export namespace TypeModels {
     export namespace DateInput {
 
         export interface Data extends Value<Date> {
+            type: "DateInput.Data";
             value: Date;
         }
 
@@ -57,6 +53,7 @@ export namespace TypeModels {
     export namespace DateRangeInput {
 
         export interface Data extends WidgetData {
+            type: "DateRangeInput.Data";
             startDate: Date;
             endDate: Date;
         }
@@ -70,6 +67,7 @@ export namespace TypeModels {
     export namespace DateTimeInput {
 
         export interface Data extends Value<Date> {
+            type: "DateTimeInput.Data";
             value: Date;
         }
 
@@ -83,6 +81,7 @@ export namespace TypeModels {
     export namespace NumericInput {
 
         export interface Data extends Value<number> {
+            type: "NumericInput.Data";
             value: number;
         }
 
@@ -95,6 +94,7 @@ export namespace TypeModels {
     export namespace Select {
 
         export interface Data extends WidgetData {
+            type: "Select.Data";
             options: { [index: string]: string };
             selected: string;
         }
@@ -113,6 +113,7 @@ export namespace TypeModels {
     export namespace TextInput {
 
         export interface Data extends Value<string> {
+            type: "TextInput.Data";
             value: string;
         }
 
@@ -152,18 +153,19 @@ export namespace TypeModels {
         id: string;
         text: string;
         sortable: boolean;
-        filterable: boolean;
         size: Column.Size;
         textAlign: TextAlign;
-        filter: Filter;
     }
 
-    export interface Filter {
-        remote: boolean;
-        criteria: string[];
+    export interface Filterer {
+        column: string;
+        valueSet: ValueSet;
+        searchText: string;
+        active: boolean;
     }
 
     export interface Paginator {
+        pageIndex: number;
         pageSize: number;
         length: number;
         pageSizeOptions: number[];
@@ -171,48 +173,101 @@ export namespace TypeModels {
 
     export interface Row {
         id: string;
-        cells: { [index: string]: Cell<any> };
+        cells: { [index: string]: Cell<any, any> };
         selected: boolean;
+    }
+
+    export interface Sorter {
+        column: string;
+        direction: Direction;
     }
 
     export interface Table extends Widget<Table.Data, Table> {
         data: Table.Data;
         columns: { [index: string]: Column };
         rows: Row[];
-        paginator: Paginator;
         selectMode: SelectMode;
+        notification: string;
     }
 
     export namespace Table {
 
         export interface Data extends WidgetData {
+            type: "Table.Data";
+            paginator: Paginator | undefined;
+            sorter: Sorter | undefined;
+            filtererMap: { [index: string]: Filterer };
         }
 
     }
 
-    export interface ActionCell extends Cell<Action[]> {
+    export interface ValueSet {
+        remote: boolean;
+        truncated: boolean;
+        values: ValueSet.Item[];
+    }
+
+    export namespace ValueSet {
+
+        export interface Item {
+            text: string;
+            selected: boolean;
+        }
+
+    }
+
+    export interface ActionCell extends Cell<Action[], ActionCell> {
         value: Action[];
     }
 
-    export interface Cell<V> {
+    export interface Cell<V, SUB> {
         type: string;
         value: V;
+        label: string;
     }
 
-    export interface NumericCell extends Cell<number> {
+    export interface NumericCell extends Cell<number, NumericCell> {
         value: number;
         format: NumericFormat;
     }
 
-    export interface TextCell extends Cell<string> {
+    export interface TextCell extends Cell<string, TextCell> {
         value: string;
     }
 
+    export namespace DataRetrievalParams {
+
+        export interface Page {
+            index: number;
+            size: number;
+        }
+
+    }
+
+    export namespace DataRetrievalParams {
+
+        export interface Sort {
+            column: string;
+            direction: Direction;
+        }
+
+    }
+
+    export namespace DataRetrievalParams {
+
+        export interface Filter {
+            column: string;
+            valueSet: DataRetrievalParams.Filter.Item[];
+        }
+
+    }
+
     export interface WidgetData {
-        type: string;
+        type: "WidgetData" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
     }
 
     export interface VoidWidgetData extends WidgetData {
+        type: "VoidWidgetData";
     }
 
     export interface Widget<WD, SUB> {
@@ -235,12 +290,21 @@ export namespace TypeModels {
         suffix: string;
     }
 
+    export namespace DataRetrievalParams.Filter {
+
+        export interface Item {
+            text: string | undefined;
+        }
+
+    }
+
     export interface Input<WD, V, SUB> extends Widget<WD, SUB> {
         placeholder: string;
         validators: Validator<any>[];
     }
 
     export interface Value<V> extends WidgetData {
+        type: "Value" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
         value: V;
     }
 
@@ -252,12 +316,14 @@ export namespace TypeModels {
 
     export namespace Column {
 
-        export type Size = "AUTO" | "XS" | "S" | "M" | "L" | "XL";
+        export type Size = "AUTO" | "XS" | "S" | "M" | "L" | "XL" | "TIMESTAMP" | "NUMBER";
 
     }
 
     export type TextAlign = "LEFT" | "CENTER" | "RIGHT";
 
     export type SelectMode = "NONE" | "SINGLE" | "MULTI" | "CHECKBOX";
+
+    export type Direction = "ASC" | "DESC" | "UNDEFINED";
 
 }

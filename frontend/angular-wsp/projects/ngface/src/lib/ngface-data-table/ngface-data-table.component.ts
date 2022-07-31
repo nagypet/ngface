@@ -14,40 +14,47 @@
  * limitations under the License.
  */
 
-import {AfterViewInit, Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
+import {MatSort, SortDirection} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {DataTableDataSource} from './data-table-datasource';
-import {TypeModels} from '../dto-models';
 import {tap} from 'rxjs/operators';
 import {merge} from 'rxjs';
 import {MatCheckboxChange} from '@angular/material/checkbox';
 import {NumericFormatter} from '../numeric-formatter';
-import {SearchEvent} from './excel-filter/excel-filter.component';
-import Form = TypeModels.Form;
-import ActionCell = TypeModels.ActionCell;
-import NumericCell = TypeModels.NumericCell;
+import {ValueSetSearchEvent} from './excel-filter/excel-filter.component';
+import {Ngface} from '../ngface-models';
+import Form = Ngface.Form;
+import ActionCell = Ngface.ActionCell;
+import NumericCell = Ngface.NumericCell;
+import DataRetrievalParams = Ngface.DataRetrievalParams;
 
 export interface TableReloadEvent
 {
-  pageIndex: number;
-  pageSize: number;
-  sortColumn: string;
-  sortDirection: string;
+  page: Ngface.DataRetrievalParams.Page;
+  sort: Ngface.DataRetrievalParams.Sort;
+  filter?: Ngface.DataRetrievalParams.Filter;
   dataSource: DataTableDataSource;
+}
+
+export interface TableViewParamsChangeEvent
+{
+  paginator?: Ngface.Paginator;
+  sorter: Ngface.Sorter;
+  filterer?: Ngface.Filterer;
 }
 
 export interface ActionClickEvent
 {
-  row: TypeModels.Row;
+  row: Ngface.Row;
   actionId: string;
 }
 
-export interface TableSearchEvent
+export interface TableValueSetSearchEvent
 {
   column: string;
-  searchEvent: SearchEvent;
+  searchEvent: ValueSetSearchEvent;
 }
 
 
@@ -64,63 +71,146 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
   @Input()
   widgetId: string;
 
+  @Input()
+  heightPx: number = 300;
+
   @Output()
   tableReloadEvent: EventEmitter<TableReloadEvent> = new EventEmitter();
 
   @Output()
-  rowClickEvent: EventEmitter<TypeModels.Row> = new EventEmitter();
+  rowClickEvent: EventEmitter<Ngface.Row> = new EventEmitter();
 
   @Output()
   actionClickEvent: EventEmitter<ActionClickEvent> = new EventEmitter();
 
   @Output()
-  searchEvent: EventEmitter<TableSearchEvent> = new EventEmitter();
+  tableValueSetSearchEvent: EventEmitter<TableValueSetSearchEvent> = new EventEmitter();
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<any>;
+  @Output()
+  tableViewParamsChangeEvent: EventEmitter<TableViewParamsChangeEvent> = new EventEmitter();
+
+  @ViewChild(MatPaginator) matPaginator!: MatPaginator;
+  @ViewChild(MatSort) matSort!: MatSort;
+  @ViewChild(MatTable) matTable!: MatTable<any>;
   dataSource: DataTableDataSource = new DataTableDataSource();
+
+  activeFilterer?: Ngface.Filterer;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns: string[];
 
-  constructor(@Inject(LOCALE_ID) public locale: string)
+  constructor(@Inject(LOCALE_ID) public locale: string,
+              private el: ElementRef)
   {
   }
 
   ngOnChanges(): void
   {
     this.displayedColumns = [];
-    if (this.getData().selectMode === 'CHECKBOX')
+    let data: Ngface.Table = this.getData();
+    if (data.selectMode === 'CHECKBOX')
     {
       this.displayedColumns = ['___checkbox-column___'];
     }
-    Object.keys(this.getData().columns).forEach(c => this.displayedColumns.push(c));
-    this.dataSource.setWidgetData(this.getData());
+    Object.keys(data.columns).forEach(c => this.displayedColumns.push(c));
+    this.dataSource.setWidgetData(data);
+
+    if (this.getSortColumn())
+    {
+      this.matSort.active = this.getSortColumn()!;
+      this.matSort.direction = this.getSortDirection();
+    }
+
+    Object.values(data.data.filtererMap).forEach(filterer =>
+    {
+      if (filterer.active)
+      {
+        this.activeFilterer = filterer;
+      }
+    });
+
+    this.setHeightScrollableArea();
   }
 
 
+  private setHeightScrollableArea()
+  {
+    let scrollableArea: any | undefined = undefined;
+
+    this.el.nativeElement.childNodes[0].childNodes.forEach((i: any) =>
+    {
+      let node: ChildNode = i;
+      if (node.nodeName === 'NG-SCROLLBAR')
+      {
+        scrollableArea = node;
+      }
+    });
+
+    if (scrollableArea)
+    {
+      scrollableArea.style.height = this.heightPx.toString() + 'px';
+    }
+  }
+
   ngAfterViewInit(): void
   {
-    this.table.dataSource = this.dataSource;
+    this.matTable.dataSource = this.dataSource;
 
-    merge(this.sort.sortChange, this.paginator.page)
+    merge(this.matSort.sortChange, this.matPaginator.page)
       .pipe(
-        tap(() => this.onPaginatorChanged(this.dataSource))
+        tap(() => this.reloadTable(this.dataSource))
       )
       .subscribe();
   }
 
-  onPaginatorChanged(dataSource: DataTableDataSource)
+  reloadTable(dataSource: DataTableDataSource)
   {
-    let event: TableReloadEvent = {
-      pageIndex: this.paginator.pageIndex,
-      pageSize: this.paginator.pageSize,
-      sortColumn: this.sort.active,
-      sortDirection: this.sort.direction,
+    let paramsChangeEvent: TableViewParamsChangeEvent = {
+      paginator: {
+        pageIndex: this.matPaginator.pageIndex,
+        pageSize: this.matPaginator.pageSize,
+        length: this.matPaginator.length,
+        pageSizeOptions: this.matPaginator.pageSizeOptions
+      },
+      sorter: {column: this.matSort.active, direction: this.mapDirection(this.matSort.direction)},
+      filterer: this.activeFilterer ? {
+        active: true,
+        column: this.activeFilterer.column,
+        valueSet: this.activeFilterer.valueSet,
+        searchText: this.activeFilterer.searchText
+      } : undefined
+    };
+    this.tableViewParamsChangeEvent.emit(paramsChangeEvent);
+
+    let reloadEvent: TableReloadEvent = {
+      page: {index: this.matPaginator.pageIndex, size: this.matPaginator.pageSize},
+      sort: {column: this.matSort.active, direction: this.mapDirection(this.matSort.direction)},
+      filter: this.activeFilterer ? {
+        column: this.activeFilterer.column,
+        valueSet: this.activeFilterer.valueSet.values.filter(v => v.selected).map(v => this.getText(v))
+      } : undefined,
       dataSource: dataSource
     };
-    this.tableReloadEvent.emit(event);
+    // Fire this one a bit later, so that the viewParamsChange event can submit the changes first
+    setTimeout(() => this.tableReloadEvent.emit(reloadEvent), 100);
+  }
+
+  mapDirection(direction: SortDirection): Ngface.Direction
+  {
+    switch (direction)
+    {
+      case 'asc':
+        return 'ASC';
+      case 'desc':
+        return 'DESC';
+      case '':
+        return 'UNDEFINED';
+    }
+  }
+
+  getText(v: Ngface.ValueSet.Item): DataRetrievalParams.Filter.Item
+  {
+    return v.text != '(Blanks)' ? {text: v.text} : {text: undefined};
   }
 
   getHeaderText(column: string): string
@@ -129,9 +219,13 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
     return headerText ? headerText : column;
   }
 
-  getCellText(row: TypeModels.Row, column: string): string
+  getCellText(row: Ngface.Row, column: string): string
   {
     let cell = row.cells[column];
+    if (!cell.value)
+    {
+      return 'NULL';
+    }
     if (cell.type === 'TextCell')
     {
       return cell.value;
@@ -150,7 +244,19 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
   }
 
 
-  getData(): TypeModels.Table
+  getCellLabel(row: Ngface.Row, column: string)
+  {
+    let cell = row.cells[column];
+    if (!cell.value)
+    {
+      return '';
+    }
+
+    return cell.label;
+  }
+
+
+  getData(): Ngface.Table
   {
     let widget = this.formData?.widgets[this.widgetId];
     if (!widget || widget?.type !== 'Table')
@@ -159,26 +265,31 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
         type: 'Table',
         columns: {},
         rows: [],
-        paginator: {pageSize: 5, length: 0, pageSizeOptions: []},
-        data: {type: 'TextInput.Data'},
-        label: 'undefined label',
+        data: {
+          type: 'Table.Data',
+          paginator: {pageIndex: 0, pageSize: 5, length: 0, pageSizeOptions: []},
+          sorter: {column: '', direction: 'UNDEFINED'},
+          filtererMap: {}
+        },
+        label: '',
         enabled: false,
         id: '',
         hint: '',
-        selectMode: 'NONE'
+        selectMode: 'NONE',
+        notification: '',
       };
     }
-    return <TypeModels.Table> this.formData.widgets[this.widgetId];
+    return <Ngface.Table> this.formData.widgets[this.widgetId];
   }
 
-  getPaginator(): TypeModels.Paginator
+  getPaginator(): Ngface.Paginator
   {
-    if (!this.getData().paginator)
+    if (!this.dataSource.paginator)
     {
-      return {pageSize: 5, length: 0, pageSizeOptions: []};
+      return {pageIndex: 0, pageSize: 5, length: 0, pageSizeOptions: []};
     }
 
-    return this.getData().paginator;
+    return this.dataSource.paginator;
   }
 
   isColumnSortable(column: string): boolean
@@ -187,16 +298,31 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
     return sortable != undefined ? sortable : false;
   }
 
-  isColumnFilterable(column: string): boolean
+  getColumnSorter(column: string): Ngface.Sorter | undefined
   {
-    let filterable = this.getData().columns[column]?.filterable;
-    return filterable != undefined ? filterable : false;
+    let sorter = this.getData().data.sorter;
+    return (sorter?.column === column) ? sorter : undefined;
   }
 
-  getColumnFilter(column: string): TypeModels.Filter | undefined
+  isColumnFilterable(column: string): boolean
   {
-    let filter = this.getData().columns[column]?.filter;
-    return filter != undefined ? filter : undefined;
+    let filterable = !!this.getData().data.filtererMap[column];
+    return filterable ?? false;
+  }
+
+  getColumnFilterer(column: string): Ngface.Filterer | undefined
+  {
+    if (this.activeFilterer?.column === column)
+    {
+      return this.activeFilterer;
+    }
+
+    let filterer = this.getData().data.filtererMap[column];
+    if (filterer)
+    {
+      filterer.active = false;
+    }
+    return filterer;
   }
 
   getThClass(column: string): string | null
@@ -208,6 +334,8 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
 
     switch (this.getData().columns[column]?.size)
     {
+      case 'AUTO':
+        return 'size-auto';
       case 'XS':
         return 'size-xsmall';
       case 'S':
@@ -218,13 +346,23 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
         return 'size-large';
       case 'XL':
         return 'size-xlarge';
+      case 'TIMESTAMP':
+        return 'size-timestamp';
+      case 'NUMBER':
+        return 'size-number';
     }
 
     return null;
   }
 
-  getTdClass(column: string): string | null
+  getTdClass(row: Ngface.Row, column: string): string | null
   {
+    let cell = row.cells[column];
+    if (!cell.value)
+    {
+      return 'cellvalue-null';
+    }
+
     switch (this.getData().columns[column]?.textAlign)
     {
       case 'LEFT':
@@ -253,7 +391,7 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
     return '';
   }
 
-  onRowClick(row: TypeModels.Row)
+  onRowClick(row: Ngface.Row)
   {
     if (this.getData().selectMode === 'SINGLE')
     {
@@ -268,7 +406,7 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
     this.rowClickEvent.emit(row);
   }
 
-  getRowClasses(row: TypeModels.Row): string
+  getRowClasses(row: Ngface.Row): string
   {
     if (row.selected)
     {
@@ -283,7 +421,7 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
     this.dataSource.getRows().forEach(r => r.selected = $event.checked);
   }
 
-  isChecked(row: TypeModels.Row): boolean
+  isChecked(row: Ngface.Row): boolean
   {
     return row.selected;
   }
@@ -298,12 +436,12 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
     return this.dataSource.getRows().filter(r => !r.selected).length === 0;
   }
 
-  actionClick(row: TypeModels.Row, actionId: string)
+  actionClick(row: Ngface.Row, actionId: string)
   {
     this.actionClickEvent.emit({row: row, actionId: actionId});
   }
 
-  getActions(row: TypeModels.Row, column: string): TypeModels.Action[] | null
+  getActions(row: Ngface.Row, column: string): Ngface.Action[] | null
   {
     if (row.cells[column].type === 'ActionCell')
     {
@@ -312,7 +450,7 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
     return null;
   }
 
-  getActionClass(action: TypeModels.Action): string
+  getActionClass(action: Ngface.Action): string
   {
     if (action.enabled)
     {
@@ -323,9 +461,40 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
   }
 
 
-  onSearchEvent(column: string, $event: SearchEvent)
+  onValueSetSearch(column: string, $event: ValueSetSearchEvent)
   {
-    this.searchEvent.emit({column: column, searchEvent: $event});
+    this.tableValueSetSearchEvent.emit({column: column, searchEvent: $event});
   }
 
+  onFiltererChange($event: Ngface.Filterer)
+  {
+    this.activeFilterer = $event;
+    this.reloadTable(this.dataSource);
+  }
+
+  getNotification(): string
+  {
+    return this.getData().notification ?? '';
+  }
+
+  getSortColumn(): string | null
+  {
+    let sorter = this.getData().data.sorter;
+    return sorter ? sorter.column : null;
+  }
+
+  getSortDirection(): SortDirection
+  {
+    let sorter = this.getData().data.sorter;
+    switch (sorter?.direction)
+    {
+      case 'ASC':
+        return 'asc';
+      case 'DESC':
+        return 'desc';
+      default:
+      case 'UNDEFINED':
+        return '';
+    }
+  }
 }

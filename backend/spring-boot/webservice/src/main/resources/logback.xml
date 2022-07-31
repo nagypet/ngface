@@ -62,6 +62,9 @@
 	<logger name="hu.perit.spvitamin.spring.httplogging" level="DEBUG" additivity="false">
 		<appender-ref ref="application-message"/>
 	</logger>
+	<logger name="hu.perit.spvitamin.spring.restmethodlogger" level="DEBUG" additivity="false">
+		<appender-ref ref="application-message"/>
+	</logger>
 	<logger name="hu.perit.spvitamin.data.dynamicdatasource" level="INFO" additivity="false">
 		<appender-ref ref="application-message"/>
 	</logger>
@@ -86,23 +89,6 @@
 	<logger name="hu.perit.ngface" level="DEBUG" additivity="false">
 		<appender-ref ref="application-message"/>
 	</logger>
-
-	<!--
-	<logger name="com.netflix.discovery" level="OFF"/>
-	<logger name="org.springframework.transaction" level="DEBUG"/>
-	<logger name="org.springframework.orm.jpa" level="DEBUG"/>
-	<logger name="org.springframework.orm.jpa.vendor" level="ERROR"/>
-	<logger name="org.springframework.security.web.context" level="DEBUG"/>
-	<logger name="org.springframework.security.web.util.matcher" level="DEBUG"/>
-	<logger name="org.springframework" level="DEBUG"/>
-	<logger name="org.hibernate.resource.jdbc.internal" level="TRACE"/>
-
-	#logging.level.org.springframework.web=OFF
-	#logging.level.org.hibernate=TRACE
-	#logging.level.org.hibernate.SQL=DEBUG
-	#logging.level.org.springframework.ws.transport.http=DEBUG
-	#logging.level.org.springframework.ws=DEBUG
-	-->
 
 	<root level="WARN">
 		<appender-ref ref="spring-message"/>

@@ -23,4 +23,6 @@ public class Constants
     public static final int DEFAULT_PAGESIZE = 5;
 
     public static final NumericFormat ATOMIC_WEIGHT_FORMAT = new NumericFormat().precision(4).suffix("g/mol");
+
+    public static final String SUBSYSTEM_NAME = "ngface-demo-app";
 }

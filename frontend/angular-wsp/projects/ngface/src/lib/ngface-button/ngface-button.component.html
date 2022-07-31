@@ -17,8 +17,11 @@
 <div class="ngface-button">
   <button type="button" (click)="onClick()" mat-raised-button [ngClass]="getClass()"
           [id]="getData().id"
-          [disabled]="!getData().enabled"
+          [disabled]="!(getData().enabled && enabled)"
+          [matBadgeHidden]="!(getData().enabled && enabled)"
           [matTooltip]="getData().hint"
+          matBadge="{{badge}}"
+          matBadgeColor="warn"
   >
     {{getData().label}}
   </button>

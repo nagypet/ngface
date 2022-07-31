@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package hu.perit.wsstepbystep.ngfacecomponent.democomponent;
+package hu.perit.wsstepbystep.ngface.democomponent;
 
 import hu.perit.ngface.data.ComponentDTO;
 import hu.perit.ngface.data.DTOValue;
+import hu.perit.ngface.data.GenericTableDTO;
 import hu.perit.ngface.widget.input.DateRangeInput;
 import hu.perit.ngface.widget.input.Select;
-import hu.perit.ngface.widget.table.Filter;
+import hu.perit.ngface.widget.table.Table;
+import hu.perit.wsstepbystep.service.api.TableRowDTO;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * This is the actual DTO object which have to be shown. This data object will be enriched with view information so that
@@ -85,8 +86,8 @@ public class DemoComponentDTO extends ComponentDTO
     @DTOValue(id = SELECT3_ID)
     private Select.Data select3Data;
 
-    private List<DemoTableDataProvider.DataRow> tableRows;
-    private int totalTableRowCount;
-    private Filter nameFilter;
-    private Filter symbolFilter;
+    private GenericTableDTO<TableRowDTO> tableDTO = new GenericTableDTO<>();
+
+    @DTOValue(id = "table-multiselect")
+    private Table.Data tableData = new Table.Data();
 }

@@ -16,7 +16,9 @@
 
 package hu.perit.ngface.widget.table;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
@@ -25,9 +27,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @ToString
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 public class Paginator
 {
+    private final Integer pageIndex;
     private final Integer pageSize;
-    private final Integer length;
+    private final Long length;
     private final List<Integer> pageSizeOptions;
 }

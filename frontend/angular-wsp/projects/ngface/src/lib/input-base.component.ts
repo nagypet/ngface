@@ -15,10 +15,10 @@
  */
 
 import {AbstractControl, FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators} from '@angular/forms';
-import {TypeModels} from './dto-models';
+import {Ngface} from './ngface-models';
 import {Component, Input, OnChanges} from '@angular/core';
 import {ErrorStateMatcher} from '@angular/material/core';
-import Form = TypeModels.Form;
+import Form = Ngface.Form;
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher
@@ -78,7 +78,7 @@ export abstract class InputBaseComponent implements OnChanges
   }
 
 
-  protected createNgValidators(validator: TypeModels.Validator<any>): ValidatorFn[]
+  protected createNgValidators(validator: Ngface.Validator<any>): ValidatorFn[]
   {
     let validators = new Array<ValidatorFn>();
 
@@ -89,16 +89,16 @@ export abstract class InputBaseComponent implements OnChanges
         break;
 
       case 'Min':
-        validators.push(Validators.min((<TypeModels.Min> validator).min));
+        validators.push(Validators.min((<Ngface.Min> validator).min));
         break;
 
       case 'Max':
-        validators.push(Validators.max((<TypeModels.Max> validator).max));
+        validators.push(Validators.max((<Ngface.Max> validator).max));
         break;
 
       case 'Size':
-        validators.push(Validators.minLength((<TypeModels.Size> validator).min));
-        validators.push(Validators.maxLength((<TypeModels.Size> validator).max));
+        validators.push(Validators.minLength((<Ngface.Size> validator).min));
+        validators.push(Validators.maxLength((<Ngface.Size> validator).max));
         break;
 
       case 'Email':
@@ -106,7 +106,7 @@ export abstract class InputBaseComponent implements OnChanges
         break;
 
       case 'Pattern':
-        validators.push(Validators.pattern((<TypeModels.Pattern> validator).pattern));
+        validators.push(Validators.pattern((<Ngface.Pattern> validator).pattern));
         break;
 
       default:
@@ -117,7 +117,7 @@ export abstract class InputBaseComponent implements OnChanges
   }
 
 
-  abstract getData(): TypeModels.Input<any, any, any>
+  abstract getData(): Ngface.Input<any, any, any>
 
   getValue(): string
   {
@@ -130,7 +130,7 @@ export abstract class InputBaseComponent implements OnChanges
    * @param name
    * @private
    */
-  protected getValidator(name: string): TypeModels.Validator<any> | undefined
+  protected getValidator(name: string): Ngface.Validator<any> | undefined
   {
     let validatorName = name;
     if (name === 'minlength' || name === 'maxlength')
@@ -146,7 +146,7 @@ export abstract class InputBaseComponent implements OnChanges
    * @param name
    * @private
    */
-  protected getValidatorFrom(validators: TypeModels.Validator<any>[] | undefined, name: string): TypeModels.Validator<any> | undefined
+  protected getValidatorFrom(validators: Ngface.Validator<any>[] | undefined, name: string): Ngface.Validator<any> | undefined
   {
     let validatorName = name;
     if (name === 'minlength' || name === 'maxlength')
@@ -171,7 +171,7 @@ export abstract class InputBaseComponent implements OnChanges
     var sizeValidator = this.getValidator('Size');
     if (sizeValidator)
     {
-      return (<TypeModels.Size> sizeValidator).min;
+      return (<Ngface.Size> sizeValidator).min;
     }
     return null;
   }
@@ -182,7 +182,7 @@ export abstract class InputBaseComponent implements OnChanges
     var sizeValidator = this.getValidator('Size');
     if (sizeValidator)
     {
-      return (<TypeModels.Size> sizeValidator).max;
+      return (<Ngface.Size> sizeValidator).max;
     }
     return null;
   }
@@ -199,7 +199,7 @@ export abstract class InputBaseComponent implements OnChanges
   }
 
 
-  getValidationErrorsFromFormControl(fc: AbstractControl | null, validators: TypeModels.Validator<any>[] | undefined): string[]
+  getValidationErrorsFromFormControl(fc: AbstractControl | null, validators: Ngface.Validator<any>[] | undefined): string[]
   {
     let validationErrors = fc?.errors;
     let errorMessages = new Array<string>();

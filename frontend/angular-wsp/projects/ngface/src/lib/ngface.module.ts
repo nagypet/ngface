@@ -41,6 +41,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {MatSortModule} from '@angular/material/sort';
 import {MatButtonModule} from '@angular/material/button';
+import {NumericInputFilterDirective} from './directives/NumericInputFilterDirective';
+import {DebounceInputDirective} from './directives/debounce-input-directive';
+import {NgScrollbarModule} from 'ngx-scrollbar';
+import {MatBadgeModule} from '@angular/material/badge';
 
 
 @NgModule({
@@ -55,6 +59,8 @@ import {MatButtonModule} from '@angular/material/button';
     IntlNumericInputComponent,
     SortFilterHeaderComponent,
     ExcelFilterComponent,
+    NumericInputFilterDirective,
+    DebounceInputDirective,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +72,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
+    MatBadgeModule,
     FormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
@@ -74,6 +81,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatIconModule,
     MatPaginatorModule,
     MatSortModule,
+    NgScrollbarModule,
   ],
   exports: [
     NgfaceButtonComponent,
@@ -85,4 +93,6 @@ import {MatButtonModule} from '@angular/material/button';
     NgfaceTextInputComponent,
   ]
 })
-export class NgfaceModule { }
+export class NgfaceModule
+{
+}

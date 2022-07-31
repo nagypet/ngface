@@ -60,7 +60,7 @@ public abstract class Input<WD extends WidgetData, V, SUB extends Input> extends
     }
 
 
-    public SUB addValidator(Validator validator)
+    public SUB addValidator(Validator<?> validator)
     {
         Objects.requireNonNull(validator, "validator may not be null'");
 

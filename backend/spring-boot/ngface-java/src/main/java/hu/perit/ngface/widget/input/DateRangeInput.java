@@ -21,6 +21,7 @@ import hu.perit.ngface.widget.base.Validator;
 import hu.perit.ngface.widget.base.WidgetData;
 import hu.perit.ngface.widget.exception.NgFaceException;
 import hu.perit.ngface.widget.input.validator.Required;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -33,6 +34,7 @@ import java.util.Objects;
 
 @Getter
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class DateRangeInput extends Input<DateRangeInput.Data, Void, DateRangeInput>
 {
     private String placeholder2;
@@ -57,7 +59,7 @@ public class DateRangeInput extends Input<DateRangeInput.Data, Void, DateRangeIn
     }
 
 
-    public DateRangeInput addValidator2(Validator validator)
+    public DateRangeInput addValidator2(Validator<?> validator)
     {
         Objects.requireNonNull(validator, "validator may not be null'");
 
@@ -74,6 +76,7 @@ public class DateRangeInput extends Input<DateRangeInput.Data, Void, DateRangeIn
     @ToString(callSuper = true)
     @RequiredArgsConstructor
     @Getter
+    @EqualsAndHashCode(callSuper = true)
     public static class Data extends WidgetData
     {
         private final LocalDate startDate;

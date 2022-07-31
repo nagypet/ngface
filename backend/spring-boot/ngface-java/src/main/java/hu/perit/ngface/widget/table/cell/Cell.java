@@ -19,8 +19,15 @@ package hu.perit.ngface.widget.table.cell;
 import lombok.Data;
 
 @Data
-public abstract class Cell<V>
+public abstract class Cell<V, SUB extends Cell>
 {
     private final String type = getClass().getSimpleName();
     protected final V value;
+    protected String label;
+
+    public SUB label(String label)
+    {
+        this.label = label;
+        return (SUB) this;
+    }
 }

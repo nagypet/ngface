@@ -17,14 +17,17 @@
 package hu.perit.wsstepbystep.rest.api;
 
 import hu.perit.ngface.controller.ComponentController;
+import hu.perit.ngface.data.DataRetrievalParams;
 import hu.perit.ngface.data.SubmitFormData;
 import hu.perit.ngface.widget.form.Form;
-import hu.perit.wsstepbystep.ngfacecomponent.democomponent.DemoComponentController;
-import hu.perit.wsstepbystep.ngfacecomponent.democomponent.DemoComponentDTO;
-import hu.perit.wsstepbystep.ngfacecomponent.democomponent.DemoComponentView;
-import hu.perit.wsstepbystep.ngfacecomponent.tabledetailscomponent.TableDetailsComponentController;
-import hu.perit.wsstepbystep.ngfacecomponent.tabledetailscomponent.TableDetailsComponentDTO;
-import hu.perit.wsstepbystep.ngfacecomponent.tabledetailscomponent.TableDetailsComponentView;
+import hu.perit.spvitamin.spring.restmethodlogger.LoggedRestMethod;
+import hu.perit.wsstepbystep.config.Constants;
+import hu.perit.wsstepbystep.ngface.democomponent.DemoComponentController;
+import hu.perit.wsstepbystep.ngface.democomponent.DemoComponentDTO;
+import hu.perit.wsstepbystep.ngface.democomponent.DemoComponentView;
+import hu.perit.wsstepbystep.ngface.tabledetailscomponent.TableDetailsComponentController;
+import hu.perit.wsstepbystep.ngface.tabledetailscomponent.TableDetailsComponentDTO;
+import hu.perit.wsstepbystep.ngface.tabledetailscomponent.TableDetailsComponentView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,10 +45,10 @@ public class DemoController implements DemoApi
     // getDemoForm()
     //------------------------------------------------------------------------------------------------------------------
     @Override
-    public Form getDemoForm(Long pageNumber, Long pageSize, String sortColumn, String sortDirection, String rowId)
+    @LoggedRestMethod(eventId = 1, subsystem = Constants.SUBSYSTEM_NAME)
+    public Form getDemoForm(DataRetrievalParams dataRetrievalParams)
     {
-        DemoComponentController.Params params = new DemoComponentController.Params(pageNumber, pageSize, sortColumn, sortDirection, rowId);
-        log.debug("getDemoForm({})", params);
+        DemoComponentController.Params params = new DemoComponentController.Params(dataRetrievalParams, null);
 
         DemoComponentDTO data = this.demoComponentController.initializeData(params);
         return new DemoComponentView(data).getForm();
@@ -53,9 +56,25 @@ public class DemoController implements DemoApi
 
 
     //------------------------------------------------------------------------------------------------------------------
+    // getDemoFormTableRow()
+    //------------------------------------------------------------------------------------------------------------------
+    @Override
+    @LoggedRestMethod(eventId = 1, subsystem = Constants.SUBSYSTEM_NAME)
+    public Form getDemoFormTableRow(String rowId)
+    {
+        DemoComponentController.Params params = new DemoComponentController.Params(null, rowId);
+
+        DemoComponentDTO data = this.demoComponentController.initializeData(params);
+        return new DemoComponentView(data).getForm();
+    }
+
+
+
+    //------------------------------------------------------------------------------------------------------------------
     // submitDemoForm()
     //------------------------------------------------------------------------------------------------------------------
     @Override
+    @LoggedRestMethod(eventId = 2, subsystem = Constants.SUBSYSTEM_NAME)
     public void submitDemoForm(SubmitFormData submitFormData)
     {
         log.debug("submitDemoForm({})", submitFormData);
@@ -70,6 +89,7 @@ public class DemoController implements DemoApi
     // getTableDetailsForm()
     //------------------------------------------------------------------------------------------------------------------
     @Override
+    @LoggedRestMethod(eventId = 3, subsystem = Constants.SUBSYSTEM_NAME)
     public Form getTableDetailsForm(Long id)
     {
         TableDetailsComponentController.Params params = new TableDetailsComponentController.Params(id);
@@ -84,6 +104,7 @@ public class DemoController implements DemoApi
     // submitTableDetailsForm()
     //------------------------------------------------------------------------------------------------------------------
     @Override
+    @LoggedRestMethod(eventId = 4, subsystem = Constants.SUBSYSTEM_NAME)
     public void submitTableDetailsForm(SubmitFormData submitFormData)
     {
         log.debug("submitTableDetailsForm({})", submitFormData);

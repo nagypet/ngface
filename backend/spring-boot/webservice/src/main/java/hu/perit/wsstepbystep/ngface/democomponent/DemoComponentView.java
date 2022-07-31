@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package hu.perit.wsstepbystep.ngfacecomponent.democomponent;
+package hu.perit.wsstepbystep.ngface.democomponent;
 
-import hu.perit.ngface.formating.FormatCurrency;
+import hu.perit.ngface.formating.CurrencyFormat;
 import hu.perit.ngface.formating.NumericFormat;
 import hu.perit.ngface.view.ComponentView;
 import hu.perit.ngface.widget.button.Button;
@@ -34,14 +34,13 @@ import hu.perit.ngface.widget.input.validator.Required;
 import hu.perit.ngface.widget.input.validator.Size;
 import hu.perit.ngface.widget.table.Action;
 import hu.perit.ngface.widget.table.Column;
-import hu.perit.ngface.widget.table.Paginator;
 import hu.perit.ngface.widget.table.Row;
 import hu.perit.ngface.widget.table.Table;
 import hu.perit.ngface.widget.table.cell.ActionCell;
 import hu.perit.wsstepbystep.config.Constants;
+import hu.perit.wsstepbystep.service.api.TableRowDTO;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -83,7 +82,7 @@ public class DemoComponentView implements ComponentView
                         .label("Amount")
                         .hint("Must be between 0 and 99.999,99 EUR")
                         .placeholder("Type in the amount")
-                        .format(FormatCurrency.EUR)
+                        .format(CurrencyFormat.EUR)
                         .value(this.data.getAmount())
                         .addValidator(new Required("Amount is required!"))
                         .addValidator(new Min(0.01, "The min amount is 0,01 EUR"))
@@ -162,23 +161,24 @@ public class DemoComponentView implements ComponentView
     {
         Table table = new Table(id)
                 .label("Elements")
+                .selectMode(selectMode)
                 .addColumn(new Column("id").text("Id").sortable(true).size(Column.Size.S))
-                .addColumn(new Column("name").text("Name").sortable(true).size(Column.Size.L).filterable(true).filter(this.data.getNameFilter()))
+                .addColumn(new Column("name").text("Name").sortable(true).size(Column.Size.L))
                 .addColumn(new Column("weight").text("Weight").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
-                .addColumn(new Column("symbol").text("Symbol").size(Column.Size.S).filterable(true).filter(this.data.getSymbolFilter()))
+                .addColumn(new Column("symbol").text("Symbol").size(Column.Size.S))
                 .addColumn(new Column("price-eur").text("Price EUR").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
                 .addColumn(new Column("price-huf").text("Price HUF").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
                 .addColumn(new Column("actions").text("Actions"));
 
-        for (DemoTableDataProvider.DataRow item : this.data.getTableRows())
+        for (TableRowDTO item : this.data.getTableDTO().getRows())
         {
             table.addRow(new Row(item.getId().toString())
                     .putCell("id", item.getId().toString())
                     .putCell("name", item.getName())
                     .putCell("weight", item.getWeight(), Constants.ATOMIC_WEIGHT_FORMAT)
                     .putCell("symbol", item.getSymbol())
-                    .putCell("price-eur", item.getWeight(), FormatCurrency.EUR)
-                    .putCell("price-huf", item.getWeight() * 370, FormatCurrency.HUF)
+                    .putCell("price-eur", item.getWeight(), CurrencyFormat.EUR)
+                    .putCell("price-huf", item.getWeight() * 370, CurrencyFormat.HUF)
                     .putCell("actions", new ActionCell(List.of(
                             new Action("edit").label("Edit").icon("edit"),
                             new Action("delete").label("Delete").icon("delete").enabled(false)
@@ -186,9 +186,8 @@ public class DemoComponentView implements ComponentView
             );
         }
 
-        table
-                .paginator(new Paginator(Constants.DEFAULT_PAGESIZE, this.data.getTotalTableRowCount(), Arrays.asList(3, 5, 10, 20)))
-                .selectMode(selectMode);
+        table.data(this.data.getTableData());
+
         return table;
     }
 }

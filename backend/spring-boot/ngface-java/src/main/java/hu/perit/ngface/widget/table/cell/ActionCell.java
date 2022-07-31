@@ -18,12 +18,19 @@ package hu.perit.ngface.widget.table.cell;
 
 import hu.perit.ngface.widget.table.Action;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ActionCell extends Cell<List<Action>>
+public class ActionCell extends Cell<List<Action>, ActionCell>
 {
     public ActionCell(List<Action> value)
     {
-        super(value);
+        super(new ArrayList<>(value));
+    }
+
+    public ActionCell add(Action action)
+    {
+        this.value.add(action);
+        return this;
     }
 }

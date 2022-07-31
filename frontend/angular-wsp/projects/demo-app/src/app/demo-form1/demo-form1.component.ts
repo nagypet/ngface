@@ -16,15 +16,16 @@
 
 import {Component, OnInit} from '@angular/core';
 import {DemoService} from '../services/demo.service';
-import {TypeModels} from '../dto-models';
 import {MatDialog} from '@angular/material/dialog';
 import {DemoDialog1Component} from '../demo-dialog1/demo-dialog1.component';
 import {
   ActionClickEvent,
   TableReloadEvent,
-  TableSearchEvent
+  TableValueSetSearchEvent,
+  TableViewParamsChangeEvent,
 } from '../../../../ngface/src/lib/ngface-data-table/ngface-data-table.component';
 import {FormBaseComponent} from '../../../../ngface/src/lib/form-base.component';
+import {Ngface} from '../../../../ngface/src/lib/ngface-models';
 
 
 @Component({
@@ -42,7 +43,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
 
   ngOnInit()
   {
-    this.demoService.getDemoForm().subscribe(data =>
+    this.demoService.getDemoForm({page: undefined, sort: undefined, filters: undefined}).subscribe(data =>
     {
       console.log(data);
       this.formData = data;
@@ -53,7 +54,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
 
   enableButtons()
   {
-    const button: TypeModels.Button = <TypeModels.Button> this.formData?.widgets['button-details'];
+    const button: Ngface.Button = <Ngface.Button> this.formData?.widgets['button-details'];
     button.enabled = false;
 
     var selectedRow = this.getSingleSelectTableSelectedRow();
@@ -64,9 +65,9 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
   }
 
 
-  private getSingleSelectTableSelectedRow(): TypeModels.Row | undefined
+  private getSingleSelectTableSelectedRow(): Ngface.Row | undefined
   {
-    const table: TypeModels.Table = <TypeModels.Table> this.formData?.widgets['table-singleselect'];
+    const table: Ngface.Table = <Ngface.Table> this.formData?.widgets['table-singleselect'];
     return table.rows.find(r => r.selected);
   }
 
@@ -76,7 +77,8 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     if (!this.formGroup.valid)
     {
       console.warn('Data is invalid!');
-    } else
+    }
+    else
     {
       const submitData = this.getSubmitData();
       console.log(submitData);
@@ -90,10 +92,15 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
 
   onTableReload($event: TableReloadEvent)
   {
-    this.demoService.getDemoForm($event.pageIndex, $event.pageSize, $event.sortColumn, $event.sortDirection).subscribe(data =>
+    this.demoService.getDemoForm({
+      page: $event.page,
+      sort: $event.sort,
+      filters: $event.filter ? [$event.filter] : undefined
+    }).subscribe(data =>
     {
       console.log(data);
-      $event.dataSource.setWidgetData(<TypeModels.Table> data.widgets['table-multiselect']);
+      $event.dataSource.setWidgetData(<Ngface.Table> data.widgets['table-multiselect']);
+      this.formData.widgets['table-multiselect'] = data.widgets['table-multiselect'];
     });
   }
 
@@ -116,7 +123,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     }
   }
 
-  private doEditAction(row: TypeModels.Row | undefined)
+  private doEditAction(row: Ngface.Row | undefined)
   {
     if (!row)
     {
@@ -146,7 +153,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
             {
               console.log('sumbitted');
               // reload table content
-              this.demoService.getDemoForm(undefined, undefined, undefined, undefined, row.id).subscribe(data =>
+              this.demoService.getDemoFormTableRow(row.id).subscribe(data =>
               {
                 console.log(data);
                 // @ts-ignore
@@ -160,15 +167,31 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
   }
 
 
-  onTableSearchEvent($event: TableSearchEvent)
+  onTableValueSetSearch($event: TableValueSetSearchEvent)
   {
     console.log($event);
 
-    let c: string[] = [];
-    for (let i = 0; i < $event.searchEvent.searchText.length; i++)
-    {
-      c.push('alma');
-    }
-    $event.searchEvent.filterCriteriaProvider.setCriteria(c);
+    // TODO: this function is only called in case of remote filterers, where actual value sets will be asked from the backend.
+    // In this demo each filterer is local.
+    // Ask the backend for updated set of criteria based on 'column' and 'searchText'
+    // this.demoService.getColumnFilterer($event.column, $event.searchEvent.searchText).subscribe(filterer =>
+    // {
+    //   console.log(filterer);
+    //   $event.searchEvent.valueSetProvider.setValueSet(filterer.valueSet);
+    // });
+  }
+
+  onTableViewParamsChange($event: TableViewParamsChangeEvent)
+  {
+    console.log($event);
+
+    let widgetData: Ngface.Table.Data = {
+      type: 'Table.Data',
+      paginator: $event.paginator,
+      sorter: $event.sorter,
+      filtererMap: $event.filterer ? {[$event.filterer?.column]: $event.filterer} : {}
+    };
+    this.demoService.submitDemoForm({id: '', widgetDataMap: {['table-multiselect']: widgetData}}).subscribe(
+      () => console.log(widgetData));
   }
 }

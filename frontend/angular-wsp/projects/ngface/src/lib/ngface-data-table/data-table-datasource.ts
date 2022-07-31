@@ -16,7 +16,7 @@
 
 import {DataSource} from '@angular/cdk/collections';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {TypeModels} from '../dto-models';
+import {Ngface} from '../ngface-models';
 
 
 /**
@@ -24,9 +24,19 @@ import {TypeModels} from '../dto-models';
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class DataTableDataSource extends DataSource<TypeModels.Row>
+export class DataTableDataSource extends DataSource<Ngface.Row>
 {
-  private dataSubject = new BehaviorSubject<TypeModels.Row[]>([]);
+  private dataSubject = new BehaviorSubject<Ngface.Row[]>([]);
+
+  private _paginator?: Ngface.Paginator;
+  get paginator(): Ngface.Paginator | undefined
+  {
+    return this._paginator;
+  }
+  set paginator(paginator: Ngface.Paginator | undefined)
+  {
+    this._paginator = paginator;
+  }
 
   constructor()
   {
@@ -38,7 +48,7 @@ export class DataTableDataSource extends DataSource<TypeModels.Row>
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<TypeModels.Row[]>
+  connect(): Observable<Ngface.Row[]>
   {
     return this.dataSubject.asObservable();
   }
@@ -52,15 +62,16 @@ export class DataTableDataSource extends DataSource<TypeModels.Row>
     this.dataSubject.complete();
   }
 
-  setWidgetData(tableData: TypeModels.Table)
+  setWidgetData(tableData: Ngface.Table)
   {
     if (tableData)
     {
       this.dataSubject.next(tableData.rows);
+      this.paginator = tableData.data.paginator;
     }
   }
 
-  getRows(): TypeModels.Row[]
+  getRows(): Ngface.Row[]
   {
     return this.dataSubject.getValue();
   }

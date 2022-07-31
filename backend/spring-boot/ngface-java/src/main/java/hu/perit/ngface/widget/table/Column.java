@@ -16,11 +16,14 @@
 
 package hu.perit.ngface.widget.table;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @ToString
 @Getter
 public class Column
@@ -32,7 +35,9 @@ public class Column
         S,
         M,
         L,
-        XL
+        XL,
+        TIMESTAMP,
+        NUMBER
     }
 
     public enum TextAlign
@@ -45,16 +50,8 @@ public class Column
     private final String id;
     private String text;
     private Boolean sortable = Boolean.FALSE;
-    private Boolean filterable = Boolean.FALSE;
     private Size size = Size.AUTO;
     private TextAlign textAlign = TextAlign.LEFT;
-    private Filter filter;
-
-    // For JSon deserialization
-    private Column()
-    {
-        this.id = null;
-    }
 
     public Column text(String text)
     {
@@ -65,18 +62,6 @@ public class Column
     public Column sortable(Boolean sortable)
     {
         this.sortable = sortable;
-        return this;
-    }
-
-    public Column filterable(Boolean filterable)
-    {
-        this.filterable = filterable;
-        return this;
-    }
-
-    public Column filter(Filter filter)
-    {
-        this.filter = filter;
         return this;
     }
 

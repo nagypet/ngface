@@ -15,9 +15,9 @@
  */
 
 import {Component, Input, OnInit} from '@angular/core';
-import Form = TypeModels.Form;
-import Button = TypeModels.Button;
-import {TypeModels} from '../dto-models';
+import Form = Ngface.Form;
+import Button = Ngface.Button;
+import {Ngface} from '../ngface-models';
 
 @Component({
   selector: 'ngface-button',
@@ -32,6 +32,12 @@ export class NgfaceButtonComponent implements OnInit
 
   @Input()
   widgetId: string;
+
+  @Input()
+  enabled = true;
+
+  @Input()
+  badge?: string;
 
   constructor()
   {

@@ -140,3 +140,114 @@
   color: var(--bs-primary) !important;
   padding: 5px 15px !important;
 }
+
+/*
+ * mat-paginator
+ */
+.mat-paginator-container {
+  flex-wrap: nowrap!important;
+  min-width: 500px;
+  align-items: baseline!important;
+}
+
+.mat-paginator-page-size-label {
+  white-space: nowrap;
+}
+
+.mat-paginator-range-label {
+  white-space: nowrap;
+}
+
+/*
+ * data-table
+ */
+.ngface-data-table {
+  width: 100%;
+  margin: 20px auto;
+
+  .ngface-data-table-scrollable-area {
+    border: rgba(0, 0, 0, .12) solid 1px;
+    border-radius: 5px;
+    // height should be set in the app, where the table widget is used
+    height: 600px;
+    overflow: auto;
+    --scrollbar-size: 10px;
+    --scrollbar-thumb-color: rgba(0, 0, 0, 0.07);
+    --scrollbar-hover-size: 12px;
+    --scrollbar-track-color: rgba(0, 0, 0, 0.05);
+    --scrollbar-border-radius: 10px;
+  }
+
+  .size-auto {
+    width: available;
+  }
+
+  .size-xsmall {
+    width: 60px;
+  }
+
+  .size-small {
+    width: 110px;
+  }
+
+  .size-medium {
+    width: 180px;
+  }
+
+  .size-large {
+    width: 300px;
+  }
+
+  .size-xlarge {
+    width: 500px;
+  }
+
+  .size-timestamp {
+    width: 180px;
+  }
+
+  .size-number {
+    width: 140px;
+  }
+
+  .align-left {
+    text-align: left;
+  }
+
+  .align-center {
+    text-align: center;
+  }
+
+  .align-right {
+    text-align: right;
+  }
+
+  .cellvalue-null {
+    color: lightgray;
+    background-color: ivory;
+    font-style: italic;
+  }
+
+  label {
+    margin-left: 2px;
+    margin-bottom: 8px;
+  }
+}
+
+/*
+::-webkit-scrollbar {
+  width: 4px;
+  overflow-y: scroll;
+  background: grey;
+  box-shadow: inset 0 0 4px #707070;
+}
+
+::-webkit-scrollbar-thumb {
+  background: blue;
+  border-radius: 10px;
+}
+*/
+
+.ngface-data-table-scrollable-area .ng-scrollbar-wrapper[deactivated=false]>scrollbar-y.scrollbar-control {
+  top: 36px!important;
+}

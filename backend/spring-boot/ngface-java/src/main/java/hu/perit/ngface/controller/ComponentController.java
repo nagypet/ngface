@@ -16,13 +16,29 @@
 
 package hu.perit.ngface.controller;
 
+import hu.perit.ngface.data.TableActionParams;
+import hu.perit.ngface.widget.table.Filterer;
+import lombok.NonNull;
+
 /**
  * @param <T>
  * @author Peter Nagy
  */
 public interface ComponentController<P, T>
 {
-    T initializeData(P params);
+    T initializeData(@NonNull P params);
 
+    /**
+     * This function will be called by the framework whenever new data has been sumbitted by the frontend.
+     *
+     * @param data
+     */
     void onSave(T data);
+
+
+    /**
+     *
+     * @param tableActionParams
+     */
+    void onActionClick(TableActionParams tableActionParams);
 }

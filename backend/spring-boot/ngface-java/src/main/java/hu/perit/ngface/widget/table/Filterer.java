@@ -16,42 +16,39 @@
 
 package hu.perit.ngface.widget.table;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 @ToString
 @Getter
-public class Filter
+@RequiredArgsConstructor()
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+public class Filterer
 {
-    private static int MAX_SIZE = 100;
+    private final String column;
+    private ValueSet valueSet;
+    private String searchText = "";
+    private Boolean active = Boolean.FALSE;
 
-    // If there are more then MAX_SIZE criteria, then they will not be provided, but must be searched for
-    private Boolean remote = Boolean.FALSE;
-    private List<String> criteria;
-
-    public Filter remote(Boolean remote)
+    public Filterer valueSet(ValueSet valueSet)
     {
-        this.remote = BooleanUtils.isTrue(remote);
+        this.valueSet = valueSet;
         return this;
     }
 
-
-    public Filter criteria(Collection<String> filters)
+    public Filterer searchText(String searchText)
     {
-        this.criteria = new ArrayList<>();
-        for (String filter : filters)
-        {
-            this.criteria.add(filter);
-            if (this.criteria.size() >= MAX_SIZE)
-            {
-                break;
-            }
-        }
+        this.searchText = searchText;
+        return this;
+    }
+
+    public Filterer active(Boolean active)
+    {
+        this.active = BooleanUtils.isTrue(active);
         return this;
     }
 }

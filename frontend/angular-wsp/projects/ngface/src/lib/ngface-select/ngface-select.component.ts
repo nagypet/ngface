@@ -16,7 +16,7 @@
 
 import {Component, OnChanges} from '@angular/core';
 import {InputBaseComponent} from '../input-base.component';
-import {TypeModels} from '../dto-models';
+import {Ngface} from '../ngface-models';
 
 @Component({
   selector: 'ngface-select',
@@ -35,7 +35,7 @@ export class NgfaceSelectComponent extends InputBaseComponent implements OnChang
     this.formControl.setValue(this.getData()?.data?.selected);
   }
 
-  getData(): TypeModels.Select
+  getData(): Ngface.Select
   {
     let widget = this.formData?.widgets[this.widgetId];
     if (!widget || widget?.type !== 'Select')
@@ -51,7 +51,7 @@ export class NgfaceSelectComponent extends InputBaseComponent implements OnChang
         hint: ''
       };
     }
-    return <TypeModels.Select> this.formData.widgets[this.widgetId];
+    return <Ngface.Select> this.formData.widgets[this.widgetId];
   }
 
 

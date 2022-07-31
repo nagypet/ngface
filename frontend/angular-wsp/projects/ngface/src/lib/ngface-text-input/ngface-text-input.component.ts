@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import {Component, OnChanges, OnInit} from '@angular/core';
-import {TypeModels} from '../dto-models';
+import {Component} from '@angular/core';
+import {Ngface} from '../ngface-models';
 import {InputBaseComponent} from '../input-base.component';
-import TextInput = TypeModels.TextInput;
+import TextInput = Ngface.TextInput;
 
 @Component({
   selector: 'ngface-text-input',

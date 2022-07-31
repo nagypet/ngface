@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.formating;
+package hu.perit.ngface.data;
 
 import lombok.Data;
 
-@Data
-public class FormatCurrency extends NumericFormat
-{
-    public static final NumericFormat EUR = new FormatCurrency("€");
-    public static final NumericFormat USD = new FormatCurrency("$");
-    public static final NumericFormat HUF = new FormatCurrency("Ft").precision(0);
+import javax.validation.constraints.NotNull;
 
-    public FormatCurrency(String currency)
-    {
-        this.suffix = currency;
-        this.precision = 2;
-    }
+@Data
+public class TableActionParams
+{
+    @NotNull
+    private String actionId;
+    @NotNull
+    private String rowId;
 }
