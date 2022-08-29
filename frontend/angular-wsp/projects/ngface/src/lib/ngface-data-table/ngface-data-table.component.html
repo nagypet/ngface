@@ -16,7 +16,10 @@
 
 <div class="ngface-data-table" [ngClass]="getOptionalClasses()">
   <label *ngIf="getData().label">{{getData().label}}</label>
-  <ng-scrollbar class="ngface-data-table-scrollable-area" track="all">
+  <!-- ng-scrollbar causes the browser to crash whenever the size of the viewport changes and the scrollbar is about to appear.
+  visibility="always" is a workaround for this issue.
+  -->
+  <ng-scrollbar visibility="always" class="ngface-data-table-scrollable-area" track="all">
     <table mat-table matSort>
 
       <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
