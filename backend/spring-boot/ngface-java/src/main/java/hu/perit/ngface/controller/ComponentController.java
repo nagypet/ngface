@@ -40,5 +40,5 @@ public interface ComponentController<P, T>
      *
      * @param tableActionParams
      */
-    void onActionClick(TableActionParams tableActionParams);
+    void onActionClick(TableActionParams tableActionParams) throws Exception;
 }
