@@ -62,7 +62,7 @@ export class DataTableDataSource extends DataSource<Ngface.Row>
     this.dataSubject.complete();
   }
 
-  setWidgetData(tableData: Ngface.Table)
+  setWidgetData(tableData: Ngface.Table): void
   {
     if (tableData)
     {
