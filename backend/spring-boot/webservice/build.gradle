@@ -28,7 +28,7 @@ repositories {
 }
 
 ext {
-    set('spvitaminVersion', '1.6.0-RELEASE')
+    set('spvitaminVersion', '1.8.0-RELEASE')
 }
 
 

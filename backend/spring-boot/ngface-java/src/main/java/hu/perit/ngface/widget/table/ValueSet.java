@@ -21,6 +21,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.lang3.BooleanUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,7 +43,7 @@ public class ValueSet
     // the backend each time the searchText changes.
     private Boolean remote;
     private Boolean truncated = Boolean.FALSE;
-    private List<Item> values;
+    private List<Item> values = new ArrayList<>();
 
     public ValueSet(Boolean remote)
     {
@@ -64,6 +65,15 @@ public class ValueSet
             }
         }
         return this;
+    }
+
+    public void selected(String text, Boolean value)
+    {
+        if (text == null)
+        {
+            return;
+        }
+        this.values.stream().filter(i -> text.equalsIgnoreCase(i.getText())).forEach(i -> i.selected(BooleanUtils.isTrue(value)));
     }
 
     @Getter

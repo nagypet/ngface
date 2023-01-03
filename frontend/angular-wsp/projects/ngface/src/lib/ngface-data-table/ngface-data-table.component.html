@@ -53,6 +53,7 @@
               [filterer]="getColumnFilterer(column)"
               (searchEvent)="onValueSetSearch(column, $event)"
               (filtererChangeEvent)="onFiltererChange($event)"
+              (filtererClearedEvent)="onFiltererCleared($event)"
           >
           </th>
 
@@ -76,9 +77,11 @@
             </div>
 
             <!-- Non-action cell -->
-            <div *ngIf="!isActionCell(row, column)" [innerHTML]="getSafeHtml(row, column)"></div>
+            <div *ngIf="!isActionCell(row, column)" [innerHTML]="getCellText(row, column) | safeHtml"></div>
           </td>
         </div>
+
+        <td mat-footer-cell *matFooterCellDef [class]="getTdClassFooter(column)">{{getTotalRowCellText(column)}}</td>
 
       </ng-container>
 
@@ -87,6 +90,7 @@
           (click)="onRowClick(row)"
           [ngClass]="getRowClasses(row)"
       ></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true" [hidden]="!isTotalRow()"></tr>
     </table>
   </ng-scrollbar>
 

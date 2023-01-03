@@ -32,7 +32,8 @@ public class Button extends Widget<VoidWidgetData, Button>
     public static final Button SAVE = new Button("button-save").label("Save").style(Style.PRIMARY);
     public static final Button DELETE = new Button("button-delete").label("Delete").style(Style.WARN);
 
-    public enum Style {
+    public enum Style
+    {
         NONE,
         PRIMARY,
         ACCENT,
@@ -40,6 +41,7 @@ public class Button extends Widget<VoidWidgetData, Button>
     }
 
     private Style style = Style.NONE;
+    private String badge;
 
     public Button(String id)
     {
@@ -49,6 +51,18 @@ public class Button extends Widget<VoidWidgetData, Button>
     public Button style(Style style)
     {
         this.style = style;
+        return this;
+    }
+
+    public Button badge(String badge)
+    {
+        this.badge = badge;
+        return this;
+    }
+
+    public Button badge(Long badge)
+    {
+        this.badge = badge != null ? String.valueOf(badge) : "";
         return this;
     }
 }

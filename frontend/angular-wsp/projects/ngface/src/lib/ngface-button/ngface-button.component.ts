@@ -15,9 +15,9 @@
  */
 
 import {Component, Input, OnInit} from '@angular/core';
+import {Ngface} from '../ngface-models';
 import Form = Ngface.Form;
 import Button = Ngface.Button;
-import {Ngface} from '../ngface-models';
 
 @Component({
   selector: 'ngface-button',
@@ -49,12 +49,13 @@ export class NgfaceButtonComponent implements OnInit
 
   getData(): Button
   {
-    let widget = this.formData?.widgets[this.widgetId];
+    const widget = this.formData?.widgets[this.widgetId];
     if (!widget || widget?.type !== 'Button')
     {
       return {
         data: {type: 'VoidWidgetData'},
         style: 'NONE',
+        badge: '',
         type: '',
         label: 'undefined button',
         enabled: false,
@@ -62,10 +63,10 @@ export class NgfaceButtonComponent implements OnInit
         hint: ''
       };
     }
-    return <Button> this.formData.widgets[this.widgetId];
+    return this.formData.widgets[this.widgetId] as Button;
   }
 
-  onClick()
+  onClick(): void
   {
     console.log('Button clicked');
   }
@@ -78,5 +79,15 @@ export class NgfaceButtonComponent implements OnInit
       'mat-accent': this.getData().style === 'ACCENT',
       'mat-warn': this.getData().style === 'WARN'
     };
+  }
+
+  getBadge(): string
+  {
+    if (this.badge)
+    {
+      return this.badge;
+    }
+
+    return this.getData().badge;
   }
 }

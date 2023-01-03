@@ -21,6 +21,8 @@ import lombok.Getter;
 @Getter
 public class NumericFormat extends AbstractFormat
 {
+    public static final NumericFormat PERCENTAGE = new NumericFormat().suffix("%");
+
     protected Integer precision;
     protected String prefix;
     protected String suffix;

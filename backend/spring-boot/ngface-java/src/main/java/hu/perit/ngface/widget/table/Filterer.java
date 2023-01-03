@@ -30,7 +30,7 @@ import org.apache.commons.lang3.BooleanUtils;
 public class Filterer
 {
     private final String column;
-    private ValueSet valueSet;
+    private ValueSet valueSet = new ValueSet(false);
     private String searchText = "";
     private Boolean active = Boolean.FALSE;
 
@@ -50,5 +50,12 @@ public class Filterer
     {
         this.active = BooleanUtils.isTrue(active);
         return this;
+    }
+
+    public void clear()
+    {
+        this.searchText = "";
+        this.valueSet.getValues().forEach(i -> i.selected(true));
+        this.active = Boolean.FALSE;
     }
 }

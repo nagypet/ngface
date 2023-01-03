@@ -17,7 +17,7 @@
 import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {ValueSetProvider} from './value-set-provider';
-import {Ngface} from "../../ngface-models";
+import {Ngface} from '../../ngface-models';
 
 export interface ValueSetItem
 {
@@ -87,11 +87,11 @@ export class ExcelFilterComponent implements OnInit, OnChanges
   }
 
 
-  private moveIfClipped()
+  private moveIfClipped(): void
   {
-    let headerRow = this.el.nativeElement.parentNode.parentNode;
-    let excelFilter = this.el.nativeElement.childNodes[0];
-    let excelFilterContainer = this.el.nativeElement.childNodes[0].childNodes[0];
+    const headerRow = this.el.nativeElement.parentNode.parentNode;
+    const excelFilter = this.el.nativeElement.childNodes[0];
+    const excelFilterContainer = this.el.nativeElement.childNodes[0].childNodes[0];
 
     /*
     console.log(headerRow);
@@ -103,7 +103,7 @@ export class ExcelFilterComponent implements OnInit, OnChanges
     */
 
     // Top
-    let yOffset = headerRow.getBoundingClientRect().height - (excelFilter.getBoundingClientRect().y - headerRow.getBoundingClientRect().y) - 1;
+    const yOffset = headerRow.getBoundingClientRect().height - (excelFilter.getBoundingClientRect().y - headerRow.getBoundingClientRect().y) - 1;
     excelFilterContainer.style.top = yOffset.toString() + 'px';
 
     // Width
@@ -113,13 +113,12 @@ export class ExcelFilterComponent implements OnInit, OnChanges
     }
 
     // Right
-    let offset = excelFilter.getBoundingClientRect().x - headerRow.getBoundingClientRect().x;
-    let width = excelFilter.getBoundingClientRect().width;
-    console.log(`offset: ${offset}, w: ${width}`)
+    const offset = excelFilter.getBoundingClientRect().x - headerRow.getBoundingClientRect().x;
+    const width = excelFilter.getBoundingClientRect().width;
 
     if (offset + width < 200)
     {
-      let shiftPixels = offset + width - 200 + 1;
+      const shiftPixels = offset + width - 200 + 1;
       excelFilterContainer.style.right = shiftPixels.toString() + 'px';
     }
   }
@@ -129,9 +128,9 @@ export class ExcelFilterComponent implements OnInit, OnChanges
   {
   }
 
-  onItemSelected(choice: ValueSetItem, b?: boolean)
+  onItemSelected(choice: ValueSetItem, b?: boolean): void
   {
-    let newValue = b ?? !choice.selected;
+    const newValue = b ?? !choice.selected;
     if (choice.masterSelect)
     {
       this.valueSetProvider.selectAll(newValue);
@@ -142,21 +141,21 @@ export class ExcelFilterComponent implements OnInit, OnChanges
     }
   }
 
-  onCheckBoxClicked(choice: ValueSetItem, $event: boolean)
+  onCheckBoxClicked(choice: ValueSetItem, $event: boolean): void
   {
     this.onItemSelected(choice, $event);
   }
 
-  onCancel()
+  onCancel(): void
   {
     this.onCloseEvent.emit();
   }
 
-  onOk()
+  onOk(): void
   {
     if (this.filterer)
     {
-      let newFilterer = this.getNewFilterer();
+      const newFilterer = this.getNewFilterer();
       this.filtererChangeEvent.emit({filterer: newFilterer, changed: this.valueSetProvider.isChanged()});
       if (!this.filterer.valueSet.remote)
       {
@@ -170,7 +169,7 @@ export class ExcelFilterComponent implements OnInit, OnChanges
   {
     if (this.filterer)
     {
-      let newFilterer: Ngface.Filterer = {
+      const newFilterer: Ngface.Filterer = {
         active: this.filterer.active,
         column: this.filterer.column,
         searchText: this.formControlSearch.value,
@@ -187,7 +186,7 @@ export class ExcelFilterComponent implements OnInit, OnChanges
   }
 
 
-  onSearchTextChange($event: string)
+  onSearchTextChange($event: string): void
   {
     this.valueSetProvider.searchText = $event;
     this.reloadValueSetFromServer($event);
@@ -217,7 +216,7 @@ export class ExcelFilterComponent implements OnInit, OnChanges
     }
   }
 
-  isCheckBoxEnabled(valueSetItem: ValueSetItem)
+  isCheckBoxEnabled(valueSetItem: ValueSetItem): boolean
   {
     if (!valueSetItem.masterSelect)
     {
@@ -225,22 +224,22 @@ export class ExcelFilterComponent implements OnInit, OnChanges
     }
     else
     {
-      return this.valueSetProvider.getVisibleItems().find(c => !c.masterSelect);
+      return !!this.valueSetProvider.getVisibleItems().find(c => !c.masterSelect);
     }
   }
 
-  onClearFilter()
+  onClearFilter(): void
   {
     if (this.filterer)
     {
       this.formControlSearch.setValue('');
       this.valueSetProvider.clearFilter();
-      this.reloadValueSetFromServer('');
+      this.onOk();
     }
   }
 
 
-  private reloadValueSetFromServer(searchText: string)
+  private reloadValueSetFromServer(searchText: string): void
   {
     if (this.filterer?.valueSet.remote)
     {

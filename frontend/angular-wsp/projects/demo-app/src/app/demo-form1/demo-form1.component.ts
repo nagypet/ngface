@@ -43,7 +43,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
 
   ngOnInit()
   {
-    this.demoService.getDemoForm({page: undefined, sort: undefined, filters: undefined}).subscribe(data =>
+    this.demoService.getDemoForm({page: null, sort: null, filters: null}).subscribe(data =>
     {
       console.log(data);
       this.formData = data;
@@ -95,7 +95,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     this.demoService.getDemoForm({
       page: $event.page,
       sort: $event.sort,
-      filters: $event.filter ? [$event.filter] : undefined
+      filters: $event.filters
     }).subscribe(data =>
     {
       console.log(data);
@@ -189,7 +189,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
       type: 'Table.Data',
       paginator: $event.paginator,
       sorter: $event.sorter,
-      filtererMap: $event.filterer ? {[$event.filterer?.column]: $event.filterer} : {}
+      filtererMap: $event.filtererMap
     };
     this.demoService.submitDemoForm({id: '', widgetDataMap: {['table-multiselect']: widgetData}}).subscribe(
       () => console.log(widgetData));

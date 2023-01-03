@@ -251,5 +251,13 @@
 */
 
 .ngface-data-table-scrollable-area .ng-scrollbar-wrapper[deactivated=false]>scrollbar-y.scrollbar-control {
-  top: 36px!important;
+  display: none; // The y-scrollbar will be set visible programmatically
+}
+
+.mat-badge-content {
+  width: auto!important;
+  min-width: 22px;
+  padding: 0 5px 0 5px;
+  border-radius: 11px;
+  text-overflow: unset;
 }

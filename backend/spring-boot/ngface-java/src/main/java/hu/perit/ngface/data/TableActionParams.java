@@ -18,13 +18,22 @@ package hu.perit.ngface.data;
 
 import lombok.Data;
 
+import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 @Data
 public class TableActionParams
 {
+    public enum ActionTriggerMode
+    {
+        ALL_SELECTED,
+        SINGLE
+    }
+
+    private ActionTriggerMode actionTriggerMode;
+
     @NotNull
     private String actionId;
-    @NotNull
+    @Nullable
     private String rowId;
 }

@@ -51,11 +51,14 @@ table tr:last-child td /*To remove the last border*/
 
 tr.mat-header-row {
   height: 30px;
-  background-color: #f5f5f5;
 }
 
 tr.mat-row, tr.mat-footer-row {
   height: 36px;
+}
+
+tr.mat-header-row, tr.mat-footer-row {
+  background-color: #f5f5f5;
 }
 
 .mat-row .mat-cell {
@@ -107,10 +110,18 @@ td {
 
 //th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
 th.mat-header-cell:not(:first-of-type) {
-  border-left-width: 1px;
+  //border-left: rgba(255, 255, 255, .7) solid 1px;
 }
 
-td.mat-cell:not(:first-of-type), td.mat-footer-cell:not(:first-of-type) {
-  border-left-width: 1px;
-  border-color: whitesmoke;
+td.mat-cell:not(:first-of-type) {
+  border-left: whitesmoke solid 1px;
 }
+
+td.mat-footer-cell:not(:first-of-type) {
+  //border-left: white solid 1px;
+}
+
+td.mat-footer-cell {
+  border-top: rgba(0, 0, 0, .12) solid 1px!important;
+}
+

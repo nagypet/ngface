@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import hu.perit.ngface.widget.input.*;
 import hu.perit.ngface.widget.table.Table;
+import hu.perit.ngface.widget.formattedtext.FormattedText;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -34,7 +35,8 @@ import lombok.ToString;
         @JsonSubTypes.Type(value = DateTimeInput.Data.class, name = "DateTimeInput.Data"),
         @JsonSubTypes.Type(value = DateRangeInput.Data.class, name = "DateRangeInput.Data"),
         @JsonSubTypes.Type(value = Select.Data.class, name = "Select.Data"),
-        @JsonSubTypes.Type(value = Table.Data.class, name = "Table.Data")
+        @JsonSubTypes.Type(value = Table.Data.class, name = "Table.Data"),
+        @JsonSubTypes.Type(value = FormattedText.Data.class, name = "FormattedText.Data")
 })
 @EqualsAndHashCode
 public class WidgetData

@@ -36,7 +36,7 @@ apply plugin: 'cz.habarta.typescript-generator'
 
 
 ext {
-    set('spvitaminVersion', '1.6.0-RELEASE')
+    set('spvitaminVersion', '1.8.0-RELEASE')
 }
 
 sourceCompatibility = 1.8
@@ -124,6 +124,7 @@ generateTypeScript {
             'hu.perit.ngface.widget.form.**',
             'hu.perit.ngface.widget.button.**',
             'hu.perit.ngface.widget.table.**',
+            'hu.perit.ngface.widget.formattedtext.**',
             'hu.perit.ngface.data.SubmitFormData',
             'hu.perit.ngface.data.*Params'
     ]
@@ -134,6 +135,7 @@ generateTypeScript {
             'hu.perit.ngface.widget.input.DateTimeInput$Data:DateTimeInput.Data',
             'hu.perit.ngface.widget.input.DateRangeInput$Data:DateRangeInput.Data',
             'hu.perit.ngface.widget.input.Select$Data:Select.Data',
+            'hu.perit.ngface.widget.formattedtext.FormattedText$Data:FormattedText.Data',
             'hu.perit.ngface.widget.table.Table$Data:Table.Data',
             'hu.perit.ngface.widget.table.Column$Size:Column.Size',
             'hu.perit.ngface.widget.table.ValueSet$Item:ValueSet.Item',
@@ -151,7 +153,7 @@ generateTypeScript {
     optionalAnnotations = [
             'javax.annotation.Nullable'
     ]
-    optionalPropertiesDeclaration = 'undefinableType'
+    optionalPropertiesDeclaration = 'nullableType'
 }
 
 dist.configure {

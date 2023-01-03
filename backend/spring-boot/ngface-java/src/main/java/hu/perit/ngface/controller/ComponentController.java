@@ -17,7 +17,6 @@
 package hu.perit.ngface.controller;
 
 import hu.perit.ngface.data.TableActionParams;
-import hu.perit.ngface.widget.table.Filterer;
 import lombok.NonNull;
 
 /**

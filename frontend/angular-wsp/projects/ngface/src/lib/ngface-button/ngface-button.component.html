@@ -20,7 +20,7 @@
           [disabled]="!(getData().enabled && enabled)"
           [matBadgeHidden]="!(getData().enabled && enabled)"
           [matTooltip]="getData().hint"
-          matBadge="{{badge}}"
+          [matBadge]="getBadge()"
           matBadgeColor="warn"
   >
     {{getData().label}}

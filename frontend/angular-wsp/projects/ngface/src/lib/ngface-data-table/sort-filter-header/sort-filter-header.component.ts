@@ -17,7 +17,6 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FilterChangeEvent, ValueSetSearchEvent} from '../excel-filter/excel-filter.component';
 import {Ngface} from '../../ngface-models';
-import {SortDirection} from "@angular/material/sort";
 
 @Component({
   exportAs: 'ngFaceSortFilterHeader',
@@ -49,6 +48,9 @@ export class SortFilterHeaderComponent implements OnInit, OnChanges
   @Output()
   filtererChangeEvent: EventEmitter<Ngface.Filterer> = new EventEmitter();
 
+  @Output()
+  filtererClearedEvent: EventEmitter<string> = new EventEmitter();
+
   showExcelFilter = false;
 
   constructor(private el: ElementRef)
@@ -63,13 +65,13 @@ export class SortFilterHeaderComponent implements OnInit, OnChanges
   {
   }
 
-  onFilterIconClick($event: MouseEvent)
+  onFilterIconClick($event: MouseEvent): void
   {
     this.showExcelFilter = !this.showExcelFilter;
   }
 
   @HostListener('document:click', ['$event'])
-  onDocumentClick($event: any)
+  onDocumentClick($event: any): void
   {
     if (this.el.nativeElement.childNodes[0].children[1] !== $event.path[1])
     {
@@ -77,17 +79,17 @@ export class SortFilterHeaderComponent implements OnInit, OnChanges
     }
   }
 
-  onEscape()
+  onEscape(): void
   {
     this.showExcelFilter = false;
   }
 
-  onValueSetSearch($event: ValueSetSearchEvent)
+  onValueSetSearch($event: ValueSetSearchEvent): void
   {
     this.searchEvent.emit($event);
   }
 
-  onFiltererChange($event: FilterChangeEvent)
+  onFiltererChange($event: FilterChangeEvent): void
   {
     console.log($event);
     this.filterer = $event.filterer;
@@ -96,12 +98,24 @@ export class SortFilterHeaderComponent implements OnInit, OnChanges
       this.filterer.active = $event.changed;
     }
     this.showExcelFilter = false;
-    this.filtererChangeEvent.emit($event.changed ? $event.filterer : undefined);
+    if ($event.changed)
+    {
+      this.filtererChangeEvent.emit($event.filterer);
+    }
+    else
+    {
+      this.filtererClearedEvent.emit($event.filterer?.column);
+    }
   }
 
-  onExcelFilterClose()
+  onExcelFilterClose(): void
   {
     this.showExcelFilter = false;
+  }
+
+  isActive(): boolean
+  {
+    return this.filterer?.active ?? false;
   }
 
   getClass(): string

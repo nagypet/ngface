@@ -28,7 +28,9 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.NullValueMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
 import javax.annotation.Nullable;
@@ -41,6 +43,13 @@ import java.util.stream.Collectors;
 @Data
 public class DataRetrievalParams
 {
+    @Nullable
+    private Page page;
+    @Nullable
+    private Sort sort;
+    @Nullable
+    private List<Filter> filters;
+
     //------------------------------------------------------------------------------------------------------------------
     // Page
     //------------------------------------------------------------------------------------------------------------------
@@ -154,33 +163,22 @@ public class DataRetrievalParams
             return Mappers.getMapper(Cloner.class);
         }
 
+        @BeanMapping(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
         DataRetrievalParams clone(DataRetrievalParams input);
     }
 
-    @Nullable
-    private Page page;
-    @Nullable
-    private Sort sort;
-    @Nullable
-    private List<Filter> filters;
-
-    public static DataRetrievalParams applyDefaults(DataRetrievalParams dataRetrievalParams, Table.Data tableData)
+    public static DataRetrievalParams applyDefaults(DataRetrievalParams dataRetrievalParams, Table.Data defaults)
     {
-        if (dataRetrievalParams == null)
-        {
-            return new DataRetrievalParams();
-        }
-
-        if (tableData == null)
-        {
-            return dataRetrievalParams;
-        }
-
-        // Creating a copy
+        // Creating a copy or return an empty DataRetrievalParams
         DataRetrievalParams params = Cloner.getInstance().clone(dataRetrievalParams);
 
+        if (defaults == null)
+        {
+            return params;
+        }
+
         // Page
-        Paginator paginator = tableData.getPaginator();
+        Paginator paginator = defaults.getPaginator();
         if (params.getPage() == null && paginator != null)
         {
             // Overwrite from userSettings
@@ -188,7 +186,7 @@ public class DataRetrievalParams
         }
 
         // Order
-        Sorter sorter = tableData.getSorter();
+        Sorter sorter = defaults.getSorter();
         if (params.getSort() == null && sorter != null)
         {
             // Overwrite from userSettings
@@ -196,7 +194,7 @@ public class DataRetrievalParams
         }
 
         // Filter
-        Map<String, Filterer> filtererMap = tableData.getFiltererMap();
+        Map<String, Filterer> filtererMap = defaults.getFiltererMap();
         if (filtererMap != null)
         {
             for (String filtererKey : filtererMap.keySet())

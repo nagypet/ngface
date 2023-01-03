@@ -28,12 +28,13 @@ export class DataTableDataSource extends DataSource<Ngface.Row>
 {
   private dataSubject = new BehaviorSubject<Ngface.Row[]>([]);
 
-  private _paginator?: Ngface.Paginator;
-  get paginator(): Ngface.Paginator | undefined
+  // tslint:disable-next-line:variable-name
+  private _paginator: Ngface.Paginator | null;
+  get paginator(): Ngface.Paginator | null
   {
     return this._paginator;
   }
-  set paginator(paginator: Ngface.Paginator | undefined)
+  set paginator(paginator: Ngface.Paginator | null)
   {
     this._paginator = paginator;
   }

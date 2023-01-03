@@ -48,6 +48,8 @@ public class Table extends Widget<Table.Data, Table>
 
     private final Map<String, Column> columns = new LinkedHashMap<>();
     private final List<Row> rows = new ArrayList<>();
+    @Nullable
+    private Row totalRow;
     private SelectMode selectMode = SelectMode.NONE;
     // Notification may contain HTML tags!
     private String notification;
@@ -77,6 +79,17 @@ public class Table extends Widget<Table.Data, Table>
         }
 
         this.rows.add(row);
+        return this;
+    }
+
+    public Table totalRow(Row row)
+    {
+        if (!this.columns.keySet().containsAll(row.getCells().keySet()))
+        {
+            throw new NgFaceException("Columns in 'row' property does not match with defined columns!");
+        }
+
+        this.totalRow = row;
         return this;
     }
 

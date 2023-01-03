@@ -1,13 +1,13 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.36.1070 on 2022-07-08 10:31:09.
+// Generated using typescript-generator version 2.36.1070 on 2022-11-27 12:53:26.
 
 export namespace Ngface {
 
     export interface DataRetrievalParams {
-        page: DataRetrievalParams.Page | undefined;
-        sort: DataRetrievalParams.Sort | undefined;
-        filters: DataRetrievalParams.Filter[] | undefined;
+        page: DataRetrievalParams.Page | null;
+        sort: DataRetrievalParams.Sort | null;
+        filters: DataRetrievalParams.Filter[] | null;
     }
 
     export interface SubmitFormData {
@@ -16,19 +16,34 @@ export namespace Ngface {
     }
 
     export interface TableActionParams {
+        actionTriggerMode: ActionTriggerMode;
         actionId: string;
-        rowId: string;
+        rowId: string | null;
     }
 
     export interface Button extends Widget<VoidWidgetData, Button> {
         data: VoidWidgetData;
         style: Style;
+        badge: string;
     }
 
     export interface Form {
         id: string;
         title: string;
         widgets: { [index: string]: Widget<any, any> };
+    }
+
+    export interface FormattedText extends Widget<FormattedText.Data, FormattedText> {
+        data: FormattedText.Data;
+    }
+
+    export namespace FormattedText {
+
+        export interface Data extends Value<string> {
+            type: "FormattedText.Data";
+            value: string;
+        }
+
     }
 
     export interface DateInput extends Input<DateInput.Data, Date, DateInput> {
@@ -186,6 +201,7 @@ export namespace Ngface {
         data: Table.Data;
         columns: { [index: string]: Column };
         rows: Row[];
+        totalRow: Row | null;
         selectMode: SelectMode;
         notification: string;
     }
@@ -194,8 +210,8 @@ export namespace Ngface {
 
         export interface Data extends WidgetData {
             type: "Table.Data";
-            paginator: Paginator | undefined;
-            sorter: Sorter | undefined;
+            paginator: Paginator | null;
+            sorter: Sorter | null;
             filtererMap: { [index: string]: Filterer };
         }
 
@@ -263,7 +279,7 @@ export namespace Ngface {
     }
 
     export interface WidgetData {
-        type: "WidgetData" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
+        type: "WidgetData" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
     }
 
     export interface VoidWidgetData extends WidgetData {
@@ -293,19 +309,19 @@ export namespace Ngface {
     export namespace DataRetrievalParams.Filter {
 
         export interface Item {
-            text: string | undefined;
+            text: string | null;
         }
 
+    }
+
+    export interface Value<V> extends WidgetData {
+        type: "Value" | "FormattedText.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
+        value: V;
     }
 
     export interface Input<WD, V, SUB> extends Widget<WD, SUB> {
         placeholder: string;
         validators: Validator<any>[];
-    }
-
-    export interface Value<V> extends WidgetData {
-        type: "Value" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
-        value: V;
     }
 
     export interface AbstractFormat {
@@ -323,6 +339,8 @@ export namespace Ngface {
     export type TextAlign = "LEFT" | "CENTER" | "RIGHT";
 
     export type SelectMode = "NONE" | "SINGLE" | "MULTI" | "CHECKBOX";
+
+    export type ActionTriggerMode = "ALL_SELECTED" | "SINGLE";
 
     export type Direction = "ASC" | "DESC" | "UNDEFINED";
 

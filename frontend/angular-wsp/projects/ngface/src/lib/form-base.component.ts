@@ -97,4 +97,10 @@ export abstract class FormBaseComponent
     }
     return new Date(date);
   }
+
+
+  public isWidgetAvailable(widgetId: string): boolean
+  {
+    return !!this.formData?.widgets[widgetId];
+  }
 }
