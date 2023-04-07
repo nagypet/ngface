@@ -1,9 +1,0 @@
-<div class="ngface-sort-filter-header">
-  <div *ngIf="sortable" class="ngface-sort-header" mat-sort-header>{{text}}</div>
-  <div *ngIf="!sortable" class="ngface-nosort-header">{{text}}</div>
-  <button *ngIf="filterable" class="ngface-filter-header" (click)="onClick($event)" (keydown.escape)="onEscape()">
-    <mat-icon class="material-icons-outlined ngface-table-header-icon">filter_list</mat-icon>
-  </button>
-</div>
-
-<ngface-excel-filter *ngIf="showExcelFilter" [filter]="filter" (searchEvent)="onSearchEvent($event)"></ngface-excel-filter>
