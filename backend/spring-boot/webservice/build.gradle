@@ -15,8 +15,8 @@
  */
 
 plugins {
-	id 'org.springframework.boot' version '2.4.5'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
     id 'application'
 }
 apply from: '../gradle/common.gradle'
@@ -25,10 +25,6 @@ apply from: '../gradle/common.gradle'
 repositories {
 	mavenCentral()
     mavenLocal()
-}
-
-ext {
-    set('spvitaminVersion', '1.8.0-RELEASE')
 }
 
 
@@ -42,11 +38,12 @@ application {
 sourceCompatibility = 11
 
 dependencies {
-    compile project(':ngface-java')
+    implementation project(':ngface-java')
 
     implementation 'hu.perit.spvitamin:spvitamin-core'
     implementation 'hu.perit.spvitamin:spvitamin-spring-general'
     implementation 'hu.perit.spvitamin:spvitamin-spring-server'
+    implementation 'hu.perit.spvitamin:spvitamin-spring-logging'
     implementation 'hu.perit.spvitamin:spvitamin-spring-admin'
     implementation 'hu.perit.spvitamin:spvitamin-spring-security'
 

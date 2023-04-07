@@ -73,7 +73,7 @@ export class SortFilterHeaderComponent implements OnInit, OnChanges
   @HostListener('document:click', ['$event'])
   onDocumentClick($event: any): void
   {
-    if (this.el.nativeElement.childNodes[0].children[1] !== $event.path[1])
+    if (this.el.nativeElement.childNodes[0]?.children[1]?.children[0] !== $event.target)
     {
       this.showExcelFilter = false;
     }

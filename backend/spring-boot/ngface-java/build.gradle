@@ -15,32 +15,20 @@
  */
 
 buildscript {
-    ext {
-        springBootVersion = '2.4.5'
-        lombokVersion = '1.18.8'
-    }
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath group: 'cz.habarta.typescript-generator', name: 'typescript-generator-gradle-plugin', version: '2.36.1070'
     }
 }
 
-// Note that plugins block cannot be used in subprojects, that is wha the old fashioned way
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'java-library'
-apply plugin: 'cz.habarta.typescript-generator'
-
-
-ext {
-    set('spvitaminVersion', '1.8.0-RELEASE')
+plugins {
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
+    id 'java-library'
 }
-
-sourceCompatibility = 1.8
-
+apply plugin: 'cz.habarta.typescript-generator'
 apply from: '../gradle/common.gradle'
 
 
@@ -81,7 +69,7 @@ dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
 
     // Google findbugs
-    compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.0'
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.0'
 
     // -----------------------------------------------------------------------------------------------------------------
     // Test dependencies
@@ -91,14 +79,14 @@ dependencies {
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     // spvitamin
-    //testCompile project(':spvitamin-core')
-    //testCompile project(':spvitamin-spring-general')
+//    testImplementation project(':spvitamin-core')
+//    testImplementation project(':spvitamin-spring-general')
     testImplementation 'hu.perit.spvitamin:spvitamin-core'
     testImplementation 'hu.perit.spvitamin:spvitamin-spring-general'
 
     // JUnit
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.6.0'
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.6.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
 
     testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
     testImplementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.10'
