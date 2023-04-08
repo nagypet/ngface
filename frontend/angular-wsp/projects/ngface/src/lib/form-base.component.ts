@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {Ngface} from './ngface-models';
-import Form = Ngface.Form;
-import WidgetData = Ngface.WidgetData;
+import {NgfaceFormComponent} from './ngface-form/ngface-form.component';
 
 @Component({
   selector: 'ngface-form-base',
@@ -26,81 +25,34 @@ import WidgetData = Ngface.WidgetData;
 })
 export abstract class FormBaseComponent
 {
-  formData: Form;
-  formGroup = new FormGroup({});
+  @ViewChild(NgfaceFormComponent) formComponent!: NgfaceFormComponent;
+
+  private _formData?: Ngface.Form;
+  get formData(): Ngface.Form | undefined
+  {
+    return this._formData;
+  }
+  set formData(formData: Ngface.Form | undefined)
+  {
+    this._formData = formData;
+  }
 
   constructor()
   {
   }
 
-  getSubmitData(): { [key: string]: WidgetData }
+  get formGroup(): FormGroup
   {
-    let submitData: { [key: string]: WidgetData } = {};
-    Object.keys(this.formGroup.controls).forEach(controlName =>
-    {
-      let widget = this.formData.widgets[controlName];
-      let widgetType: string = widget?.type;
-      switch (widgetType)
-      {
-        case 'TextInput':
-        case 'NumericInput':
-          submitData[controlName] = <Ngface.Value<any>> {
-            type: widgetType + '.Data',
-            value: this.formGroup.controls[controlName]?.value
-          };
-          break;
-
-        case 'DateInput':
-        case 'DateTimeInput':
-          // Converting to local date without time zone information
-          let myDate = this.formGroup.controls[controlName]?.value;
-          submitData[controlName] = <Ngface.Value<any>> {
-            type: widgetType + '.Data',
-            value: FormBaseComponent.getLocalDateTime(myDate)
-          };
-          break;
-
-        case 'DateRangeInput':
-          submitData[controlName] = <Ngface.DateRangeInput.Data> {
-            type: widgetType + '.Data',
-            startDate: FormBaseComponent.getLocalDateTime(this.formGroup.controls[controlName]?.value?.start),
-            endDate: FormBaseComponent.getLocalDateTime(this.formGroup.controls[controlName]?.value?.end)
-          };
-          break;
-
-        case 'Select':
-          let selected = this.formGroup.controls[controlName]?.value;
-          let selectedOption: { [index: string]: string } = {};
-          selectedOption[selected] = widget?.data.options[selected];
-          submitData[controlName] = <Ngface.Select.Data> {type: widgetType + '.Data', options: selectedOption, selected: selected};
-          break;
-      }
-    });
-
-    return submitData;
+    return this.formComponent.formGroup;
   }
-
-
-  private static getLocalDateTime(date: Date): Date | null
-  {
-    if (!date)
-    {
-      return null;
-    }
-
-    if (date instanceof Date)
-    {
-      const offset = date.getTimezoneOffset();
-      let convertedDate: Date = new Date();
-      convertedDate.setTime(date.getTime() - (offset * 60 * 1000));
-      return convertedDate;
-    }
-    return new Date(date);
-  }
-
 
   public isWidgetAvailable(widgetId: string): boolean
   {
     return !!this.formData?.widgets[widgetId];
+  }
+
+  getSubmitData(): { [key: string]: Ngface.WidgetData }
+  {
+    return this.formComponent.getSubmitData();
   }
 }

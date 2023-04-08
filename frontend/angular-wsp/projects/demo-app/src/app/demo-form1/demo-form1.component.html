@@ -17,48 +17,50 @@
 <div class="container">
   <h1>ngface demo application</h1>
   <br>
-  <div class="ngface-form" (keydown.enter)="onOkClick()">
-    <div class="ngface-row">
-      <ngface-text-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'name'"></ngface-text-input>
-      <ngface-text-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'place-of-birth'"></ngface-text-input>
-      <ngface-text-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'email'"></ngface-text-input>
-      <ngface-text-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'role'"></ngface-text-input>
-    </div>
-    <div class="ngface-row">
-      <ngface-numeric-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'amount'"></ngface-numeric-input>
-      <ngface-numeric-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'count-samples'"></ngface-numeric-input>
-      <ngface-text-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'account-no'"></ngface-text-input>
-    </div>
-    <div class="ngface-row">
-      <ngface-date-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'check-in-date'"></ngface-date-input>
-      <ngface-date-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'check-out-date'"></ngface-date-input>
-      <ngface-date-range-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'date-range'"></ngface-date-range-input>
-      <ngface-date-range-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'date-range2'"></ngface-date-range-input>
-    </div>
-    <div class="ngface-row">
-      <ngface-select [formGroup]="formGroup" [formData]="formData" [widgetId]="'select'"></ngface-select>
-      <ngface-select [formGroup]="formGroup" [formData]="formData" [widgetId]="'select2'"></ngface-select>
-      <ngface-select [formGroup]="formGroup" [formData]="formData" [widgetId]="'select3'"></ngface-select>
-    </div>
-    <!--
-    <ngface-data-table [formData]="formData" [widgetId]="'table'" (tableReloadEvent)="onTableReload($event)" (actionClickEvent)="onActionClick($event)"></ngface-data-table>
-    <ngface-data-table [formData]="formData" [widgetId]="'table-singleselect'" (tableReloadEvent)="onTableReload($event)" (rowClickEvent)="onSingleSelectTableRowClick()" (actionClickEvent)="onActionClick($event)"></ngface-data-table>
-    <div class="ngface-row">
-      <ngface-button [formData]="formData" [widgetId]="'button-details'" (click)="onDetails()"></ngface-button>
-    </div>
-    -->
-    <!--                       [heightPx]="222"-->
-    <ngface-data-table [formData]="formData" [widgetId]="'table-multiselect'"
-                       (tableReloadEvent)="onTableReload($event)"
-                       (actionClickEvent)="onTableActionClick($event)"
-                       (tableValueSetSearchEvent)="onTableValueSetSearch($event)"
-                       (tableViewParamsChangeEvent)="onTableViewParamsChange($event)"
-    >
-    </ngface-data-table>
-    <div class="ngface-row">
-      <ngface-button [formData]="formData" [widgetId]="'button-ok'" (click)="onOkClick()"></ngface-button>
-      <ngface-button [formData]="formData" [widgetId]="'button-cancel'"></ngface-button>
-      <ngface-button [formData]="formData" [widgetId]="'button-delete'"></ngface-button>
-    </div>
+  <div class="ngface-form">
+    <ngface-form [formdata]="formData" (keydown.enter)="onOkClick()">
+      <div class="ngface-row">
+        <ngface-text-input [formdata]="formData" [widgetid]="'name'"></ngface-text-input>
+        <ngface-text-input [formdata]="formData" [widgetid]="'place-of-birth'"></ngface-text-input>
+        <ngface-text-input [formdata]="formData" [widgetid]="'email'"></ngface-text-input>
+        <ngface-text-input [formdata]="formData" [widgetid]="'role'"></ngface-text-input>
+      </div>
+      <div class="ngface-row">
+        <ngface-numeric-input [formdata]="formData" [widgetid]="'amount'"></ngface-numeric-input>
+        <ngface-numeric-input [formdata]="formData" [widgetid]="'count-samples'"></ngface-numeric-input>
+        <ngface-text-input [formdata]="formData" [widgetid]="'account-no'"></ngface-text-input>
+      </div>
+      <div class="ngface-row">
+        <ngface-date-input [formdata]="formData" [widgetid]="'check-in-date'"></ngface-date-input>
+        <ngface-date-input [formdata]="formData" [widgetid]="'check-out-date'"></ngface-date-input>
+        <ngface-date-range-input [formdata]="formData" [widgetid]="'date-range'"></ngface-date-range-input>
+        <ngface-date-range-input [formdata]="formData" [widgetid]="'date-range2'"></ngface-date-range-input>
+      </div>
+      <div class="ngface-row">
+        <ngface-select [formdata]="formData" [widgetid]="'select'"></ngface-select>
+        <ngface-select [formdata]="formData" [widgetid]="'select2'"></ngface-select>
+        <ngface-select [formdata]="formData" [widgetid]="'select3'"></ngface-select>
+      </div>
+      <!--
+      <ngface-data-table [formData]="formData" [widgetId]="'table'" (tableReloadEvent)="onTableReload($event)" (actionClickEvent)="onActionClick($event)"></ngface-data-table>
+      <ngface-data-table [formData]="formData" [widgetId]="'table-singleselect'" (tableReloadEvent)="onTableReload($event)" (rowClickEvent)="onSingleSelectTableRowClick()" (actionClickEvent)="onActionClick($event)"></ngface-data-table>
+      <div class="ngface-row">
+        <ngface-button [formData]="formData" [widgetId]="'button-details'" (click)="onDetails()"></ngface-button>
+      </div>
+      -->
+      <!--                       [heightPx]="222"-->
+      <ngface-data-table [formdata]="formData" [widgetid]="'table-multiselect'"
+                         (tableReloadEvent)="onTableReload($event)"
+                         (actionClickEvent)="onTableActionClick($event)"
+                         (tableValueSetSearchEvent)="onTableValueSetSearch($event)"
+                         (tableViewParamsChangeEvent)="onTableViewParamsChange($event)"
+      >
+      </ngface-data-table>
+      <div class="ngface-row">
+        <ngface-button [formdata]="formData" [widgetid]="'button-ok'" (click)="onOkClick()"></ngface-button>
+        <ngface-button [formdata]="formData" [widgetid]="'button-cancel'"></ngface-button>
+        <ngface-button [formdata]="formData" [widgetid]="'button-delete'"></ngface-button>
+      </div>
+    </ngface-form>
   </div>
 </div>

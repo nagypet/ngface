@@ -15,13 +15,13 @@
   -->
 
 <h1 mat-dialog-title>{{data.title}}</h1>
-<div mat-dialog-content (keydown.enter)="onOkClick()">
-  <ngface-text-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'symbol'" cdkFocusInitial></ngface-text-input>
-  <ngface-numeric-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'weight'"></ngface-numeric-input>
-</div>
+<ngface-form [formdata]="formData" mat-dialog-content (keydown.enter)="onOkClick()">
+  <ngface-text-input [formdata]="formData" [widgetid]="'symbol'" cdkFocusInitial></ngface-text-input>
+  <ngface-numeric-input [formdata]="formData" [widgetid]="'weight'"></ngface-numeric-input>
+</ngface-form>
 <div mat-dialog-actions>
-  <ngface-button [formData]="formData" [widgetId]="'button-save'" (click)="onOkClick()"></ngface-button>
-  <ngface-button [formData]="formData" [widgetId]="'button-cancel'" (click)="onCancelClick()"></ngface-button>
+  <ngface-button [formdata]="formData" [widgetid]="'button-save'" (click)="onOkClick()"></ngface-button>
+  <ngface-button [formdata]="formData" [widgetid]="'button-cancel'" (click)="onCancelClick()"></ngface-button>
   <!--
   <button mat-button (click)="onNoClick()">No Thanks</button>
   <button mat-button [mat-dialog-close]="getSubmitData()" cdkFocusInitial>Ok</button>

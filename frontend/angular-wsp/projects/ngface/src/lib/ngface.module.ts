@@ -46,6 +46,7 @@ import {DebounceInputDirective} from './directives/debounce-input-directive';
 import {NgScrollbarModule} from 'ngx-scrollbar';
 import {MatBadgeModule} from '@angular/material/badge';
 import {SafeHtmlPipe} from './directives/safe-html.pipe';
+import { NgfaceFormComponent } from './ngface-form/ngface-form.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import {SafeHtmlPipe} from './directives/safe-html.pipe';
     ExcelFilterComponent,
     NumericInputFilterDirective,
     DebounceInputDirective,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    NgfaceFormComponent
   ],
   imports: [
     BrowserModule,
@@ -93,6 +95,7 @@ import {SafeHtmlPipe} from './directives/safe-html.pipe';
     NgfaceNumericInputComponent,
     NgfaceSelectComponent,
     NgfaceTextInputComponent,
+    NgfaceFormComponent,
     SafeHtmlPipe
   ]
 })

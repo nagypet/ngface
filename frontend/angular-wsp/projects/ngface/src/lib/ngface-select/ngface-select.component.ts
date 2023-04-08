@@ -37,7 +37,7 @@ export class NgfaceSelectComponent extends InputBaseComponent implements OnChang
 
   getData(): Ngface.Select
   {
-    let widget = this.formData?.widgets[this.widgetId];
+    let widget = this.formdata?.widgets[this.widgetid];
     if (!widget || widget?.type !== 'Select')
     {
       return {
@@ -51,7 +51,7 @@ export class NgfaceSelectComponent extends InputBaseComponent implements OnChang
         hint: ''
       };
     }
-    return <Ngface.Select> this.formData.widgets[this.widgetId];
+    return this.formdata?.widgets[this.widgetid] as Ngface.Select;
   }
 
 

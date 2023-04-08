@@ -24,8 +24,8 @@ import {
   TableValueSetSearchEvent,
   TableViewParamsChangeEvent,
 } from '../../../../ngface/src/lib/ngface-data-table/ngface-data-table.component';
-import {FormBaseComponent} from '../../../../ngface/src/lib/form-base.component';
 import {Ngface} from '../../../../ngface/src/lib/ngface-models';
+import {FormBaseComponent} from '../../../../ngface/src/lib/form-base.component';
 
 
 @Component({
@@ -35,7 +35,6 @@ import {Ngface} from '../../../../ngface/src/lib/ngface-models';
 })
 export class DemoForm1Component extends FormBaseComponent implements OnInit
 {
-
   constructor(private demoService: DemoService, public dialog: MatDialog)
   {
     super();
@@ -100,7 +99,10 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     {
       console.log(data);
       $event.dataSource.setWidgetData(<Ngface.Table> data.widgets['table-multiselect']);
-      this.formData.widgets['table-multiselect'] = data.widgets['table-multiselect'];
+      if (this.formData)
+      {
+        this.formData.widgets['table-multiselect'] = data.widgets['table-multiselect'];
+      }
     });
   }
 

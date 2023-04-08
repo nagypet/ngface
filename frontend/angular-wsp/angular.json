@@ -163,6 +163,126 @@
           }
         }
       }
+    },
+    "ngface-elements": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ngface-elements",
+      "sourceRoot": "projects/ngface-elements/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ngface-elements",
+            "index": "projects/ngface-elements/src/index.html",
+            "main": "projects/ngface-elements/src/main.ts",
+            "polyfills": "projects/ngface-elements/src/polyfills.ts",
+            "tsConfig": "projects/ngface-elements/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/ngface-elements/src/favicon.ico",
+              "projects/ngface-elements/src/assets"
+            ],
+            "styles": [
+              "projects/ngface-elements/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ngface-elements/src/environments/environment.ts",
+                  "with": "projects/ngface-elements/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ngface-elements:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ngface-elements:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ngface-elements:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngface-elements/src/test.ts",
+            "polyfills": "projects/ngface-elements/src/polyfills.ts",
+            "tsConfig": "projects/ngface-elements/tsconfig.spec.json",
+            "karmaConfig": "projects/ngface-elements/karma.conf.js",
+            "assets": [
+              "projects/ngface-elements/src/favicon.ico",
+              "projects/ngface-elements/src/assets"
+            ],
+            "styles": [
+              "projects/ngface-elements/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngface-elements/tsconfig.app.json",
+              "projects/ngface-elements/tsconfig.spec.json",
+              "projects/ngface-elements/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/ngface-elements/e2e/protractor.conf.js",
+            "devServerTarget": "ngface-elements:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ngface-elements:serve:production"
+            }
+          }
+        }
+      }
     }
   },
   "defaultProject": "demo-app"

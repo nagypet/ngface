@@ -17,7 +17,6 @@
 import {Component} from '@angular/core';
 import {InputBaseComponent} from '../input-base.component';
 import {Ngface} from '../ngface-models';
-import DateInput = Ngface.DateInput;
 
 @Component({
   selector: 'ngface-date-input',
@@ -32,15 +31,15 @@ export class NgfaceDateInputComponent extends InputBaseComponent
     super();
   }
 
-  getData(): DateInput
+  getData(): Ngface.DateInput
   {
-    let widget = this.formData?.widgets[this.widgetId];
+    let widget = this.formdata?.widgets[this.widgetid];
     if (!widget || widget?.type !== 'DateInput')
     {
       return {
         type: 'DateInput',
         data: {type: 'DateInput.Data', value: new Date()},
-        placeholder: 'widget id: ' + this.widgetId,
+        placeholder: 'widget id: ' + this.widgetid,
         label: 'undefined label',
         validators: [],
         enabled: false,
@@ -48,6 +47,6 @@ export class NgfaceDateInputComponent extends InputBaseComponent
         hint: ''
       };
     }
-    return <DateInput> this.formData.widgets[this.widgetId];
+    return this.formdata?.widgets[this.widgetid] as Ngface.DateInput;
   }
 }

@@ -52,18 +52,18 @@ export class IntlNumericInputComponent implements ControlValueAccessor
 {
 
   @Input()
-  label: string;
+  label = '';
 
   @Input()
-  placeholder: string;
+  placeholder = '';
 
   @Input()
-  hint: string;
+  hint = '';
 
   @Input()
-  required: boolean;
+  required = false;
 
-  _precision: number;
+  _precision = 0;
   @Input()
   set precision(precision: number)
   {
@@ -77,15 +77,15 @@ export class IntlNumericInputComponent implements ControlValueAccessor
   }
 
   @Input()
-  prefix: string;
+  prefix = '';
 
   @Input()
-  suffix: string;
+  suffix = '';
 
   @Input()
-  validationErrors: string | null;
+  validationErrors: string | null = null;
 
-  valueText: string;
+  valueText = '';
   value?: number;
 
   floatLabelControl = new FormControl('auto');
@@ -135,8 +135,7 @@ export class IntlNumericInputComponent implements ControlValueAccessor
     if (value !== undefined)
     {
       v = value;
-    }
-    else
+    } else
     {
       v = this.value;
     }

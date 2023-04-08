@@ -48,7 +48,8 @@ export class DemoDialog1Component extends FormBaseComponent implements OnInit
     if (!this.formGroup.valid)
     {
       console.warn('Data is invalid!');
-    } else
+    }
+    else
     {
       this.dialogRef.close(this.getSubmitData());
     }

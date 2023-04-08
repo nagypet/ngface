@@ -25,8 +25,6 @@ import {MatCheckboxChange} from '@angular/material/checkbox';
 import {NumericFormatter} from '../numeric-formatter';
 import {ValueSetSearchEvent} from './excel-filter/excel-filter.component';
 import {Ngface} from '../ngface-models';
-import {NgScrollbar} from 'ngx-scrollbar';
-import Form = Ngface.Form;
 import ActionCell = Ngface.ActionCell;
 import NumericCell = Ngface.NumericCell;
 import DataRetrievalParams = Ngface.DataRetrievalParams;
@@ -72,13 +70,13 @@ export interface TableMasterToggleEvent
 export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
 {
   @Input()
-  formData: Form;
+  formdata?: Ngface.Form;
 
   @Input()
-  widgetId: string;
+  widgetid = '';
 
   @Input()
-  heightPx = 300;
+  heightpx = 300;
 
   @Output()
   tableReloadEvent: EventEmitter<TableReloadEvent> = new EventEmitter();
@@ -101,13 +99,12 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
   @ViewChild(MatPaginator) matPaginator!: MatPaginator;
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(MatTable) matTable!: MatTable<any>;
-  @ViewChild(NgScrollbar) scrollable: NgScrollbar | undefined;
   dataSource: DataTableDataSource = new DataTableDataSource();
 
   activeFilterer: { [index: string]: Ngface.Filterer } = {};
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns: string[];
+  displayedColumns: string[] = [];
 
   constructor(@Inject(LOCALE_ID) public locale: string,
               private el: ElementRef)
@@ -146,18 +143,24 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
 
   private setHeightScrollableArea(): void
   {
-    const scrollableArea = this.scrollable?.nativeElement;
+    const scrollableArea = this.getScrollableAreaElement();
     if (scrollableArea)
     {
-      scrollableArea.style.height = this.heightPx.toString() + 'px';
+      scrollableArea.style.height = this.heightpx.toString() + 'px';
     }
+  }
+
+  private getScrollableAreaElement(): HTMLElement | undefined
+  {
+    return this.findHtmlElementByName(this.el.nativeElement, 'NG-SCROLLBAR');
   }
 
   private setHeightScrollbarY(): void
   {
-    if (this.scrollable)
+    const scrollableArea = this.getScrollableAreaElement();
+    if (scrollableArea)
     {
-      const scrollbarY = this.findHtmlElementByName(this.scrollable.nativeElement, 'SCROLLBAR-Y');
+      const scrollbarY = this.findHtmlElementByName(scrollableArea, 'SCROLLBAR-Y');
       if (scrollbarY)
       {
         const thead = this.findHtmlElementByName(this.el.nativeElement.childNodes[0], 'THEAD');
@@ -167,7 +170,7 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
         scrollbarY.style.top = tHeadHeight > 0 ? tHeadHeight.toString() + 'px' : '36px';
         scrollbarY.style.bottom = tFootHeight > 0 ? tFootHeight.toString() + 'px' : '12px';
         scrollbarY.style.display = 'flex';
-        this.scrollable?.update();
+        //this.scrollable?.update();
       }
     }
   }
@@ -334,7 +337,7 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
 
   getData(): Ngface.Table
   {
-    const widget = this.formData?.widgets[this.widgetId];
+    const widget = this.formdata?.widgets[this.widgetid];
     if (!widget || widget?.type !== 'Table')
     {
       return {
@@ -356,7 +359,7 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
         notification: '',
       };
     }
-    return this.formData.widgets[this.widgetId] as Ngface.Table;
+    return this.formdata?.widgets[this.widgetid] as Ngface.Table;
   }
 
   getPaginator(): Ngface.Paginator

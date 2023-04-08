@@ -17,7 +17,6 @@
 import {Component, Inject, LOCALE_ID} from '@angular/core';
 import {Ngface} from '../ngface-models';
 import {InputBaseComponent} from '../input-base.component';
-import NumericInput = Ngface.NumericInput;
 
 @Component({
   selector: 'ngface-numeric-input',
@@ -32,16 +31,16 @@ export class NgfaceNumericInputComponent extends InputBaseComponent
   }
 
 
-  getData(): NumericInput
+  getData(): Ngface.NumericInput
   {
-    let widget = this.formData?.widgets[this.widgetId];
+    let widget = this.formdata?.widgets[this.widgetid];
     if (!widget || widget?.type !== 'NumericInput')
     {
       return {
         type: 'NumericInput',
         data: {type: 'NumericInput.Data', value: 0},
         format: {precision: 0, prefix: '', suffix: '', validators: []},
-        placeholder: 'widget id: ' + this.widgetId,
+        placeholder: 'widget id: ' + this.widgetid,
         label: 'undefined label',
         validators: [],
         enabled: false,
@@ -49,6 +48,6 @@ export class NgfaceNumericInputComponent extends InputBaseComponent
         hint: ''
       };
     }
-    return <NumericInput> this.formData.widgets[this.widgetId];
+    return this.formdata?.widgets[this.widgetid] as Ngface.NumericInput;
   }
 }

@@ -29,7 +29,7 @@ export class DataTableDataSource extends DataSource<Ngface.Row>
   private dataSubject = new BehaviorSubject<Ngface.Row[]>([]);
 
   // tslint:disable-next-line:variable-name
-  private _paginator: Ngface.Paginator | null;
+  private _paginator: Ngface.Paginator | null = null;
   get paginator(): Ngface.Paginator | null
   {
     return this._paginator;

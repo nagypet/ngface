@@ -28,16 +28,16 @@ export class SortFilterHeaderComponent implements OnInit, OnChanges
 {
 
   @Input()
-  text: string;
+  text = "";
 
   @Input()
-  sortable: boolean;
+  sortable = false;
 
   @Input()
   sorter?: Ngface.Sorter;
 
   @Input()
-  filterable: boolean;
+  filterable = false;
 
   @Input()
   filterer?: Ngface.Filterer;

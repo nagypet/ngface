@@ -17,7 +17,6 @@
 import {Component, OnChanges} from '@angular/core';
 import {InputBaseComponent} from '../input-base.component';
 import {Ngface} from '../ngface-models';
-import DateRangeInput = Ngface.DateRangeInput;
 import {FormControl, FormGroup, ValidatorFn} from '@angular/forms';
 
 @Component({
@@ -62,13 +61,14 @@ export class NgfaceDateRangeInputComponent extends InputBaseComponent implements
 
     this.getData().enabled ? this.range.enable() : this.range.disable();
 
-    this.formGroup.addControl(this.widgetId, this.range);
+    // Adding FormControl to the FormGroup
+    this.formgroup?.addControl(this.widgetid, this.range);
   }
 
 
-  getData(): DateRangeInput
+  getData(): Ngface.DateRangeInput
   {
-    let widget = this.formData?.widgets[this.widgetId];
+    let widget = this.formdata?.widgets[this.widgetid];
     if (!widget || widget?.type !== 'DateRangeInput')
     {
       return {
@@ -84,16 +84,16 @@ export class NgfaceDateRangeInputComponent extends InputBaseComponent implements
         hint: ''
       };
     }
-    return <DateRangeInput> this.formData.widgets[this.widgetId];
+    return this.formdata?.widgets[this.widgetid] as Ngface.DateRangeInput;
   }
 
 
   getValidationErrors(): string
   {
-    var validationErrorsStart = this.getValidationErrorsFromFormControl(this.range.controls['start'], this.getData()?.validators);
-    var validationErrorsEnd = this.getValidationErrorsFromFormControl(this.range.controls['end'], this.getData()?.validators2);
+    const validationErrorsStart = this.getValidationErrorsFromFormControl(this.range.controls['start'], this.getData()?.validators);
+    const validationErrorsEnd = this.getValidationErrorsFromFormControl(this.range.controls['end'], this.getData()?.validators2);
 
-    var validationErrors = validationErrorsStart.concat(validationErrorsEnd);
+    const validationErrors = validationErrorsStart.concat(validationErrorsEnd);
     return validationErrors?.join(' ');
   }
 }

@@ -15,10 +15,9 @@
  */
 
 import {AbstractControl, FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators} from '@angular/forms';
-import {Ngface} from './ngface-models';
 import {Component, Input, OnChanges} from '@angular/core';
 import {ErrorStateMatcher} from '@angular/material/core';
-import Form = Ngface.Form;
+import {Ngface} from './ngface-models';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher
@@ -38,17 +37,25 @@ export class MyErrorStateMatcher implements ErrorStateMatcher
 export abstract class InputBaseComponent implements OnChanges
 {
   @Input()
-  formGroup: FormGroup;
+  formdata?: Ngface.Form;
 
   @Input()
-  formData: Form;
+  formgroup?: FormGroup;
 
   @Input()
-  widgetId: string;
+  widgetid = '';
 
-  floatLabelControl = new FormControl('auto');
+  private _floatLabelControl = new FormControl('auto');
+  get floatLabelControl(): FormControl
+  {
+    return this._floatLabelControl;
+  }
 
-  formControl = new FormControl('', []);
+  private _formControl = new FormControl('', []);
+  get formControl(): FormControl
+  {
+    return this._formControl;
+  }
 
   errorStateMatcher = new MyErrorStateMatcher();
 
@@ -74,7 +81,7 @@ export abstract class InputBaseComponent implements OnChanges
     this.getData().enabled ? this.formControl.enable() : this.formControl.disable();
 
     // Adding FormControl to the FormGroup
-    this.formGroup.addControl(this.widgetId, this.formControl);
+    this.formgroup?.addControl(this.widgetid, this.formControl);
   }
 
 

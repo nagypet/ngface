@@ -17,7 +17,6 @@
 import {Component} from '@angular/core';
 import {Ngface} from '../ngface-models';
 import {InputBaseComponent} from '../input-base.component';
-import TextInput = Ngface.TextInput;
 
 @Component({
   selector: 'ngface-text-input',
@@ -32,15 +31,15 @@ export class NgfaceTextInputComponent extends InputBaseComponent
     super();
   }
 
-  getData(): TextInput
+  getData(): Ngface.TextInput
   {
-    let widget = this.formData?.widgets[this.widgetId];
+    let widget = this.formdata?.widgets[this.widgetid];
     if (!widget || widget?.type !== 'TextInput')
     {
       return {
         type: 'TextInput',
         data: {type: 'TextInput.Data', value: ''},
-        placeholder: 'widget id: ' + this.widgetId,
+        placeholder: 'widget id: ' + this.widgetid,
         label: 'undefined label',
         validators: [],
         enabled: false,
@@ -48,6 +47,6 @@ export class NgfaceTextInputComponent extends InputBaseComponent
         hint: ''
       };
     }
-    return <TextInput> this.formData.widgets[this.widgetId];
+    return this.formdata?.widgets[this.widgetid] as Ngface.TextInput;
   }
 }

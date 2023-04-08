@@ -16,8 +16,6 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {Ngface} from '../ngface-models';
-import Form = Ngface.Form;
-import Button = Ngface.Button;
 
 @Component({
   selector: 'ngface-button',
@@ -28,10 +26,10 @@ export class NgfaceButtonComponent implements OnInit
 {
 
   @Input()
-  formData: Form;
+  formdata?: Ngface.Form;
 
   @Input()
-  widgetId: string;
+  widgetid = '';
 
   @Input()
   enabled = true;
@@ -47,9 +45,9 @@ export class NgfaceButtonComponent implements OnInit
   {
   }
 
-  getData(): Button
+  getData(): Ngface.Button
   {
-    const widget = this.formData?.widgets[this.widgetId];
+    const widget = this.formdata?.widgets[this.widgetid];
     if (!widget || widget?.type !== 'Button')
     {
       return {
@@ -63,7 +61,7 @@ export class NgfaceButtonComponent implements OnInit
         hint: ''
       };
     }
-    return this.formData.widgets[this.widgetId] as Button;
+    return this.formdata?.widgets[this.widgetid] as Ngface.Button;
   }
 
   onClick(): void
