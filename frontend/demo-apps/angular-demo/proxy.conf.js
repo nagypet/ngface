@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright 2020-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-/* You can add global styles to this file, and also import other style files */
-@import '~bootstrap/dist/css/bootstrap.min.css';
-@import "../node_modules/ngface/ngface.scss";
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+const PROXY_CONFIG = [
+  {
+    context: [
+      "/demo",
+      "/table-details",
+    ],
+    target: "http://localhost:8400",
+    secure: false
+  }
+]
 
-html, body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
+module.exports = PROXY_CONFIG;

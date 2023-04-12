@@ -1,0 +1,58 @@
+<!--
+  ~ Copyright 2020-2022 the original author or authors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      https://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div class="container">
+  <h1>ngface demo application</h1>
+  <br>
+  <div class="ngface-form-element">
+    <ngface-form-element formdata="formData" (keydown.enter)="onOkClick()">
+      <div class="ngface-row">
+        <ngface-text-input-element formdata="formData" widgetid="name"></ngface-text-input-element>
+        <ngface-text-input-element formdata="formData" widgetid="place-of-birth"></ngface-text-input-element>
+        <ngface-text-input-element formdata="formData" widgetid="email"></ngface-text-input-element>
+        <ngface-text-input-element formdata="formData" widgetid="role"></ngface-text-input-element>
+      </div>
+      <div class="ngface-row">
+        <ngface-numeric-input-element formdata="formData" widgetid="amount"></ngface-numeric-input-element>
+        <ngface-numeric-input-element formdata="formData" widgetid="count-samples"></ngface-numeric-input-element>
+        <ngface-text-input-element formdata="formData" widgetid="account-no"></ngface-text-input-element>
+      </div>
+      <div class="ngface-row">
+        <ngface-date-input-element formdata="formData" widgetid="check-in-date"></ngface-date-input-element>
+        <ngface-date-input-element formdata="formData" widgetid="check-out-date"></ngface-date-input-element>
+        <ngface-date-range-input-element formdata="formData" widgetid="date-range"></ngface-date-range-input-element>
+        <ngface-date-range-input-element formdata="formData" widgetid="date-range2"></ngface-date-range-input-element>
+      </div>
+      <div class="ngface-row">
+        <ngface-select-element formdata="formData" widgetid="select"></ngface-select-element>
+        <ngface-select-element formdata="formData" widgetid="select2"></ngface-select-element>
+        <ngface-select-element formdata="formData" widgetid="select3"></ngface-select-element>
+      </div>
+      <ngface-data-table-element formdata="formData" widgetid="'table-multiselect'">
+<!--                         (tableReloadEvent)="onTableReload($event)"-->
+<!--                         (actionClickEvent)="onTableActionClick($event)"-->
+<!--                         (tableValueSetSearchEvent)="onTableValueSetSearch($event)"-->
+<!--                         (tableViewParamsChangeEvent)="onTableViewParamsChange($event)"-->
+<!--      >-->
+      </ngface-data-table-element>
+      <div class="ngface-row">
+        <ngface-button-element formdata="formData" widgetid="button-ok" (click)="onOkClick()"></ngface-button-element>
+        <ngface-button-element formdata="formData" widgetid="button-cancel"></ngface-button-element>
+        <ngface-button-element formdata="formData" widgetid="button-delete"></ngface-button-element>
+      </div>
+    </ngface-form-element>
+  </div>
+</div>
