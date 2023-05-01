@@ -20,28 +20,28 @@
   <div class="ngface-form-element">
     <ngface-form-element formdata="formData" (keydown.enter)="onOkClick()">
       <div class="ngface-row">
-        <ngface-text-input-element formdata="formData" widgetid="name"></ngface-text-input-element>
-        <ngface-text-input-element formdata="formData" widgetid="place-of-birth"></ngface-text-input-element>
-        <ngface-text-input-element formdata="formData" widgetid="email"></ngface-text-input-element>
-        <ngface-text-input-element formdata="formData" widgetid="role"></ngface-text-input-element>
+        <ngface-text-input-element formdata="formData" id="name" widgetid="name"></ngface-text-input-element>
+        <ngface-text-input-element formdata="formData" id="place-of-birth" widgetid="place-of-birth"></ngface-text-input-element>
+        <ngface-text-input-element formdata="formData" id="email" widgetid="email"></ngface-text-input-element>
+        <ngface-text-input-element formdata="formData" id="role" widgetid="role"></ngface-text-input-element>
       </div>
       <div class="ngface-row">
-        <ngface-numeric-input-element formdata="formData" widgetid="amount"></ngface-numeric-input-element>
-        <ngface-numeric-input-element formdata="formData" widgetid="count-samples"></ngface-numeric-input-element>
-        <ngface-text-input-element formdata="formData" widgetid="account-no"></ngface-text-input-element>
+        <ngface-numeric-input-element formdata="formData" id="amount" widgetid="amount"></ngface-numeric-input-element>
+        <ngface-numeric-input-element formdata="formData" id="count-samples" widgetid="count-samples"></ngface-numeric-input-element>
+        <ngface-text-input-element formdata="formData" id="account-no" widgetid="account-no"></ngface-text-input-element>
       </div>
       <div class="ngface-row">
-        <ngface-date-input-element formdata="formData" widgetid="check-in-date"></ngface-date-input-element>
-        <ngface-date-input-element formdata="formData" widgetid="check-out-date"></ngface-date-input-element>
-        <ngface-date-range-input-element formdata="formData" widgetid="date-range"></ngface-date-range-input-element>
-        <ngface-date-range-input-element formdata="formData" widgetid="date-range2"></ngface-date-range-input-element>
+        <ngface-date-input-element formdata="formData" id="check-in-date" widgetid="check-in-date"></ngface-date-input-element>
+        <ngface-date-input-element formdata="formData" id="check-out-date" widgetid="check-out-date"></ngface-date-input-element>
+        <ngface-date-range-input-element formdata="formData" id="date-range" widgetid="date-range"></ngface-date-range-input-element>
+        <ngface-date-range-input-element formdata="formData" id="date-range2" widgetid="date-range2"></ngface-date-range-input-element>
       </div>
       <div class="ngface-row">
-        <ngface-select-element formdata="formData" widgetid="select"></ngface-select-element>
-        <ngface-select-element formdata="formData" widgetid="select2"></ngface-select-element>
-        <ngface-select-element formdata="formData" widgetid="select3"></ngface-select-element>
+        <ngface-select-element formdata="formData" id="select" widgetid="select"></ngface-select-element>
+        <ngface-select-element formdata="formData" id="select2" widgetid="select2"></ngface-select-element>
+        <ngface-select-element formdata="formData" id="select3" widgetid="select3"></ngface-select-element>
       </div>
-      <ngface-data-table-element formdata="formData" widgetid="'table-multiselect'">
+      <ngface-data-table-element formdata="formData" id="table-multiselect" widgetid="table-multiselect">
 <!--                         (tableReloadEvent)="onTableReload($event)"-->
 <!--                         (actionClickEvent)="onTableActionClick($event)"-->
 <!--                         (tableValueSetSearchEvent)="onTableValueSetSearch($event)"-->
@@ -49,9 +49,9 @@
 <!--      >-->
       </ngface-data-table-element>
       <div class="ngface-row">
-        <ngface-button-element formdata="formData" widgetid="button-ok" (click)="onOkClick()"></ngface-button-element>
-        <ngface-button-element formdata="formData" widgetid="button-cancel"></ngface-button-element>
-        <ngface-button-element formdata="formData" widgetid="button-delete"></ngface-button-element>
+        <ngface-button-element formdata="formData" id="button-ok" widgetid="button-ok" (click)="onOkClick()"></ngface-button-element>
+        <ngface-button-element formdata="formData" id="button-cancel" widgetid="button-cancel"></ngface-button-element>
+        <ngface-button-element formdata="formData" id="button-delete" widgetid="button-delete"></ngface-button-element>
       </div>
     </ngface-form-element>
   </div>

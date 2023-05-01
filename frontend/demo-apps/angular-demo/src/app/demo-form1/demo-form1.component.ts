@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 /*
  * Copyright 2020-2022 the original author or authors.
  *
@@ -35,6 +37,8 @@ import {FormBaseComponent} from '../form-base.component';
 })
 export class DemoForm1Component extends FormBaseComponent implements OnInit
 {
+  myForm;
+
   constructor(private demoService: DemoService, public dialog: MatDialog)
   {
     super();
@@ -46,8 +50,68 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     {
       console.log(data);
       this.formData = data;
+      this.init();
       //this.enableButtons();
     });
+  }
+
+
+  private init()
+  {
+    const textInputName = document.getElementById("name");
+    const textInputPlaceOfBirth = document.getElementById("place-of-birth");
+    const textInputEmail = document.getElementById("email");
+    const textInputRole = document.getElementById("role");
+    const numericInputAmount = document.getElementById("amount");
+    const numericInputCountSamples = document.getElementById("count-samples");
+    const dateInputCheckIn = document.getElementById("check-in-date");
+    const dateInputCheckOut = document.getElementById("check-out-date");
+    const dateRangeInput = document.getElementById("date-range");
+    const dateRangeInput2 = document.getElementById("date-range2");
+    const select = document.getElementById("select");
+    const select2 = document.getElementById("select2");
+    const select3 = document.getElementById("select3");
+    const table = document.getElementById("table-multiselect");
+    const buttonOk = document.getElementById("button-ok");
+    const buttonCancel = document.getElementById("button-cancel");
+    this.myForm = document.getElementById("myform");
+
+    textInputName.formdata = this.formData;
+    textInputPlaceOfBirth.formdata = this.formData;
+    textInputEmail.formdata = this.formData;
+    textInputRole.formdata = this.formData;
+    numericInputAmount.formdata = this.formData;
+    numericInputCountSamples.formdata = this.formData;
+    dateInputCheckIn.formdata = this.formData;
+    dateInputCheckOut.formdata = this.formData;
+    dateRangeInput.formdata = this.formData;
+    dateRangeInput2.formdata = this.formData;
+    select.formdata = this.formData;
+    select2.formdata = this.formData;
+    select3.formdata = this.formData;
+    table.formdata = this.formData;
+    buttonOk.formdata = this.formData;
+    buttonCancel.formdata = this.formData;
+
+    myForm.addEventListener('onDataChange', e => {
+      console.log(e.detail.data);
+      // this.demoService.submitDemoForm({id: '', widgetDataMap: submitData}).subscribe(
+      //   () => console.log('sumbitted'),
+      //   error => console.log(error));
+    })
+
+    buttonOk.addEventListener('click', e => {
+      console.log(myForm.formgroup);
+      myForm.formgroup.markAllAsTouched();
+      if (!myForm.formgroup.valid)
+      {
+        console.warn('Data is invalid!');
+      }
+      else
+      {
+        myForm.formdata = this.formData;
+      }
+    })
   }
 
 
@@ -72,20 +136,32 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
 
   onOkClick()
   {
-    this.formGroup.markAllAsTouched();
-    if (!this.formGroup.valid)
+    console.log(this.myForm.formgroup);
+    this.myForm.formgroup.markAllAsTouched();
+    if (!this.myForm.formgroup.valid)
     {
       console.warn('Data is invalid!');
     }
     else
     {
-      const submitData = this.getSubmitData();
-      console.log(submitData);
-
-      this.demoService.submitDemoForm({id: '', widgetDataMap: submitData}).subscribe(
-        () => console.log('sumbitted'),
-        error => console.log(error));
+      this.myForm.formdata = this.formData;
     }
+
+    //
+    // this.formGroup.markAllAsTouched();
+    // if (!this.formGroup.valid)
+    // {
+    //   console.warn('Data is invalid!');
+    // }
+    // else
+    // {
+    //   const submitData = this.getSubmitData();
+    //   console.log(submitData);
+    //
+    //   this.demoService.submitDemoForm({id: '', widgetDataMap: submitData}).subscribe(
+    //     () => console.log('sumbitted'),
+    //     error => console.log(error));
+    // }
   }
 
 

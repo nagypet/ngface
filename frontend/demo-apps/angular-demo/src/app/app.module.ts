@@ -5,6 +5,7 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {DemoForm1Component} from './demo-form1/demo-form1.component';
 import {HttpClientModule} from '@angular/common/http';
 import {MatDialogModule} from '@angular/material/dialog';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 //import {DemoDialog1Component} from './demo-dialog1/demo-dialog1.component';
 
 @NgModule({
@@ -15,6 +16,7 @@ import {MatDialogModule} from '@angular/material/dialog';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     MatDialogModule
   ],
