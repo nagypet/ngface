@@ -20,7 +20,7 @@ const PROXY_CONFIG = [
       "/demo",
       "/table-details",
     ],
-    target: "http://localhost:8400",
+    target: "http://192.168.128.150:8400",
     secure: false
   }
 ]
