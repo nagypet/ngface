@@ -1,8 +1,8 @@
 FROM node:14
 
-WORKDIR /app/angular-wsp
+WORKDIR /opt/app
 
-ENV PATH /app/node_modules/.bin:$PATH
+ENV PATH /opt/app/node_modules/.bin:$PATH
 
 RUN apt-get update
 RUN apt-get -y install mc
