@@ -20,26 +20,16 @@ import localeDeExtra from '@angular/common/locales/extra/de';
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    NgfaceModule
-  ],
-  providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
-    {provide: MAT_DATE_LOCALE, useValue: 'hu'},
-    {provide: LOCALE_ID, useValue: 'de-DE' }
-  ],
-  entryComponents: [
-    NgfaceButtonComponent,
-    NgfaceDataTableComponent,
-    NgfaceDateInputComponent,
-    NgfaceDateRangeInputComponent,
-    NgfaceNumericInputComponent,
-    NgfaceSelectComponent,
-    NgfaceTextInputComponent,
-    NgfaceFormComponent
-  ]
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        NgfaceModule
+    ],
+    providers: [
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+        { provide: MAT_DATE_LOCALE, useValue: 'hu' },
+        { provide: LOCALE_ID, useValue: 'de-DE' }
+    ]
 })
 export class AppModule
 {
