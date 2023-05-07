@@ -15,7 +15,7 @@
  */
 
 import {Component, Inject, Input, LOCALE_ID} from '@angular/core';
-import {ControlValueAccessor, UntypedFormControl, FormGroupDirective, NG_VALUE_ACCESSOR, NgForm} from '@angular/forms';
+import {ControlValueAccessor, FormControl, FormGroupDirective, NG_VALUE_ACCESSOR, NgForm} from '@angular/forms';
 import {NumericFormatter} from '../../numeric-formatter';
 import {getLocaleNumberSymbol, NumberSymbol} from '@angular/common';
 import {ErrorStateMatcher} from '@angular/material/core';
@@ -30,13 +30,14 @@ export class MyErrorStateMatcher implements ErrorStateMatcher
     this.component = component;
   }
 
-  isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean
   {
     return this.component.validationErrors !== null;
   }
 }
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'ngface-intl-numeric-input',
   templateUrl: './intl-numeric-input.component.html',
   styleUrls: ['./intl-numeric-input.component.scss'],
@@ -50,6 +51,21 @@ export class MyErrorStateMatcher implements ErrorStateMatcher
 })
 export class IntlNumericInputComponent implements ControlValueAccessor
 {
+  @Input()
+  set precision(precision: number)
+  {
+    this._precision = precision;
+    this.rewriteValue();
+  }
+
+  get precision(): number
+  {
+    return this._precision;
+  }
+
+  constructor(@Inject(LOCALE_ID) public locale: string)
+  {
+  }
 
   @Input()
   label = '';
@@ -63,18 +79,8 @@ export class IntlNumericInputComponent implements ControlValueAccessor
   @Input()
   required = false;
 
-  _precision = 0;
-  @Input()
-  set precision(precision: number)
-  {
-    this._precision = precision;
-    this.rewriteValue();
-  }
-
-  get precision()
-  {
-    return this._precision;
-  }
+  // tslint:disable-next-line:variable-name
+  private _precision = 0;
 
   @Input()
   prefix = '';
@@ -88,31 +94,32 @@ export class IntlNumericInputComponent implements ControlValueAccessor
   valueText = '';
   value?: number;
 
-  floatLabelControl = new UntypedFormControl('auto');
+  // tslint:disable-next-line:variable-name
+  private _floatLabelControl = new FormControl('auto');
+  get floatLabelControl(): FormControl
+  {
+    return this._floatLabelControl;
+  }
 
   errorStateMatcher = new MyErrorStateMatcher(this);
-
-  onChangeFn = (value?: number) =>
-  {
-  };
-
-  onTouchedFn = () =>
-  {
-  };
 
   touched = false;
   disabled = false;
 
-  constructor(@Inject(LOCALE_ID) public locale: string)
+  onChangeFn = (value?: number) =>
   {
   }
 
-  registerOnChange(onChange: any)
+  onTouchedFn = () =>
+  {
+  }
+
+  registerOnChange(onChange: any): void
   {
     this.onChangeFn = onChange;
   }
 
-  registerOnTouched(onTouched: any)
+  registerOnTouched(onTouched: any): void
   {
     this.onTouchedFn = onTouched;
   }
@@ -121,7 +128,7 @@ export class IntlNumericInputComponent implements ControlValueAccessor
   /**
    * Converting ISO => intl
    */
-  writeValue(value?: number)
+  writeValue(value?: number): void
   {
     console.log('writeValue: ' + value);
     this.rewriteValue(value);
@@ -129,13 +136,14 @@ export class IntlNumericInputComponent implements ControlValueAccessor
   }
 
 
-  rewriteValue(value?: number)
+  rewriteValue(value?: number): void
   {
     let v: number | undefined;
     if (value !== undefined)
     {
       v = value;
-    } else
+    }
+    else
     {
       v = this.value;
     }
@@ -143,14 +151,15 @@ export class IntlNumericInputComponent implements ControlValueAccessor
     if (v && !isNaN(v))
     {
       this.valueText = NumericFormatter.getFormattedValueAsText(v, this.precision, this.locale);
-    } else
+    }
+    else
     {
       this.valueText = '';
     }
   }
 
 
-  markAsTouched()
+  markAsTouched(): void
   {
     if (!this.touched)
     {
@@ -159,7 +168,7 @@ export class IntlNumericInputComponent implements ControlValueAccessor
     }
   }
 
-  setDisabledState(disabled: boolean)
+  setDisabledState(disabled: boolean): void
   {
     this.disabled = disabled;
   }
@@ -168,30 +177,31 @@ export class IntlNumericInputComponent implements ControlValueAccessor
   /**
    * Converting intl => ISO
    */
-  onChange()
+  onChange(): void
   {
     console.log('onChange valueText: ' + this.valueText);
     this.markAsTouched();
     if (!this.disabled)
     {
-      let localeSpecificValue: string = this.valueText;
+      const localeSpecificValue: string = this.valueText;
       console.log('localeSpecificValue: ' + localeSpecificValue);
 
       // Now remove digit grouping symbol and replace locale specific comma with dot
-      let digitGroupingSymbol = getLocaleNumberSymbol(this.locale, NumberSymbol.Group);
-      let decimalSymbol = getLocaleNumberSymbol(this.locale, NumberSymbol.Decimal);
+      const digitGroupingSymbol = getLocaleNumberSymbol(this.locale, NumberSymbol.Group);
+      const decimalSymbol = getLocaleNumberSymbol(this.locale, NumberSymbol.Decimal);
       console.log(`digitGroupingSymbol: ${digitGroupingSymbol}, decimalSymbol: ${decimalSymbol}`);
-      let valueString = this.replaceAll(localeSpecificValue, digitGroupingSymbol, '').replace(decimalSymbol, '.');
+      const valueString = this.replaceAll(localeSpecificValue, digitGroupingSymbol, '').replace(decimalSymbol, '.');
       console.log('valueString: ' + valueString);
 
-      let parsedValue = parseFloat(valueString);
+      const parsedValue = parseFloat(valueString);
       console.log('parsedValue: ' + parsedValue);
 
       if (!isNaN(parsedValue))
       {
         this.value = parsedValue;
         this.onChangeFn(parsedValue);
-      } else
+      }
+      else
       {
         this.value = undefined;
         this.onChangeFn(undefined);
@@ -199,12 +209,12 @@ export class IntlNumericInputComponent implements ControlValueAccessor
     }
   }
 
-  escapeRegExp(string: string)
+  escapeRegExp(str: string): string
   {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
   }
 
-  replaceAll(str: string, find: string, replace: string)
+  replaceAll(str: string, find: string, replace: string): string
   {
     return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
   }
@@ -212,10 +222,8 @@ export class IntlNumericInputComponent implements ControlValueAccessor
 
   /**
    * Formatting model value to intl format
-   *
-   * @param target
    */
-  onBlur()
+  onBlur(): void
   {
     if (!this.valueText)
     {

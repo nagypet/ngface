@@ -51,7 +51,9 @@ export class DemoDialog1Component extends FormBaseComponent implements OnInit
     }
     else
     {
-      this.dialogRef.close(this.getSubmitData());
+      const submitData = this.getSubmitData();
+      console.log(submitData);
+      this.dialogRef.close(submitData);
     }
   }
 }

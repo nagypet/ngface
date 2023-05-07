@@ -15,7 +15,7 @@ import {NgfaceNumericInputComponent} from '../ngface-numeric-input/ngface-numeri
 import {NgfaceDateInputComponent} from '../ngface-date-input/ngface-date-input.component';
 import {NgfaceDateRangeInputComponent} from '../ngface-date-range-input/ngface-date-range-input.component';
 import {NgfaceSelectComponent} from '../ngface-select/ngface-select.component';
-import {UntypedFormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {Ngface} from '../ngface-models';
 
 export class ControlData
@@ -24,18 +24,31 @@ export class ControlData
 }
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'ngface-form',
   templateUrl: './ngface-form.component.html',
   styleUrls: ['./ngface-form.component.css']
 })
 export class NgfaceFormComponent implements OnInit, OnChanges, AfterViewInit
 {
+
+  get formGroup(): FormGroup
+  {
+    return this.formgroup;
+  }
+
+  constructor(private el: ElementRef)
+  {
+  }
+
   @Input()
   formdata?: Ngface.Form;
 
+  // Misused here to generate a getter in the web-component
   @Input()
-  formgroup = new UntypedFormGroup({});
+  private formgroup: FormGroup<{}> = new FormGroup({});
 
+  // tslint:disable-next-line:no-output-on-prefix
   @Output()
   onDataChange: EventEmitter<ControlData> = new EventEmitter();
 
@@ -45,13 +58,22 @@ export class NgfaceFormComponent implements OnInit, OnChanges, AfterViewInit
   @ContentChildren(NgfaceDateRangeInputComponent, {descendants: true}) dateRangeInputComponents!: QueryList<NgfaceDateRangeInputComponent>;
   @ContentChildren(NgfaceSelectComponent, {descendants: true}) selectInputComponents!: QueryList<NgfaceSelectComponent>;
 
-  get formGroup(): UntypedFormGroup
-  {
-    return this.formgroup;
-  }
 
-  constructor(private el: ElementRef)
+  private static getLocalDateTime(date: Date): Date | null
   {
+    if (!date)
+    {
+      return null;
+    }
+
+    if (date instanceof Date)
+    {
+      const offset = date.getTimezoneOffset();
+      const convertedDate: Date = new Date();
+      convertedDate.setTime(date.getTime() - (offset * 60 * 1000));
+      return convertedDate;
+    }
+    return new Date(date);
   }
 
   ngOnInit(): void
@@ -66,39 +88,44 @@ export class NgfaceFormComponent implements OnInit, OnChanges, AfterViewInit
   ngAfterViewInit(): void
   {
     // This solution works only in Angular. When using the controls as web-components not.
-    this.textInputComponents.forEach(comp => comp.formgroup = this.formGroup);
-    this.numericInputComponents.forEach(comp => comp.formgroup = this.formGroup);
-    this.dateInputComponents.forEach(comp => comp.formgroup = this.formGroup);
-    this.dateRangeInputComponents.forEach(comp => comp.formgroup = this.formGroup);
-    this.selectInputComponents.forEach(comp => comp.formgroup = this.formGroup);
+    this.textInputComponents.forEach(comp => this.formGroup.addControl(comp.widgetid, comp.formGroupItem));
+    this.numericInputComponents.forEach(comp => this.formGroup.addControl(comp.widgetid, comp.formGroupItem));
+    this.dateInputComponents.forEach(comp => this.formGroup.addControl(comp.widgetid, comp.formGroupItem));
+    this.dateRangeInputComponents.forEach(comp => this.formGroup.addControl(comp.widgetid, comp.formGroupItem));
+    this.selectInputComponents.forEach(comp => this.formGroup.addControl(comp.widgetid, comp.formGroupItem));
 
     // This solution is for the web-component solution
-    var allControls = this.getAllNgfaceControls(this.el.nativeElement);
+    const allControls = this.getAllNgfaceControls(this.el.nativeElement);
     // @ts-ignore
-    allControls.forEach(comp => comp.formgroup = this.formGroup);
+    allControls.forEach(comp => this.formGroup.addControl(comp.widgetid, comp.get_form_group_item));
+
+    console.log('formGroup controls:');
+    console.log(this.formGroup.controls);
   }
+
 
   private getAllNgfaceControls(element: Element): Element[]
   {
-    //console.log(element.tagName);
+    // console.log(element.tagName);
     if (!element)
     {
       return [];
     }
 
-    let retval: Element[] = [];
+    const retval: Element[] = [];
 
     // @ts-ignore
     const collection: HTMLCollection = element.children;
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < collection.length; i++)
     {
-      let child = collection[i];
+      const child = collection[i];
       if (this.isNgfaceControl(child))
       {
         retval.push(child);
       }
-      var allControlsOfChild = this.getAllNgfaceControls(child);
-      allControlsOfChild.forEach(i => retval.push(i));
+      const allControlsOfChild = this.getAllNgfaceControls(child);
+      allControlsOfChild.forEach((el: Element) => retval.push(el));
     }
 
     return retval;
@@ -117,66 +144,48 @@ export class NgfaceFormComponent implements OnInit, OnChanges, AfterViewInit
 
   getSubmitData(): { [key: string]: Ngface.WidgetData }
   {
-    let submitData: { [key: string]: Ngface.WidgetData } = {};
+    const submitData: { [key: string]: Ngface.WidgetData } = {};
     Object.keys(this.formGroup.controls).forEach(controlName =>
     {
-      let widget = this.formdata?.widgets[controlName];
-      let widgetType: string | undefined = widget?.type;
+      const widget = this.formdata?.widgets[controlName];
+      const widgetType: string | undefined = widget?.type;
       switch (widgetType)
       {
         case 'TextInput':
         case 'NumericInput':
-          submitData[controlName] = <Ngface.Value<any>> {
+          submitData[controlName] = {
             type: widgetType + '.Data',
             value: this.formGroup.controls[controlName]?.value
-          };
+          } as Ngface.Value<any>;
           break;
 
         case 'DateInput':
         case 'DateTimeInput':
           // Converting to local date without time zone information
-          let myDate = this.formGroup.controls[controlName]?.value;
-          submitData[controlName] = <Ngface.Value<any>> {
+          const myDate = this.formGroup.controls[controlName]?.value;
+          submitData[controlName] = {
             type: widgetType + '.Data',
             value: NgfaceFormComponent.getLocalDateTime(myDate)
-          };
+          } as Ngface.Value<any>;
           break;
 
         case 'DateRangeInput':
-          submitData[controlName] = <Ngface.DateRangeInput.Data> {
+          submitData[controlName] = {
             type: widgetType + '.Data',
             startDate: NgfaceFormComponent.getLocalDateTime(this.formGroup.controls[controlName]?.value?.start),
             endDate: NgfaceFormComponent.getLocalDateTime(this.formGroup.controls[controlName]?.value?.end)
-          };
+          } as Ngface.DateRangeInput.Data;
           break;
 
         case 'Select':
-          let selected = this.formGroup.controls[controlName]?.value;
-          let selectedOption: { [index: string]: string } = {};
+          const selected = this.formGroup.controls[controlName]?.value;
+          const selectedOption: { [index: string]: string } = {};
           selectedOption[selected] = widget?.data.options[selected];
-          submitData[controlName] = <Ngface.Select.Data> {type: widgetType + '.Data', options: selectedOption, selected: selected};
+          submitData[controlName] = {type: widgetType + '.Data', options: selectedOption, selected} as Ngface.Select.Data;
           break;
       }
     });
 
     return submitData;
-  }
-
-
-  private static getLocalDateTime(date: Date): Date | null
-  {
-    if (!date)
-    {
-      return null;
-    }
-
-    if (date instanceof Date)
-    {
-      const offset = date.getTimezoneOffset();
-      let convertedDate: Date = new Date();
-      convertedDate.setTime(date.getTime() - (offset * 60 * 1000));
-      return convertedDate;
-    }
-    return new Date(date);
   }
 }

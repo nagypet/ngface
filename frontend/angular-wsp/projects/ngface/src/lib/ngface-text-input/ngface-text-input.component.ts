@@ -19,6 +19,7 @@ import {Ngface} from '../ngface-models';
 import {InputBaseComponent} from '../input-base.component';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'ngface-text-input',
   templateUrl: './ngface-text-input.component.html',
   styleUrls: ['./ngface-text-input.component.scss']
@@ -33,7 +34,7 @@ export class NgfaceTextInputComponent extends InputBaseComponent
 
   getData(): Ngface.TextInput
   {
-    let widget = this.formdata?.widgets[this.widgetid];
+    const widget = this.formdata?.widgets[this.widgetid];
     if (!widget || widget?.type !== 'TextInput')
     {
       return {

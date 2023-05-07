@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-import {Component, OnChanges} from '@angular/core';
+import {Component, OnChanges, SimpleChange} from '@angular/core';
 import {InputBaseComponent} from '../input-base.component';
 import {Ngface} from '../ngface-models';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'ngface-select',
   templateUrl: './ngface-select.component.html',
   styleUrls: ['./ngface-select.component.scss']
@@ -29,15 +30,15 @@ export class NgfaceSelectComponent extends InputBaseComponent implements OnChang
     super();
   }
 
-  ngOnChanges()
+  ngOnChanges(changes: { [propName: string]: SimpleChange }): void
   {
-    super.ngOnChanges();
+    super.ngOnChanges(changes);
     this.formControl.setValue(this.getData()?.data?.selected);
   }
 
   getData(): Ngface.Select
   {
-    let widget = this.formdata?.widgets[this.widgetid];
+    const widget = this.formdata?.widgets[this.widgetid];
     if (!widget || widget?.type !== 'Select')
     {
       return {

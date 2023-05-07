@@ -15,18 +15,29 @@
  */
 
 import {Component, ViewChild} from '@angular/core';
-import {UntypedFormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {Ngface} from './ngface-models';
 import {NgfaceFormComponent} from './ngface-form/ngface-form.component';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'ngface-form-base',
   template: ''
 })
 export abstract class FormBaseComponent
 {
-  @ViewChild(NgfaceFormComponent) formComponent!: NgfaceFormComponent;
+  // tslint:disable-next-line:variable-name
+  @ViewChild(NgfaceFormComponent) private _formComponent: NgfaceFormComponent | undefined;
+  get formComponent(): NgfaceFormComponent | undefined
+  {
+    if (!this._formComponent)
+    {
+      console.error('formComponent is not defined! Please insert ng-form tag into your HTML template!');
+    }
+    return this._formComponent;
+  }
 
+  // tslint:disable-next-line:variable-name
   private _formData?: Ngface.Form;
   get formData(): Ngface.Form | undefined
   {
@@ -37,13 +48,13 @@ export abstract class FormBaseComponent
     this._formData = formData;
   }
 
-  constructor()
+  protected constructor()
   {
   }
 
-  get formGroup(): UntypedFormGroup
+  get formGroup(): FormGroup
   {
-    return this.formComponent.formGroup;
+    return this.formComponent?.formGroup ?? new FormGroup({});
   }
 
   public isWidgetAvailable(widgetId: string): boolean
@@ -53,6 +64,6 @@ export abstract class FormBaseComponent
 
   getSubmitData(): { [key: string]: Ngface.WidgetData }
   {
-    return this.formComponent.getSubmitData();
+    return this.formComponent?.getSubmitData() ?? {};
   }
 }

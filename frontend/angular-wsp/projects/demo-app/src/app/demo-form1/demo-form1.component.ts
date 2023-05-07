@@ -40,23 +40,23 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     super();
   }
 
-  ngOnInit()
+  ngOnInit(): void
   {
     this.demoService.getDemoForm({page: null, sort: null, filters: null}).subscribe(data =>
     {
       console.log(data);
       this.formData = data;
-      //this.enableButtons();
+      // this.enableButtons();
     });
   }
 
 
-  enableButtons()
+  enableButtons(): void
   {
-    const button: Ngface.Button = <Ngface.Button> this.formData?.widgets['button-details'];
+    const button: Ngface.Button = this.formData?.widgets['button-details'] as Ngface.Button;
     button.enabled = false;
 
-    var selectedRow = this.getSingleSelectTableSelectedRow();
+    const selectedRow = this.getSingleSelectTableSelectedRow();
     if (selectedRow)
     {
       button.enabled = true;
@@ -66,11 +66,11 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
 
   private getSingleSelectTableSelectedRow(): Ngface.Row | undefined
   {
-    const table: Ngface.Table = <Ngface.Table> this.formData?.widgets['table-singleselect'];
+    const table: Ngface.Table = this.formData?.widgets['table-singleselect'] as Ngface.Table;
     return table.rows.find(r => r.selected);
   }
 
-  onOkClick()
+  onOkClick(): void
   {
     this.formGroup.markAllAsTouched();
     if (!this.formGroup.valid)
@@ -89,7 +89,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
   }
 
 
-  onTableReload($event: TableReloadEvent)
+  onTableReload($event: TableReloadEvent): void
   {
     this.demoService.getDemoForm({
       page: $event.page,
@@ -98,7 +98,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     }).subscribe(data =>
     {
       console.log(data);
-      $event.dataSource.setWidgetData(<Ngface.Table> data.widgets['table-multiselect']);
+      $event.dataSource.setWidgetData(data.widgets['table-multiselect'] as Ngface.Table);
       if (this.formData)
       {
         this.formData.widgets['table-multiselect'] = data.widgets['table-multiselect'];
@@ -107,17 +107,17 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
   }
 
 
-  onDetails()
+  onDetails(): void
   {
     this.doEditAction(this.getSingleSelectTableSelectedRow());
   }
 
-  onSingleSelectTableRowClick()
+  onSingleSelectTableRowClick(): void
   {
     this.enableButtons();
   }
 
-  onTableActionClick($event: ActionClickEvent)
+  onTableActionClick($event: ActionClickEvent): void
   {
     if ($event.actionId === 'edit')
     {
@@ -125,14 +125,14 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     }
   }
 
-  private doEditAction(row: Ngface.Row | undefined)
+  private doEditAction(row: Ngface.Row | undefined): void
   {
     if (!row)
     {
       return;
     }
 
-    // Reading dialog data from the baclend
+    // Reading dialog data from the backend
     this.demoService.getTableDetailsForm(row.id).subscribe(dialogData =>
     {
       console.log(dialogData);
@@ -146,7 +146,6 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
       // Subscribe to afterClosed
       dialogRef.afterClosed().subscribe(result =>
       {
-        console.log(result);
         if (result)
         {
           // Submitting new data to the backend
@@ -169,7 +168,7 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
   }
 
 
-  onTableValueSetSearch($event: TableValueSetSearchEvent)
+  onTableValueSetSearch($event: TableValueSetSearchEvent): void
   {
     console.log($event);
 
@@ -183,11 +182,11 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
     // });
   }
 
-  onTableViewParamsChange($event: TableViewParamsChangeEvent)
+  onTableViewParamsChange($event: TableViewParamsChangeEvent): void
   {
     console.log($event);
 
-    let widgetData: Ngface.Table.Data = {
+    const widgetData: Ngface.Table.Data = {
       type: 'Table.Data',
       paginator: $event.paginator,
       sorter: $event.sorter,

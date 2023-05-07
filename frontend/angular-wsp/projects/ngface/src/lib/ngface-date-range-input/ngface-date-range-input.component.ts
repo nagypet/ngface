@@ -14,23 +14,38 @@
  * limitations under the License.
  */
 
-import {Component, OnChanges} from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 import {InputBaseComponent} from '../input-base.component';
 import {Ngface} from '../ngface-models';
-import {UntypedFormControl, UntypedFormGroup, ValidatorFn} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, ValidatorFn} from '@angular/forms';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'ngface-date-range-input',
   templateUrl: './ngface-date-range-input.component.html',
   styleUrls: ['./ngface-date-range-input.component.scss']
 })
 export class NgfaceDateRangeInputComponent extends InputBaseComponent implements OnChanges
 {
-
-  range = new UntypedFormGroup({
-    start: new UntypedFormControl(),
-    end: new UntypedFormControl(),
+  // tslint:disable-next-line:variable-name
+  private _range: FormGroup<any> = new FormGroup({
+    start: new FormControl<Date>(new Date()),
+    end: new FormControl<Date>(new Date()),
   });
+  get range(): FormGroup<any>
+  {
+    return this._range;
+  }
+
+  get formGroupItem(): AbstractControl
+  {
+    return this.range;
+  }
+
+  // Misused here to generate a getter in the web-component
+  @Input()
+  // tslint:disable-next-line:variable-name
+  protected get_form_group_item: AbstractControl = this.formGroupItem;
 
   constructor()
   {
@@ -39,36 +54,33 @@ export class NgfaceDateRangeInputComponent extends InputBaseComponent implements
 
   ngOnChanges(): void
   {
-    let startDate = this.getData()?.data?.startDate ? this.getData()?.data?.startDate : '';
-    let endDate = this.getData()?.data?.endDate ? this.getData()?.data?.endDate : '';
+    const startDate = this.getData()?.data?.startDate ? this.getData()?.data?.startDate : '';
+    const endDate = this.getData()?.data?.endDate ? this.getData()?.data?.endDate : '';
     this.range.setValue({start: startDate, end: endDate});
 
     // Validators for startDate
-    let startDateValidators = new Array<ValidatorFn>();
+    const startDateValidators = new Array<ValidatorFn>();
     this.getData()?.validators?.forEach(v =>
     {
       this.createNgValidators(v).forEach(ngValidator => startDateValidators.push(ngValidator));
     });
-    this.range.controls['start']?.setValidators(startDateValidators);
+    this.range.controls.start?.setValidators(startDateValidators);
 
     // Validators for endDate
-    let endDateValidators = new Array<ValidatorFn>();
+    const endDateValidators = new Array<ValidatorFn>();
     this.getData()?.validators?.forEach(v =>
     {
       this.createNgValidators(v).forEach(ngValidator => endDateValidators.push(ngValidator));
     });
-    this.range.controls['end']?.setValidators(endDateValidators);
+    this.range.controls.end?.setValidators(endDateValidators);
 
     this.getData().enabled ? this.range.enable() : this.range.disable();
-
-    // Adding FormControl to the FormGroup
-    this.formgroup?.addControl(this.widgetid, this.range);
   }
 
 
   getData(): Ngface.DateRangeInput
   {
-    let widget = this.formdata?.widgets[this.widgetid];
+    const widget = this.formdata?.widgets[this.widgetid];
     if (!widget || widget?.type !== 'DateRangeInput')
     {
       return {
@@ -90,8 +102,8 @@ export class NgfaceDateRangeInputComponent extends InputBaseComponent implements
 
   getValidationErrors(): string
   {
-    const validationErrorsStart = this.getValidationErrorsFromFormControl(this.range.controls['start'], this.getData()?.validators);
-    const validationErrorsEnd = this.getValidationErrorsFromFormControl(this.range.controls['end'], this.getData()?.validators2);
+    const validationErrorsStart = this.getValidationErrorsFromFormControl(this.range.controls.start, this.getData()?.validators);
+    const validationErrorsEnd = this.getValidationErrorsFromFormControl(this.range.controls.end, this.getData()?.validators2);
 
     const validationErrors = validationErrorsStart.concat(validationErrorsEnd);
     return validationErrors?.join(' ');

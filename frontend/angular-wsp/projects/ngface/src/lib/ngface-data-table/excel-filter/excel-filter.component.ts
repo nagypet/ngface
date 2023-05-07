@@ -15,7 +15,7 @@
  */
 
 import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {UntypedFormControl} from '@angular/forms';
+import {FormControl} from '@angular/forms';
 import {ValueSetProvider} from './value-set-provider';
 import {Ngface} from '../../ngface-models';
 
@@ -42,13 +42,14 @@ export interface FilterChangeEvent
 }
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'ngface-excel-filter',
   templateUrl: './excel-filter.component.html',
   styleUrls: ['./excel-filter.component.scss']
 })
 export class ExcelFilterComponent implements OnInit, OnChanges
 {
-  formControlSearch = new UntypedFormControl('', []);
+  formControlSearch: FormControl<string> = new FormControl<string>('', {nonNullable: true});
 
   @Input()
   filterer?: Ngface.Filterer;
@@ -59,6 +60,7 @@ export class ExcelFilterComponent implements OnInit, OnChanges
   @Output()
   filtererChangeEvent: EventEmitter<FilterChangeEvent> = new EventEmitter();
 
+  // tslint:disable-next-line:no-output-on-prefix
   @Output()
   onCloseEvent: EventEmitter<void> = new EventEmitter();
 
@@ -172,7 +174,7 @@ export class ExcelFilterComponent implements OnInit, OnChanges
       const newFilterer: Ngface.Filterer = {
         active: this.filterer.active,
         column: this.filterer.column,
-        searchText: this.formControlSearch.value,
+        searchText: this.formControlSearch.value ?? '',
         valueSet: {
           values: this.valueSetProvider.valueSetItems.filter(i => !i.masterSelect && i.selectable),
           truncated: this.valueSetProvider.truncated,
@@ -243,7 +245,7 @@ export class ExcelFilterComponent implements OnInit, OnChanges
   {
     if (this.filterer?.valueSet.remote)
     {
-      this.valueSetSearchEvent.emit({searchText: searchText, valueSetProvider: this.valueSetProvider});
+      this.valueSetSearchEvent.emit({searchText, valueSetProvider: this.valueSetProvider});
     }
   }
 }

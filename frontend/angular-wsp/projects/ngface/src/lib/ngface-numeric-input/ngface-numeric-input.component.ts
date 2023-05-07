@@ -19,6 +19,7 @@ import {Ngface} from '../ngface-models';
 import {InputBaseComponent} from '../input-base.component';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'ngface-numeric-input',
   templateUrl: './ngface-numeric-input.component.html',
   styleUrls: ['./ngface-numeric-input.component.scss']
@@ -33,7 +34,7 @@ export class NgfaceNumericInputComponent extends InputBaseComponent
 
   getData(): Ngface.NumericInput
   {
-    let widget = this.formdata?.widgets[this.widgetid];
+    const widget = this.formdata?.widgets[this.widgetid];
     if (!widget || widget?.type !== 'NumericInput')
     {
       return {

@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import {AbstractControl, UntypedFormControl, UntypedFormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators} from '@angular/forms';
-import {Component, Input, OnChanges} from '@angular/core';
+import {AbstractControl, FormControl, FormGroupDirective, NgForm, ValidatorFn, Validators} from '@angular/forms';
+import {Component, Input, OnChanges, SimpleChange} from '@angular/core';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {Ngface} from './ngface-models';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher
 {
-  isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean
   {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
@@ -31,6 +31,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher
 
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'ngface-input-base',
   template: ''
 })
@@ -40,37 +41,49 @@ export abstract class InputBaseComponent implements OnChanges
   formdata?: Ngface.Form;
 
   @Input()
-  formgroup?: UntypedFormGroup;
-
-  @Input()
   widgetid = '';
 
-  private _floatLabelControl = new UntypedFormControl('auto');
-  get floatLabelControl(): UntypedFormControl
+  // tslint:disable-next-line:variable-name
+  private _floatLabelControl = new FormControl('auto');
+  get floatLabelControl(): FormControl
   {
     return this._floatLabelControl;
   }
 
-  private _formControl = new UntypedFormControl('', []);
-  get formControl(): UntypedFormControl
+  // tslint:disable-next-line:variable-name
+  private _formControl = new FormControl('', []);
+  get formControl(): FormControl
   {
     return this._formControl;
   }
 
+  get formGroupItem(): AbstractControl
+  {
+    return this.formControl;
+  }
+
+
+  // Misused here to generate a getter in the web-component
+  @Input()
+  // tslint:disable-next-line:variable-name
+  protected get_form_group_item: AbstractControl = this.formGroupItem;
+
   errorStateMatcher = new MyErrorStateMatcher();
 
-  constructor()
+  protected constructor()
   {
   }
 
 
-  ngOnChanges(): void
+  ngOnChanges(changes: { [propName: string]: SimpleChange }): void
   {
+    const value = this.getData().data?.value;
+
     // Setting the value
-    this.formControl.setValue(this.getData().data?.value);
+    this.formControl.setValue(value);
 
     // Validators
-    let validators = new Array<ValidatorFn>();
+    const validators = new Array<ValidatorFn>();
     this.getData().validators?.forEach(v =>
     {
       this.createNgValidators(v).forEach(ngValidator => validators.push(ngValidator));
@@ -79,15 +92,12 @@ export abstract class InputBaseComponent implements OnChanges
 
     // Enabled status
     this.getData().enabled ? this.formControl.enable() : this.formControl.disable();
-
-    // Adding FormControl to the FormGroup
-    this.formgroup?.addControl(this.widgetid, this.formControl);
   }
 
 
   protected createNgValidators(validator: Ngface.Validator<any>): ValidatorFn[]
   {
-    let validators = new Array<ValidatorFn>();
+    const validators = new Array<ValidatorFn>();
 
     switch (validator.type)
     {
@@ -96,16 +106,16 @@ export abstract class InputBaseComponent implements OnChanges
         break;
 
       case 'Min':
-        validators.push(Validators.min((<Ngface.Min> validator).min));
+        validators.push(Validators.min((validator as Ngface.Min).min));
         break;
 
       case 'Max':
-        validators.push(Validators.max((<Ngface.Max> validator).max));
+        validators.push(Validators.max((validator as Ngface.Max).max));
         break;
 
       case 'Size':
-        validators.push(Validators.minLength((<Ngface.Size> validator).min));
-        validators.push(Validators.maxLength((<Ngface.Size> validator).max));
+        validators.push(Validators.minLength((validator as Ngface.Size).min));
+        validators.push(Validators.maxLength((validator as Ngface.Size).max));
         break;
 
       case 'Email':
@@ -113,7 +123,7 @@ export abstract class InputBaseComponent implements OnChanges
         break;
 
       case 'Pattern':
-        validators.push(Validators.pattern((<Ngface.Pattern> validator).pattern));
+        validators.push(Validators.pattern((validator as Ngface.Pattern).pattern));
         break;
 
       default:
@@ -124,7 +134,7 @@ export abstract class InputBaseComponent implements OnChanges
   }
 
 
-  abstract getData(): Ngface.Input<any, any, any>
+  abstract getData(): Ngface.Input<any, any, any>;
 
   getValue(): string
   {
@@ -175,10 +185,10 @@ export abstract class InputBaseComponent implements OnChanges
 
   getMinLength(): number | null
   {
-    var sizeValidator = this.getValidator('Size');
+    const sizeValidator = this.getValidator('Size');
     if (sizeValidator)
     {
-      return (<Ngface.Size> sizeValidator).min;
+      return (sizeValidator as Ngface.Size).min;
     }
     return null;
   }
@@ -186,10 +196,10 @@ export abstract class InputBaseComponent implements OnChanges
 
   getMaxLength(): number | null
   {
-    var sizeValidator = this.getValidator('Size');
+    const sizeValidator = this.getValidator('Size');
     if (sizeValidator)
     {
-      return (<Ngface.Size> sizeValidator).max;
+      return (sizeValidator as Ngface.Size).max;
     }
     return null;
   }
@@ -208,13 +218,13 @@ export abstract class InputBaseComponent implements OnChanges
 
   getValidationErrorsFromFormControl(fc: AbstractControl | null, validators: Ngface.Validator<any>[] | undefined): string[]
   {
-    let validationErrors = fc?.errors;
-    let errorMessages = new Array<string>();
+    const validationErrors = fc?.errors;
+    const errorMessages = new Array<string>();
     if (validationErrors)
     {
       Object.keys(validationErrors).forEach(v =>
       {
-        let validator = this.getValidatorFrom(validators, v);
+        const validator = this.getValidatorFrom(validators, v);
         if (validator)
         {
           errorMessages.push(validator.message);
