@@ -15,7 +15,7 @@
  */
 
 import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {ValueSetProvider} from './value-set-provider';
 import {Ngface} from '../../ngface-models';
 
@@ -48,7 +48,7 @@ export interface FilterChangeEvent
 })
 export class ExcelFilterComponent implements OnInit, OnChanges
 {
-  formControlSearch = new FormControl('', []);
+  formControlSearch = new UntypedFormControl('', []);
 
   @Input()
   filterer?: Ngface.Filterer;

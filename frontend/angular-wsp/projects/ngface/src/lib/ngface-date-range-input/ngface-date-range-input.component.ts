@@ -17,7 +17,7 @@
 import {Component, OnChanges} from '@angular/core';
 import {InputBaseComponent} from '../input-base.component';
 import {Ngface} from '../ngface-models';
-import {FormControl, FormGroup, ValidatorFn} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, ValidatorFn} from '@angular/forms';
 
 @Component({
   selector: 'ngface-date-range-input',
@@ -27,9 +27,9 @@ import {FormControl, FormGroup, ValidatorFn} from '@angular/forms';
 export class NgfaceDateRangeInputComponent extends InputBaseComponent implements OnChanges
 {
 
-  range = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl(),
+  range = new UntypedFormGroup({
+    start: new UntypedFormControl(),
+    end: new UntypedFormControl(),
   });
 
   constructor()

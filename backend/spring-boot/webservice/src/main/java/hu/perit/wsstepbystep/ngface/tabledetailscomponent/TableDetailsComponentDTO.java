@@ -22,6 +22,7 @@ import hu.perit.ngface.data.DTOValue;
 import lombok.Data;
 
 import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
@@ -32,6 +33,7 @@ public class TableDetailsComponentDTO extends ComponentDTO
 
     // Id of the data row
     @DTOId
+    @NotNull
     private String id;
 
     // Name of the modal. Not annotated with @DTOValue because it will not be sumbitted by the frontend
@@ -40,10 +42,12 @@ public class TableDetailsComponentDTO extends ComponentDTO
     // Weight data element
     @DTOValue(id = WEIGHT)
     @DecimalMax("100.0")
+    @NotNull
     private Double weight;
 
     // Symbol data element
     @DTOValue(id = SYMBOL)
     @Size(min = 2, max = 10)
+    @NotNull
     private String symbol;
 }

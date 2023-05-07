@@ -15,7 +15,7 @@ import {NgfaceNumericInputComponent} from '../ngface-numeric-input/ngface-numeri
 import {NgfaceDateInputComponent} from '../ngface-date-input/ngface-date-input.component';
 import {NgfaceDateRangeInputComponent} from '../ngface-date-range-input/ngface-date-range-input.component';
 import {NgfaceSelectComponent} from '../ngface-select/ngface-select.component';
-import {FormGroup} from '@angular/forms';
+import {UntypedFormGroup} from '@angular/forms';
 import {Ngface} from '../ngface-models';
 
 export class ControlData
@@ -34,7 +34,7 @@ export class NgfaceFormComponent implements OnInit, OnChanges, AfterViewInit
   formdata?: Ngface.Form;
 
   @Input()
-  formgroup = new FormGroup({});
+  formgroup = new UntypedFormGroup({});
 
   @Output()
   onDataChange: EventEmitter<ControlData> = new EventEmitter();
@@ -45,7 +45,7 @@ export class NgfaceFormComponent implements OnInit, OnChanges, AfterViewInit
   @ContentChildren(NgfaceDateRangeInputComponent, {descendants: true}) dateRangeInputComponents!: QueryList<NgfaceDateRangeInputComponent>;
   @ContentChildren(NgfaceSelectComponent, {descendants: true}) selectInputComponents!: QueryList<NgfaceSelectComponent>;
 
-  get formGroup(): FormGroup
+  get formGroup(): UntypedFormGroup
   {
     return this.formgroup;
   }

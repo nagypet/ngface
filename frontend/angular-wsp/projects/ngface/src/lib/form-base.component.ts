@@ -15,7 +15,7 @@
  */
 
 import {Component, ViewChild} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {UntypedFormGroup} from '@angular/forms';
 import {Ngface} from './ngface-models';
 import {NgfaceFormComponent} from './ngface-form/ngface-form.component';
 
@@ -41,7 +41,7 @@ export abstract class FormBaseComponent
   {
   }
 
-  get formGroup(): FormGroup
+  get formGroup(): UntypedFormGroup
   {
     return this.formComponent.formGroup;
   }

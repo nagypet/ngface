@@ -15,7 +15,7 @@
  */
 
 import {Component, Inject, Input, LOCALE_ID} from '@angular/core';
-import {ControlValueAccessor, FormControl, FormGroupDirective, NG_VALUE_ACCESSOR, NgForm} from '@angular/forms';
+import {ControlValueAccessor, UntypedFormControl, FormGroupDirective, NG_VALUE_ACCESSOR, NgForm} from '@angular/forms';
 import {NumericFormatter} from '../../numeric-formatter';
 import {getLocaleNumberSymbol, NumberSymbol} from '@angular/common';
 import {ErrorStateMatcher} from '@angular/material/core';
@@ -30,7 +30,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher
     this.component = component;
   }
 
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean
+  isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean
   {
     return this.component.validationErrors !== null;
   }
@@ -88,7 +88,7 @@ export class IntlNumericInputComponent implements ControlValueAccessor
   valueText = '';
   value?: number;
 
-  floatLabelControl = new FormControl('auto');
+  floatLabelControl = new UntypedFormControl('auto');
 
   errorStateMatcher = new MyErrorStateMatcher(this);
 

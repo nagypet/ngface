@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {AbstractControl, FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators} from '@angular/forms';
+import {AbstractControl, UntypedFormControl, UntypedFormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators} from '@angular/forms';
 import {Component, Input, OnChanges} from '@angular/core';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {Ngface} from './ngface-models';
@@ -22,7 +22,7 @@ import {Ngface} from './ngface-models';
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher
 {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean
+  isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean
   {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
@@ -40,19 +40,19 @@ export abstract class InputBaseComponent implements OnChanges
   formdata?: Ngface.Form;
 
   @Input()
-  formgroup?: FormGroup;
+  formgroup?: UntypedFormGroup;
 
   @Input()
   widgetid = '';
 
-  private _floatLabelControl = new FormControl('auto');
-  get floatLabelControl(): FormControl
+  private _floatLabelControl = new UntypedFormControl('auto');
+  get floatLabelControl(): UntypedFormControl
   {
     return this._floatLabelControl;
   }
 
-  private _formControl = new FormControl('', []);
-  get formControl(): FormControl
+  private _formControl = new UntypedFormControl('', []);
+  get formControl(): UntypedFormControl
   {
     return this._formControl;
   }
