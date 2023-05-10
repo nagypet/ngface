@@ -9,6 +9,7 @@ A standardized backend-frontend communication using **widgets**.
 - The data and visual properties of UI elements are encapsulated in widgets
 - Each widget has a defined JSon structure
 - The widgets are defined on the backend side 
+- i18n is made only in the backend
 - The frontend only renders the widgets as defined by the backend
 - Spring boot and Angular are used, but other fronend/backend technologies can be implemented
 - The design can be customized
@@ -193,13 +194,13 @@ public class TableDetailsComponentView implements ComponentView
 ### demo-dialog1.component.html
 ```html
 <h1 mat-dialog-title>{{data.title}}</h1>
-<div mat-dialog-content (keydown.enter)="onOkClick()">
-  <ngface-text-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'symbol'" cdkFocusInitial></ngface-text-input>
-  <ngface-numeric-input [formGroup]="formGroup" [formData]="formData" [widgetId]="'weight'"></ngface-numeric-input>
-</div>
+<ngface-form [formdata]="formData" mat-dialog-content (keydown.enter)="onOkClick()">
+    <ngface-text-input [formdata]="formData" [widgetid]="'symbol'" cdkFocusInitial></ngface-text-input>
+    <ngface-numeric-input [formdata]="formData" [widgetid]="'weight'"></ngface-numeric-input>
+</ngface-form>
 <div mat-dialog-actions>
-  <ngface-button [formData]="formData" [widgetId]="'button-save'" (click)="onOkClick()"></ngface-button>
-  <ngface-button [formData]="formData" [widgetId]="'button-cancel'" (click)="onCancelClick()"></ngface-button>
+    <ngface-button [formdata]="formData" [widgetid]="'button-save'" (click)="onOkClick()"></ngface-button>
+    <ngface-button [formdata]="formData" [widgetid]="'button-cancel'" (click)="onCancelClick()"></ngface-button>
 </div>
 ```
 ### demo-dialog1.component.ts
