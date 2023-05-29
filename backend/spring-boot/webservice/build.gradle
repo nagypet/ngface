@@ -29,13 +29,11 @@ repositories {
 
 
 application {
-    mainClassName = 'hu.perit.wsstepbystep.WsstepbystepApplication'
+    mainClassName = 'hu.perit.ngface.webservice.NgfaceApplication'
     // Some JVM options already set in common.gradle
     applicationDefaultJvmArgs += ['-Xmx512m', '-Xms32m']
 }
 
-
-sourceCompatibility = 11
 
 dependencies {
     implementation project(':ngface-java')
@@ -61,20 +59,21 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // Swagger
-    implementation "io.springfox:springfox-boot-starter:3.0.0"
-    implementation "io.springfox:springfox-swagger-ui:3.0.0"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.3"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-api:2.0.3"
 
     // apache.commons
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
 
     // Validation
-    implementation 'javax.validation:validation-api'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    implementation 'org.hibernate:hibernate-validator:8.0.0.Final'
 
     // Guava
     implementation 'com.google.guava:guava:31.1-jre'
 
     // Slf4J
-	implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+    implementation 'org.slf4j:slf4j-api:2.0.7'
 }
 
 

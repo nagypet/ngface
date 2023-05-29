@@ -50,26 +50,27 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     // apache.commons
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
-    implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.3'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'org.apache.commons:commons-collections4:4.4'
 
     // Validation
-    implementation 'javax.validation:validation-api'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    implementation 'org.hibernate:hibernate-validator:8.0.0.Final'
 
     // FasterXML
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.1'
     implementation 'com.fasterxml.jackson.core:jackson-core'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
 
     // Mapstruct
-    implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.4.2.Final'
-    annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.4.2.Final'
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
     // Slf4J
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+    implementation 'org.slf4j:slf4j-api:2.0.7'
 
     // Google findbugs
-    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.0'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
     // -----------------------------------------------------------------------------------------------------------------
     // Test dependencies
@@ -88,8 +89,8 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
 
-    testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
-    testImplementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.10'
+    testImplementation 'ch.qos.logback:logback-classic:1.4.7'
+    testImplementation 'ch.qos.logback:logback-core:1.4.7'
 }
 
 
