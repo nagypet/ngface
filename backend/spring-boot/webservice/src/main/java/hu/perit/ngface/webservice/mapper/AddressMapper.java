@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2022 the original author or authors.
+ * Copyright 2020-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.webservice.config;
+package hu.perit.ngface.webservice.mapper;
 
-import hu.perit.ngface.formating.NumericFormat;
+import hu.perit.ngface.webservice.db.table.AddressEntity;
+import hu.perit.ngface.webservice.model.AddressDTO;
+import org.mapstruct.Mapper;
 
-public class Constants
+@Mapper(componentModel = "spring")
+public interface AddressMapper
 {
-    public static final int DEFAULT_PAGESIZE = 5;
-
-    public static final NumericFormat ATOMIC_WEIGHT_FORMAT = new NumericFormat().precision(4).suffix("g/mol");
-
-    public static final int ADDRESS_API_SEARCH = 1;
-
-    public static final String SUBSYSTEM_NAME = "ngface-demo-app";
+    AddressDTO mapDtoFromEntity(AddressEntity entity);
 }

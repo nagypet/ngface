@@ -39,7 +39,7 @@ public class SwaggerConfig
 		return new OpenAPI()
 				.info(new Info()
 						.title("Ngface webservice")
-						.description("Spring based backend for demonstarting ngface usage")
+						.description("Spring based demonstration backend for ngface")
 						.version("1.0")
 						.license(new License()
 								.name("Apache License, Version 2.0")

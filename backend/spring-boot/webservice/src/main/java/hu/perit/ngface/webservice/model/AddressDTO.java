@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2022 the original author or authors.
+ * Copyright 2020-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.webservice.config;
+package hu.perit.ngface.webservice.model;
 
-import hu.perit.ngface.formating.NumericFormat;
+import lombok.Data;
 
-public class Constants
+@Data
+public class AddressDTO
 {
-    public static final int DEFAULT_PAGESIZE = 5;
-
-    public static final NumericFormat ATOMIC_WEIGHT_FORMAT = new NumericFormat().precision(4).suffix("g/mol");
-
-    public static final int ADDRESS_API_SEARCH = 1;
-
-    public static final String SUBSYSTEM_NAME = "ngface-demo-app";
+   private String uuid;
+   private String postCode;
+   private String city;
+   private String street;
+   private String district;
 }

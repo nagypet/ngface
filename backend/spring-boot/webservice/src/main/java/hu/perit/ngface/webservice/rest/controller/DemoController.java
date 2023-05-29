@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.webservice.rest.api;
+package hu.perit.ngface.webservice.rest.controller;
 
 import hu.perit.ngface.controller.ComponentController;
 import hu.perit.ngface.data.DataRetrievalParams;
 import hu.perit.ngface.data.SubmitFormData;
 import hu.perit.ngface.webservice.ngface.democomponent.DemoComponentController;
 import hu.perit.ngface.webservice.ngface.tabledetailscomponent.TableDetailsComponentDTO;
+import hu.perit.ngface.webservice.rest.api.DemoApi;
 import hu.perit.ngface.widget.form.Form;
 import hu.perit.spvitamin.spring.restmethodlogger.LoggedRestMethod;
 import hu.perit.ngface.webservice.config.Constants;

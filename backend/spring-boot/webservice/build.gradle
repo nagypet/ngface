@@ -36,6 +36,9 @@ application {
 
 
 dependencies {
+    // -----------------------------------------------------------------------------------------------------------------
+    // Compile dependencies
+    // -----------------------------------------------------------------------------------------------------------------
     implementation project(':ngface-java')
 
     implementation 'hu.perit.spvitamin:spvitamin-core'
@@ -56,7 +59,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 
     // Swagger
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.3"
@@ -72,8 +75,21 @@ dependencies {
     // Guava
     implementation 'com.google.guava:guava:31.1-jre'
 
+    // Mapstruct
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+    // OpenCSV
+    implementation 'com.opencsv:opencsv:5.7.1'
+
     // Slf4J
     implementation 'org.slf4j:slf4j-api:2.0.7'
+
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Test dependencies
+    // -----------------------------------------------------------------------------------------------------------------
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 
