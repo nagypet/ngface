@@ -69,7 +69,7 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 
     // Validation
-    implementation 'javax.validation:validation-api:2.0.1.Final'
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
     implementation 'org.hibernate:hibernate-validator:8.0.0.Final'
 
     // Guava

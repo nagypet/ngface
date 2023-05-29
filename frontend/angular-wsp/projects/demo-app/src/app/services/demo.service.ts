@@ -18,6 +18,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Ngface} from '../../../../ngface/src/lib/ngface-models';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -29,24 +30,12 @@ export class DemoService
   {
   }
 
-  private static getServiceUrl(path: string): string
-  {
-    const host = window.location.hostname;
-    const protocol = window.location.protocol;
-    const port = window.location.port;
-
-    let url = protocol + '//' + host + ':' + port + path;
-
-    console.log('Connecting to \'' + url + '\'');
-    return url;
-  }
-
 
   public getDemoForm(searchRequest: Ngface.DataRetrievalParams): Observable<any>
   {
     var headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json; charset=utf-8');
-    return this.httpClient.post(DemoService.getServiceUrl('/demo/get'), searchRequest, {headers: headers});
+    return this.httpClient.post(`${environment.baseURL}/frontend/demo/get`, searchRequest, {headers: headers});
   }
 
 
@@ -55,7 +44,7 @@ export class DemoService
     var headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
-    return this.httpClient.get(DemoService.getServiceUrl('/demo/get'), {
+    return this.httpClient.get(`${environment.baseURL}/frontend/demo/get`, {
       headers: headers,
       params: new HttpParams()
         .set('rowId', rowId)
@@ -70,13 +59,13 @@ export class DemoService
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(DemoService.getServiceUrl('/demo/submit'), submitFormData, httpOptions);
+    return this.httpClient.post(`${environment.baseURL}/frontend/demo/submit`, submitFormData, httpOptions);
   }
 
 
   public getTableDetailsForm(id: string): Observable<any>
   {
-    return this.httpClient.get(DemoService.getServiceUrl('/table-details'), {
+    return this.httpClient.get(`${environment.baseURL}/frontend/table-details`, {
       params: new HttpParams()
         .set('id', id)
     });
@@ -89,6 +78,15 @@ export class DemoService
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(DemoService.getServiceUrl('/table-details'), submitFormData, httpOptions);
+    return this.httpClient.post(`${environment.baseURL}/frontend/table-details`, submitFormData, httpOptions);
+  }
+
+  public getColumnFilterer(column: string, searchText: string): Observable<any>
+  {
+    var headers = new HttpHeaders();
+    headers = headers.append('column', column);
+    headers = headers.append('searchText', searchText);
+
+    return this.httpClient.get(`${environment.baseURL}/frontend/demo/colvalueset`, {headers});
   }
 }

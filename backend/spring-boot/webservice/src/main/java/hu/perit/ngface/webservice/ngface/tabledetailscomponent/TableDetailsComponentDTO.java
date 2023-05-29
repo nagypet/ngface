@@ -19,11 +19,11 @@ package hu.perit.ngface.webservice.ngface.tabledetailscomponent;
 import hu.perit.ngface.data.ComponentDTO;
 import hu.perit.ngface.data.DTOId;
 import hu.perit.ngface.data.DTOValue;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Data
 public class TableDetailsComponentDTO extends ComponentDTO

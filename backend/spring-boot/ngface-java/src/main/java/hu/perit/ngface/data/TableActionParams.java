@@ -16,10 +16,10 @@
 
 package hu.perit.ngface.data;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class TableActionParams

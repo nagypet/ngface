@@ -19,19 +19,18 @@ package hu.perit.ngface.webservice.rest.api;
 import hu.perit.ngface.data.DataRetrievalParams;
 import hu.perit.ngface.data.SubmitFormData;
 import hu.perit.ngface.widget.form.Form;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import hu.perit.ngface.widget.table.Filterer;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 public interface DemoApi
 {
-    String BASE_URL_DEMO = "/demo";
+    String BASE_URL_DEMO = "/frontend/demo";
+    String BASE_URL_TABLE_DETAILS = "/frontend/table-details";
     String URL_GET = "/get";
     String URL_SUBMIT = "/submit";
-    String BASE_URL_TABLE_DETAILS = "/table-details";
+    String URL_COLVALUESET = "/colvalueset";
 
     //------------------------------------------------------------------------------------------------------------------
     // getDemoForm()
@@ -45,6 +44,16 @@ public interface DemoApi
     //------------------------------------------------------------------------------------------------------------------
     @GetMapping(BASE_URL_DEMO + URL_GET)
     Form getDemoFormTableRow(@RequestParam String rowId);
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // getColumnFilterer()
+    //------------------------------------------------------------------------------------------------------------------
+    @GetMapping(BASE_URL_DEMO + URL_COLVALUESET)
+    Filterer getColumnFilterer(
+            @RequestHeader(value = "column") String column,
+            @RequestHeader(value = "searchText") String searchText
+    );
 
 
     //------------------------------------------------------------------------------------------------------------------

@@ -16,19 +16,19 @@
 
 package hu.perit.ngface.webservice.rest.controller;
 
-import hu.perit.ngface.controller.ComponentController;
 import hu.perit.ngface.data.DataRetrievalParams;
 import hu.perit.ngface.data.SubmitFormData;
-import hu.perit.ngface.webservice.ngface.democomponent.DemoComponentController;
-import hu.perit.ngface.webservice.ngface.tabledetailscomponent.TableDetailsComponentDTO;
-import hu.perit.ngface.webservice.rest.api.DemoApi;
-import hu.perit.ngface.widget.form.Form;
-import hu.perit.spvitamin.spring.restmethodlogger.LoggedRestMethod;
 import hu.perit.ngface.webservice.config.Constants;
+import hu.perit.ngface.webservice.ngface.democomponent.DemoComponentController;
 import hu.perit.ngface.webservice.ngface.democomponent.DemoComponentDTO;
 import hu.perit.ngface.webservice.ngface.democomponent.DemoComponentView;
 import hu.perit.ngface.webservice.ngface.tabledetailscomponent.TableDetailsComponentController;
+import hu.perit.ngface.webservice.ngface.tabledetailscomponent.TableDetailsComponentDTO;
 import hu.perit.ngface.webservice.ngface.tabledetailscomponent.TableDetailsComponentView;
+import hu.perit.ngface.webservice.rest.api.DemoApi;
+import hu.perit.ngface.widget.form.Form;
+import hu.perit.ngface.widget.table.Filterer;
+import hu.perit.spvitamin.spring.restmethodlogger.LoggedRestMethod;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,15 +38,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DemoController implements DemoApi
 {
-    private final ComponentController<DemoComponentController.Params, DemoComponentDTO> demoComponentController;
-    private final ComponentController<TableDetailsComponentController.Params, TableDetailsComponentDTO> tableDetailsComponentController;
+    private final DemoComponentController demoComponentController;
+    private final TableDetailsComponentController tableDetailsComponentController;
 
 
     //------------------------------------------------------------------------------------------------------------------
     // getDemoForm()
     //------------------------------------------------------------------------------------------------------------------
     @Override
-    @LoggedRestMethod(eventId = 1, subsystem = Constants.SUBSYSTEM_NAME)
+    @LoggedRestMethod(eventId = Constants.DEMO_API_GET_DEMO_FORM, subsystem = Constants.SUBSYSTEM_NAME)
     public Form getDemoForm(DataRetrievalParams dataRetrievalParams)
     {
         DemoComponentController.Params params = new DemoComponentController.Params(dataRetrievalParams, null);
@@ -60,7 +60,7 @@ public class DemoController implements DemoApi
     // getDemoFormTableRow()
     //------------------------------------------------------------------------------------------------------------------
     @Override
-    @LoggedRestMethod(eventId = 1, subsystem = Constants.SUBSYSTEM_NAME)
+    @LoggedRestMethod(eventId = Constants.DEMO_API_GET_DEMO_FORM_TABLE_ROW, subsystem = Constants.SUBSYSTEM_NAME)
     public Form getDemoFormTableRow(String rowId)
     {
         DemoComponentController.Params params = new DemoComponentController.Params(null, rowId);
@@ -69,13 +69,22 @@ public class DemoController implements DemoApi
         return new DemoComponentView(data).getForm();
     }
 
+    //------------------------------------------------------------------------------------------------------------------
+    // getColumnFilterer()
+    //------------------------------------------------------------------------------------------------------------------
+    @Override
+    @LoggedRestMethod(eventId = Constants.DEMO_API_GET_DEMO_FORM_COLUMN_FILTERER, subsystem = Constants.SUBSYSTEM_NAME)
+    public Filterer getColumnFilterer(String column, String searchText)
+    {
+        return this.demoComponentController.getFilterer(column, searchText);
+    }
 
 
     //------------------------------------------------------------------------------------------------------------------
     // submitDemoForm()
     //------------------------------------------------------------------------------------------------------------------
     @Override
-    @LoggedRestMethod(eventId = 2, subsystem = Constants.SUBSYSTEM_NAME)
+    @LoggedRestMethod(eventId = Constants.DEMO_API_SUBMIT_DEMO_FORM, subsystem = Constants.SUBSYSTEM_NAME)
     public void submitDemoForm(SubmitFormData submitFormData)
     {
         log.debug("submitDemoForm({})", submitFormData);
@@ -90,7 +99,7 @@ public class DemoController implements DemoApi
     // getTableDetailsForm()
     //------------------------------------------------------------------------------------------------------------------
     @Override
-    @LoggedRestMethod(eventId = 3, subsystem = Constants.SUBSYSTEM_NAME)
+    @LoggedRestMethod(eventId = Constants.DEMO_API_GET_TABLE_DETAILS_FORM, subsystem = Constants.SUBSYSTEM_NAME)
     public Form getTableDetailsForm(Long id)
     {
         TableDetailsComponentController.Params params = new TableDetailsComponentController.Params(id);
@@ -105,7 +114,7 @@ public class DemoController implements DemoApi
     // submitTableDetailsForm()
     //------------------------------------------------------------------------------------------------------------------
     @Override
-    @LoggedRestMethod(eventId = 4, subsystem = Constants.SUBSYSTEM_NAME)
+    @LoggedRestMethod(eventId = Constants.DEMO_API_SUBMIT_TABLE_DETAILS_FORM, subsystem = Constants.SUBSYSTEM_NAME)
     public void submitTableDetailsForm(SubmitFormData submitFormData)
     {
         log.debug("submitTableDetailsForm({})", submitFormData);

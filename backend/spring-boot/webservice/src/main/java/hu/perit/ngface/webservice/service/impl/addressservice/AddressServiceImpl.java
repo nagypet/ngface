@@ -16,20 +16,28 @@
 
 package hu.perit.ngface.webservice.service.impl.addressservice;
 
+import co.elastic.clients.elasticsearch.core.search.FieldCollapse;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import hu.perit.ngface.data.DataRetrievalParams;
 import hu.perit.ngface.webservice.db.table.AddressEntity;
+import hu.perit.ngface.webservice.elastic.AddressFilters;
+import hu.perit.ngface.webservice.elastic.CriteriaQueryFactory;
+import hu.perit.ngface.webservice.elastic.Filters;
 import hu.perit.ngface.webservice.mapper.AddressMapper;
-import hu.perit.ngface.webservice.model.AddressFilters;
-import hu.perit.ngface.webservice.model.Filters;
 import hu.perit.ngface.webservice.model.SearchAddressResponse;
 import hu.perit.ngface.webservice.service.api.AddressService;
-import hu.perit.ngface.webservice.service.impl.CriteriaQueryFactory;
+import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.NoSuchIndexException;
+import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
@@ -42,6 +50,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -57,6 +66,47 @@ public class AddressServiceImpl implements AddressService
     public void loadFromFile(String fileName, String city) throws Exception
     {
         readLineByLine(fileName, city);
+    }
+
+    @Override
+    public AddressEntity find(String id) throws ResourceNotFoundException
+    {
+        return null;
+    }
+
+    @Override
+    public Page<AddressEntity> find(DataRetrievalParams dataRetrievalParams)
+    {
+        try
+        {
+            CriteriaQuery criteriaQuery = CriteriaQueryFactory.from(dataRetrievalParams);
+            SearchHits<AddressEntity> results = this.elasticsearchOperations.search(criteriaQuery, AddressEntity.class, IndexCoordinates.of(AddressEntity.INDEX_NAME));
+            Page<AddressEntity> page = new PageImpl<>(results.stream().map(SearchHit::getContent).toList(), Pageable.unpaged(), results.getTotalHits());
+            return page;
+        }
+        catch (Exception e)
+        {
+            return new PageImpl<>(Collections.emptyList());
+        }
+    }
+
+    @Override
+    public List<String> getDistinctStreets(String searchText)
+    {
+        // NativeQuery-nek utána kell nézni. "kert sor" nem ad találatot.
+        NativeQuery nativeQuery = NativeQuery.builder()
+                .withFieldCollapse(FieldCollapse.of(i -> i.field("street.keyword")))
+                .withQuery(q -> q
+                        .wildcard(m -> m
+                                .field("street")
+                                .wildcard("*" + searchText + "*")
+                        )
+                )
+                .withPageable(PageRequest.ofSize(100))
+                .build();
+
+        SearchHits<AddressEntity> results = this.elasticsearchOperations.search(nativeQuery, AddressEntity.class);
+        return results.stream().map(SearchHit::getContent).map(AddressEntity::getStreet).toList();
     }
 
 
@@ -125,11 +175,11 @@ public class AddressServiceImpl implements AddressService
             CriteriaQuery criteriaQuery;
             if (matchType == MatchType.ALL_MATCH)
             {
-                criteriaQuery = CriteriaQueryFactory.allMatch(filters, 100);
+                criteriaQuery = CriteriaQueryFactory.allMatch(filters, PageRequest.ofSize(100));
             }
             else
             {
-                criteriaQuery = CriteriaQueryFactory.anyMatch(filters, 100);
+                criteriaQuery = CriteriaQueryFactory.anyMatch(filters, PageRequest.ofSize(100));
             }
             SearchHits<AddressEntity> results = this.elasticsearchOperations.search(criteriaQuery, AddressEntity.class, IndexCoordinates.of(AddressEntity.INDEX_NAME));
             addressEntities.addAll(results.stream().map(SearchHit::getContent).toList());

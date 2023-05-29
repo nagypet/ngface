@@ -16,7 +16,20 @@
 
 package hu.perit.ngface.webservice.service.api;
 
+import hu.perit.ngface.data.DataRetrievalParams;
+import hu.perit.ngface.webservice.db.table.AddressEntity;
+import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+
 public interface AddressService
 {
     void loadFromFile(String fileName, String city) throws Exception;
+
+    AddressEntity find(String id) throws ResourceNotFoundException;
+
+    Page<AddressEntity> find(DataRetrievalParams dataRetrievalParams);
+
+    List<String> getDistinctStreets(String searchText);
 }

@@ -172,14 +172,12 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
   {
     console.log($event);
 
-    // TODO: this function is only called in case of remote filterers, where actual value sets will be asked from the backend.
-    // In this demo each filterer is local.
     // Ask the backend for updated set of criteria based on 'column' and 'searchText'
-    // this.demoService.getColumnFilterer($event.column, $event.searchEvent.searchText).subscribe(filterer =>
-    // {
-    //   console.log(filterer);
-    //   $event.searchEvent.valueSetProvider.setValueSet(filterer.valueSet);
-    // });
+    this.demoService.getColumnFilterer($event.column, $event.searchEvent.searchText).subscribe(filterer =>
+    {
+      console.log(filterer);
+      $event.searchEvent.valueSetProvider.setValueSet(filterer.valueSet);
+    });
   }
 
   onTableViewParamsChange($event: TableViewParamsChangeEvent): void

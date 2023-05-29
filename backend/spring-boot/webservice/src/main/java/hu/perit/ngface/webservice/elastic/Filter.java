@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.webservice.model;
+package hu.perit.ngface.webservice.elastic;
 
 import lombok.Getter;
 import lombok.Setter;

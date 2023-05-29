@@ -19,7 +19,7 @@ package hu.perit.ngface.webservice.ngface.democomponent;
 import hu.perit.ngface.data.ComponentDTO;
 import hu.perit.ngface.data.DTOValue;
 import hu.perit.ngface.data.GenericTableDTO;
-import hu.perit.ngface.webservice.service.api.TableRowDTO;
+import hu.perit.ngface.webservice.model.AddressDTO;
 import hu.perit.ngface.widget.input.DateRangeInput;
 import hu.perit.ngface.widget.input.Select;
 import hu.perit.ngface.widget.table.Table;
@@ -86,7 +86,7 @@ public class DemoComponentDTO extends ComponentDTO
     @DTOValue(id = SELECT3_ID)
     private Select.Data select3Data;
 
-    private GenericTableDTO<TableRowDTO> tableDTO = new GenericTableDTO<>();
+    private GenericTableDTO<AddressDTO> tableDTO = new GenericTableDTO<>();
 
     @DTOValue(id = "table-multiselect")
     private Table.Data tableData = new Table.Data();

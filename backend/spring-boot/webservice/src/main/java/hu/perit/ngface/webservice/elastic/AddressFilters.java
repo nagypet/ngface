@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.webservice.model;
+package hu.perit.ngface.webservice.elastic;
 
 import hu.perit.ngface.webservice.db.table.AddressEntity;
+import hu.perit.ngface.webservice.elastic.Filter;
+import hu.perit.ngface.webservice.elastic.Filters;
+import hu.perit.ngface.webservice.elastic.Operation;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;

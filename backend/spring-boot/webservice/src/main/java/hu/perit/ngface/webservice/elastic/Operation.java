@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.webservice.model;
+package hu.perit.ngface.webservice.elastic;
 
 public enum Operation
 {

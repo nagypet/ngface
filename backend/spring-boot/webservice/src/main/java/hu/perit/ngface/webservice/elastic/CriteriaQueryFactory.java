@@ -14,22 +14,29 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.webservice.service.impl;
+package hu.perit.ngface.webservice.elastic;
 
-import hu.perit.ngface.webservice.model.Filter;
-import hu.perit.ngface.webservice.model.Filters;
-import hu.perit.ngface.webservice.model.Operation;
+import hu.perit.ngface.data.DataRetrievalParams;
+import hu.perit.ngface.data.Direction;
+import hu.perit.ngface.webservice.elastic.Filter;
+import hu.perit.ngface.webservice.elastic.Filters;
+import hu.perit.ngface.webservice.elastic.Operation;
 import jakarta.validation.ValidationException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.elasticsearch.core.query.Order;
+
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CriteriaQueryFactory
 {
-    public static CriteriaQuery allMatch(Filters filters, int limit)
+    public static CriteriaQuery allMatch(Filters filters, Pageable pageable)
     {
         validate(filters);
 
@@ -50,7 +57,7 @@ public final class CriteriaQueryFactory
             }
         }
 
-        return new CriteriaQuery(criteria).setPageable(Pageable.ofSize(limit));
+        return new CriteriaQuery(criteria).setPageable(pageable);
     }
 
     private static void validate(Filters filters)
@@ -93,7 +100,7 @@ public final class CriteriaQueryFactory
         }
     }
 
-    public static CriteriaQuery anyMatch(Filters filters, int limit)
+    public static CriteriaQuery anyMatch(Filters filters, Pageable pageable)
     {
         validate(filters);
 
@@ -114,7 +121,31 @@ public final class CriteriaQueryFactory
             }
         }
 
-        return new CriteriaQuery(criteria).setPageable(Pageable.ofSize(limit));
+        return new CriteriaQuery(criteria).setPageable(pageable);
     }
 
+    public static CriteriaQuery from(DataRetrievalParams dataRetrievalParams)
+    {
+        Criteria criteria = Criteria.or();
+        PageRequest pageRequest = getPageRequest(dataRetrievalParams);
+        return new CriteriaQuery(criteria).setPageable(pageRequest);
+    }
+
+    private static PageRequest getPageRequest(DataRetrievalParams dataRetrievalParams)
+    {
+        DataRetrievalParams.Sort dataRetrievalParamsSort = dataRetrievalParams.getSort();
+        if (dataRetrievalParamsSort != null)
+        {
+            Sort.Order order = new Order(getDirection(dataRetrievalParamsSort), dataRetrievalParamsSort.getColumn() + ".keyword");
+            Sort sort = Sort.by(List.of(order));
+            return PageRequest.of(dataRetrievalParams.getPageNumber(), dataRetrievalParams.getPageSize(5), sort);
+        }
+
+        return PageRequest.of(dataRetrievalParams.getPageNumber(), dataRetrievalParams.getPageSize(5));
+    }
+
+    private static Sort.Direction getDirection(DataRetrievalParams.Sort dataRetrievalParamsSort)
+    {
+        return dataRetrievalParamsSort.getDirection() == Direction.ASC ? Sort.Direction.ASC : Sort.Direction.DESC;
+    }
 }

@@ -21,6 +21,7 @@ import hu.perit.ngface.widget.table.Filterer;
 import hu.perit.ngface.widget.table.Paginator;
 import hu.perit.ngface.widget.table.Sorter;
 import hu.perit.ngface.widget.table.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -34,7 +35,6 @@ import org.mapstruct.NullValueMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
 import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

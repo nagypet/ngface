@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve demo-app --host 0.0.0.0",
-    "build": "ng build",
+    "build": "ng build demo-app",
     "build:ngface": "ng build ngface",
     "build:webcomp": "npm run build:ngface && ng build ngface-elements --output-hashing none && node build-ngface-webcomp.js",
     "test": "ng test",

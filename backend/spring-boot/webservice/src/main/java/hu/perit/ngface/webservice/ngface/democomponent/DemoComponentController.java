@@ -19,23 +19,27 @@ package hu.perit.ngface.webservice.ngface.democomponent;
 import hu.perit.ngface.controller.ComponentController;
 import hu.perit.ngface.data.DataRetrievalParams;
 import hu.perit.ngface.data.TableActionParams;
+import hu.perit.ngface.webservice.config.Constants;
+import hu.perit.ngface.webservice.db.table.AddressEntity;
+import hu.perit.ngface.webservice.mapper.AddressMapper;
+import hu.perit.ngface.webservice.model.AddressDTO;
+import hu.perit.ngface.webservice.service.api.AddressService;
 import hu.perit.ngface.widget.input.DateRangeInput;
 import hu.perit.ngface.widget.input.Select;
+import hu.perit.ngface.widget.table.Filterer;
 import hu.perit.ngface.widget.table.Paginator;
-import hu.perit.ngface.webservice.config.Constants;
-import hu.perit.ngface.webservice.service.api.DemoTableDataProvider;
-import hu.perit.ngface.webservice.service.api.Page;
-import hu.perit.ngface.webservice.service.api.TableRowDTO;
+import hu.perit.ngface.widget.table.ValueSet;
+import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Peter Nagy
@@ -53,7 +57,8 @@ public class DemoComponentController implements ComponentController<DemoComponen
         private final String rowId;
     }
 
-    private final DemoTableDataProvider demoTableDataProvider;
+    private final AddressService addressService;
+    private final AddressMapper addressMapper;
 
     @Override
     public DemoComponentDTO initializeData(Params params)
@@ -63,11 +68,11 @@ public class DemoComponentController implements ComponentController<DemoComponen
             return initializeDataForSingleTableRow(params.rowId);
         }
 
-        return initializeDataFull(params.dataRetrievalParams);
+        return initializeDataFull(params);
     }
 
 
-    private DemoComponentDTO initializeDataFull(DataRetrievalParams dataRetrievalParams)
+    private DemoComponentDTO initializeDataFull(Params params)
     {
         // The data
         DemoComponentDTO data = new DemoComponentDTO();
@@ -88,17 +93,29 @@ public class DemoComponentController implements ComponentController<DemoComponen
                 .addOption(new Select.Option("id_first", "First option"))
                 .addOption(new Select.Option("id_second", "Second option")).selected("id_first"));
 
-        Page<TableRowDTO> tableRows = this.demoTableDataProvider.getTableRows(dataRetrievalParams);
-        data.getTableDTO().setRows(tableRows.getList());
+        // Table
+        // Data rows
+        Page<AddressEntity> tableRows = this.addressService.find(DataRetrievalParams.applyDefaults(params.getDataRetrievalParams(), null));
+        if (tableRows != null)
+        {
+            data.getTableDTO().setRows(this.addressMapper.map(tableRows.toList()));
 
-        // Paginator
-        data.getTableData().paginator(new Paginator(0, Constants.DEFAULT_PAGESIZE, tableRows.getTotalElements(), Arrays.asList(3, 5, 10, 20)));
+            //Page<AddressDTO> tableRows = this.demoTableDataProvider.getTableRows(dataRetrievalParams);
+            //data.getTableDTO().setRows(tableRows.getList());
 
-        // Sorter
+            // Paginator
+            data.getTableData().paginator(new Paginator(0, Constants.DEFAULT_PAGESIZE, tableRows.getTotalElements(), Arrays.asList(3, 5, 10, 20)));
 
-        // Filterer
-        data.getTableData().addFilterer(this.demoTableDataProvider.getNameFilter());
-        data.getTableData().addFilterer(this.demoTableDataProvider.getSymbolFilter());
+            // Sorter
+
+            // Filterer
+            data.getTableData().addFilterer(getFilterer(AddressDTO.COL_UUID));
+            data.getTableData().addFilterer(getFilterer(AddressDTO.COL_POSTCODE));
+            data.getTableData().addFilterer(getFilterer(AddressDTO.COL_CITY));
+            data.getTableData().addFilterer(getFilterer(AddressDTO.COL_STREET));
+            data.getTableData().addFilterer(getFilterer(AddressDTO.COL_DISTRICT));
+        }
+
         return data;
     }
 
@@ -107,10 +124,14 @@ public class DemoComponentController implements ComponentController<DemoComponen
         // The data
         DemoComponentDTO data = new DemoComponentDTO();
 
-        Optional<TableRowDTO> optTableRow = this.demoTableDataProvider.getTableRowById(Long.parseLong(rowId));
-        if (optTableRow.isPresent())
+        try
         {
-            data.getTableDTO().setRows(List.of(optTableRow.get()));
+            AddressEntity addressEntity = this.addressService.find(rowId);
+            data.getTableDTO().setRows(this.addressMapper.map(List.of(addressEntity)));
+        }
+        catch (ResourceNotFoundException e)
+        {
+            // Just do nothing
         }
 
         // Paginator
@@ -133,5 +154,112 @@ public class DemoComponentController implements ComponentController<DemoComponen
     public void onActionClick(TableActionParams tableActionParams)
     {
         log.debug(tableActionParams.toString());
+    }
+
+
+    /**
+     * Returns the value set of a given column based on the searchText. Distinct values will be searched for with
+     * where ... like '%searchText%' condition. Only columns with remote type ValueSets are allowed.
+     *
+     * @param column
+     * @param searchText
+     * @return
+     */
+    public Filterer getFilterer(String column, String searchText)
+    {
+        return getFilterer(column, searchText, false);
+    }
+
+    private Filterer getFilterer(String column)
+    {
+//        UserSettings userSettings = getUserSettings();
+//        Optional<Map<String, Filterer>> optMap = Optional.of(userSettings).map(UserSettings::getExplorationTableSettings).map(Table.Data::getFiltererMap);
+//        if (optMap.isPresent() && optMap.get().containsKey(column))
+//        {
+//            return optMap.get().get(column);
+//        }
+
+        return getFilterer(column, "", true);
+    }
+
+
+    private Filterer getFilterer(String column, String searchText, boolean skipRemote)
+    {
+        if (AddressDTO.COL_UUID.equalsIgnoreCase(column))
+        {
+            return new Filterer(column).valueSet(getUuidValueSet(searchText, skipRemote)).searchText(searchText);
+        }
+        else if (AddressDTO.COL_POSTCODE.equalsIgnoreCase(column))
+        {
+            return new Filterer(column).valueSet(getPostcodeValueSet(searchText, skipRemote)).searchText(searchText);
+        }
+        else if (AddressDTO.COL_CITY.equalsIgnoreCase(column))
+        {
+            return new Filterer(column).valueSet(getCityValueSet(searchText, skipRemote)).searchText(searchText);
+        }
+        else if (AddressDTO.COL_STREET.equalsIgnoreCase(column))
+        {
+            return new Filterer(column).valueSet(getStreetValueSet(searchText, skipRemote)).searchText(searchText);
+        }
+        else if (AddressDTO.COL_DISTRICT.equalsIgnoreCase(column))
+        {
+            return new Filterer(column).valueSet(getDistrictValueSet(searchText, skipRemote)).searchText(searchText);
+        }
+        else
+        {
+            throw new IllegalStateException(String.format("Invalid column specified '%s'!", column));
+        }
+    }
+
+    private ValueSet getUuidValueSet(String searchText, boolean skipRemote)
+    {
+        if (skipRemote)
+        {
+            return new ValueSet(true);
+        }
+
+        return new ValueSet(true);
+    }
+
+    private ValueSet getPostcodeValueSet(String searchText, boolean skipRemote)
+    {
+        if (skipRemote)
+        {
+            return new ValueSet(true);
+        }
+
+        return new ValueSet(true);
+    }
+
+    private ValueSet getCityValueSet(String searchText, boolean skipRemote)
+    {
+        if (skipRemote)
+        {
+            return new ValueSet(true);
+        }
+
+        return new ValueSet(true);
+    }
+
+    private ValueSet getStreetValueSet(String searchText, boolean skipRemote)
+    {
+        if (skipRemote)
+        {
+            return new ValueSet(true);
+        }
+
+        ValueSet valueSet = new ValueSet(true);
+        valueSet.valueSet(this.addressService.getDistinctStreets(searchText));
+        return valueSet;
+    }
+
+    private ValueSet getDistrictValueSet(String searchText, boolean skipRemote)
+    {
+        if (skipRemote)
+        {
+            return new ValueSet(true);
+        }
+
+        return new ValueSet(true);
     }
 }

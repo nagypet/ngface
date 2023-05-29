@@ -18,14 +18,11 @@ package hu.perit.ngface.webservice.ngface.tabledetailscomponent;
 
 import hu.perit.ngface.controller.ComponentController;
 import hu.perit.ngface.data.TableActionParams;
-import hu.perit.ngface.webservice.service.api.DemoTableDataProvider;
-import hu.perit.ngface.webservice.service.api.TableRowDTO;
+import hu.perit.ngface.webservice.service.api.AddressService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,38 +35,39 @@ public class TableDetailsComponentController implements ComponentController<Tabl
         private final Long id;
     }
 
-    private final DemoTableDataProvider demoTableDataProvider;
+    private final AddressService addressService;
 
 
     @Override
     public TableDetailsComponentDTO initializeData(Params params)
     {
         TableDetailsComponentDTO data = new TableDetailsComponentDTO();
-        Optional<TableRowDTO> optTableRow = this.demoTableDataProvider.getTableRowById(params.id);
-        if (optTableRow.isPresent())
-        {
-            TableRowDTO tableRowDTO = optTableRow.get();
-            data.setId(String.valueOf(params.id));
-            data.setName(tableRowDTO.getName());
-            data.setSymbol(tableRowDTO.getSymbol());
-            data.setWeight(tableRowDTO.getWeight());
-            return data;
-        }
+        return data;
+//        Optional<TableRowDTO> optTableRow = this.addressService.find(params.id);
+//        if (optTableRow.isPresent())
+//        {
+//            TableRowDTO tableRowDTO = optTableRow.get();
+//            data.setId(String.valueOf(params.id));
+//            data.setName(tableRowDTO.getName());
+//            data.setSymbol(tableRowDTO.getSymbol());
+//            data.setWeight(tableRowDTO.getWeight());
+//            return data;
+//        }
 
-        throw new RuntimeException(String.format("No data found with id: %d", params.id));
+//        throw new RuntimeException(String.format("No data found with id: %d", params.id));
     }
 
 
     @Override
     public void onSave(TableDetailsComponentDTO data)
     {
-        Optional<TableRowDTO> optTableRow = this.demoTableDataProvider.getTableRowById(Long.valueOf(data.getId()));
-        if (optTableRow.isPresent())
-        {
-            TableRowDTO tableRowDTO = optTableRow.get();
-            tableRowDTO.setWeight(data.getWeight());
-            tableRowDTO.setSymbol(data.getSymbol());
-        }
+//        Optional<TableRowDTO> optTableRow = this.demoTableDataProvider.getTableRowById(Long.valueOf(data.getId()));
+//        if (optTableRow.isPresent())
+//        {
+//            TableRowDTO tableRowDTO = optTableRow.get();
+//            tableRowDTO.setWeight(data.getWeight());
+//            tableRowDTO.setSymbol(data.getSymbol());
+//        }
     }
 
     @Override

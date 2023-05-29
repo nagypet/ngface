@@ -21,14 +21,10 @@ import hu.perit.ngface.widget.base.WidgetData;
 import hu.perit.ngface.widget.exception.NgFaceBadRequestException;
 import hu.perit.ngface.widget.input.NumericInput;
 import hu.perit.ngface.widget.input.TextInput;
+import jakarta.validation.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -39,6 +35,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
+@Valid
 public abstract class ComponentDTO
 {
     public void formSubmitted(SubmitFormData submitFormData)
@@ -59,12 +56,14 @@ public abstract class ComponentDTO
 
     private void validate()
     {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Set<ConstraintViolation<ComponentDTO>> violations = validator.validate(this);
-        if (!violations.isEmpty())
+        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory())
         {
-            throw new ConstraintViolationException(violations);
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<ComponentDTO>> violations = validator.validate(this);
+            if (!violations.isEmpty())
+            {
+                throw new ConstraintViolationException(violations);
+            }
         }
     }
 

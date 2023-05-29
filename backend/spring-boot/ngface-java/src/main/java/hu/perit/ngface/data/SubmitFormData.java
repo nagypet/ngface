@@ -22,10 +22,10 @@ import hu.perit.ngface.widget.exception.NgFaceBadRequestException;
 import hu.perit.ngface.widget.input.DateInput;
 import hu.perit.ngface.widget.input.NumericInput;
 import hu.perit.ngface.widget.input.TextInput;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Map;

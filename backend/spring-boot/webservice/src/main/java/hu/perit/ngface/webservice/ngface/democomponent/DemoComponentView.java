@@ -19,26 +19,16 @@ package hu.perit.ngface.webservice.ngface.democomponent;
 import hu.perit.ngface.formating.CurrencyFormat;
 import hu.perit.ngface.formating.NumericFormat;
 import hu.perit.ngface.view.ComponentView;
-import hu.perit.ngface.webservice.config.Constants;
+import hu.perit.ngface.webservice.model.AddressDTO;
 import hu.perit.ngface.widget.button.Button;
 import hu.perit.ngface.widget.form.Form;
-import hu.perit.ngface.widget.input.DateInput;
-import hu.perit.ngface.widget.input.DateRangeInput;
-import hu.perit.ngface.widget.input.NumericInput;
-import hu.perit.ngface.widget.input.Select;
-import hu.perit.ngface.widget.input.TextInput;
-import hu.perit.ngface.widget.input.validator.Email;
-import hu.perit.ngface.widget.input.validator.Max;
-import hu.perit.ngface.widget.input.validator.Min;
-import hu.perit.ngface.widget.input.validator.Pattern;
-import hu.perit.ngface.widget.input.validator.Required;
-import hu.perit.ngface.widget.input.validator.Size;
+import hu.perit.ngface.widget.input.*;
+import hu.perit.ngface.widget.input.validator.*;
 import hu.perit.ngface.widget.table.Action;
 import hu.perit.ngface.widget.table.Column;
 import hu.perit.ngface.widget.table.Row;
 import hu.perit.ngface.widget.table.Table;
 import hu.perit.ngface.widget.table.cell.ActionCell;
-import hu.perit.ngface.webservice.service.api.TableRowDTO;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -160,29 +150,32 @@ public class DemoComponentView implements ComponentView
     private Table getTable(String id, Table.SelectMode selectMode)
     {
         Table table = new Table(id)
-                .label("Elements")
+                .label("Addresses")
                 .selectMode(selectMode)
-                .addColumn(new Column("id").text("Id").sortable(true).size(Column.Size.S))
-                .addColumn(new Column("name").text("Name").sortable(true).size(Column.Size.L))
-                .addColumn(new Column("weight").text("Weight").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
-                .addColumn(new Column("symbol").text("Symbol").size(Column.Size.S))
-                .addColumn(new Column("price-eur").text("Price EUR").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
-                .addColumn(new Column("price-huf").text("Price HUF").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
+                .addColumn(new Column(AddressDTO.COL_UUID).text("Uuid").size(Column.Size.M))
+                .addColumn(new Column(AddressDTO.COL_POSTCODE).text("Post code").sortable(true).size(Column.Size.S))
+                .addColumn(new Column(AddressDTO.COL_CITY).text("City").sortable(true).size(Column.Size.L))
+                .addColumn(new Column(AddressDTO.COL_STREET).text("Street").sortable(true).size(Column.Size.L))
+                .addColumn(new Column(AddressDTO.COL_DISTRICT).text("District").sortable(true).size(Column.Size.S))
+                //.addColumn(new Column("price-huf").text("Price HUF").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
                 .addColumn(new Column("actions").text("Actions"));
 
-        for (TableRowDTO item : this.data.getTableDTO().getRows())
+        for (AddressDTO item : this.data.getTableDTO().getRows())
         {
-            table.addRow(new Row(item.getId().toString())
-                    .putCell("id", item.getId().toString())
-                    .putCell("name", item.getName())
-                    .putCell("weight", item.getWeight(), Constants.ATOMIC_WEIGHT_FORMAT)
-                    .putCell("symbol", item.getSymbol())
-                    .putCell("price-eur", item.getWeight(), CurrencyFormat.EUR)
-                    .putCell("price-huf", item.getWeight() * 370, CurrencyFormat.HUF)
-                    .putCell("actions", new ActionCell(List.of(
-                            new Action("edit").label("Edit").icon("edit"),
-                            new Action("delete").label("Delete").icon("delete").enabled(false)
-                    )))
+            table.addRow(new Row(item.getUuid())
+                            .putCell(AddressDTO.COL_UUID, item.getUuid())
+                            .putCell(AddressDTO.COL_POSTCODE, item.getPostCode())
+                            .putCell(AddressDTO.COL_CITY, item.getCity())
+                            .putCell(AddressDTO.COL_STREET, item.getStreet())
+                            .putCell(AddressDTO.COL_DISTRICT, item.getDistrict())
+//                    .putCell("weight", item.getWeight(), Constants.ATOMIC_WEIGHT_FORMAT)
+//                    .putCell("symbol", item.getSymbol())
+//                    .putCell("price-eur", item.getWeight(), CurrencyFormat.EUR)
+//                    .putCell("price-huf", item.getWeight() * 370, CurrencyFormat.HUF)
+                            .putCell("actions", new ActionCell(List.of(
+                                    new Action("edit").label("Edit").icon("edit"),
+                                    new Action("delete").label("Delete").icon("delete").enabled(false)
+                            )))
             );
         }
 

@@ -20,8 +20,12 @@ import hu.perit.ngface.webservice.db.table.AddressEntity;
 import hu.perit.ngface.webservice.model.AddressDTO;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface AddressMapper
 {
     AddressDTO mapDtoFromEntity(AddressEntity entity);
+
+    List<AddressDTO> map(List<AddressEntity> list);
 }
