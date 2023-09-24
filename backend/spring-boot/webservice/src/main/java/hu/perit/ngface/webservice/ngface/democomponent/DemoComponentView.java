@@ -173,7 +173,7 @@ public class DemoComponentView implements ComponentView
         {
             table.addRow(new Row(item.getId())
                             .putCell(AddressDTO.COL_ID, item.getId())
-                            .putCell(AddressDTO.COL_POSTCODE, item.getPostCode())
+                            .putCell(AddressDTO.COL_POSTCODE, item.getPostCode(), NumericFormat.UNGROUPED)
                             .putCell(AddressDTO.COL_CITY, item.getCity())
                             .putCell(AddressDTO.COL_STREET, item.getStreet())
                             .putCell(AddressDTO.COL_DISTRICT, item.getDistrict())

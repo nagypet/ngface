@@ -19,6 +19,7 @@ package hu.perit.ngface.webservice.service.impl.addressservice;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import hu.perit.ngface.core.data.DataRetrievalParams;
 import hu.perit.ngface.data.jpa.service.impl.NgfaceQueryServiceImpl;
 import hu.perit.ngface.webservice.config.Constants;
 import hu.perit.ngface.webservice.db.addressdb.repo.AddressRepo;
@@ -30,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -60,9 +62,16 @@ public class AddressServiceImpl extends NgfaceQueryServiceImpl<AddressEntity> im
 
 
     @Override
-    public AddressEntity find(String id) throws ResourceNotFoundException
+    public AddressEntity find(Long id) throws ResourceNotFoundException
     {
-        return null;
+        try
+        {
+            return this.repo.getReferenceById(id);
+        }
+        catch (Exception e)
+        {
+            throw new ResourceNotFoundException(String.format("No data found with id: '%d'", id));
+        }
     }
 
 
@@ -72,6 +81,22 @@ public class AddressServiceImpl extends NgfaceQueryServiceImpl<AddressEntity> im
             new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_POSTCODE),
             new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_STREET)
         );
+    }
+
+
+    @Override
+    protected List<?> convertFilterValueSetToDbType(String searchColumn, DataRetrievalParams.Filter filter)
+    {
+        if (AddressDTO.COL_POSTCODE.equals(searchColumn))
+        {
+            return filter.getValueSet().stream()
+                .map(DataRetrievalParams.Filter.Item::getText)
+                .filter(Objects::nonNull)
+                .map(Integer::parseInt)
+                .toList();
+        }
+
+        return super.convertFilterValueSetToDbType(searchColumn, filter);
     }
 
 
@@ -119,6 +144,14 @@ public class AddressServiceImpl extends NgfaceQueryServiceImpl<AddressEntity> im
     }
 
 
+    @Override
+    @Transactional
+    public void update(Long id, Integer postCode, String city, String street, String district)
+    {
+        this.repo.update(id, postCode, city, street, district);
+    }
+
+
     private void readLineByLine(String fileName, String city) throws Exception
     {
         try (InputStream resourceAsStream = this.getClass().getResourceAsStream("/" + fileName))
@@ -147,7 +180,7 @@ public class AddressServiceImpl extends NgfaceQueryServiceImpl<AddressEntity> im
         if (line.length >= 8)
         {
             AddressEntity entity = new AddressEntity();
-            entity.setPostCode(StringUtils.strip(line[0]));
+            entity.setPostCode(Integer.parseInt(StringUtils.strip(line[0])));
             entity.setCity(city);
             entity.setStreet(StringUtils.strip(line[1]) + " " + StringUtils.strip(line[2]));
             entity.setDistrict(StringUtils.strip(line[3]));

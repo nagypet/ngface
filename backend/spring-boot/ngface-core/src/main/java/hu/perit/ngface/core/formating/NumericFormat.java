@@ -22,10 +22,12 @@ import lombok.Getter;
 public class NumericFormat extends AbstractFormat
 {
     public static final NumericFormat PERCENTAGE = new NumericFormat().suffix("%");
+    public static final NumericFormat UNGROUPED = new NumericFormat().digitGrouping(false);
 
     protected Integer precision;
     protected String prefix;
     protected String suffix;
+    protected Boolean digitGrouping;
 
     public NumericFormat precision(Integer precision)
     {
@@ -42,6 +44,12 @@ public class NumericFormat extends AbstractFormat
     public NumericFormat suffix(String suffix)
     {
         this.suffix = suffix;
+        return this;
+    }
+
+    public NumericFormat digitGrouping(Boolean digitGrouping)
+    {
+        this.digitGrouping = digitGrouping;
         return this;
     }
 }

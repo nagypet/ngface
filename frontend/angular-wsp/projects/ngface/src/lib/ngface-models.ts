@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.36.1070 on 2022-11-27 12:53:26.
+// Generated using typescript-generator version 2.36.1070 on 2023-09-24 10:47:07.
 
 export namespace Ngface {
 
@@ -179,6 +179,16 @@ export namespace Ngface {
         active: boolean;
     }
 
+    export interface FiltererFactory {
+        filtererDefMap: { [index: string]: FiltererDef };
+    }
+
+    export interface FiltererDef {
+        column: string;
+        remote: boolean;
+        valueProvider: Function<string, string[]>;
+    }
+
     export interface Paginator {
         pageIndex: number;
         pageSize: number;
@@ -215,6 +225,9 @@ export namespace Ngface {
             filtererMap: { [index: string]: Filterer };
         }
 
+    }
+
+    export interface TableDataBuilder {
     }
 
     export interface ValueSet {
@@ -304,6 +317,10 @@ export namespace Ngface {
         precision: number;
         prefix: string;
         suffix: string;
+        digitGrouping: boolean;
+    }
+
+    export interface Function<T, R> {
     }
 
     export namespace DataRetrievalParams.Filter {

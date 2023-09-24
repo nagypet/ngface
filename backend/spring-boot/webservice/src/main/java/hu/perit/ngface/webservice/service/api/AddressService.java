@@ -26,7 +26,7 @@ public interface AddressService extends NgfaceQueryService<AddressEntity>
 {
     void loadFromFile(String fileName, String city) throws Exception;
 
-    AddressEntity find(String id) throws ResourceNotFoundException;
+    AddressEntity find(Long id) throws ResourceNotFoundException;
 
     List<String> getDistinctStreets(String searchText);
 
@@ -35,4 +35,6 @@ public interface AddressService extends NgfaceQueryService<AddressEntity>
     List<String> getDistinctPostcodes(String searchText);
 
     List<String> getDistinctCities(String searchText);
+
+    void update(Long id, Integer postCode, String city, String street, String district);
 }

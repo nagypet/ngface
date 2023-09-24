@@ -16,38 +16,60 @@
 
 package hu.perit.ngface.webservice.ngface.tabledetailscomponent;
 
+import hu.perit.ngface.core.formating.NumericFormat;
 import hu.perit.ngface.core.view.ComponentView;
 import hu.perit.ngface.core.widget.button.Button;
 import hu.perit.ngface.core.widget.form.Form;
 import hu.perit.ngface.core.widget.input.NumericInput;
 import hu.perit.ngface.core.widget.input.TextInput;
+import hu.perit.ngface.core.widget.input.validator.Max;
+import hu.perit.ngface.core.widget.input.validator.Min;
 import hu.perit.ngface.core.widget.input.validator.Required;
-import hu.perit.ngface.webservice.config.Constants;
+import hu.perit.ngface.core.widget.input.validator.Size;
+import hu.perit.ngface.webservice.model.AddressDTO;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class TableDetailsComponentView implements ComponentView
 {
+    public static final String INVALID_LENGTH = "Invalid length!";
+
     private final TableDetailsComponentDTO data;
+
 
     @Override
     public Form getForm()
     {
         return new Form(data.getId())
-                .title(String.format("Details of %s", this.data.getName()))
-                .addWidget(new TextInput(TableDetailsComponentDTO.SYMBOL)
-                        .value(this.data.getSymbol())
-                        .label("Symbol")
-                        .addValidator(new Required("Symbol is required!"))
-                )
-                .addWidget(new NumericInput(TableDetailsComponentDTO.WEIGHT)
-                        .value(this.data.getWeight())
-                        .label("Weight")
-                        .format(Constants.ATOMIC_WEIGHT_FORMAT)
-                        .addValidator(new Required("Weight is required!"))
-                )
-                .addWidget(Button.SAVE)
-                .addWidget(Button.CANCEL)
-                ;
+            .title(String.format("%s %s", this.data.getPostCode(), this.data.getName()))
+            .addWidget(new NumericInput(AddressDTO.COL_POSTCODE)
+                .value(this.data.getPostCode())
+                .label("Post code")
+                .format(NumericFormat.UNGROUPED)
+                .addValidator(new Required("Post code is required!"))
+                .addValidator(new Min(1000.0, "Postal code must be between 1000 and 9999"))
+                .addValidator(new Max(9999.0, "Postal code must be between 1000 and 9999"))
+            )
+            .addWidget(new TextInput(AddressDTO.COL_CITY)
+                .value(this.data.getCity())
+                .label("City")
+                .addValidator(new Required("City is required!"))
+                .addValidator(new Size(INVALID_LENGTH).min(2))
+            )
+            .addWidget(new TextInput(AddressDTO.COL_STREET)
+                .value(this.data.getStreet())
+                .label("Street")
+                .addValidator(new Required("Street is required!"))
+                .addValidator(new Size(INVALID_LENGTH).min(2))
+            )
+            .addWidget(new TextInput(AddressDTO.COL_DISTRICT)
+                .value(this.data.getDistrict())
+                .label("District")
+                .addValidator(new Required("District is required!"))
+                .addValidator(new Size(INVALID_LENGTH).min(2))
+            )
+            .addWidget(Button.SAVE)
+            .addWidget(Button.CANCEL)
+            ;
     }
 }

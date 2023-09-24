@@ -14,17 +14,23 @@
  * limitations under the License.
  */
 
-import {formatNumber} from '@angular/common';
+import {formatNumber, getLocaleNumberSymbol, NumberSymbol} from '@angular/common';
 
 export class NumericFormatter
 {
-  public static getFormattedValueAsText(value: number | null, precision: number, locale: string): string
+  public static getFormattedValueAsText(value: number | null, precision: number, digitGrouping: boolean, locale: string): string
   {
     if (!value || isNaN(value))
     {
       return '';
     }
-    return formatNumber(value, locale, this.getDigitsInfo(precision));
+    let formattedNumber = formatNumber(value, locale, this.getDigitsInfo(precision));
+    if (digitGrouping !== null && !digitGrouping)
+    {
+      const localeNumberSymbol = getLocaleNumberSymbol(locale, NumberSymbol.Group);
+      formattedNumber = formattedNumber.replace(localeNumberSymbol, '');
+    }
+    return formattedNumber;
   }
 
   static getDigitsInfo(precision: number): string

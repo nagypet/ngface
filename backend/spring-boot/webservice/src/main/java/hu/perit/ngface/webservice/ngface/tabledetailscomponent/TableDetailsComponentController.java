@@ -18,7 +18,9 @@ package hu.perit.ngface.webservice.ngface.tabledetailscomponent;
 
 import hu.perit.ngface.core.controller.ComponentController;
 import hu.perit.ngface.core.data.TableActionParams;
+import hu.perit.ngface.webservice.db.addressdb.table.AddressEntity;
 import hu.perit.ngface.webservice.service.api.AddressService;
+import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,33 +44,30 @@ public class TableDetailsComponentController implements ComponentController<Tabl
     public TableDetailsComponentDTO initializeData(Params params)
     {
         TableDetailsComponentDTO data = new TableDetailsComponentDTO();
-        return data;
-//        Optional<TableRowDTO> optTableRow = this.addressService.find(params.id);
-//        if (optTableRow.isPresent())
-//        {
-//            TableRowDTO tableRowDTO = optTableRow.get();
-//            data.setId(String.valueOf(params.id));
-//            data.setName(tableRowDTO.getName());
-//            data.setSymbol(tableRowDTO.getSymbol());
-//            data.setWeight(tableRowDTO.getWeight());
-//            return data;
-//        }
-
-//        throw new RuntimeException(String.format("No data found with id: %d", params.id));
+        try
+        {
+            AddressEntity addressEntity = this.addressService.find(params.id);
+            data.setId(String.valueOf(params.id));
+            data.setName(addressEntity.getStreet());
+            data.setPostCode(addressEntity.getPostCode());
+            data.setCity(addressEntity.getCity());
+            data.setStreet(addressEntity.getStreet());
+            data.setDistrict(addressEntity.getDistrict());
+            return data;
+        }
+        catch (ResourceNotFoundException e)
+        {
+            throw new RuntimeException(String.format("No data found with id: '%s'", params.id));
+        }
     }
 
 
     @Override
     public void onSave(TableDetailsComponentDTO data)
     {
-//        Optional<TableRowDTO> optTableRow = this.demoTableDataProvider.getTableRowById(Long.valueOf(data.getId()));
-//        if (optTableRow.isPresent())
-//        {
-//            TableRowDTO tableRowDTO = optTableRow.get();
-//            tableRowDTO.setWeight(data.getWeight());
-//            tableRowDTO.setSymbol(data.getSymbol());
-//        }
+        this.addressService.update(Long.parseLong(data.getId()), data.getPostCode(), data.getCity(), data.getStreet(), data.getDistrict());
     }
+
 
     @Override
     public void onActionClick(TableActionParams tableActionParams)

@@ -110,29 +110,29 @@ test {
 generateTypeScript {
     jsonLibrary = 'jackson2'
     classPatterns = [
-            'hu.perit.ngface.widget.input.**',
-            'hu.perit.ngface.widget.form.**',
-            'hu.perit.ngface.widget.button.**',
-            'hu.perit.ngface.widget.table.**',
-            'hu.perit.ngface.widget.formattedtext.**',
-            'hu.perit.ngface.data.SubmitFormData',
-            'hu.perit.ngface.data.*Params'
+            'hu.perit.ngface.core.widget.input.**',
+            'hu.perit.ngface.core.widget.form.**',
+            'hu.perit.ngface.core.widget.button.**',
+            'hu.perit.ngface.core.widget.table.**',
+            'hu.perit.ngface.core.widget.formattedtext.**',
+            'hu.perit.ngface.core.data.SubmitFormData',
+            'hu.perit.ngface.core.data.*Params'
     ]
     customTypeNaming = [
-            'hu.perit.ngface.widget.input.TextInput$Data:TextInput.Data',
-            'hu.perit.ngface.widget.input.NumericInput$Data:NumericInput.Data',
-            'hu.perit.ngface.widget.input.DateInput$Data:DateInput.Data',
-            'hu.perit.ngface.widget.input.DateTimeInput$Data:DateTimeInput.Data',
-            'hu.perit.ngface.widget.input.DateRangeInput$Data:DateRangeInput.Data',
-            'hu.perit.ngface.widget.input.Select$Data:Select.Data',
-            'hu.perit.ngface.widget.formattedtext.FormattedText$Data:FormattedText.Data',
-            'hu.perit.ngface.widget.table.Table$Data:Table.Data',
-            'hu.perit.ngface.widget.table.Column$Size:Column.Size',
-            'hu.perit.ngface.widget.table.ValueSet$Item:ValueSet.Item',
-            'hu.perit.ngface.data.DataRetrievalParams$Page:DataRetrievalParams.Page',
-            'hu.perit.ngface.data.DataRetrievalParams$Sort:DataRetrievalParams.Sort',
-            'hu.perit.ngface.data.DataRetrievalParams$Filter:DataRetrievalParams.Filter',
-            'hu.perit.ngface.data.DataRetrievalParams$Filter$Item:DataRetrievalParams.Filter.Item'
+            'hu.perit.ngface.core.widget.input.TextInput$Data:TextInput.Data',
+            'hu.perit.ngface.core.widget.input.NumericInput$Data:NumericInput.Data',
+            'hu.perit.ngface.core.widget.input.DateInput$Data:DateInput.Data',
+            'hu.perit.ngface.core.widget.input.DateTimeInput$Data:DateTimeInput.Data',
+            'hu.perit.ngface.core.widget.input.DateRangeInput$Data:DateRangeInput.Data',
+            'hu.perit.ngface.core.widget.input.Select$Data:Select.Data',
+            'hu.perit.ngface.core.widget.formattedtext.FormattedText$Data:FormattedText.Data',
+            'hu.perit.ngface.core.widget.table.Table$Data:Table.Data',
+            'hu.perit.ngface.core.widget.table.Column$Size:Column.Size',
+            'hu.perit.ngface.core.widget.table.ValueSet$Item:ValueSet.Item',
+            'hu.perit.ngface.core.data.DataRetrievalParams$Page:DataRetrievalParams.Page',
+            'hu.perit.ngface.core.data.DataRetrievalParams$Sort:DataRetrievalParams.Sort',
+            'hu.perit.ngface.core.data.DataRetrievalParams$Filter:DataRetrievalParams.Filter',
+            'hu.perit.ngface.core.data.DataRetrievalParams$Filter$Item:DataRetrievalParams.Filter.Item'
     ]
     outputFile = 'build/ngface-models.ts'
     outputFileType = 'implementationFile'

@@ -42,7 +42,7 @@ export class DemoDialog1Component extends FormBaseComponent implements OnInit
     this.dialogRef.close();
   }
 
-  onOkClick()
+  onOkClick(): void
   {
     this.formGroup.markAllAsTouched();
     if (!this.formGroup.valid)

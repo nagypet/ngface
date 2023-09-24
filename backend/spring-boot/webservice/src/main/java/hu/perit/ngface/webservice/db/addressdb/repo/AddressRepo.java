@@ -18,6 +18,7 @@ package hu.perit.ngface.webservice.db.addressdb.repo;
 
 import hu.perit.ngface.data.jpa.service.impl.NgfaceQueryRepo;
 import hu.perit.ngface.webservice.db.addressdb.table.AddressEntity;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -50,4 +51,13 @@ public interface AddressRepo extends NgfaceQueryRepo<AddressEntity>
 
     @Query("select distinct e.city from AddressEntity e where e.city ilike :searchText")
     List<String> getDistinctCities(@Param(value = "searchText") String searchText);
+
+    @Modifying
+    @Query("update AddressEntity e set e.postCode = :postCode, e.city = :city, e.street = :street, e.district = :district where e.id = :id")
+    void update(
+        @Param(value = "id") Long id,
+        @Param(value = "postCode") Integer postCode,
+        @Param(value = "city") String city,
+        @Param(value = "street") String street,
+        @Param(value = "district") String district);
 }

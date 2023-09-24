@@ -34,7 +34,6 @@ import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +54,7 @@ public class DemoComponentController implements ComponentController<DemoComponen
     public static class Params
     {
         private final DataRetrievalParams dataRetrievalParams;
-        private final String rowId;
+        private final Long rowId;
     }
 
     private final AddressService addressService;
@@ -65,7 +64,7 @@ public class DemoComponentController implements ComponentController<DemoComponen
     @Override
     public DemoComponentDTO initializeData(Params params)
     {
-        if (StringUtils.isNotBlank(params.rowId))
+        if (params.rowId != null)
         {
             return initializeDataForSingleTableRow(params.rowId);
         }
@@ -86,14 +85,14 @@ public class DemoComponentController implements ComponentController<DemoComponen
         data.setCheckInDate(LocalDate.now());
         data.setDateRange(new DateRangeInput.Data(LocalDate.now(), LocalDate.now().plusDays(1)));
         data.setSelectData(new Select.Data()
-                .addOption(new Select.Option("id_first", "First option"))
-                .addOption(new Select.Option("id_second", "Second option")));
+            .addOption(new Select.Option("id_first", "First option"))
+            .addOption(new Select.Option("id_second", "Second option")));
         data.setSelect2Data(new Select.Data()
-                .addOption(new Select.Option("id_first", "First option"))
-                .addOption(new Select.Option("id_second", "Second option")));
+            .addOption(new Select.Option("id_first", "First option"))
+            .addOption(new Select.Option("id_second", "Second option")));
         data.setSelect3Data(new Select.Data()
-                .addOption(new Select.Option("id_first", "First option"))
-                .addOption(new Select.Option("id_second", "Second option")).selected("id_first"));
+            .addOption(new Select.Option("id_first", "First option"))
+            .addOption(new Select.Option("id_second", "Second option")).selected("id_first"));
 
         // Table
         // Table: Data rows
@@ -105,16 +104,16 @@ public class DemoComponentController implements ComponentController<DemoComponen
 
         // Table: Table.Data
         Table.Data tableData = TableDataBuilder.builder()
-                .paginator(0, Constants.DEFAULT_PAGESIZE, tableRows.getTotalElements(), Arrays.asList(3, 5, 10, 20))
-                .filterer(getFiltererFactory())
-                .build();
+            .paginator(0, Constants.DEFAULT_PAGESIZE, tableRows.getTotalElements(), Arrays.asList(3, 5, 10, 20))
+            .filterer(getFiltererFactory())
+            .build();
         data.setTableData(tableData);
 
         return data;
     }
 
 
-    private DemoComponentDTO initializeDataForSingleTableRow(String rowId)
+    private DemoComponentDTO initializeDataForSingleTableRow(Long rowId)
     {
         // The data
         DemoComponentDTO data = new DemoComponentDTO();
@@ -156,11 +155,12 @@ public class DemoComponentController implements ComponentController<DemoComponen
     private FiltererFactory getFiltererFactory()
     {
         return FiltererFactory.builder()
-                .filterer(AddressDTO.COL_POSTCODE, true, this.addressService::getDistinctPostcodes)
-                .filterer(AddressDTO.COL_CITY, false, this.addressService::getDistinctCities)
-                .filterer(AddressDTO.COL_STREET, true, this.addressService::getDistinctStreets)
-                .filterer(AddressDTO.COL_DISTRICT, true, this.addressService::getDistinctDistricts);
+            .filterer(AddressDTO.COL_POSTCODE, true, this.addressService::getDistinctPostcodes)
+            .filterer(AddressDTO.COL_CITY, false, this.addressService::getDistinctCities)
+            .filterer(AddressDTO.COL_STREET, true, this.addressService::getDistinctStreets)
+            .filterer(AddressDTO.COL_DISTRICT, true, this.addressService::getDistinctDistricts);
     }
+
 
     /**
      * Returns the value set of a given column based on the searchText. Distinct values will be searched for with

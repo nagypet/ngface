@@ -48,7 +48,7 @@ public class AddressEntity
     private Long id;
 
     @Column(name = FIELD_POSTCODE)
-    private String postCode;
+    private Integer postCode;
 
     @Column(name = FIELD_CITY)
     private String city;
@@ -65,7 +65,7 @@ public class AddressEntity
 
     public void createSearchField()
     {
-        this.searchField = textField(this.postCode) + textField(this.city) + textField(this.street) + textField(this.district);
+        this.searchField = textField(String.valueOf(this.postCode)) + textField(this.city) + textField(this.street) + textField(this.district);
     }
 
 

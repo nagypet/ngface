@@ -40,7 +40,7 @@ export class NgfaceNumericInputComponent extends InputBaseComponent
       return {
         type: 'NumericInput',
         data: {type: 'NumericInput.Data', value: 0},
-        format: {precision: 0, prefix: '', suffix: '', validators: []},
+        format: {precision: 0, prefix: '', suffix: '', digitGrouping: true, validators: []},
         placeholder: 'widget id: ' + this.widgetid,
         label: 'undefined label',
         validators: [],

@@ -63,7 +63,7 @@ public class DemoController implements DemoApi
     @LoggedRestMethod(eventId = Constants.DEMO_API_GET_DEMO_FORM_TABLE_ROW, subsystem = Constants.SUBSYSTEM_NAME)
     public Form getDemoFormTableRow(String rowId)
     {
-        DemoComponentController.Params params = new DemoComponentController.Params(null, rowId);
+        DemoComponentController.Params params = new DemoComponentController.Params(null, Long.parseLong(rowId));
 
         DemoComponentDTO data = this.demoComponentController.initializeData(params);
         return new DemoComponentView(data).getForm();

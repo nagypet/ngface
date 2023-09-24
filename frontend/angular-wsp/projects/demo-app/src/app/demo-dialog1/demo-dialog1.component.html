@@ -16,8 +16,18 @@
 
 <h1 mat-dialog-title>{{data.title}}</h1>
 <ngface-form [formdata]="formData" mat-dialog-content (keydown.enter)="onOkClick()">
-  <ngface-text-input [formdata]="formData" [widgetid]="'symbol'" cdkFocusInitial></ngface-text-input>
-  <ngface-numeric-input [formdata]="formData" [widgetid]="'weight'"></ngface-numeric-input>
+  <div class="ngface-row">
+    <ngface-numeric-input [formdata]="formData" [widgetid]="'postCode'" cdkFocusInitial></ngface-numeric-input>
+  </div>
+  <div class="ngface-row">
+    <ngface-text-input [formdata]="formData" [widgetid]="'city'"></ngface-text-input>
+  </div>
+  <div class="ngface-row">
+    <ngface-text-input [formdata]="formData" [widgetid]="'street'"></ngface-text-input>
+  </div>
+  <div class="ngface-row">
+    <ngface-text-input [formdata]="formData" [widgetid]="'district'"></ngface-text-input>
+  </div>
 </ngface-form>
 <div mat-dialog-actions>
   <ngface-button [formdata]="formData" [widgetid]="'button-save'" (click)="onOkClick()"></ngface-button>

@@ -138,7 +138,6 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
       console.log(dialogData);
       // Open dialog
       const dialogRef = this.dialog.open(DemoDialog1Component, {
-        width: '590px',
         data: dialogData,
         backdropClass: 'ngface-modal-dialog-backdrop'
       });

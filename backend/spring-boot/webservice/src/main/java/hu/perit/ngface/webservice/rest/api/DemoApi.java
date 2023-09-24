@@ -71,8 +71,7 @@ public interface DemoApi
     // getTableDetailsForm()
     //------------------------------------------------------------------------------------------------------------------
     @GetMapping(BASE_URL_TABLE_DETAILS)
-    Form getTableDetailsForm(
-            @RequestParam Long id
+    Form getTableDetailsForm(@RequestParam Long id
     );
 
 

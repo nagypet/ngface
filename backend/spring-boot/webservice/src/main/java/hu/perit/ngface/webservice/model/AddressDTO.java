@@ -28,7 +28,7 @@ public class AddressDTO
    public static final String COL_DISTRICT = "district";
 
    private String id;
-   private String postCode;
+   private Integer postCode;
    private String city;
    private String street;
    private String district;

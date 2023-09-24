@@ -63,6 +63,18 @@ export class IntlNumericInputComponent implements ControlValueAccessor
     return this._precision;
   }
 
+
+  get digitGrouping(): boolean
+  {
+    return this._digitGrouping;
+  }
+
+  @Input()
+  set digitGrouping(value: boolean)
+  {
+    this._digitGrouping = value;
+  }
+
   constructor(@Inject(LOCALE_ID) public locale: string)
   {
   }
@@ -81,6 +93,8 @@ export class IntlNumericInputComponent implements ControlValueAccessor
 
   // tslint:disable-next-line:variable-name
   private _precision = 0;
+  // tslint:disable-next-line:variable-name
+  private _digitGrouping = true;
 
   @Input()
   prefix = '';
@@ -150,7 +164,7 @@ export class IntlNumericInputComponent implements ControlValueAccessor
 
     if (v && !isNaN(v))
     {
-      this.valueText = NumericFormatter.getFormattedValueAsText(v, this.precision, this.locale);
+      this.valueText = NumericFormatter.getFormattedValueAsText(v, this.precision, this.digitGrouping, this.locale);
     }
     else
     {

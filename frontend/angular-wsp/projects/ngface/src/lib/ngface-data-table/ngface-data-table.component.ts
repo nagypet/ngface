@@ -305,8 +305,8 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
     }
     if (cell.type === 'NumericCell')
     {
-      const numericCell = <NumericCell> cell;
-      let formattedNumber = numericCell.format.prefix ?? '' + NumericFormatter.getFormattedValueAsText(numericCell.value, numericCell.format.precision, this.locale);
+      const numericCell = cell as NumericCell;
+      let formattedNumber = numericCell.format.prefix ?? '' + NumericFormatter.getFormattedValueAsText(numericCell.value, numericCell.format.precision, numericCell.format.digitGrouping, this.locale);
       if (numericCell.format.suffix)
       {
         formattedNumber += ' ' + numericCell.format.suffix;
