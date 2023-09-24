@@ -63,3 +63,16 @@ spring:
     serialization.write-dates-as-timestamps: false
   date-format: yyyy-MM-dd HH:mm:ss.SSS
   time-zone: ${system.time-zone}
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# datasource postgres on postgres
+#-----------------------------------------------------------------------------------------------------------------------
+datasource:
+  addressdb:
+    db-type: postgresql
+    host: localhost
+    db-name: addressdb
+    username: postgres
+    encrypted-password: 1tvmTu8Ya8A=
+    ddl-auto: update

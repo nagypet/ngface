@@ -21,7 +21,13 @@ import lombok.Data;
 @Data
 public class AddressDTO
 {
-   private String uuid;
+   public static final String COL_ID = "id";
+   public static final String COL_POSTCODE = "postCode";
+   public static final String COL_CITY = "city";
+   public static final String COL_STREET = "street";
+   public static final String COL_DISTRICT = "district";
+
+   private String id;
    private String postCode;
    private String city;
    private String street;

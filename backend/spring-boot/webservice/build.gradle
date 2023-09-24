@@ -39,7 +39,8 @@ dependencies {
     // -----------------------------------------------------------------------------------------------------------------
     // Compile dependencies
     // -----------------------------------------------------------------------------------------------------------------
-    implementation project(':ngface-java')
+    implementation project(':ngface-core')
+    implementation project(':ngface-data-jpa')
 
     implementation 'hu.perit.spvitamin:spvitamin-core'
     implementation 'hu.perit.spvitamin:spvitamin-spring-general'
@@ -47,6 +48,7 @@ dependencies {
     implementation 'hu.perit.spvitamin:spvitamin-spring-logging'
     implementation 'hu.perit.spvitamin:spvitamin-spring-admin'
     implementation 'hu.perit.spvitamin:spvitamin-spring-security'
+    implementation 'hu.perit.spvitamin:spvitamin-spring-data'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
@@ -59,7 +61,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // Swagger
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.3"
@@ -69,7 +71,7 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 
     // Validation
-    implementation 'javax.validation:validation-api:2.0.1.Final'
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
     implementation 'org.hibernate:hibernate-validator:8.0.0.Final'
 
     // Guava
@@ -90,6 +92,13 @@ dependencies {
     // Test dependencies
     // -----------------------------------------------------------------------------------------------------------------
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Runtime dependencies
+    //------------------------------------------------------------------------------------------------------------------
+    // PostgreSQL
+    runtimeOnly 'org.postgresql:postgresql'
 }
 
 

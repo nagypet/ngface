@@ -34,5 +34,6 @@ public class AddressController implements AddressApi
     public void loadFromFile() throws Exception
     {
         this.addressService.loadFromFile("addresses_budapest.csv", "Budapest");
+        this.addressService.loadFromFile("addresses_miskolc.csv", "Miskolc");
     }
 }

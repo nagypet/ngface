@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2020-2022 the original author or authors.
+  ~ Copyright 2020-2023 the original author or authors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -34,11 +34,10 @@
 	<logger name="org.springframework.cache" level="TRACE"/>
 	<logger name="com.zaxxer.hikari.HikariConfig" level="INFO"/>
 	<logger name="com.zaxxer.hikari" level="ERROR"/>
-	<logger name="org.hibernate.SQL" level="DEBUG"/>
-	<logger name="org.springframework.orm.jpa" level="DEBUG"/>
-	<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
+<!--	<logger name="org.hibernate.SQL" level="DEBUG"/>-->
+<!--	<logger name="org.springframework.orm.jpa" level="DEBUG"/>-->
+<!--	<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>-->
 	<logger name="com.thoughtworks.xstream" level="OFF"/>
-	<logger name="org.springframework.data.elasticsearch" level="TRACE"/>
 	<logger name="tracer" level="TRACE"/>
 	<!--
 	<logger name="org.springframework.transaction.interceptor" level="TRACE"/>
@@ -60,6 +59,9 @@
 		<appender-ref ref="application-message"/>
 	</logger>
 	<logger name="hu.perit.spvitamin.spring.httplogging" level="INFO" additivity="false">
+		<appender-ref ref="application-message"/>
+	</logger>
+	<logger name="hu.perit.spvitamin.spring.restmethodlogger" level="DEBUG" additivity="false">
 		<appender-ref ref="application-message"/>
 	</logger>
 	<logger name="hu.perit.spvitamin.spring.security" level="WARN" additivity="false">

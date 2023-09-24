@@ -1,23 +1,49 @@
 version: '3.7'
 
-services:
-  elasticsearch:
-    container_name: "elasticsearch"
-    image: elasticsearch:8.5.3
-    environment:
-      - discovery.type=single-node
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - xpack.security.enabled=false
-    ports:
-      - "9200:9200"
+networks:
+  back-tier-net:
+    driver: bridge
+  db-net:
+    driver: bridge
+  monitoring:
+    driver: bridge
 
-  kibana:
-    container_name: kibana
-    image: docker.elastic.co/kibana/kibana:8.5.3
-    restart: always
+services:
+
+  #####################################################################################
+  postgres:
+  #####################################################################################
+    container_name: ngface-postgres
+    image: postgres:10.13-alpine
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - POSTGRES_PASSWORD=sa
     ports:
-      - 5601:5601
-    depends_on:
-      - elasticsearch
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - back-tier-net
+      - db-net
+
+
+  #####################################################################################
+  pgadmin:
+  #####################################################################################
+    container_name: ngface-pgadmin
+    #image: dpage/pgadmin4
+    image: thajeztah/pgadmin4
+    #environment:
+    #    - PGADMIN_DEFAULT_EMAIL=postgres
+    #    - PGADMIN_DEFAULT_PASSWORD=sa
+    ports:
+      - "5400:5050"
+    volumes:
+      - pgadmin:/var/lib/pgadmin:rw
+    networks:
+      - db-net
+    #logging:
+    #    driver: none
+
+volumes:
+  postgres:
+  pgadmin:

@@ -17,11 +17,11 @@
 const PROXY_CONFIG = [
   {
     context: [
-      "/demo",
-      "/table-details",
+      "/demo-service"
     ],
     target: "http://192.168.128.150:8400",
-    secure: false
+    secure: false,
+    pathRewrite: {"^/demo-service" : ""}
   }
 ]
 

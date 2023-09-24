@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2022 the original author or authors.
+ * Copyright 2020-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,23 @@
 
 package hu.perit.ngface.webservice.config;
 
-import hu.perit.ngface.formating.NumericFormat;
+import hu.perit.ngface.core.formating.NumericFormat;
 
 public class Constants
 {
-    public static final int DEFAULT_PAGESIZE = 5;
+    public static final int DEFAULT_PAGESIZE = 10;
 
     public static final NumericFormat ATOMIC_WEIGHT_FORMAT = new NumericFormat().precision(4).suffix("g/mol");
 
     public static final int ADDRESS_API_SEARCH = 1;
+
+    public static final int DEMO_API = 100;
+    public static final int DEMO_API_GET_DEMO_FORM = DEMO_API + 1;
+    public static final int DEMO_API_GET_DEMO_FORM_TABLE_ROW = DEMO_API + 2;
+    public static final int DEMO_API_GET_DEMO_FORM_COLUMN_FILTERER = DEMO_API + 3;
+    public static final int DEMO_API_SUBMIT_DEMO_FORM = DEMO_API + 4;
+    public static final int DEMO_API_GET_TABLE_DETAILS_FORM = DEMO_API + 5;
+    public static final int DEMO_API_SUBMIT_TABLE_DETAILS_FORM = DEMO_API + 6;
 
     public static final String SUBSYSTEM_NAME = "ngface-demo-app";
 }

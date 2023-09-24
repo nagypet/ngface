@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2022 the original author or authors.
+ * Copyright 2020-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,13 @@
 
 package hu.perit.ngface.webservice.ngface.tabledetailscomponent;
 
-import hu.perit.ngface.view.ComponentView;
+import hu.perit.ngface.core.view.ComponentView;
+import hu.perit.ngface.core.widget.button.Button;
+import hu.perit.ngface.core.widget.form.Form;
+import hu.perit.ngface.core.widget.input.NumericInput;
+import hu.perit.ngface.core.widget.input.TextInput;
+import hu.perit.ngface.core.widget.input.validator.Required;
 import hu.perit.ngface.webservice.config.Constants;
-import hu.perit.ngface.widget.button.Button;
-import hu.perit.ngface.widget.form.Form;
-import hu.perit.ngface.widget.input.NumericInput;
-import hu.perit.ngface.widget.input.TextInput;
-import hu.perit.ngface.widget.input.validator.Required;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

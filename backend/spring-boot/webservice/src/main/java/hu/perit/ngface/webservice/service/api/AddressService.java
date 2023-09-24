@@ -16,7 +16,23 @@
 
 package hu.perit.ngface.webservice.service.api;
 
-public interface AddressService
+import hu.perit.ngface.data.jpa.service.api.NgfaceQueryService;
+import hu.perit.ngface.webservice.db.addressdb.table.AddressEntity;
+import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
+
+import java.util.List;
+
+public interface AddressService extends NgfaceQueryService<AddressEntity>
 {
     void loadFromFile(String fileName, String city) throws Exception;
+
+    AddressEntity find(String id) throws ResourceNotFoundException;
+
+    List<String> getDistinctStreets(String searchText);
+
+    List<String> getDistinctDistricts(String searchText);
+
+    List<String> getDistinctPostcodes(String searchText);
+
+    List<String> getDistinctCities(String searchText);
 }

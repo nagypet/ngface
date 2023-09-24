@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2022 the original author or authors.
+ * Copyright 2020-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,25 @@
 
 package hu.perit.ngface.webservice.rest.api;
 
-import hu.perit.ngface.data.DataRetrievalParams;
-import hu.perit.ngface.data.SubmitFormData;
-import hu.perit.ngface.widget.form.Form;
+import hu.perit.ngface.core.data.DataRetrievalParams;
+import hu.perit.ngface.core.data.SubmitFormData;
+import hu.perit.ngface.core.widget.form.Form;
+import hu.perit.ngface.core.widget.table.Filterer;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
 
 public interface DemoApi
 {
-    String BASE_URL_DEMO = "/demo";
+    String BASE_URL_DEMO = "/frontend/demo";
+    String BASE_URL_TABLE_DETAILS = "/frontend/table-details";
     String URL_GET = "/get";
     String URL_SUBMIT = "/submit";
-    String BASE_URL_TABLE_DETAILS = "/table-details";
+    String URL_COLVALUESET = "/colvalueset";
 
     //------------------------------------------------------------------------------------------------------------------
     // getDemoForm()
@@ -45,6 +48,16 @@ public interface DemoApi
     //------------------------------------------------------------------------------------------------------------------
     @GetMapping(BASE_URL_DEMO + URL_GET)
     Form getDemoFormTableRow(@RequestParam String rowId);
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // getColumnFilterer()
+    //------------------------------------------------------------------------------------------------------------------
+    @GetMapping(BASE_URL_DEMO + URL_COLVALUESET)
+    Filterer getColumnFilterer(
+            @RequestHeader(value = "column") String column,
+            @RequestHeader(value = "searchText") String searchText
+    );
 
 
     //------------------------------------------------------------------------------------------------------------------

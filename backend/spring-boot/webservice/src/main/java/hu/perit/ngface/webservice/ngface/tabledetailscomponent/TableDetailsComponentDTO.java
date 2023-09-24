@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2022 the original author or authors.
+ * Copyright 2020-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,14 @@
 
 package hu.perit.ngface.webservice.ngface.tabledetailscomponent;
 
-import hu.perit.ngface.data.ComponentDTO;
-import hu.perit.ngface.data.DTOId;
-import hu.perit.ngface.data.DTOValue;
+import hu.perit.ngface.core.data.ComponentDTO;
+import hu.perit.ngface.core.data.DTOId;
+import hu.perit.ngface.core.data.DTOValue;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Data
 public class TableDetailsComponentDTO extends ComponentDTO

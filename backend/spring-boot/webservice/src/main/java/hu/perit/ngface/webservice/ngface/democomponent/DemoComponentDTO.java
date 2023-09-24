@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2022 the original author or authors.
+ * Copyright 2020-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,13 @@
 
 package hu.perit.ngface.webservice.ngface.democomponent;
 
-import hu.perit.ngface.data.ComponentDTO;
-import hu.perit.ngface.data.DTOValue;
-import hu.perit.ngface.data.GenericTableDTO;
-import hu.perit.ngface.webservice.service.api.TableRowDTO;
-import hu.perit.ngface.widget.input.DateRangeInput;
-import hu.perit.ngface.widget.input.Select;
-import hu.perit.ngface.widget.table.Table;
+import hu.perit.ngface.core.data.ComponentDTO;
+import hu.perit.ngface.core.data.DTOValue;
+import hu.perit.ngface.core.data.GenericTableDTO;
+import hu.perit.ngface.core.widget.input.DateRangeInput;
+import hu.perit.ngface.core.widget.input.Select;
+import hu.perit.ngface.core.widget.table.Table;
+import hu.perit.ngface.webservice.model.AddressDTO;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -86,7 +86,7 @@ public class DemoComponentDTO extends ComponentDTO
     @DTOValue(id = SELECT3_ID)
     private Select.Data select3Data;
 
-    private GenericTableDTO<TableRowDTO> tableDTO = new GenericTableDTO<>();
+    private GenericTableDTO<AddressDTO> tableDTO = new GenericTableDTO<>();
 
     @DTOValue(id = "table-multiselect")
     private Table.Data tableData = new Table.Data();

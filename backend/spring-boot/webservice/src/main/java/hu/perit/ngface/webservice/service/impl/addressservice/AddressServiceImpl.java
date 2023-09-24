@@ -19,40 +19,39 @@ package hu.perit.ngface.webservice.service.impl.addressservice;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import hu.perit.ngface.webservice.db.table.AddressEntity;
-import hu.perit.ngface.webservice.mapper.AddressMapper;
-import hu.perit.ngface.webservice.model.AddressFilters;
-import hu.perit.ngface.webservice.model.Filters;
-import hu.perit.ngface.webservice.model.SearchAddressResponse;
+import hu.perit.ngface.data.jpa.service.impl.NgfaceQueryServiceImpl;
+import hu.perit.ngface.webservice.config.Constants;
+import hu.perit.ngface.webservice.db.addressdb.repo.AddressRepo;
+import hu.perit.ngface.webservice.db.addressdb.table.AddressEntity;
+import hu.perit.ngface.webservice.model.AddressDTO;
 import hu.perit.ngface.webservice.service.api.AddressService;
-import hu.perit.ngface.webservice.service.impl.CriteriaQueryFactory;
-import lombok.RequiredArgsConstructor;
+import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.elasticsearch.NoSuchIndexException;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.SearchHit;
-import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
-import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
-public class AddressServiceImpl implements AddressService
+public class AddressServiceImpl extends NgfaceQueryServiceImpl<AddressEntity> implements AddressService
 {
-    private final ElasticsearchOperations elasticsearchOperations;
-    private final AddressMapper addressMapper;
+    private final AddressRepo repo;
+
+
+    public AddressServiceImpl(AddressRepo repo)
+    {
+        super(repo, Constants.DEFAULT_PAGESIZE);
+        this.repo = repo;
+    }
+
 
     public void loadFromFile(String fileName, String city) throws Exception
     {
@@ -60,17 +59,77 @@ public class AddressServiceImpl implements AddressService
     }
 
 
+    @Override
+    public AddressEntity find(String id) throws ResourceNotFoundException
+    {
+        return null;
+    }
+
+
+    protected List<Sort.Order> getDefaultSortOrder()
+    {
+        return List.of(
+            new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_POSTCODE),
+            new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_STREET)
+        );
+    }
+
+
+    @Override
+    public List<String> getDistinctStreets(String searchText)
+    {
+        if (StringUtils.isBlank(searchText))
+        {
+            return this.repo.getDistinctStreets();
+        }
+        return this.repo.getDistinctStreets("%" + searchText + "%");
+    }
+
+
+    @Override
+    public List<String> getDistinctDistricts(String searchText)
+    {
+        if (StringUtils.isBlank(searchText))
+        {
+            return this.repo.getDistinctDistricts();
+        }
+        return this.repo.getDistinctDistricts("%" + searchText + "%");
+    }
+
+
+    @Override
+    public List<String> getDistinctPostcodes(String searchText)
+    {
+        if (StringUtils.isBlank(searchText))
+        {
+            return this.repo.getDistinctPostcodes();
+        }
+        return this.repo.getDistinctPostcodes("%" + searchText + "%");
+    }
+
+
+    @Override
+    public List<String> getDistinctCities(String searchText)
+    {
+        if (StringUtils.isBlank(searchText))
+        {
+            return this.repo.getDistinctCities();
+        }
+        return this.repo.getDistinctCities("%" + searchText + "%");
+    }
+
+
     private void readLineByLine(String fileName, String city) throws Exception
     {
         try (InputStream resourceAsStream = this.getClass().getResourceAsStream("/" + fileName))
         {
-            try (Reader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(resourceAsStream))))
+            try (Reader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(resourceAsStream), StandardCharsets.UTF_8)))
             {
                 try (CSVReader csvReader = new CSVReaderBuilder(reader)
-                        .withCSVParser(new CSVParserBuilder()
-                                .withSeparator(';')
-                                .build()
-                        ).build())
+                    .withCSVParser(new CSVParserBuilder()
+                        .withSeparator(';')
+                        .build()
+                    ).build())
                 {
                     String[] line;
                     while ((line = csvReader.readNext()) != null)
@@ -82,20 +141,21 @@ public class AddressServiceImpl implements AddressService
         }
     }
 
+
     private void processLine(String[] line, String city)
     {
-        if (line.length >= 9)
+        if (line.length >= 8)
         {
             AddressEntity entity = new AddressEntity();
             entity.setPostCode(StringUtils.strip(line[0]));
             entity.setCity(city);
             entity.setStreet(StringUtils.strip(line[1]) + " " + StringUtils.strip(line[2]));
-            entity.setDistrict(StringUtils.strip(line[8]));
+            entity.setDistrict(StringUtils.strip(line[3]));
             entity.createSearchField();
             log.debug(entity.toString());
             if (!addressExist(entity))
             {
-                this.elasticsearchOperations.save(entity);
+                this.repo.save(entity);
             }
         }
     }
@@ -103,58 +163,7 @@ public class AddressServiceImpl implements AddressService
 
     private boolean addressExist(AddressEntity entity)
     {
-        SearchAddressResponse searchAddressResponse = searchAddress(AddressFilters.byEntity(entity), MatchType.ALL_MATCH);
-        return searchAddressResponse.getTotal() != 0;
-    }
-
-
-    private enum MatchType
-    {
-        ALL_MATCH,
-        ANY_MATCH
-    }
-
-    private SearchAddressResponse searchAddress(Filters filters, MatchType matchType)
-    {
-        log.debug("searchAddress({})", filters);
-
-        final List<AddressEntity> addressEntities = new ArrayList<>();
-
-        try
-        {
-            CriteriaQuery criteriaQuery;
-            if (matchType == MatchType.ALL_MATCH)
-            {
-                criteriaQuery = CriteriaQueryFactory.allMatch(filters, 100);
-            }
-            else
-            {
-                criteriaQuery = CriteriaQueryFactory.anyMatch(filters, 100);
-            }
-            SearchHits<AddressEntity> results = this.elasticsearchOperations.search(criteriaQuery, AddressEntity.class, IndexCoordinates.of(AddressEntity.INDEX_NAME));
-            addressEntities.addAll(results.stream().map(SearchHit::getContent).toList());
-        }
-        catch (NoSuchIndexException e)
-        {
-            // just do nothing, return empty list
-            log.error(e.toString());
-        }
-
-        return createSearchAddressResponse(addressEntities);
-    }
-
-
-    private SearchAddressResponse createSearchAddressResponse(List<AddressEntity> userEntities)
-    {
-        SearchAddressResponse searchAddressResponse = new SearchAddressResponse();
-
-        searchAddressResponse.setAddresses(
-                userEntities.stream()
-                        .map(this.addressMapper::mapDtoFromEntity)
-                        .collect(Collectors.toList()));
-
-        searchAddressResponse.setTotal(userEntities.size());
-
-        return searchAddressResponse;
+        List<AddressEntity> found = this.repo.findBySearchField(entity.getSearchField());
+        return !found.isEmpty();
     }
 }
