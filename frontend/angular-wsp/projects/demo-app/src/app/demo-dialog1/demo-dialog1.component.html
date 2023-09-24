@@ -17,23 +17,19 @@
 <h1 mat-dialog-title>{{data.title}}</h1>
 <ngface-form [formdata]="formData" mat-dialog-content (keydown.enter)="onOkClick()">
   <div class="ngface-row">
-    <ngface-numeric-input [formdata]="formData" [widgetid]="'postCode'" cdkFocusInitial></ngface-numeric-input>
+    <ngface-numeric-input [formdata]="formData" widgetid="postCode" cdkFocusInitial></ngface-numeric-input>
   </div>
   <div class="ngface-row">
-    <ngface-text-input [formdata]="formData" [widgetid]="'city'"></ngface-text-input>
+    <ngface-text-input [formdata]="formData" widgetid="city"></ngface-text-input>
   </div>
   <div class="ngface-row">
-    <ngface-text-input [formdata]="formData" [widgetid]="'street'"></ngface-text-input>
+    <ngface-text-input [formdata]="formData" widgetid="street"></ngface-text-input>
   </div>
   <div class="ngface-row">
-    <ngface-text-input [formdata]="formData" [widgetid]="'district'"></ngface-text-input>
+    <ngface-text-input [formdata]="formData" widgetid="district"></ngface-text-input>
   </div>
 </ngface-form>
 <div mat-dialog-actions>
-  <ngface-button [formdata]="formData" [widgetid]="'button-save'" (click)="onOkClick()"></ngface-button>
-  <ngface-button [formdata]="formData" [widgetid]="'button-cancel'" (click)="onCancelClick()"></ngface-button>
-  <!--
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="getSubmitData()" cdkFocusInitial>Ok</button>
-  -->
+  <ngface-button [formdata]="formData" widgetid="button-save" (click)="onOkClick()"></ngface-button>
+  <ngface-button [formdata]="formData" widgetid="button-cancel" (click)="onCancelClick()"></ngface-button>
 </div>
