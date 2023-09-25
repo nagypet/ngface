@@ -33,7 +33,7 @@ export class DemoService
 
   public getDemoForm(searchRequest: Ngface.DataRetrievalParams): Observable<any>
   {
-    var headers = new HttpHeaders();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json; charset=utf-8');
     return this.httpClient.post(`${environment.baseURL}/frontend/demo/get`, searchRequest, {headers: headers});
   }
@@ -41,11 +41,11 @@ export class DemoService
 
   public getDemoFormTableRow(rowId: string): Observable<any>
   {
-    var headers = new HttpHeaders();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
     return this.httpClient.get(`${environment.baseURL}/frontend/demo/get`, {
-      headers: headers,
+      headers,
       params: new HttpParams()
         .set('rowId', rowId)
     });
@@ -83,7 +83,7 @@ export class DemoService
 
   public getColumnFilterer(column: string, searchText: string): Observable<any>
   {
-    var headers = new HttpHeaders();
+    let headers = new HttpHeaders();
     headers = headers.append('column', column);
     headers = headers.append('searchText', searchText);
 

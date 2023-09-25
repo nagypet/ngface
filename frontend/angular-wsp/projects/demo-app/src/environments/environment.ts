@@ -20,7 +20,7 @@
 
 export const environment = {
   production: false,
-  baseURL: '/demo-service',
+  baseURL: '/ngface-webservice',
 };
 
 /*

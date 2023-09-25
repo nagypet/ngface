@@ -17,11 +17,12 @@
 const PROXY_CONFIG = [
   {
     context: [
-      "/demo-service"
+      "/ngface-webservice"
     ],
     target: "http://192.168.128.150:8400",
     secure: false,
-    pathRewrite: {"^/demo-service" : ""}
+    pathRewrite: {"^/ngface-webservice" : ""},
+    logLevel: 'debug',
   }
 ]
 

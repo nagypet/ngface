@@ -1,5 +1,9 @@
 version: '3.7'
 
+networks:
+  ngface-net:
+    driver: bridge
+
 services:
 
   #####################################################################################
@@ -13,6 +17,9 @@ services:
       - "5432:5432"
     volumes:
       - postgres:/var/lib/postgresql/data
+    networks:
+      - ngface-net
+
 
 
   #####################################################################################
@@ -28,6 +35,20 @@ services:
       - "5400:5050"
     volumes:
       - pgadmin:/var/lib/pgadmin:rw
+    networks:
+      - ngface-net
+
+
+  #####################################################################################
+  ngface-webservice:
+  #####################################################################################
+    container_name: ngface-webservice
+    image: docker-registry:5000/ngface-webservice:1.0.0
+    ports:
+      - "8400:8400"
+    networks:
+      - ngface-net
+
 
   #####################################################################################
   ngface-app:
@@ -35,8 +56,11 @@ services:
     container_name: ngface-app
     image: docker-registry:5000/ngface-app:latest
     ports:
-      - "8080:80"
-      - "443:443"
+      - "16000:80"
+      - "16001:443"
+    networks:
+      - ngface-net
+
 
 volumes:
   postgres:

@@ -16,5 +16,5 @@
 
 export const environment = {
   production: true,
-  baseURL: '',
+  baseURL: '/ngface-webservice',
 };

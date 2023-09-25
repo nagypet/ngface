@@ -1,2 +1,2 @@
 #!/bin/bash
-npm run build --prod
+ng build demo-app -c=production

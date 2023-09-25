@@ -19,7 +19,14 @@ plugins {
     id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
     id 'application'
 }
+
+ext {
+    imagePrefix = 'ngface'
+    dockerRegistry = 'docker-registry:5000'
+}
+
 apply from: '../gradle/common.gradle'
+apply from: '../gradle/docker.gradle'
 
 
 repositories {
@@ -111,4 +118,9 @@ dependencyManagement {
 
 test {
 	useJUnitPlatform()
+}
+
+
+dockerImage() {
+    dependsOn 'dockerBackendImage'
 }

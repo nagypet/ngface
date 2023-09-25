@@ -1,0 +1,62 @@
+version: '3.7'
+
+networks:
+  ngface-net:
+    driver: bridge
+
+services:
+
+  #####################################################################################
+  postgres:
+  #####################################################################################
+    container_name: ngface-postgres
+    image: postgres:10.13-alpine
+    environment:
+      - POSTGRES_PASSWORD=sa
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - ngface-net
+
+
+  #####################################################################################
+  pgadmin:
+  #####################################################################################
+    container_name: ngface-pgadmin
+    #image: dpage/pgadmin4
+    image: thajeztah/pgadmin4
+    #environment:
+    #    - PGADMIN_DEFAULT_EMAIL=postgres
+    #    - PGADMIN_DEFAULT_PASSWORD=sa
+    ports:
+      - "5400:5050"
+    volumes:
+      - pgadmin:/var/lib/pgadmin:rw
+    networks:
+      - ngface-net
+
+
+  #####################################################################################
+  ngface-webservice:
+  #####################################################################################
+    container_name: ngface-webservice
+    image: docker-registry:5000/ngface-webservice:1.0.0
+    networks:
+      - ngface-net
+
+
+  #####################################################################################
+  ngface-app:
+  #####################################################################################
+    container_name: ngface-app
+    image: docker-registry:5000/ngface-app:latest
+    ports:
+      - "16000:80"
+      - "16001:443"
+    networks:
+      - ngface-net
+
+
+volumes:
+  postgres:
+  pgadmin:

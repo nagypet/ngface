@@ -71,7 +71,7 @@ spring:
 datasource:
   addressdb:
     db-type: postgresql
-    host: localhost
+    host: postgres
     db-name: addressdb
     username: postgres
     encrypted-password: 1tvmTu8Ya8A=

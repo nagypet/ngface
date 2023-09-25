@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 public interface AddressApi
 {
-    String BASE_URL = "/api/elasticsearch/address";
+    String BASE_URL = "/api/addresses";
 
-    @PostMapping(path = {BASE_URL + "/load"})
+    @PostMapping(path = {BASE_URL + "/reset"})
     void loadFromFile() throws Exception;
 }
