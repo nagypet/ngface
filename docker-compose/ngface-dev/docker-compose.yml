@@ -14,7 +14,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=sa
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - postgres:/var/lib/postgresql/data
     networks:
@@ -32,7 +32,7 @@ services:
     #    - PGADMIN_DEFAULT_EMAIL=postgres
     #    - PGADMIN_DEFAULT_PASSWORD=sa
     ports:
-      - "5400:5050"
+      - "127.0.0.1:5400:5050"
     volumes:
       - pgadmin:/var/lib/pgadmin:rw
     networks:
@@ -45,7 +45,7 @@ services:
     container_name: ngface-webservice
     image: docker-registry:5000/ngface-webservice:1.0.0
     ports:
-      - "18400:8400"
+      - "127.0.0.1:18400:80"
     networks:
       - ngface-net
 
@@ -56,8 +56,8 @@ services:
     container_name: ngface-app
     image: docker-registry:5000/ngface-app:latest
     ports:
-      - "16000:80"
-      - "16001:443"
+      - "127.0.0.1:16000:80"
+      - "127.0.0.1:16001:443"
     networks:
       - ngface-net
 

@@ -31,8 +31,9 @@ crypto.secret: xM!75hjlLHG,mnGHlhg79685gv
 # Server settings
 #-----------------------------------------------------------------------------------------------------------------------
 server:
-  fqdn: localhost
-  port: 8400
+  fqdn: ngface.perit.hu
+  port: 80
+  external-url: http://ngface.perit.hu
   ssl:
     enabled: false
   error:
