@@ -19,6 +19,7 @@
   <br>
   <div class="ngface-form">
     <ngface-form [formdata]="formData" (keydown.enter)="onOkClick()">
+      <p>This is a form with some widgets. The types, contents, hints, placeholders, validators of the widgets are set in the backend. See the network tab in your browser's developer tools windows to see the data flow between the backend and frontend.</p>
       <div class="ngface-row">
         <ngface-text-input [formdata]="formData" widgetid="name"></ngface-text-input>
         <ngface-text-input [formdata]="formData" widgetid="place-of-birth"></ngface-text-input>
@@ -49,18 +50,27 @@
       </div>
       -->
       <!--                       [heightPx]="222"-->
-      <ngface-data-table [formdata]="formData" widgetid="table-multiselect"
-                         (tableReloadEvent)="onTableReload($event)"
-                         (actionClickEvent)="onTableActionClick($event)"
-                         (tableValueSetSearchEvent)="onTableValueSetSearch($event)"
-                         (tableViewParamsChangeEvent)="onTableViewParamsChange($event)"
-      >
-      </ngface-data-table>
       <div class="ngface-row">
         <ngface-button [formdata]="formData" widgetid="button-ok" (click)="onOkClick()"></ngface-button>
         <ngface-button [formdata]="formData" widgetid="button-cancel"></ngface-button>
         <ngface-button [formdata]="formData" widgetid="button-delete"></ngface-button>
       </div>
     </ngface-form>
+  </div>
+  <div class="ngface-form">
+    <ngface-data-table [formdata]="formData" widgetid="table-multiselect"
+                       (tableReloadEvent)="onTableReload($event)"
+                       (actionClickEvent)="onTableActionClick($event)"
+                       (tableValueSetSearchEvent)="onTableValueSetSearch($event)"
+                       (tableViewParamsChangeEvent)="onTableViewParamsChange($event)"
+    >
+    </ngface-data-table>
+    <div class="ngface-row">
+      <ngface-button [formdata]="formData" widgetid="button-reload" (click)="onReloadClick()"></ngface-button>
+    </div>
+  </div>
+  <div class="ngface-form">
+    <p>Developed by <a href="https://perit.hu" target="_blank">perit</a>.</p>
+    <p>Source code on <a href="https://github.com/nagypet/ngface" target="_blank">github</a>.</p>
   </div>
 </div>

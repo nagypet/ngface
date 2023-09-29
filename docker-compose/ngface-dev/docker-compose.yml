@@ -45,7 +45,7 @@ services:
     container_name: ngface-webservice
     image: docker-registry:5000/ngface-webservice:1.0.0
     ports:
-      - "8400:8400"
+      - "18400:8400"
     networks:
       - ngface-net
 

@@ -150,6 +150,7 @@ public class DemoComponentView implements ComponentView
 //                .addWidget(getTable("table-singleselect", Table.SelectMode.SINGLE))
 //                .addWidget(new Button("button-details").label("Details"))
             .addWidget(getTable("table-multiselect", Table.SelectMode.CHECKBOX))
+            .addWidget(new Button("button-reload").label("Reload addresses from resource").hint("This may take a while").style(Button.Style.PRIMARY))
             .addWidget(Button.OK.hint("OK button :-)"))
             .addWidget(Button.CANCEL)
             .addWidget(Button.DELETE)
@@ -160,7 +161,7 @@ public class DemoComponentView implements ComponentView
     private Table getTable(String id, Table.SelectMode selectMode)
     {
         Table table = new Table(id)
-            .label("Addresses")
+            .label("Multiselect table demo")
             .selectMode(selectMode)
             .addColumn(new Column(AddressDTO.COL_ID).text("ID").sortable(true).size(Column.Size.NUMBER).textAlign(Column.TextAlign.RIGHT))
             .addColumn(new Column(AddressDTO.COL_POSTCODE).text("Post code").sortable(true).size(Column.Size.S))

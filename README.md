@@ -2,8 +2,7 @@
 
 A standardized backend-frontend communication using **widgets**. 
 
-![](docs/screenshot.jpg)
-![](docs/screenshot2.jpg)
+![](docs/screenshot.png)
 
 ## Key concepts:
 - The data and visual properties of UI elements are encapsulated in widgets
@@ -304,8 +303,11 @@ NewComponentView.java generated
 
 # Open issues
 
-- DateRangeInput típusú inputoknál időzóna eltérés
-- DateInput formázás magyar dátumformátumra
-- Kellene PasswordInput. Vagy legyen a TextInputnak egy plusz paramétere vagy egy speciális validátora
-- 
+- Handling time zone at DateRangeInput
+- PasswordInput
+- A better looking drop-down list
 
+# Contact
+Developed by [perit](https://perit.hu).
+
+Try in on [http://ngface.perit.hu](http://ngface.perit.hu)

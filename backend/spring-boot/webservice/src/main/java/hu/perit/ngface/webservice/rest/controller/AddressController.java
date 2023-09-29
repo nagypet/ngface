@@ -33,6 +33,7 @@ public class AddressController implements AddressApi
     @LoggedRestMethod(eventId = Constants.ADDRESS_API_SEARCH, subsystem = Constants.SUBSYSTEM_NAME)
     public void loadFromFile() throws Exception
     {
+        this.addressService.deleteAll();
         this.addressService.loadFromFile("addresses_budapest.csv", "Budapest");
         this.addressService.loadFromFile("addresses_miskolc.csv", "Miskolc");
     }

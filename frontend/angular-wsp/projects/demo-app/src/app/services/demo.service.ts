@@ -89,4 +89,14 @@ export class DemoService
 
     return this.httpClient.get(`${environment.baseURL}/frontend/demo/colvalueset`, {headers});
   }
+
+  public reloadTableData(): Observable<any>
+  {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.httpClient.post(`${environment.baseURL}/api/addresses/reset`, httpOptions);
+  }
 }

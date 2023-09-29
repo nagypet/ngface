@@ -24,6 +24,8 @@ import java.util.List;
 
 public interface AddressService extends NgfaceQueryService<AddressEntity>
 {
+    void deleteAll();
+
     void loadFromFile(String fileName, String city) throws Exception;
 
     AddressEntity find(Long id) throws ResourceNotFoundException;

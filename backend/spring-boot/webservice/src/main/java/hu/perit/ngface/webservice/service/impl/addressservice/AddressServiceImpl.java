@@ -55,6 +55,13 @@ public class AddressServiceImpl extends NgfaceQueryServiceImpl<AddressEntity> im
     }
 
 
+    @Override
+    public void deleteAll()
+    {
+        this.repo.deleteAll();
+    }
+
+
     public void loadFromFile(String fileName, String city) throws Exception
     {
         readLineByLine(fileName, city);
