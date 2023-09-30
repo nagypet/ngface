@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 public interface AddressApi
 {
-    String BASE_URL = "/api/addresses";
+    String BASE_URL = "/frontend/addresses";
 
     @PostMapping(path = {BASE_URL + "/reset"})
     void loadFromFile() throws Exception;

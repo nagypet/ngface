@@ -97,6 +97,6 @@ export class DemoService
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(`${environment.baseURL}/api/addresses/reset`, httpOptions);
+    return this.httpClient.post(`${environment.baseURL}/frontend/addresses/reset`, httpOptions);
   }
 }

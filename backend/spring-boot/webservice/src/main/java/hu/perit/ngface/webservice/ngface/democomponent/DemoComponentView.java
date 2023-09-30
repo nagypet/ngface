@@ -150,7 +150,11 @@ public class DemoComponentView implements ComponentView
 //                .addWidget(getTable("table-singleselect", Table.SelectMode.SINGLE))
 //                .addWidget(new Button("button-details").label("Details"))
             .addWidget(getTable("table-multiselect", Table.SelectMode.CHECKBOX))
-            .addWidget(new Button("button-reload").label("Reload addresses from resource").hint("Only available from within the perit.hu domain").style(Button.Style.PRIMARY).enabled(isReloadEnabled()))
+            .addWidget(new Button("button-reload")
+                .label("Reload addresses from resource")
+                .hint("Only available from within the perit.hu domain")
+                .style(Button.Style.PRIMARY)
+                .enabled(isReloadEnabled()))
             .addWidget(Button.OK.hint("OK button :-)"))
             .addWidget(Button.CANCEL)
             .addWidget(Button.DELETE)
@@ -160,6 +164,7 @@ public class DemoComponentView implements ComponentView
 
     private boolean isReloadEnabled()
     {
+        // if host = localhost or
         return false;
     }
 
