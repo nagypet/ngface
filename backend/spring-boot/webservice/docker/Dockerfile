@@ -10,7 +10,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 WORKDIR /usr/src/ngface-webservice
 
-EXPOSE 8400
+EXPOSE 80
 
 COPY ./dependencies ./snapshot-dependencies* ./lib/
 COPY ./bin ./bin

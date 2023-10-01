@@ -21,11 +21,7 @@ import hu.perit.ngface.core.data.SubmitFormData;
 import hu.perit.ngface.core.widget.form.Form;
 import hu.perit.ngface.core.widget.table.Filterer;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
 public interface DemoApi
@@ -55,8 +51,8 @@ public interface DemoApi
     //------------------------------------------------------------------------------------------------------------------
     @GetMapping(BASE_URL_DEMO + URL_COLVALUESET)
     Filterer getColumnFilterer(
-            @RequestHeader(value = "column") String column,
-            @RequestHeader(value = "searchText") String searchText
+        @RequestHeader(value = "column") String column,
+        @RequestHeader(value = "searchText") String searchText
     );
 
 

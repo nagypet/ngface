@@ -45,11 +45,11 @@ server:
 #-----------------------------------------------------------------------------------------------------------------------
 # Security settings
 #-----------------------------------------------------------------------------------------------------------------------
-#security.allowed-origins=http://localhost:1337
-#security.allowed-headers
-#security.allowed-methods
 # * or comma separated roles (e.g. ADMIN)
 security:
+  allowed-origins: "http://ngface.perit.hu"
+  allowed-headers: "*"
+  allowed-methods: "OPTIONS, GET, POST, PUT, DELETE, PATCH"
   swagger-access: "*"
   management-endpoints-access: "*"
   admin-gui-access: "*"
