@@ -88,4 +88,9 @@ export class NgfaceButtonComponent implements OnInit
 
     return this.getData().badge;
   }
+
+  isEnabled(): boolean
+  {
+    return this.enabled && this.getData().enabled;
+  }
 }

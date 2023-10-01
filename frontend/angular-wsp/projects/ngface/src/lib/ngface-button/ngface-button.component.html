@@ -17,12 +17,14 @@
 <div class="ngface-button">
   <button type="button" (click)="onClick()" mat-raised-button [ngClass]="getClass()"
           [id]="getData().id"
-          [disabled]="!(getData().enabled && enabled)"
-          [matBadgeHidden]="!(getData().enabled && enabled)"
+          [disabled]="!isEnabled()"
+          [matBadgeHidden]="!isEnabled()"
           [matTooltip]="getData().hint"
           [matBadge]="getBadge()"
           matBadgeColor="warn"
   >
-    {{getData().label}}
+    <span (click)="!isEnabled() ? $event.stopPropagation() : undefined">
+        {{getData().label}}
+    </span>
   </button>
 </div>

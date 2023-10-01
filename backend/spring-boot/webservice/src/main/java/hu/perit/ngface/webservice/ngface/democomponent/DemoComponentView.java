@@ -21,25 +21,24 @@ import hu.perit.ngface.core.formating.NumericFormat;
 import hu.perit.ngface.core.view.ComponentView;
 import hu.perit.ngface.core.widget.button.Button;
 import hu.perit.ngface.core.widget.form.Form;
-import hu.perit.ngface.core.widget.input.DateInput;
-import hu.perit.ngface.core.widget.input.DateRangeInput;
-import hu.perit.ngface.core.widget.input.NumericInput;
-import hu.perit.ngface.core.widget.input.Select;
-import hu.perit.ngface.core.widget.input.TextInput;
-import hu.perit.ngface.core.widget.input.validator.Email;
-import hu.perit.ngface.core.widget.input.validator.Max;
-import hu.perit.ngface.core.widget.input.validator.Min;
-import hu.perit.ngface.core.widget.input.validator.Pattern;
-import hu.perit.ngface.core.widget.input.validator.Required;
-import hu.perit.ngface.core.widget.input.validator.Size;
+import hu.perit.ngface.core.widget.input.*;
+import hu.perit.ngface.core.widget.input.validator.*;
 import hu.perit.ngface.core.widget.table.Action;
 import hu.perit.ngface.core.widget.table.Column;
 import hu.perit.ngface.core.widget.table.Row;
 import hu.perit.ngface.core.widget.table.Table;
 import hu.perit.ngface.core.widget.table.cell.ActionCell;
 import hu.perit.ngface.webservice.model.AddressDTO;
+import hu.perit.spvitamin.spring.httplogging.LoggingHelper;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -162,9 +161,35 @@ public class DemoComponentView implements ComponentView
     }
 
 
+    // if origin = localhost:4200 or x-forwarded-for equals to perit.hu domain IP address
     private boolean isReloadEnabled()
     {
-        // if host = localhost or
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (requestAttributes == null)
+        {
+            return false;
+        }
+        HttpServletRequest httpServletRequest = ((ServletRequestAttributes) requestAttributes).getRequest();
+        String origin = httpServletRequest.getHeader("origin");
+        if ("http://localhost:4200".equalsIgnoreCase(origin))
+        {
+            return true;
+        }
+
+        String clientIpAddr = LoggingHelper.getClientIpAddr(httpServletRequest);
+        try
+        {
+            InetAddress peritHuInetAddress = InetAddress.getByName("perit.hu");
+            String peritHuIp = peritHuInetAddress.getHostAddress();
+            if (StringUtils.equals(clientIpAddr, peritHuIp))
+            {
+                return true;
+            }
+        }
+        catch (UnknownHostException e)
+        {
+            // Do nothing
+        }
         return false;
     }
 

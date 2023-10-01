@@ -29,6 +29,7 @@ public class AddressController implements AddressApi
 {
     private final AddressService addressService;
 
+
     @Override
     @LoggedRestMethod(eventId = Constants.ADDRESS_API_SEARCH, subsystem = Constants.SUBSYSTEM_NAME)
     public void loadFromFile() throws Exception
