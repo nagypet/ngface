@@ -19,28 +19,31 @@
   <br>
   <div class="ngface-form">
     <ngface-form [formdata]="formData" (keydown.enter)="onOkClick()">
-      <p>This is a form with some widgets. The types, contents, hints, placeholders, validators of the widgets are set in the backend. See the network tab in your browser's developer tools windows to see the data flow between the backend and frontend.</p>
-      <div class="ngface-row">
-        <ngface-text-input [formdata]="formData" widgetid="name"></ngface-text-input>
-        <ngface-text-input [formdata]="formData" widgetid="place-of-birth"></ngface-text-input>
-        <ngface-text-input [formdata]="formData" widgetid="email"></ngface-text-input>
-        <ngface-text-input [formdata]="formData" widgetid="role"></ngface-text-input>
+      <p>This is a form with some widgets. The types, contents, hints, placeholders, validators of the widgets are set in the backend. See
+        the network tab in your browser's developer tools windows to see the data flow between the backend and frontend.</p>
+      <div class="row ngface-row">
+        <ngface-text-input [formdata]="formData" widgetid="name" class="col-sm"></ngface-text-input>
+        <ngface-text-input [formdata]="formData" widgetid="place-of-birth" class="col-sm"></ngface-text-input>
+        <ngface-text-input [formdata]="formData" widgetid="email" class="col-sm"></ngface-text-input>
+        <ngface-text-input [formdata]="formData" widgetid="role" class="col-sm"></ngface-text-input>
       </div>
-      <div class="ngface-row">
-        <ngface-numeric-input [formdata]="formData" widgetid="amount"></ngface-numeric-input>
-        <ngface-numeric-input [formdata]="formData" widgetid="count-samples"></ngface-numeric-input>
-        <ngface-text-input [formdata]="formData" widgetid="account-no"></ngface-text-input>
+      <div class="row ngface-row">
+        <ngface-numeric-input [formdata]="formData" widgetid="amount" class="col-sm"></ngface-numeric-input>
+        <ngface-numeric-input [formdata]="formData" widgetid="count-samples" class="col-sm"></ngface-numeric-input>
+        <ngface-text-input [formdata]="formData" widgetid="account-no" class="col-sm"></ngface-text-input>
+        <div class="col-sm" style="min-width: 220px"></div>
       </div>
-      <div class="ngface-row">
-        <ngface-date-input [formdata]="formData" widgetid="check-in-date"></ngface-date-input>
-        <ngface-date-input [formdata]="formData" widgetid="check-out-date"></ngface-date-input>
-        <ngface-date-range-input [formdata]="formData" widgetid="date-range"></ngface-date-range-input>
-        <ngface-date-range-input [formdata]="formData" widgetid="date-range2"></ngface-date-range-input>
+      <div class="row ngface-row">
+        <ngface-date-input [formdata]="formData" widgetid="check-in-date" class="col-sm"></ngface-date-input>
+        <ngface-date-input [formdata]="formData" widgetid="check-out-date" class="col-sm"></ngface-date-input>
+        <ngface-date-range-input [formdata]="formData" widgetid="date-range" class="col-sm"></ngface-date-range-input>
+        <ngface-date-range-input [formdata]="formData" widgetid="date-range2" class="col-sm"></ngface-date-range-input>
       </div>
-      <div class="ngface-row">
-        <ngface-select [formdata]="formData" widgetid="select"></ngface-select>
-        <ngface-select [formdata]="formData" widgetid="select2"></ngface-select>
-        <ngface-select [formdata]="formData" widgetid="select3"></ngface-select>
+      <div class="row ngface-row">
+        <ngface-select [formdata]="formData" widgetid="select" class="col-sm"></ngface-select>
+        <ngface-select [formdata]="formData" widgetid="select2" class="col-sm"></ngface-select>
+        <ngface-select [formdata]="formData" widgetid="select3" class="col-sm"></ngface-select>
+        <div class="col-sm" style="min-width: 220px"></div>
       </div>
       <!--
       <ngface-data-table [formData]="formData" [widgetId]="table" (tableReloadEvent)="onTableReload($event)" (actionClickEvent)="onActionClick($event)"></ngface-data-table>
