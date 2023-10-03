@@ -46,7 +46,10 @@ import {DebounceInputDirective} from './directives/debounce-input-directive';
 import {NgScrollbarModule} from 'ngx-scrollbar';
 import {MatBadgeModule} from '@angular/material/badge';
 import {SafeHtmlPipe} from './directives/safe-html.pipe';
-import { NgfaceFormComponent } from './ngface-form/ngface-form.component';
+import {NgfaceFormComponent} from './ngface-form/ngface-form.component';
+import {NgfaceErrorDialogComponent} from './ngface-error-dialog/ngface-error-dialog.component';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {ErrorInterceptor} from './interceptors/error-interceptor.service';
 
 
 @NgModule({
@@ -64,7 +67,8 @@ import { NgfaceFormComponent } from './ngface-form/ngface-form.component';
     NumericInputFilterDirective,
     DebounceInputDirective,
     SafeHtmlPipe,
-    NgfaceFormComponent
+    NgfaceFormComponent,
+    NgfaceErrorDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +101,14 @@ import { NgfaceFormComponent } from './ngface-form/ngface-form.component';
     NgfaceTextInputComponent,
     NgfaceFormComponent,
     SafeHtmlPipe
-  ]
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    }
+  ],
 })
 export class NgfaceModule
 {

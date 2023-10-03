@@ -16,8 +16,13 @@
 
 package hu.perit.ngface.webservice.exceptionhandler;
 
-import java.io.IOException;
-
+import hu.perit.spvitamin.core.StackTracer;
+import hu.perit.spvitamin.core.exception.ApplicationRuntimeException;
+import hu.perit.spvitamin.core.exception.ExceptionWrapper;
+import hu.perit.spvitamin.spring.exceptionhandler.RestExceptionResponse;
+import hu.perit.spvitamin.spring.exceptionhandler.RestResponseEntityExceptionHandler;
+import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -26,11 +31,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import hu.perit.spvitamin.core.StackTracer;
-import hu.perit.spvitamin.core.exception.ExceptionWrapper;
-import hu.perit.spvitamin.spring.exceptionhandler.RestExceptionResponse;
-import hu.perit.spvitamin.spring.exceptionhandler.RestResponseEntityExceptionHandler;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
 
 /**
  * @author Peter Nagy
@@ -54,10 +55,17 @@ public class ApplicationSpecificRestExceptionHandler extends RestResponseEntityE
             RestExceptionResponse exceptionResponse = new RestExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex, path);
             return new ResponseEntity<>(exceptionResponse, HttpStatus.valueOf(exceptionResponse.getStatus()));
         }
-        else
+
+        if (exception.instanceOf(ConstraintViolationException.class))
         {
-            return super.exceptionHandler(ex, request);
+            ConstraintViolationException cve = (ConstraintViolationException) ex;
+            ApplicationRuntimeException applicationRuntimeException = new ApplicationRuntimeException(
+                ApplicationMessage.CONSTRAINT_VIOLATION_1.params(cve.getMessage()));
+            RestExceptionResponse exceptionResponse = new RestExceptionResponse(HttpStatus.BAD_REQUEST, applicationRuntimeException, path);
+            return new ResponseEntity<>(exceptionResponse, HttpStatus.valueOf(exceptionResponse.getStatus()));
         }
+
+        return super.exceptionHandler(ex, request);
     }
 
 

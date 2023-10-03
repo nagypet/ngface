@@ -1,0 +1,72 @@
+.mat-icon {
+  height: 80px;
+  width: 80px;
+}
+
+.material-icons {
+  color: red;
+  font-family: 'Material Icons', serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 80px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+}
+
+.error-title {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.error-text {
+  //font-weight: bold;
+}
+
+.error-details {
+  font-weight: normal;
+  text-align: left;
+}
+
+.error-main {
+  text-align: center;
+}
+
+.error-dialog-details-scrollbar {
+  margin: 0;
+  border: rgba(0, 0, 0, .12) solid 1px;
+  border-radius: 5px;
+  height: 200px;
+  overflow: auto;
+  --scrollbar-size: 10px;
+  --scrollbar-thumb-color: rgba(0, 0, 0, 0.07);
+  --scrollbar-hover-size: 12px;
+  --scrollbar-track-color: rgba(0, 0, 0, 0.05);
+  --scrollbar-border-radius: 10px;
+}
+
+button {
+  margin-top: 20px;
+  margin-right: 20px;
+}

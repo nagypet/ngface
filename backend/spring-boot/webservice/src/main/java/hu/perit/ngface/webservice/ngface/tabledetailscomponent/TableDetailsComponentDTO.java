@@ -21,6 +21,7 @@ import hu.perit.ngface.core.data.DTOId;
 import hu.perit.ngface.core.data.DTOValue;
 import hu.perit.ngface.webservice.model.AddressDTO;
 import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -43,13 +44,16 @@ public class TableDetailsComponentDTO extends ComponentDTO
 
     @DTOValue(id = AddressDTO.COL_CITY)
     @NotNull
+    @Size(min = 2, max = 20)
     private String city;
 
     @DTOValue(id = AddressDTO.COL_STREET)
     @NotNull
+    @Size(min = 2, max = 30)
     private String street;
 
     @DTOValue(id = AddressDTO.COL_DISTRICT)
     @NotNull
+    @Size(min = 2, max = 20)
     private String district;
 }

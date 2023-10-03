@@ -19,7 +19,9 @@ package hu.perit.ngface.webservice.ngface.tabledetailscomponent;
 import hu.perit.ngface.core.controller.ComponentController;
 import hu.perit.ngface.core.data.TableActionParams;
 import hu.perit.ngface.webservice.db.addressdb.table.AddressEntity;
+import hu.perit.ngface.webservice.exceptionhandler.ApplicationMessage;
 import hu.perit.ngface.webservice.service.api.AddressService;
+import hu.perit.spvitamin.core.exception.ApplicationRuntimeException;
 import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +45,11 @@ public class TableDetailsComponentController implements ComponentController<Tabl
     @Override
     public TableDetailsComponentDTO initializeData(Params params)
     {
+        if (params.id % 2 != 0)
+        {
+            throw new ApplicationRuntimeException(ApplicationMessage.ONLY_EVEN_IDS_CAN_BE_EDITED);
+        }
+
         TableDetailsComponentDTO data = new TableDetailsComponentDTO();
         try
         {
