@@ -23,6 +23,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -54,8 +56,11 @@ public class Select extends Input<Select.Data, Void, Select>
 
     @ToString(callSuper = true)
     @Getter
-    public static class Data extends WidgetData
+    public static class Data extends WidgetData implements Serializable
     {
+        @Serial
+        private static final long serialVersionUID = 4759152995764164528L;
+
         private final Map<String, String> options = new LinkedHashMap<>();
         private String selected;
 

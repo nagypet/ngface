@@ -21,6 +21,7 @@ import hu.perit.ngface.core.types.intf.SubmitFormData;
 import hu.perit.ngface.core.types.table.TableDTO;
 import hu.perit.ngface.core.widget.base.WidgetData;
 import hu.perit.ngface.core.widget.exception.NgFaceBadRequestException;
+import hu.perit.ngface.core.widget.input.DateInput;
 import hu.perit.ngface.core.widget.input.NumericInput;
 import hu.perit.ngface.core.widget.input.TextInput;
 import hu.perit.ngface.core.widget.table.Table;
@@ -33,6 +34,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -167,6 +172,12 @@ public abstract class ComponentDTO
             return convertNumericInputData((NumericInput.Data) widgetData, targetType);
         }
 
+        // NumericInput.Data
+        if (widgetData.getClass().equals(DateInput.Data.class))
+        {
+            return convertDateInputData((DateInput.Data) widgetData, targetType);
+        }
+
         // Table.Data
         if (widgetData.getClass().equals(Table.Data.class))
         {
@@ -219,6 +230,22 @@ public abstract class ComponentDTO
     }
 
 
+    private Object convertDateInputData(DateInput.Data widgetData, Class<?> targetType)
+    {
+        if (LocalDate.class.equals(targetType))
+        {
+            return widgetData.getValue();
+        }
+
+        if (LocalDateTime.class.equals(targetType))
+        {
+            return LocalDateTime.of(widgetData.getValue(), null);
+        }
+
+        return null;
+    }
+
+
     private Object convertTableData(Table.Data widgetData, Class<?> targetType)
     {
         if (TableDTO.class.equals(targetType))
@@ -249,6 +276,10 @@ public abstract class ComponentDTO
             type))
         {
             return NumericInput.Data.class;
+        }
+        else if (LocalDate.class.equals(type) || LocalDateTime.class.equals(type) || Date.class.equals(type) || ZonedDateTime.class.equals(type))
+        {
+            return DateInput.Data.class;
         }
         else if (TableDTO.class.isAssignableFrom(type))
         {

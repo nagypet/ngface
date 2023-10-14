@@ -26,6 +26,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,8 +79,11 @@ public class DateRangeInput extends Input<DateRangeInput.Data, Void, DateRangeIn
     @RequiredArgsConstructor
     @Getter
     @EqualsAndHashCode(callSuper = true)
-    public static class Data extends WidgetData
+    public static class Data extends WidgetData implements Serializable
     {
+        @Serial
+        private static final long serialVersionUID = 3056327753712279955L;
+
         private final LocalDate startDate;
         private final LocalDate endDate;
 

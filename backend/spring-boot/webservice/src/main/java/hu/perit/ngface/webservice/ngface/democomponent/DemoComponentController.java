@@ -19,6 +19,8 @@ package hu.perit.ngface.webservice.ngface.democomponent;
 import hu.perit.ngface.core.controller.ComponentController;
 import hu.perit.ngface.core.widget.input.DateRangeInput;
 import hu.perit.ngface.core.widget.input.Select;
+import hu.perit.ngface.webservice.service.api.SessionData;
+import hu.perit.ngface.webservice.service.api.SessionPersistenceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,11 +36,25 @@ import java.time.LocalDate;
 @Slf4j
 public class DemoComponentController implements ComponentController<DemoComponentDTO, Long>
 {
+    private final SessionPersistenceService sessionPersistenceService;
+
+
     @Override
     public DemoComponentDTO getForm(Long id)
     {
+        SessionData sessionData = this.sessionPersistenceService.getSessionData();
+        DemoComponentDTO data = sessionData.getDemoComponentDTO();
+        if (data != null)
+        {
+            data.setSelectData(getSelectData().selected(data.getSelectData().getSelected()));
+            data.setSelect2Data(getSelectData().selected(data.getSelect2Data().getSelected()));
+            data.setSelect3Data(getSelectData().selected(data.getSelect3Data().getSelected()));
+
+            return data;
+        }
+
         // The data
-        DemoComponentDTO data = new DemoComponentDTO();
+        data = new DemoComponentDTO();
 
         data.setOwnersName("Peter");
         data.setRole("Admin");
@@ -46,23 +62,30 @@ public class DemoComponentController implements ComponentController<DemoComponen
         data.setCountSamples(10L);
         data.setCheckInDate(LocalDate.now());
         data.setDateRange(new DateRangeInput.Data(LocalDate.now(), LocalDate.now().plusDays(1)));
-        data.setSelectData(new Select.Data()
-            .addOption(new Select.Option("id_first", "First option"))
-            .addOption(new Select.Option("id_second", "Second option")));
-        data.setSelect2Data(new Select.Data()
-            .addOption(new Select.Option("id_first", "First option"))
-            .addOption(new Select.Option("id_second", "Second option")));
-        data.setSelect3Data(new Select.Data()
-            .addOption(new Select.Option("id_first", "First option"))
-            .addOption(new Select.Option("id_second", "Second option")).selected("id_first"));
+        data.setSelectData(getSelectData());
+        data.setSelect2Data(getSelectData());
+        data.setSelect3Data(getSelectData().selected("id_first"));
 
         return data;
+    }
+
+
+    private static Select.Data getSelectData()
+    {
+        return new Select.Data()
+            .addOption(new Select.Option("id_first", "First option"))
+            .addOption(new Select.Option("id_second", "Second option"))
+            .addOption(new Select.Option("id_third", "Third option"))
+            .addOption(new Select.Option("id_fourth", "Fourth option"))
+            ;
     }
 
 
     @Override
     public void onFormSubmit(DemoComponentDTO data)
     {
-        // Here you can save the submitted data
+        SessionData sessionData = this.sessionPersistenceService.getSessionData();
+        sessionData.setDemoComponentDTO(data);
+        this.sessionPersistenceService.saveSessionData(sessionData);
     }
 }

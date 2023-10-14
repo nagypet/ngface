@@ -18,12 +18,12 @@ package hu.perit.ngface.webservice.ngface.democomponent;
 
 import hu.perit.ngface.core.data.ComponentDTO;
 import hu.perit.ngface.core.data.DTOValue;
-import hu.perit.ngface.core.types.table.TableDTO;
 import hu.perit.ngface.core.widget.input.DateRangeInput;
 import hu.perit.ngface.core.widget.input.Select;
-import hu.perit.ngface.webservice.model.AddressTableRow;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -33,8 +33,11 @@ import java.time.LocalDate;
  * @author Peter Nagy
  */
 @Data
-public class DemoComponentDTO extends ComponentDTO
+public class DemoComponentDTO extends ComponentDTO implements Serializable
 {
+    @Serial
+    private static final long serialVersionUID = 999563503618787276L;
+
     public static final String OWNERS_NAME_ID = "name";
     public static final String PLACE_OF_BIRTH_ID = "place-of-birth";
     public static final String EMAIL_ID = "email";

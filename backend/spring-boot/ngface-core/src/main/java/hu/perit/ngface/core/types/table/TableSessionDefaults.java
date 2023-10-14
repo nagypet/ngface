@@ -16,29 +16,18 @@
 
 package hu.perit.ngface.core.types.table;
 
-import hu.perit.ngface.core.types.intf.RowSelectParams;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import hu.perit.ngface.core.widget.table.Table;
+import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serial;
+import java.io.Serializable;
 
-@Getter
-@Setter
-@RequiredArgsConstructor
-@ToString
-public class TableContent<R extends AbstractTableRow<?>>
+@Data
+public class TableSessionDefaults<R extends AbstractTableRow<I>, I> implements Serializable
 {
-    private final List<R> rows;
-    private String notification;
-    private Long countSelectedRows = 0L;
-    private RowSelectParams.SelectMode selectMode;
+    @Serial
+    private static final long serialVersionUID = -4669848429850190591L;
 
-
-    public TableContent()
-    {
-        this.rows = new ArrayList<>();
-    }
+    private Table.Data tableData = new Table.Data();
+    private SelectionStore<R, I> selectionStore = new SelectionStore();
 }

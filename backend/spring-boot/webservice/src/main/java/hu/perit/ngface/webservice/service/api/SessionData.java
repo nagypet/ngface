@@ -16,9 +16,9 @@
 
 package hu.perit.ngface.webservice.service.api;
 
-import hu.perit.ngface.core.types.table.SelectionStore;
-import hu.perit.ngface.core.widget.table.Table;
+import hu.perit.ngface.core.types.table.TableSessionDefaults;
 import hu.perit.ngface.webservice.model.AddressTableRow;
+import hu.perit.ngface.webservice.ngface.democomponent.DemoComponentDTO;
 import lombok.Data;
 
 import java.io.Serial;
@@ -30,6 +30,6 @@ public class SessionData implements Serializable
     @Serial
     private static final long serialVersionUID = 964123101341819189L;
 
-    private Table.Data tableData = new Table.Data();
-    private SelectionStore<AddressTableRow, Long> selectionStore = new SelectionStore();
+    private TableSessionDefaults<AddressTableRow, Long> defaults = new TableSessionDefaults<>();
+    private DemoComponentDTO demoComponentDTO;
 }

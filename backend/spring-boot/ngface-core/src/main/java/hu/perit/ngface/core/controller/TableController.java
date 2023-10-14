@@ -19,15 +19,20 @@ package hu.perit.ngface.core.controller;
 import hu.perit.ngface.core.types.intf.DataRetrievalParams;
 import hu.perit.ngface.core.types.intf.RowSelectParams;
 import hu.perit.ngface.core.types.intf.TableActionParams;
+import hu.perit.ngface.core.types.table.AbstractTableRow;
+import hu.perit.ngface.core.types.table.TableSessionDefaults;
 import hu.perit.ngface.core.widget.table.Filterer;
+import hu.perit.ngface.core.widget.table.FiltererFactory;
 
-public interface TableController<D, I>
+public interface TableController<D, R extends AbstractTableRow<I>, I>
 {
     D getTable(DataRetrievalParams dataRetrievalParams);
 
     D getTableRow(I rowId);
 
     Filterer getFilterer(String column, String searchText);
+
+    FiltererFactory getFiltererFactory();
 
     void onSave(D data);
 
@@ -44,4 +49,8 @@ public interface TableController<D, I>
      * @throws Exception
      */
     void onRowSelect(RowSelectParams<I> rowSelectParams) throws Exception;
+
+    TableSessionDefaults<R, I> getSessionDefaults();
+
+    void saveSessionDefaults(TableSessionDefaults<R, I> defaults);
 }

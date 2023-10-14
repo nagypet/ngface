@@ -16,16 +16,13 @@
 
 package hu.perit.ngface.webservice.ngface.democomponent.table;
 
-import hu.perit.ngface.core.controller.TableController;
+import hu.perit.ngface.core.controller.TableControllerImpl;
 import hu.perit.ngface.core.types.intf.DataRetrievalParams;
-import hu.perit.ngface.core.types.intf.RowSelectParams;
 import hu.perit.ngface.core.types.intf.TableActionParams;
-import hu.perit.ngface.core.types.table.SelectionStore;
 import hu.perit.ngface.core.types.table.TableContent;
-import hu.perit.ngface.core.widget.table.Filterer;
+import hu.perit.ngface.core.types.table.TableSessionDefaults;
 import hu.perit.ngface.core.widget.table.FiltererFactory;
 import hu.perit.ngface.core.widget.table.Table;
-import hu.perit.ngface.core.widget.table.TableDataBuilder;
 import hu.perit.ngface.webservice.config.Constants;
 import hu.perit.ngface.webservice.db.addressdb.table.AddressEntity;
 import hu.perit.ngface.webservice.mapper.AddressTableRowMapper;
@@ -36,19 +33,17 @@ import hu.perit.ngface.webservice.service.api.SessionPersistenceService;
 import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class DemoComponentTableController implements TableController<DemoComponentTableDTO, Long>
+public class DemoComponentTableController extends TableControllerImpl<DemoComponentTableDTO, AddressTableRow, Long>
 {
     private final AddressService addressService;
     private final AddressTableRowMapper addressTableRowMapper;
@@ -60,9 +55,9 @@ public class DemoComponentTableController implements TableController<DemoCompone
     {
         DemoComponentTableDTO data = new DemoComponentTableDTO();
 
-        // Rows
-        SessionData sessionData = this.sessionPersistenceService.getSessionData();
-        Table.Data defaults = Optional.of(sessionData).map(SessionData::getTableData).orElse(null);
+        // Content
+        TableSessionDefaults<AddressTableRow, Long> sessionDefaults = getSessionDefaults();
+        Table.Data defaults = Optional.of(sessionDefaults).map(TableSessionDefaults::getTableData).orElse(null);
         Page<AddressEntity> page = this.addressService.find(DataRetrievalParams.applyDefaults(dataRetrievalParams, defaults));
         long totalElements = 0;
         if (page != null)
@@ -72,18 +67,10 @@ public class DemoComponentTableController implements TableController<DemoCompone
         }
 
         // Data
-        data.getTableDTO().setData(TableDataBuilder.builder(defaults)
-            .paginator(0, Constants.DEFAULT_PAGESIZE, totalElements, Arrays.asList(3, 5, 10, 20))
-            .filterer(getFiltererFactory())
-            .build());
+        data.getTableDTO().setData(getTableData(Constants.DEFAULT_PAGESIZE, totalElements, Arrays.asList(3, 5, 10, 20)));
 
-        // Updating selection states
-        SelectionStore<AddressTableRow, Long> selectionStore = getSelectionStore();
-        selectionStore.setTotalElements(totalElements);
-        selectionStore.updateRowSelectionStates(data.getTableDTO().getContent().getRows());
-
-        data.getTableDTO().getContent().setCountSelectedRows(selectionStore.getSelectedCount());
-        data.getTableDTO().getContent().setSelectMode(selectionStore.getSelectMode());
+        // Selection
+        selectRowsInContent(data.getTableDTO().getContent(), totalElements);
 
         return data;
     }
@@ -108,49 +95,12 @@ public class DemoComponentTableController implements TableController<DemoCompone
     }
 
 
-    /**
-     * Returns the value set of a given column based on the searchText. Distinct values will be searched for with
-     * where ... like '%searchText%' condition. Only columns with remote type ValueSets are allowed.
-     *
-     * @param column
-     * @param searchText
-     * @return
-     */
-    @Override
-    public Filterer getFilterer(String column, String searchText)
-    {
-        SessionData sessionData = this.sessionPersistenceService.getSessionData();
-        Filterer filterer = Optional.of(sessionData).map(SessionData::getTableData).map(Table.Data::getFiltererMap).map(i -> i.get(column)).orElse(null);
-        if (filterer != null && BooleanUtils.isTrue(filterer.getActive()))
-        {
-            return filterer;
-        }
-
-        FiltererFactory filtererFactory = getFiltererFactory();
-        return filtererFactory.getFilterer(column, searchText, false);
-    }
-
-
     @Override
     public void onSave(DemoComponentTableDTO data)
     {
-        SessionData sessionData = this.sessionPersistenceService.getSessionData();
-        if (filtererChanged(data.getTableDTO().getData().getFiltererMap(), sessionData.getTableData().getFiltererMap()))
-        {
-            sessionData.getSelectionStore().clearSingleSelections();
-        }
-
-        sessionData.setTableData(data.getTableDTO().getData());
-        this.sessionPersistenceService.saveSessionData(sessionData);
+        super.onSave(data.getTableDTO().getData());
     }
 
-
-    private boolean filtererChanged(Map<String, Filterer> newFilterers, Map<String, Filterer> oldFilterers)
-    {
-        List<Filterer> newActive = newFilterers.values().stream().filter(i -> BooleanUtils.isTrue(i.getActive())).toList();
-        List<Filterer> oldActive = oldFilterers.values().stream().filter(i -> BooleanUtils.isTrue(i.getActive())).toList();
-        return !newActive.equals(oldActive);
-    }
 
     @Override
     public void onActionClick(TableActionParams tableActionParams) throws Exception
@@ -160,40 +110,23 @@ public class DemoComponentTableController implements TableController<DemoCompone
 
 
     @Override
-    public void onRowSelect(RowSelectParams<Long> rowSelectParams)
+    public TableSessionDefaults<AddressTableRow, Long> getSessionDefaults()
     {
-        log.debug(rowSelectParams.toString());
-
-        SelectionStore<AddressTableRow, Long> selectionStore = getSelectionStore();
-
-        if (rowSelectParams.getSelectMode() == RowSelectParams.SelectMode.SINGLE)
-        {
-            selectionStore.singleRowsSelected(rowSelectParams.getRows());
-        }
-        else
-        {
-            selectionStore.setSelectMode(rowSelectParams.getSelectMode());
-        }
-
-        saveSelectionStore(selectionStore);
+        return this.sessionPersistenceService.getSessionData().getDefaults();
     }
 
 
-    private SelectionStore<AddressTableRow, Long> getSelectionStore()
+    @Override
+    public void saveSessionDefaults(TableSessionDefaults<AddressTableRow, Long> defaults)
     {
         SessionData sessionData = this.sessionPersistenceService.getSessionData();
-        return sessionData.getSelectionStore();
-    }
-
-
-    private void saveSelectionStore(SelectionStore<AddressTableRow, Long> selectionStore)
-    {
-        SessionData sessionData = this.sessionPersistenceService.getSessionData();
-        sessionData.setSelectionStore(selectionStore);
+        sessionData.setDefaults(defaults);
         this.sessionPersistenceService.saveSessionData(sessionData);
     }
 
-    private FiltererFactory getFiltererFactory()
+
+    @Override
+    public FiltererFactory getFiltererFactory()
     {
         return FiltererFactory.builder()
             .filterer(AddressTableRow.COL_POSTCODE, true, this.addressService::getDistinctPostcodes)
