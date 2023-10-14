@@ -23,12 +23,6 @@ import hu.perit.ngface.core.widget.button.Button;
 import hu.perit.ngface.core.widget.form.Form;
 import hu.perit.ngface.core.widget.input.*;
 import hu.perit.ngface.core.widget.input.validator.*;
-import hu.perit.ngface.core.widget.table.Action;
-import hu.perit.ngface.core.widget.table.Column;
-import hu.perit.ngface.core.widget.table.Row;
-import hu.perit.ngface.core.widget.table.Table;
-import hu.perit.ngface.core.widget.table.cell.ActionCell;
-import hu.perit.ngface.webservice.model.AddressDTO;
 import hu.perit.spvitamin.spring.httplogging.LoggingHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +33,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.List;
 
 @RequiredArgsConstructor
 public class DemoComponentView implements ComponentView
@@ -145,10 +138,6 @@ public class DemoComponentView implements ComponentView
                 .placeholder("Select an option!")
                 .hint("First option is default")
             )
-//                .addWidget(getTable("table", Table.SelectMode.NONE))
-//                .addWidget(getTable("table-singleselect", Table.SelectMode.SINGLE))
-//                .addWidget(new Button("button-details").label("Details"))
-            .addWidget(getTable("table-multiselect", Table.SelectMode.CHECKBOX))
             .addWidget(new Button("button-reload")
                 .label("Reload addresses from resource")
                 .hint("Only available from within the perit.hu domain")
@@ -156,8 +145,7 @@ public class DemoComponentView implements ComponentView
                 .enabled(isReloadEnabled()))
             .addWidget(Button.OK.hint("OK button :-)"))
             .addWidget(Button.CANCEL)
-            .addWidget(Button.DELETE)
-            ;
+            .addWidget(Button.DELETE);
     }
 
 
@@ -170,8 +158,8 @@ public class DemoComponentView implements ComponentView
             return false;
         }
         HttpServletRequest httpServletRequest = ((ServletRequestAttributes) requestAttributes).getRequest();
-        String origin = httpServletRequest.getHeader("origin");
-        if ("http://localhost:4200".equalsIgnoreCase(origin))
+        String host = httpServletRequest.getHeader("host");
+        if ("localhost:4200".equalsIgnoreCase(host))
         {
             return true;
         }
@@ -191,42 +179,5 @@ public class DemoComponentView implements ComponentView
             // Do nothing
         }
         return false;
-    }
-
-
-    private Table getTable(String id, Table.SelectMode selectMode)
-    {
-        Table table = new Table(id)
-            .label("Multiselect table demo")
-            .selectMode(selectMode)
-            .addColumn(new Column(AddressDTO.COL_ID).text("ID").sortable(true).size(Column.Size.NUMBER).textAlign(Column.TextAlign.RIGHT))
-            .addColumn(new Column(AddressDTO.COL_POSTCODE).text("Post code").sortable(true).size(Column.Size.S))
-            .addColumn(new Column(AddressDTO.COL_CITY).text("City").sortable(true).size(Column.Size.L))
-            .addColumn(new Column(AddressDTO.COL_STREET).text("Street").sortable(true).size(Column.Size.L))
-            .addColumn(new Column(AddressDTO.COL_DISTRICT).text("District").sortable(true).size(Column.Size.S))
-            .addColumn(new Column("price-huf").text("Price HUF").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
-            .addColumn(new Column("price-eur").text("Price EUR").size(Column.Size.M).textAlign(Column.TextAlign.RIGHT))
-            .addColumn(new Column("actions").text("Actions"));
-
-        for (AddressDTO item : this.data.getTableDTO().getRows())
-        {
-            table.addRow(new Row(item.getId())
-                .putCell(AddressDTO.COL_ID, item.getId())
-                .putCell(AddressDTO.COL_POSTCODE, item.getPostCode(), NumericFormat.UNGROUPED)
-                .putCell(AddressDTO.COL_CITY, item.getCity())
-                .putCell(AddressDTO.COL_STREET, item.getStreet())
-                .putCell(AddressDTO.COL_DISTRICT, item.getDistrict())
-                .putCell("price-huf", item.getPostCode() * 1_000, CurrencyFormat.HUF)
-                .putCell("price-eur", item.getPostCode() * 1_000 / 380, CurrencyFormat.EUR)
-                .putCell("actions", new ActionCell(List.of(
-                    new Action("edit").label("Edit").icon("edit"),
-                    new Action("delete").label("Delete").icon("delete").enabled(false)
-                )))
-            );
-        }
-
-        table.data(this.data.getTableData());
-
-        return table;
     }
 }

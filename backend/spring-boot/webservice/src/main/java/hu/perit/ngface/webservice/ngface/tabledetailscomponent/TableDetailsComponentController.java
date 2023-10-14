@@ -17,13 +17,11 @@
 package hu.perit.ngface.webservice.ngface.tabledetailscomponent;
 
 import hu.perit.ngface.core.controller.ComponentController;
-import hu.perit.ngface.core.data.TableActionParams;
 import hu.perit.ngface.webservice.db.addressdb.table.AddressEntity;
 import hu.perit.ngface.webservice.exceptionhandler.ApplicationMessage;
 import hu.perit.ngface.webservice.service.api.AddressService;
 import hu.perit.spvitamin.core.exception.ApplicationRuntimeException;
 import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,21 +29,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TableDetailsComponentController implements ComponentController<TableDetailsComponentController.Params, TableDetailsComponentDTO>
+public class TableDetailsComponentController implements ComponentController<TableDetailsComponentDTO, Long>
 {
-    @Data
-    public static class Params
-    {
-        private final Long id;
-    }
-
     private final AddressService addressService;
 
 
     @Override
-    public TableDetailsComponentDTO initializeData(Params params)
+    public TableDetailsComponentDTO getForm(Long id)
     {
-        if (params.id % 2 != 0)
+        if (id % 2 != 0)
         {
             throw new ApplicationRuntimeException(ApplicationMessage.ONLY_EVEN_IDS_CAN_BE_EDITED);
         }
@@ -53,8 +45,8 @@ public class TableDetailsComponentController implements ComponentController<Tabl
         TableDetailsComponentDTO data = new TableDetailsComponentDTO();
         try
         {
-            AddressEntity addressEntity = this.addressService.find(params.id);
-            data.setId(String.valueOf(params.id));
+            AddressEntity addressEntity = this.addressService.find(id);
+            data.setId(String.valueOf(id));
             data.setName(addressEntity.getStreet());
             data.setPostCode(addressEntity.getPostCode());
             data.setCity(addressEntity.getCity());
@@ -64,21 +56,14 @@ public class TableDetailsComponentController implements ComponentController<Tabl
         }
         catch (ResourceNotFoundException e)
         {
-            throw new RuntimeException(String.format("No data found with id: '%s'", params.id));
+            throw new RuntimeException(String.format("No data found with id: '%d'", id));
         }
     }
 
 
     @Override
-    public void onSave(TableDetailsComponentDTO data)
+    public void onFormSubmit(TableDetailsComponentDTO data)
     {
         this.addressService.update(Long.parseLong(data.getId()), data.getPostCode(), data.getCity(), data.getStreet(), data.getDistrict());
-    }
-
-
-    @Override
-    public void onActionClick(TableActionParams tableActionParams)
-    {
-
     }
 }

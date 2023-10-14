@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {FormBaseComponent} from '../../../ngface/src/lib/form-base.component';
+import {FormBaseComponent} from '../../../ngface/src/lib/form/form-base.component';
 
 @Component({
   selector: 'app-root',

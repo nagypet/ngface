@@ -47,7 +47,16 @@ dependencies {
     // Compile dependencies
     // -----------------------------------------------------------------------------------------------------------------
     implementation project(':ngface-core')
+    implementation project(':ngface-rest')
     implementation project(':ngface-data-jpa')
+
+//    implementation project(':spvitamin-core')
+//    implementation project(':spvitamin-spring-general')
+//    implementation project(':spvitamin-spring-server')
+//    implementation project(':spvitamin-spring-logging')
+//    implementation project(':spvitamin-spring-admin')
+//    implementation project(':spvitamin-spring-security')
+//    implementation project(':spvitamin-spring-data')
 
     implementation 'hu.perit.spvitamin:spvitamin-core'
     implementation 'hu.perit.spvitamin:spvitamin-spring-general'
@@ -69,6 +78,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // Caffein cache
+    implementation 'com.github.ben-manes.caffeine:caffeine'
+
+    // Micrometer
+    implementation 'io.micrometer:micrometer-tracing'
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 
     // Swagger
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.3"

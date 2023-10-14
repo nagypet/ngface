@@ -16,33 +16,40 @@
 
 package hu.perit.ngface.core.widget.table;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class TableDataBuilder
 {
-    private Table.Data data = new Table.Data();
+    private final Table.Data data;
 
 
-    public static TableDataBuilder builder()
+    public static TableDataBuilder builder(Table.Data defaults)
     {
-        return new TableDataBuilder();
+        return new TableDataBuilder(defaults == null ? new Table.Data() : defaults);
     }
 
 
     public TableDataBuilder paginator(Integer pageIndex, Integer pageSize, Long length, List<Integer> pageSizeOptions)
     {
-        this.data.paginator(Paginator.of(pageIndex, pageSize, length, pageSizeOptions));
+        if (this.data.getPaginator() == null || !this.data.getPaginator().getLength().equals(length))
+        {
+            this.data.paginator(Paginator.of(pageIndex, pageSize, length, pageSizeOptions));
+        }
         return this;
     }
 
 
     public TableDataBuilder filterer(FiltererFactory factory)
     {
-        factory.getFiltererDefMap().values().forEach(i -> this.data.addFilterer(factory.getFilterer(i.column(), "", true)));
+        factory.getFiltererDefMap().values().forEach(i -> {
+            if (!this.data.getFiltererMap().containsKey(i.column()))
+            {
+                this.data.addFilterer(factory.getFilterer(i.column(), "", true));
+            }
+        });
         return this;
     }
 

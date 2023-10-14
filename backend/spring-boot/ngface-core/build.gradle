@@ -90,6 +90,9 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
 
+    // AssertJ
+    testImplementation 'org.assertj:assertj-core:3.24.2'
+
     testImplementation 'ch.qos.logback:logback-classic:1.4.7'
     testImplementation 'ch.qos.logback:logback-core:1.4.7'
 }
@@ -115,8 +118,7 @@ generateTypeScript {
             'hu.perit.ngface.core.widget.button.**',
             'hu.perit.ngface.core.widget.table.**',
             'hu.perit.ngface.core.widget.formattedtext.**',
-            'hu.perit.ngface.core.data.SubmitFormData',
-            'hu.perit.ngface.core.data.*Params'
+            'hu.perit.ngface.core.types.intf.*'
     ]
     customTypeNaming = [
             'hu.perit.ngface.core.widget.input.TextInput$Data:TextInput.Data',
@@ -126,13 +128,16 @@ generateTypeScript {
             'hu.perit.ngface.core.widget.input.DateRangeInput$Data:DateRangeInput.Data',
             'hu.perit.ngface.core.widget.input.Select$Data:Select.Data',
             'hu.perit.ngface.core.widget.formattedtext.FormattedText$Data:FormattedText.Data',
+            'hu.perit.ngface.core.widget.table.Table$SelectMode:Table.SelectMode',
             'hu.perit.ngface.core.widget.table.Table$Data:Table.Data',
             'hu.perit.ngface.core.widget.table.Column$Size:Column.Size',
             'hu.perit.ngface.core.widget.table.ValueSet$Item:ValueSet.Item',
-            'hu.perit.ngface.core.data.DataRetrievalParams$Page:DataRetrievalParams.Page',
-            'hu.perit.ngface.core.data.DataRetrievalParams$Sort:DataRetrievalParams.Sort',
-            'hu.perit.ngface.core.data.DataRetrievalParams$Filter:DataRetrievalParams.Filter',
-            'hu.perit.ngface.core.data.DataRetrievalParams$Filter$Item:DataRetrievalParams.Filter.Item'
+            'hu.perit.ngface.core.types.intf.DataRetrievalParams$Page:DataRetrievalParams.Page',
+            'hu.perit.ngface.core.types.intf.DataRetrievalParams$Sort:DataRetrievalParams.Sort',
+            'hu.perit.ngface.core.types.intf.DataRetrievalParams$Filter:DataRetrievalParams.Filter',
+            'hu.perit.ngface.core.types.intf.DataRetrievalParams$Filter$Item:DataRetrievalParams.Filter.Item',
+            'hu.perit.ngface.core.types.intf.RowSelectParams$SelectMode:RowSelectParams.SelectMode',
+            'hu.perit.ngface.core.types.intf.RowSelectParams$Row:RowSelectParams.Row'
     ]
     outputFile = 'build/ngface-models.ts'
     outputFileType = 'implementationFile'

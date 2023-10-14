@@ -18,11 +18,10 @@ package hu.perit.ngface.webservice.ngface.democomponent;
 
 import hu.perit.ngface.core.data.ComponentDTO;
 import hu.perit.ngface.core.data.DTOValue;
-import hu.perit.ngface.core.data.GenericTableDTO;
+import hu.perit.ngface.core.types.table.TableDTO;
 import hu.perit.ngface.core.widget.input.DateRangeInput;
 import hu.perit.ngface.core.widget.input.Select;
-import hu.perit.ngface.core.widget.table.Table;
-import hu.perit.ngface.webservice.model.AddressDTO;
+import hu.perit.ngface.webservice.model.AddressTableRow;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -85,9 +84,4 @@ public class DemoComponentDTO extends ComponentDTO
 
     @DTOValue(id = SELECT3_ID)
     private Select.Data select3Data;
-
-    private GenericTableDTO<AddressDTO> tableDTO = new GenericTableDTO<>();
-
-    @DTOValue(id = "table-multiselect")
-    private Table.Data tableData = new Table.Data();
 }

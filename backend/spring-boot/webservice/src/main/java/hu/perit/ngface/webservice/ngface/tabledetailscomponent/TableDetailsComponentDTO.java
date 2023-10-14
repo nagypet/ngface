@@ -19,9 +19,7 @@ package hu.perit.ngface.webservice.ngface.tabledetailscomponent;
 import hu.perit.ngface.core.data.ComponentDTO;
 import hu.perit.ngface.core.data.DTOId;
 import hu.perit.ngface.core.data.DTOValue;
-import hu.perit.ngface.webservice.model.AddressDTO;
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.Min;
+import hu.perit.ngface.webservice.model.AddressTableRow;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -38,21 +36,21 @@ public class TableDetailsComponentDTO extends ComponentDTO
     // Name of the modal. Not annotated with @DTOValue because it will not be sumbitted by the frontend
     private String name;
 
-    @DTOValue(id = AddressDTO.COL_POSTCODE)
+    @DTOValue(id = AddressTableRow.COL_POSTCODE)
     @NotNull
     private Integer postCode;
 
-    @DTOValue(id = AddressDTO.COL_CITY)
+    @DTOValue(id = AddressTableRow.COL_CITY)
     @NotNull
     @Size(min = 2, max = 20)
     private String city;
 
-    @DTOValue(id = AddressDTO.COL_STREET)
+    @DTOValue(id = AddressTableRow.COL_STREET)
     @NotNull
     @Size(min = 2, max = 30)
     private String street;
 
-    @DTOValue(id = AddressDTO.COL_DISTRICT)
+    @DTOValue(id = AddressTableRow.COL_DISTRICT)
     @NotNull
     @Size(min = 2, max = 20)
     private String district;

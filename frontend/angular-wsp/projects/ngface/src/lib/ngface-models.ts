@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.36.1070 on 2023-09-24 10:47:07.
+// Generated using typescript-generator version 2.36.1070 on 2023-10-05 00:24:04.
 
 export namespace Ngface {
 
@@ -8,6 +8,11 @@ export namespace Ngface {
         page: DataRetrievalParams.Page | null;
         sort: DataRetrievalParams.Sort | null;
         filters: DataRetrievalParams.Filter[] | null;
+    }
+
+    export interface RowSelectParams<T> {
+        selectMode: RowSelectParams.SelectMode;
+        rows: RowSelectParams.Row<T>[];
     }
 
     export interface SubmitFormData {
@@ -196,8 +201,8 @@ export namespace Ngface {
         pageSizeOptions: number[];
     }
 
-    export interface Row {
-        id: string;
+    export interface Row<T> {
+        id: T;
         cells: { [index: string]: Cell<any, any> };
         selected: boolean;
     }
@@ -207,12 +212,12 @@ export namespace Ngface {
         direction: Direction;
     }
 
-    export interface Table extends Widget<Table.Data, Table> {
+    export interface Table<T> extends Widget<Table.Data, Table<T>> {
         data: Table.Data;
         columns: { [index: string]: Column };
-        rows: Row[];
-        totalRow: Row | null;
-        selectMode: SelectMode;
+        rows: Row<T>[];
+        totalRow: Row<T> | null;
+        selectMode: Table.SelectMode;
         notification: string;
     }
 
@@ -291,6 +296,15 @@ export namespace Ngface {
 
     }
 
+    export namespace RowSelectParams {
+
+        export interface Row<T> {
+            id: T;
+            selected: boolean;
+        }
+
+    }
+
     export interface WidgetData {
         type: "WidgetData" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
     }
@@ -345,6 +359,8 @@ export namespace Ngface {
         validators: Validator<any>[];
     }
 
+    export type Direction = "ASC" | "DESC" | "UNDEFINED";
+
     export type Style = "NONE" | "PRIMARY" | "ACCENT" | "WARN";
 
     export namespace Column {
@@ -355,10 +371,18 @@ export namespace Ngface {
 
     export type TextAlign = "LEFT" | "CENTER" | "RIGHT";
 
-    export type SelectMode = "NONE" | "SINGLE" | "MULTI" | "CHECKBOX";
+    export namespace Table {
+
+        export type SelectMode = "NONE" | "SINGLE" | "MULTI" | "CHECKBOX";
+
+    }
+
+    export namespace RowSelectParams {
+
+        export type SelectMode = "ALL_CHECKED" | "ALL_UNCHECKED" | "SINGLE";
+
+    }
 
     export type ActionTriggerMode = "ALL_SELECTED" | "SINGLE";
-
-    export type Direction = "ASC" | "DESC" | "UNDEFINED";
 
 }

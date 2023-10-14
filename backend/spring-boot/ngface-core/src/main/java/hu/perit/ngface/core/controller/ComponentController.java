@@ -16,28 +16,18 @@
 
 package hu.perit.ngface.core.controller;
 
-import hu.perit.ngface.core.data.TableActionParams;
-import lombok.NonNull;
-
 /**
- * @param <T>
+ * @param <D>
  * @author Peter Nagy
  */
-public interface ComponentController<P, T>
+public interface ComponentController<D, I>
 {
-    T initializeData(@NonNull P params);
+    D getForm(I id);
 
     /**
      * This function will be called by the framework whenever new data has been sumbitted by the frontend.
      *
      * @param data
      */
-    void onSave(T data);
-
-
-    /**
-     *
-     * @param tableActionParams
-     */
-    void onActionClick(TableActionParams tableActionParams) throws Exception;
+    void onFormSubmit(D data);
 }

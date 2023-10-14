@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -43,8 +44,9 @@ public class WebSecurityConfig
     public SecurityFilterChain permitAll(HttpSecurity http) throws Exception
     {
         SimpleHttpSecurityBuilder.newInstance(http)
-                .defaults()
-                .authorizeRequests(i -> i.requestMatchers("/**").permitAll());
+            .defaults()
+            .authorizeRequests(i -> i.requestMatchers("/**").permitAll())
+            .and().sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
 
         return http.build();
     }

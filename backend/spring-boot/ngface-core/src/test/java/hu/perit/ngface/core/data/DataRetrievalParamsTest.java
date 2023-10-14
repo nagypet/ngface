@@ -16,6 +16,7 @@
 
 package hu.perit.ngface.core.data;
 
+import hu.perit.ngface.core.types.intf.DataRetrievalParams;
 import hu.perit.spvitamin.core.StackTracer;
 import hu.perit.spvitamin.spring.json.JSonSerializer;
 import lombok.extern.slf4j.Slf4j;

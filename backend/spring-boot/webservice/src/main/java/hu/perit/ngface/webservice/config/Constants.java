@@ -17,8 +17,11 @@
 package hu.perit.ngface.webservice.config;
 
 import hu.perit.ngface.core.formating.NumericFormat;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-public class Constants
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class Constants
 {
     public static final int DEFAULT_PAGESIZE = 10;
 
@@ -26,13 +29,20 @@ public class Constants
 
     public static final int ADDRESS_API_SEARCH = 1;
 
-    public static final int DEMO_API = 100;
-    public static final int DEMO_API_GET_DEMO_FORM = DEMO_API + 1;
-    public static final int DEMO_API_GET_DEMO_FORM_TABLE_ROW = DEMO_API + 2;
-    public static final int DEMO_API_GET_DEMO_FORM_COLUMN_FILTERER = DEMO_API + 3;
-    public static final int DEMO_API_SUBMIT_DEMO_FORM = DEMO_API + 4;
-    public static final int DEMO_API_GET_TABLE_DETAILS_FORM = DEMO_API + 5;
-    public static final int DEMO_API_SUBMIT_TABLE_DETAILS_FORM = DEMO_API + 6;
+    public static final int DEMO_FORM_CONTROLLER_BASE = 100;
+    public static final int DEMO_FORM_CONTROLLER_GET_FORM = DEMO_FORM_CONTROLLER_BASE + 1;
+    public static final int DEMO_FORM_CONTROLLER_SUBMIT_FORM = DEMO_FORM_CONTROLLER_BASE + 2;
+
+    public static final int DEMO_FORM_TABLE_CONTROLLER_BASE = 200;
+    public static final int DEMO_FORM_TABLE_CONTROLLER_GET_TABLE = DEMO_FORM_TABLE_CONTROLLER_BASE + 1;
+    public static final int DEMO_FORM_TABLE_CONTROLLER_GET_TABLE_ROW = DEMO_FORM_TABLE_CONTROLLER_BASE + 2;
+    public static final int DEMO_FORM_TABLE_CONTROLLER_GET_COLUMN_FILTERER = DEMO_FORM_TABLE_CONTROLLER_BASE + 3;
+    public static final int DEMO_FORM_TABLE_CONTROLLER_ON_ROW_SELECT = DEMO_FORM_TABLE_CONTROLLER_BASE + 4;
+    public static final int DEMO_FORM_TABLE_CONTROLLER_SUBMIT_TABLE = DEMO_FORM_TABLE_CONTROLLER_BASE + 5;
+
+    public static final int TABLE_DETAILS_CONTROLLER_BASE = 300;
+    public static final int TABLE_DETAILS_CONTROLLER_GET_FORM = TABLE_DETAILS_CONTROLLER_BASE + 1;
+    public static final int TABLE_DETAILS_CONTROLLER_SUBMIT_FORM = TABLE_DETAILS_CONTROLLER_BASE + 2;
 
     public static final String SUBSYSTEM_NAME = "ngface-demo-app";
 }

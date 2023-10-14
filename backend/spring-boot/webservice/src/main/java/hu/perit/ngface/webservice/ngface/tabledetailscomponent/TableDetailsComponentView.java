@@ -26,7 +26,7 @@ import hu.perit.ngface.core.widget.input.validator.Max;
 import hu.perit.ngface.core.widget.input.validator.Min;
 import hu.perit.ngface.core.widget.input.validator.Required;
 import hu.perit.ngface.core.widget.input.validator.Size;
-import hu.perit.ngface.webservice.model.AddressDTO;
+import hu.perit.ngface.webservice.model.AddressTableRow;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -42,7 +42,7 @@ public class TableDetailsComponentView implements ComponentView
     {
         return new Form(data.getId())
             .title(String.format("%s %s", this.data.getPostCode(), this.data.getName()))
-            .addWidget(new NumericInput(AddressDTO.COL_POSTCODE)
+            .addWidget(new NumericInput(AddressTableRow.COL_POSTCODE)
                 .value(this.data.getPostCode())
                 .label("Post code")
                 .format(NumericFormat.UNGROUPED)
@@ -50,23 +50,23 @@ public class TableDetailsComponentView implements ComponentView
                 .addValidator(new Min(1000.0, "Postal code must be between 1000 and 9999"))
                 .addValidator(new Max(9999.0, "Postal code must be between 1000 and 9999"))
             )
-            .addWidget(new TextInput(AddressDTO.COL_CITY)
+            .addWidget(new TextInput(AddressTableRow.COL_CITY)
                 .value(this.data.getCity())
                 .label("City")
                 .addValidator(new Required("City is required!"))
                 .addValidator(new Size(INVALID_LENGTH).min(2).max(20))
             )
-            .addWidget(new TextInput(AddressDTO.COL_STREET)
+            .addWidget(new TextInput(AddressTableRow.COL_STREET)
                 .value(this.data.getStreet())
                 .label("Street")
                 .addValidator(new Required("Street is required!"))
                 .addValidator(new Size(INVALID_LENGTH).min(2).max(30))
             )
-            .addWidget(new TextInput(AddressDTO.COL_DISTRICT)
+            .addWidget(new TextInput(AddressTableRow.COL_DISTRICT)
                 .value(this.data.getDistrict())
                 .label("District")
                 .addValidator(new Required("District is required!"))
-                .addValidator(new Size(INVALID_LENGTH).min(2).max(20))
+                //.addValidator(new Size(INVALID_LENGTH).min(2).max(20))
             )
             .addWidget(Button.SAVE)
             .addWidget(Button.CANCEL)

@@ -35,9 +35,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 @ToString
 @Getter
-public class Row
+public class Row<T>
 {
-    private final String id;
+    private final T id;
     private final Map<String, Cell<?, ?>> cells = new LinkedHashMap<>();
     private boolean selected;
 
@@ -47,13 +47,13 @@ public class Row
         this.id = null;
     }
 
-    public Row putCell(String colId, String text)
+    public Row<T> putCell(String colId, String text)
     {
         this.cells.put(colId, new TextCell(text));
         return this;
     }
 
-    public Row putCell(String colId, LocalDateTime localDateTime)
+    public Row<T> putCell(String colId, LocalDateTime localDateTime)
     {
         if (localDateTime != null)
         {
@@ -67,7 +67,7 @@ public class Row
         return this;
     }
 
-    public Row putCell(String colId, LocalDate localDate)
+    public Row<T> putCell(String colId, LocalDate localDate)
     {
         if (localDate != null)
         {
@@ -81,67 +81,67 @@ public class Row
         return this;
     }
 
-    public Row putCell(String colId, BigDecimal value)
+    public Row<T> putCell(String colId, BigDecimal value)
     {
         this.cells.put(colId, new NumericCell(value));
         return this;
     }
 
-    public Row putCell(String colId, BigDecimal value, NumericFormat format)
+    public Row<T> putCell(String colId, BigDecimal value, NumericFormat format)
     {
         this.cells.put(colId, new NumericCell(value).format(format));
         return this;
     }
 
-    public Row putCell(String colId, Integer value)
+    public Row<T> putCell(String colId, Integer value)
     {
         this.cells.put(colId, new NumericCell(value != null ? new BigDecimal(value) : null));
         return this;
     }
 
-    public Row putCell(String colId, Integer value, NumericFormat format)
+    public Row<T> putCell(String colId, Integer value, NumericFormat format)
     {
         this.cells.put(colId, new NumericCell(value != null ? new BigDecimal(value) : null).format(format));
         return this;
     }
 
-    public Row putCell(String colId, Long value)
+    public Row<T> putCell(String colId, Long value)
     {
         this.cells.put(colId, new NumericCell(value != null ? new BigDecimal(value) : null));
         return this;
     }
 
-    public Row putCell(String colId, Long value, NumericFormat format)
+    public Row<T> putCell(String colId, Long value, NumericFormat format)
     {
         this.cells.put(colId, new NumericCell(value != null ? new BigDecimal(value) : null).format(format));
         return this;
     }
 
-    public Row putCell(String colId, Float value)
+    public Row<T> putCell(String colId, Float value)
     {
         this.cells.put(colId, new NumericCell(value != null ? BigDecimal.valueOf(value) : null));
         return this;
     }
 
-    public Row putCell(String colId, Float value, NumericFormat format)
+    public Row<T> putCell(String colId, Float value, NumericFormat format)
     {
         this.cells.put(colId, new NumericCell(value != null ? BigDecimal.valueOf(value) : null).format(format));
         return this;
     }
 
-    public Row putCell(String colId, Double value)
+    public Row<T> putCell(String colId, Double value)
     {
         this.cells.put(colId, new NumericCell(value != null ? BigDecimal.valueOf(value) : null));
         return this;
     }
 
-    public Row putCell(String colId, Double value, NumericFormat format)
+    public Row<T> putCell(String colId, Double value, NumericFormat format)
     {
         this.cells.put(colId, new NumericCell(value != null ? BigDecimal.valueOf(value) : null).format(format));
         return this;
     }
 
-    public Row putCell(String colId, Boolean value)
+    public Row<T> putCell(String colId, Boolean value)
     {
         this.cells.put(colId, new TextCell(convertBooleanToString(value)));
         return this;
@@ -157,13 +157,13 @@ public class Row
         return BooleanUtils.isTrue(value) ? "1" : "0";
     }
 
-    public Row putCell(String colId, Cell<?, ?> cell)
+    public Row<T> putCell(String colId, Cell<?, ?> cell)
     {
         this.cells.put(colId, cell);
         return this;
     }
 
-    public Row selected(Boolean selected)
+    public Row<T> selected(Boolean selected)
     {
         this.selected = BooleanUtils.isTrue(selected);
         return this;

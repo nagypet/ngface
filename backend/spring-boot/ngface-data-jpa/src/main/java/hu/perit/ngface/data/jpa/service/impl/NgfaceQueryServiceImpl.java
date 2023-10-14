@@ -16,8 +16,8 @@
 
 package hu.perit.ngface.data.jpa.service.impl;
 
-import hu.perit.ngface.core.data.DataRetrievalParams;
-import hu.perit.ngface.core.data.Direction;
+import hu.perit.ngface.core.types.intf.DataRetrievalParams;
+import hu.perit.ngface.core.types.intf.Direction;
 import hu.perit.ngface.data.jpa.service.api.NgfaceQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

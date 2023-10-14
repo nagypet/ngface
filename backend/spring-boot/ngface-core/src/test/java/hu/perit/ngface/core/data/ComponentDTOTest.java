@@ -16,6 +16,7 @@
 
 package hu.perit.ngface.core.data;
 
+import hu.perit.ngface.core.types.intf.SubmitFormData;
 import hu.perit.ngface.core.widget.input.TextInput;
 import org.junit.jupiter.api.Test;
 

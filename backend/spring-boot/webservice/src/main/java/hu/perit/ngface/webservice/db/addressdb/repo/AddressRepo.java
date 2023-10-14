@@ -41,10 +41,7 @@ public interface AddressRepo extends NgfaceQueryRepo<AddressEntity>
     List<String> getDistinctDistricts(@Param(value = "searchText") String searchText);
 
     @Query("select distinct e.postCode from AddressEntity e")
-    List<String> getDistinctPostcodes();
-
-    @Query("select distinct e.postCode from AddressEntity e where e.postCode ilike :searchText")
-    List<String> getDistinctPostcodes(@Param(value = "searchText") String searchText);
+    List<Integer> getDistinctPostcodes();
 
     @Query("select distinct e.city from AddressEntity e")
     List<String> getDistinctCities();

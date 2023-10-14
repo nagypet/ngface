@@ -17,10 +17,13 @@
 package hu.perit.ngface.core.data;
 
 import hu.perit.ngface.core.reflection.ReflectionUtils;
+import hu.perit.ngface.core.types.intf.SubmitFormData;
+import hu.perit.ngface.core.types.table.TableDTO;
 import hu.perit.ngface.core.widget.base.WidgetData;
 import hu.perit.ngface.core.widget.exception.NgFaceBadRequestException;
 import hu.perit.ngface.core.widget.input.NumericInput;
 import hu.perit.ngface.core.widget.input.TextInput;
+import hu.perit.ngface.core.widget.table.Table;
 import jakarta.validation.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -106,11 +109,11 @@ public abstract class ComponentDTO
     private void invokeSetter(Method setter, WidgetData widgetData)
     {
         Parameter[] parameters = setter.getParameters();
-        Class<?> type = parameters[0].getType();
+        Class<?> targetType = parameters[0].getType();
 
         try
         {
-            Object convertedData = convertWidgetData(widgetData, type);
+            Object convertedData = convertWidgetData(widgetData, targetType);
             if (convertedData != null)
             {
                 setter.invoke(this, convertedData);
@@ -145,9 +148,9 @@ public abstract class ComponentDTO
     }
 
 
-    private Object convertWidgetData(WidgetData widgetData, Class<?> type)
+    private Object convertWidgetData(WidgetData widgetData, Class<?> targetType)
     {
-        if (type.isAssignableFrom(widgetData.getClass()))
+        if (targetType.isAssignableFrom(widgetData.getClass()))
         {
             return widgetData;
         }
@@ -155,39 +158,74 @@ public abstract class ComponentDTO
         // TextInput.Data
         if (widgetData.getClass().equals(TextInput.Data.class))
         {
-            if (String.class.equals(type))
-            {
-                return ((TextInput.Data) widgetData).getValue();
-            }
+            return convertTextInputData((TextInput.Data) widgetData, targetType);
         }
 
         // NumericInput.Data
         if (widgetData.getClass().equals(NumericInput.Data.class))
         {
-            if (BigDecimal.class.equals(type))
-            {
-                return ((NumericInput.Data) widgetData).getValue();
-            }
+            return convertNumericInputData((NumericInput.Data) widgetData, targetType);
+        }
 
-            if (Float.class.equals(type))
-            {
-                return ((NumericInput.Data) widgetData).getValue().floatValue();
-            }
+        // Table.Data
+        if (widgetData.getClass().equals(Table.Data.class))
+        {
+            return convertTableData((Table.Data) widgetData, targetType);
+        }
 
-            if (Double.class.equals(type))
-            {
-                return ((NumericInput.Data) widgetData).getValue().doubleValue();
-            }
+        return null;
+    }
 
-            if (Long.class.equals(type) || long.class.equals(type))
-            {
-                return ((NumericInput.Data) widgetData).getValue().longValue();
-            }
 
-            if (Integer.class.equals(type) || int.class.equals(type))
-            {
-                return ((NumericInput.Data) widgetData).getValue().intValue();
-            }
+    private Object convertTextInputData(TextInput.Data widgetData, Class<?> targetType)
+    {
+        if (String.class.equals(targetType))
+        {
+            return widgetData.getValue();
+        }
+
+        return null;
+    }
+
+
+    private Object convertNumericInputData(NumericInput.Data widgetData, Class<?> targetType)
+    {
+        if (BigDecimal.class.equals(targetType))
+        {
+            return widgetData.getValue();
+        }
+
+        if (Float.class.equals(targetType))
+        {
+            return widgetData.getValue().floatValue();
+        }
+
+        if (Double.class.equals(targetType))
+        {
+            return widgetData.getValue().doubleValue();
+        }
+
+        if (Long.class.equals(targetType) || long.class.equals(targetType))
+        {
+            return widgetData.getValue().longValue();
+        }
+
+        if (Integer.class.equals(targetType) || int.class.equals(targetType))
+        {
+            return widgetData.getValue().intValue();
+        }
+
+        return null;
+    }
+
+
+    private Object convertTableData(Table.Data widgetData, Class<?> targetType)
+    {
+        if (TableDTO.class.equals(targetType))
+        {
+            TableDTO<?> tableDTO = new TableDTO<>();
+            tableDTO.setData(widgetData);
+            return tableDTO;
         }
 
         return null;
@@ -207,9 +245,14 @@ public abstract class ComponentDTO
         {
             return TextInput.Data.class;
         }
-        else if (Number.class.isAssignableFrom(type) || long.class.equals(type) || int.class.equals(type) || float.class.equals(type) || double.class.equals(type))
+        else if (Number.class.isAssignableFrom(type) || long.class.equals(type) || int.class.equals(type) || float.class.equals(type) || double.class.equals(
+            type))
         {
             return NumericInput.Data.class;
+        }
+        else if (TableDTO.class.isAssignableFrom(type))
+        {
+            return Table.Data.class;
         }
         else if (WidgetData.class.isAssignableFrom(type))
         {

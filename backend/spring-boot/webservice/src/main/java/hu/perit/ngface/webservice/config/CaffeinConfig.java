@@ -1,0 +1,36 @@
+/*
+ * Copyright (c) 2022. Innodox Technologies Zrt.
+ * All rights reserved.
+ */
+
+package hu.perit.ngface.webservice.config;
+
+import com.github.benmanes.caffeine.cache.Caffeine;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.concurrent.TimeUnit;
+
+@Configuration
+@EnableCaching
+public class CaffeinConfig
+{
+    @Bean
+    public Caffeine<Object, Object> caffeineConfig()
+    {
+        return Caffeine.newBuilder()
+            .maximumSize(1_000_000)
+            .expireAfterWrite(60, TimeUnit.MINUTES);
+    }
+
+    @Bean
+    public CacheManager cacheManager(Caffeine<Object, Object> caffeine)
+    {
+        CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
+        caffeineCacheManager.setCaffeine(caffeine);
+        return caffeineCacheManager;
+    }
+}

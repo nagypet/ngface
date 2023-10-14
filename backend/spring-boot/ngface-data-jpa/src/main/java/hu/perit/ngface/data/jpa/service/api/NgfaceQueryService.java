@@ -16,7 +16,7 @@
 
 package hu.perit.ngface.data.jpa.service.api;
 
-import hu.perit.ngface.core.data.DataRetrievalParams;
+import hu.perit.ngface.core.types.intf.DataRetrievalParams;
 import org.springframework.data.domain.Page;
 
 public interface NgfaceQueryService<E>

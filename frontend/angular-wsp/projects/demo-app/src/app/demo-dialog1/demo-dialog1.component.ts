@@ -16,7 +16,7 @@
 
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {FormBaseComponent} from '../../../../ngface/src/lib/form-base.component';
+import {FormBaseComponent} from '../../../../ngface/src/lib/form/form-base.component';
 import {Ngface} from '../../../../ngface/src/lib/ngface-models';
 
 @Component({

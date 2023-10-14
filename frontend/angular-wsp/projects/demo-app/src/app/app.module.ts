@@ -18,7 +18,6 @@ import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
-import {NgfaceModule} from '../../../ngface/src/lib/ngface.module';
 import {DemoForm1Component} from './demo-form1/demo-form1.component';
 import {DemoDialog1Component} from './demo-dialog1/demo-dialog1.component';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
@@ -29,6 +28,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
+import {NgfaceModule} from '../../../ngface/src/lib/ngface.module';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 

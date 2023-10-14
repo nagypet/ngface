@@ -21,7 +21,10 @@ import hu.perit.spvitamin.core.exception.ApplicationRuntimeException;
 import hu.perit.spvitamin.core.exception.ExceptionWrapper;
 import hu.perit.spvitamin.spring.exceptionhandler.RestExceptionResponse;
 import hu.perit.spvitamin.spring.exceptionhandler.RestResponseEntityExceptionHandler;
+import io.micrometer.tracing.Span;
+import io.micrometer.tracing.Tracer;
 import jakarta.validation.ConstraintViolationException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -40,10 +43,14 @@ import java.io.IOException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 @Slf4j
+@RequiredArgsConstructor
 public class ApplicationSpecificRestExceptionHandler extends RestResponseEntityExceptionHandler
 {
+    private final Tracer tracer;
+
+
     @ExceptionHandler({Exception.class})
-    public ResponseEntity<Object> applicationSpecificExceptionHandler(Exception ex, WebRequest request)
+    public ResponseEntity<RestExceptionResponse> applicationSpecificExceptionHandler(Exception ex, WebRequest request)
     {
         String path = request != null ? request.getDescription(false) : "";
 
@@ -52,21 +59,26 @@ public class ApplicationSpecificRestExceptionHandler extends RestResponseEntityE
         if (exception.instanceOf(IOException.class))
         {
             log.error(StackTracer.toString(ex));
-            RestExceptionResponse exceptionResponse = new RestExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex, path);
+            RestExceptionResponse exceptionResponse = new RestExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex, path, getTraceId());
             return new ResponseEntity<>(exceptionResponse, HttpStatus.valueOf(exceptionResponse.getStatus()));
         }
 
-        if (exception.instanceOf(ConstraintViolationException.class))
+        if (exception.causedBy(ConstraintViolationException.class))
         {
             ConstraintViolationException cve = (ConstraintViolationException) ex;
             ApplicationRuntimeException applicationRuntimeException = new ApplicationRuntimeException(
-                ApplicationMessage.CONSTRAINT_VIOLATION_1.params(cve.getMessage()));
-            RestExceptionResponse exceptionResponse = new RestExceptionResponse(HttpStatus.BAD_REQUEST, applicationRuntimeException, path);
+                ApplicationMessage.CONSTRAINT_VIOLATION_1.params(cve.getMessage()), ex);
+            RestExceptionResponse exceptionResponse = new RestExceptionResponse(HttpStatus.BAD_REQUEST, applicationRuntimeException, path, getTraceId());
             return new ResponseEntity<>(exceptionResponse, HttpStatus.valueOf(exceptionResponse.getStatus()));
         }
 
-        return super.exceptionHandler(ex, request);
+        return super.exceptionHandler(ex, request, getTraceId());
     }
 
 
+    private String getTraceId()
+    {
+        Span span = this.tracer.currentSpan();
+        return span != null ? span.context().traceId() : null;
+    }
 }

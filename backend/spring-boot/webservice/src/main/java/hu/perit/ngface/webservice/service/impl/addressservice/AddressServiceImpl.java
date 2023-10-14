@@ -19,12 +19,12 @@ package hu.perit.ngface.webservice.service.impl.addressservice;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import hu.perit.ngface.core.data.DataRetrievalParams;
+import hu.perit.ngface.core.types.intf.DataRetrievalParams;
 import hu.perit.ngface.data.jpa.service.impl.NgfaceQueryServiceImpl;
 import hu.perit.ngface.webservice.config.Constants;
 import hu.perit.ngface.webservice.db.addressdb.repo.AddressRepo;
 import hu.perit.ngface.webservice.db.addressdb.table.AddressEntity;
-import hu.perit.ngface.webservice.model.AddressDTO;
+import hu.perit.ngface.webservice.model.AddressTableRow;
 import hu.perit.ngface.webservice.service.api.AddressService;
 import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -85,8 +85,8 @@ public class AddressServiceImpl extends NgfaceQueryServiceImpl<AddressEntity> im
     protected List<Sort.Order> getDefaultSortOrder()
     {
         return List.of(
-            new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_POSTCODE),
-            new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_STREET)
+            new Sort.Order(Sort.Direction.ASC, AddressTableRow.COL_POSTCODE),
+            new Sort.Order(Sort.Direction.ASC, AddressTableRow.COL_STREET)
         );
     }
 
@@ -94,7 +94,7 @@ public class AddressServiceImpl extends NgfaceQueryServiceImpl<AddressEntity> im
     @Override
     protected List<?> convertFilterValueSetToDbType(String searchColumn, DataRetrievalParams.Filter filter)
     {
-        if (AddressDTO.COL_POSTCODE.equals(searchColumn))
+        if (AddressTableRow.COL_POSTCODE.equals(searchColumn))
         {
             return filter.getValueSet().stream()
                 .map(DataRetrievalParams.Filter.Item::getText)
@@ -132,11 +132,19 @@ public class AddressServiceImpl extends NgfaceQueryServiceImpl<AddressEntity> im
     @Override
     public List<String> getDistinctPostcodes(String searchText)
     {
-        if (StringUtils.isBlank(searchText))
+        if (StringUtils.isNotBlank(searchText))
         {
-            return this.repo.getDistinctPostcodes();
+            return this.repo.getDistinctPostcodes().stream()
+                .map(String::valueOf)
+                .filter(p -> p.contains(searchText))
+                .toList();
         }
-        return this.repo.getDistinctPostcodes("%" + searchText + "%");
+        else
+        {
+            return this.repo.getDistinctPostcodes().stream()
+                .map(String::valueOf)
+                .toList();
+        }
     }
 
 

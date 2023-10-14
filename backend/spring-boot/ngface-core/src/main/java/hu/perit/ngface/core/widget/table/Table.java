@@ -17,26 +17,19 @@
 package hu.perit.ngface.core.widget.table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import hu.perit.ngface.core.types.intf.Direction;
+import hu.perit.ngface.core.widget.base.Widget;
 import hu.perit.ngface.core.widget.base.WidgetData;
 import hu.perit.ngface.core.widget.exception.NgFaceException;
-import hu.perit.ngface.core.data.Direction;
-import hu.perit.ngface.core.widget.base.Widget;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.ToString;
+import lombok.*;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Table extends Widget<Table.Data, Table>
+public class Table<T> extends Widget<Table.Data, Table<T>>
 {
     public enum SelectMode
     {
@@ -47,12 +40,13 @@ public class Table extends Widget<Table.Data, Table>
     }
 
     private final Map<String, Column> columns = new LinkedHashMap<>();
-    private final List<Row> rows = new ArrayList<>();
+    private final List<Row<T>> rows = new ArrayList<>();
     @Nullable
-    private Row totalRow;
+    private Row<T> totalRow;
     private SelectMode selectMode = SelectMode.NONE;
     // Notification may contain HTML tags!
     private String notification;
+
 
     public Table(String id)
     {
@@ -60,7 +54,8 @@ public class Table extends Widget<Table.Data, Table>
         this.data = new Table.Data();
     }
 
-    public Table addColumn(Column column)
+
+    public Table<T> addColumn(Column column)
     {
         if (!this.rows.isEmpty())
         {
@@ -71,7 +66,8 @@ public class Table extends Widget<Table.Data, Table>
         return this;
     }
 
-    public Table addRow(Row row)
+
+    public Table<T> addRow(Row<T> row)
     {
         if (!this.columns.keySet().equals(row.getCells().keySet()))
         {
@@ -82,7 +78,8 @@ public class Table extends Widget<Table.Data, Table>
         return this;
     }
 
-    public Table totalRow(Row row)
+
+    public Table<T> totalRow(Row<T> row)
     {
         if (!this.columns.keySet().containsAll(row.getCells().keySet()))
         {
@@ -93,17 +90,20 @@ public class Table extends Widget<Table.Data, Table>
         return this;
     }
 
-    public Table selectMode(SelectMode selectMode)
+
+    public Table<T> selectMode(SelectMode selectMode)
     {
         this.selectMode = selectMode;
         return this;
     }
 
-    public Table notification(String notification)
+
+    public Table<T> notification(String notification)
     {
         this.notification = notification;
         return this;
     }
+
 
     @ToString(callSuper = true)
     @Getter
@@ -114,7 +114,9 @@ public class Table extends Widget<Table.Data, Table>
         private Paginator paginator;
         @Nullable
         private Sorter sorter;
-        private Map<String, Filterer> filtererMap = new HashMap<>();
+        @Setter(AccessLevel.NONE)
+        private final Map<String, Filterer> filtererMap = new HashMap<>();
+
 
         public Data paginator(Paginator paginator)
         {
@@ -122,17 +124,20 @@ public class Table extends Widget<Table.Data, Table>
             return this;
         }
 
+
         public Data sorter(Sorter sorter)
         {
             this.sorter = sorter;
             return this;
         }
 
+
         public Data addFilterer(@NonNull Filterer filterer)
         {
             this.filtererMap.put(filterer.getColumn(), filterer);
             return this;
         }
+
 
         @JsonIgnore
         public int getPageIndex()
@@ -145,6 +150,7 @@ public class Table extends Widget<Table.Data, Table>
             return this.paginator.getPageIndex() != null ? this.paginator.getPageIndex() : 0;
         }
 
+
         @JsonIgnore
         public int getPageSize(int defaultPageSize)
         {
@@ -156,11 +162,25 @@ public class Table extends Widget<Table.Data, Table>
             return this.paginator.getPageSize() != null ? this.paginator.getPageSize() : defaultPageSize;
         }
 
+
+        @JsonIgnore
+        public long getPaginatorLength()
+        {
+            if (this.paginator == null)
+            {
+                return 0;
+            }
+
+            return this.paginator.getLength() != null ? this.paginator.getLength() : 0;
+        }
+
+
         @JsonIgnore
         public String getSortColumn()
         {
             return this.sorter != null ? this.sorter.getColumn() : null;
         }
+
 
         @JsonIgnore
         public Direction getSortDirection()

@@ -39,27 +39,17 @@ services:
       - ngface-net
 
 
-  #####################################################################################
-  ngface-webservice:
-  #####################################################################################
-    container_name: ngface-webservice
-    image: docker-registry:5000/ngface-webservice:1.0.0
-    ports:
-      - "127.0.0.1:18400:80"
-    networks:
-      - ngface-net
-
-
-  #####################################################################################
-  ngface-app:
-  #####################################################################################
-    container_name: ngface-app
-    image: docker-registry:5000/ngface-app:latest
-    ports:
-      - "127.0.0.1:16000:80"
-      - "127.0.0.1:16001:443"
-    networks:
-      - ngface-net
+  ######################################################################################
+  #redis:
+  ######################################################################################
+  #  container_name: ngface-redis
+  #  image: ngface-redis
+  #  environment:
+  #      - REDIS_PASSWORD=apfel
+  #  ports:
+  #      - 6379:6379
+  #  networks:
+  #    - ngface-net
 
 
 volumes:
