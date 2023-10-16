@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<mat-form-field class="ngface-input-field ngface-number" [floatLabel]="floatLabelControl.value">
+<mat-form-field class="ngface-input-field ngface-number" [floatLabel]="floatLabelControl.value" [subscriptSizing]="'dynamic'">
   <mat-label>{{label}}</mat-label>
   <input matInput numericInputFilter type="text" autocomplete="off"
          [placeholder]="placeholder"
@@ -24,8 +24,8 @@
          (blur)="onBlur()"
          [errorStateMatcher]="errorStateMatcher"
   >
-  <span matPrefix>{{prefix}}</span>
-  <span matSuffix>{{suffix}}</span>
+  <span matTextPrefix class="ngface-input-prefix">{{prefix}}</span>
+  <span matTextSuffix class="ngface-input-suffix">{{suffix}}</span>
   <mat-hint>{{hint}}</mat-hint>
   <mat-error>{{validationErrors}}</mat-error>
 </mat-form-field>

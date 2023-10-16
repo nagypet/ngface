@@ -72,7 +72,7 @@ export class ExcelFilterComponent implements OnInit, OnChanges
 
   ngOnInit(): void
   {
-    this.moveIfClipped();
+    //this.moveIfClipped();
 
     if (this.filterer?.active)
     {

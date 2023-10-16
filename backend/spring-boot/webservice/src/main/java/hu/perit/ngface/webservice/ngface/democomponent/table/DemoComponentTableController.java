@@ -72,6 +72,9 @@ public class DemoComponentTableController extends TableControllerImpl<DemoCompon
         // Selection
         selectRowsInContent(data.getTableDTO().getContent(), totalElements);
 
+        // Notification
+        data.getTableDTO().getContent().setNotification("This is a warning!");
+
         return data;
     }
 
