@@ -42,19 +42,19 @@ table tr:first-child td /*To remove the first border*/
 
 table tr:last-child td /*To remove the last border*/
 {
-  border-bottom: 0 solid
+  //border-bottom: 0 solid
 }
 
 tr.mat-mdc-header-row {
-  height: 30px;
+  height: 36px;
   background-color: #f5f5f5;
 }
 
 tr.mat-mdc-row, tr.mat-mdc-footer-row {
-  height: 36px!important;
+  height: 30px;
 }
 
-tr.mat-header-row, tr.mat-footer-row {
+tr.mat-footer-row {
   background-color: #f5f5f5;
 }
 
@@ -96,7 +96,13 @@ td {
   .mat-mdc-icon-button {
     width: 30px;
     height: 30px;
-    line-height: 30px !important;
+    padding: 0;
+
+    // does not work! :-(
+    .mat-mdc-button-touch-target {
+      width: 30px;
+      height: 30px;
+    }
   }
 }
 

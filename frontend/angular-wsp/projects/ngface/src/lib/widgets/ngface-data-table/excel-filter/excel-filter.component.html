@@ -14,27 +14,27 @@
   ~ limitations under the License.
   -->
 
-<div class="ngface-excel-filter">
-  <div class="ngface-excel-filter-container" (click)="$event.stopPropagation()">
-    <div class="links">
-      <button type="button" (click)="onClearFilter()">Clear filter</button>
+<div class="ngface-excel-filter" (click)="$event.stopPropagation()">
+  <div class="links">
+    <button type="button" (click)="onClearFilter()">Clear filter</button>
+  </div>
+  <div class="searchbox">
+    <input type="text" placeholder="Search..." [formControl]="formControlSearch" (debounceInput)="onSearchTextChange($event)"
+           [debounceTime]="500">
+    <mat-icon>search</mat-icon>
+  </div>
+  <div class="listbox">
+    <div class="list-item" *ngFor="let valueSetItem of valueSetProvider.getVisibleItems()" (click)="onItemSelected(valueSetItem)">
+      <mat-checkbox *ngIf="valueSetItem.selectable"
+                    [(ngModel)]="valueSetItem.masterSelect ? isAllSelected(valueSetItem): valueSetItem.selected"
+                    [disabled]="!isCheckBoxEnabled(valueSetItem)"
+                    [indeterminate]="isAnySelected(valueSetItem) && !isAllSelected(valueSetItem)"
+                    (ngModelChange)="onCheckBoxClicked(valueSetItem, $event)"
+                    (click)="$event.stopPropagation()">{{valueSetItem.text}}</mat-checkbox>
     </div>
-    <div class="searchbox">
-      <input type="text" placeholder="Search..." [formControl]="formControlSearch" (debounceInput)="onSearchTextChange($event)" [debounceTime]="500">
-      <mat-icon>search</mat-icon>
-    </div>
-    <div class="listbox">
-      <div class="list-item" *ngFor="let valueSetItem of valueSetProvider.getVisibleItems()" (click)="onItemSelected(valueSetItem)">
-        <mat-checkbox *ngIf="valueSetItem.selectable" [(ngModel)]="valueSetItem.masterSelect ? isAllSelected(valueSetItem): valueSetItem.selected"
-                      [disabled]="!isCheckBoxEnabled(valueSetItem)"
-                      [indeterminate]="isAnySelected(valueSetItem) && !isAllSelected(valueSetItem)"
-                      (ngModelChange)="onCheckBoxClicked(valueSetItem, $event)"
-                      (click)="$event.stopPropagation()">{{valueSetItem.text}}</mat-checkbox>
-      </div>
-    </div>
-    <div class="action-bar" style="background-color: white">
-      <button mat-button (click)="onOk()">OK</button>
-      <button mat-button (click)="onCancel()">Cancel</button>
-    </div>
+  </div>
+  <div class="action-bar" style="background-color: white">
+    <button mat-button (click)="onOk()">OK</button>
+    <button mat-button (click)="onCancel()">Cancel</button>
   </div>
 </div>

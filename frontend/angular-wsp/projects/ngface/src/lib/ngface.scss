@@ -15,6 +15,7 @@
  */
 
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp");
+@import '@angular/cdk/overlay-prebuilt.css';
 
 /*
  * ngface-form
@@ -246,3 +247,55 @@
   border-radius: 11px;
   text-overflow: unset;
 }
+
+.mdc-checkbox__ripple {
+  display: none !important;
+}
+
+.mdc-icon-button__ripple {
+  display: none !important;
+}
+
+ngface-data-table {
+  .mdc-form-field {
+    height: 24px;
+    width: 100%;
+  }
+
+  .mat-mdc-checkbox-touch-target {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mdc-checkbox__background {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+
+ngface-excel-filter {
+  .mdc-form-field {
+    height: 24px;
+    width: 100%;
+  }
+
+  .mat-mdc-checkbox-touch-target {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mdc-checkbox__background {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mat-mdc-checkbox {
+    label {
+      font-size: 12px;
+      line-height: 12px;
+      white-space: nowrap;
+    }
+  }
+}
+
