@@ -248,7 +248,15 @@
   text-overflow: unset;
 }
 
-ngface-excel-filter {
+.mdc-checkbox__ripple {
+  display: none !important;
+}
+
+.mdc-icon-button__ripple {
+  display: none !important;
+}
+
+ngface-data-table {
   .mdc-form-field {
     height: 24px;
     width: 100%;
@@ -263,9 +271,23 @@ ngface-excel-filter {
     width: 16px;
     height: 16px;
   }
+}
 
-  .mdc-checkbox__ripple {
-    display: none !important;
+
+ngface-excel-filter {
+  .mdc-form-field {
+    height: 24px;
+    width: 100%;
+  }
+
+  .mat-mdc-checkbox-touch-target {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mdc-checkbox__background {
+    width: 16px;
+    height: 16px;
   }
 
   .mat-mdc-checkbox {
