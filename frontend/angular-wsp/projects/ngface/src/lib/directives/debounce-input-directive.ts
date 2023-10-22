@@ -19,7 +19,8 @@ import {Subject, timer} from "rxjs";
 import {debounce, distinctUntilChanged} from "rxjs/operators";
 
 @Directive({
-  selector: '[debounceInput]'
+    selector: '[debounceInput]',
+    standalone: true
 })
 export class DebounceInputDirective
 {

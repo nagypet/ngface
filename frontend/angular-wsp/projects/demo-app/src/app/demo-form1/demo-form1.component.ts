@@ -20,15 +20,24 @@ import {MatDialog} from '@angular/material/dialog';
 import {DemoDialog1Component} from '../demo-dialog1/demo-dialog1.component';
 import {
   ActionClickEvent,
+  NgfaceDataTableComponent,
   TableMasterToggleEvent,
   TableReloadEvent,
   TableValueSetSearchEvent,
-  TableViewParamsChangeEvent,
+  TableViewParamsChangeEvent
 } from '../../../../ngface/src/lib/widgets/ngface-data-table/ngface-data-table.component';
 import {FormBaseComponent} from '../../../../ngface/src/lib/form/form-base.component';
 import {DemoFormTableService} from '../services/demo-form-table.service';
 import {TableDetailsService} from '../services/table-details.service';
 import {Ngface} from '../../../../ngface/src/lib/ngface-models';
+import {NgIf} from '@angular/common';
+import {NgfaceButtonComponent} from '../../../../ngface/src/lib/widgets/ngface-button/ngface-button.component';
+import {NgfaceSelectComponent} from '../../../../ngface/src/lib/widgets/ngface-select/ngface-select.component';
+import {NgfaceDateRangeInputComponent} from '../../../../ngface/src/lib/widgets/ngface-date-range-input/ngface-date-range-input.component';
+import {NgfaceDateInputComponent} from '../../../../ngface/src/lib/widgets/ngface-date-input/ngface-date-input.component';
+import {NgfaceNumericInputComponent} from '../../../../ngface/src/lib/widgets/ngface-numeric-input/ngface-numeric-input.component';
+import {NgfaceTextInputComponent} from '../../../../ngface/src/lib/widgets/ngface-text-input/ngface-text-input.component';
+import {NgfaceFormComponent} from '../../../../ngface/src/lib/form/ngface-form/ngface-form.component';
 
 // tslint:disable-next-line:no-namespace
 export namespace DemoForm1Component
@@ -40,7 +49,9 @@ export namespace DemoForm1Component
 @Component({
   selector: 'app-demo-form1',
   templateUrl: './demo-form1.component.html',
-  styleUrls: ['./demo-form1.component.scss']
+  styleUrls: ['./demo-form1.component.scss'],
+  standalone: true,
+  imports: [NgfaceFormComponent, NgfaceTextInputComponent, NgfaceNumericInputComponent, NgfaceDateInputComponent, NgfaceDateRangeInputComponent, NgfaceSelectComponent, NgfaceButtonComponent, NgfaceDataTableComponent, NgIf]
 })
 export class DemoForm1Component extends FormBaseComponent implements OnInit
 {

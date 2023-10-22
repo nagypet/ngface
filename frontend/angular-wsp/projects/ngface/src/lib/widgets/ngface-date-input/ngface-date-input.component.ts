@@ -17,11 +17,18 @@
 import {Component} from '@angular/core';
 import {InputBaseComponent} from '../input-base.component';
 import {Ngface} from '../../ngface-models';
+import { NgIf } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'ngface-date-input',
-  templateUrl: './ngface-date-input.component.html',
-  styleUrls: ['./ngface-date-input.component.scss']
+    selector: 'ngface-date-input',
+    templateUrl: './ngface-date-input.component.html',
+    styleUrls: ['./ngface-date-input.component.scss'],
+    standalone: true,
+    imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, NgIf]
 })
 export class NgfaceDateInputComponent extends InputBaseComponent
 {

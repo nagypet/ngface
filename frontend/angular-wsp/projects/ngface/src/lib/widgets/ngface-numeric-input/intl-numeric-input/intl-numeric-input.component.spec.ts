@@ -24,8 +24,8 @@ describe('IntlNumericInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ IntlNumericInputComponent ]
-    })
+    imports: [IntlNumericInputComponent]
+})
     .compileComponents();
   });
 

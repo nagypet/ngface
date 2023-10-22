@@ -17,12 +17,18 @@
 import {Component} from '@angular/core';
 import {Ngface} from '../../ngface-models';
 import {InputBaseComponent} from '../input-base.component';
+import { NgIf } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'ngface-text-input',
-  templateUrl: './ngface-text-input.component.html',
-  styleUrls: ['./ngface-text-input.component.scss']
+    // tslint:disable-next-line:component-selector
+    selector: 'ngface-text-input',
+    templateUrl: './ngface-text-input.component.html',
+    styleUrls: ['./ngface-text-input.component.scss'],
+    standalone: true,
+    imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, NgIf]
 })
 export class NgfaceTextInputComponent extends InputBaseComponent
 {

@@ -15,9 +15,15 @@
  */
 
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {ValueSetProvider} from './value-set-provider';
 import {Ngface} from '../../../ngface-models';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NgFor, NgIf } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { DebounceInputDirective } from '../../../directives/debounce-input-directive';
+import { A11yModule } from '@angular/cdk/a11y';
 
 export interface ValueSetItem
 {
@@ -45,7 +51,9 @@ export interface FilterChangeEvent
     // tslint:disable-next-line:component-selector
     selector: 'ngface-excel-filter',
     templateUrl: './excel-filter.component.html',
-    styleUrls: ['./excel-filter.component.scss']
+    styleUrls: ['./excel-filter.component.scss'],
+    standalone: true,
+    imports: [ReactiveFormsModule, A11yModule, DebounceInputDirective, MatIconModule, NgFor, NgIf, MatCheckboxModule, FormsModule, MatButtonModule]
 })
 export class ExcelFilterComponent implements OnInit
 {

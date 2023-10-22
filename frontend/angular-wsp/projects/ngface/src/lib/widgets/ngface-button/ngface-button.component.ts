@@ -16,11 +16,17 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {Ngface} from '../../ngface-models';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgClass } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'ngface-button',
-  templateUrl: './ngface-button.component.html',
-  styleUrls: ['./ngface-button.component.scss']
+    selector: 'ngface-button',
+    templateUrl: './ngface-button.component.html',
+    styleUrls: ['./ngface-button.component.scss'],
+    standalone: true,
+    imports: [MatButtonModule, NgClass, MatTooltipModule, MatBadgeModule]
 })
 export class NgfaceButtonComponent implements OnInit
 {

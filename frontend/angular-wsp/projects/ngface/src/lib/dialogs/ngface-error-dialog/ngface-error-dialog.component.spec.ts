@@ -8,8 +8,8 @@ describe('NgfaceErrorDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NgfaceErrorDialogComponent ]
-    })
+    imports: [NgfaceErrorDialogComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(NgfaceErrorDialogComponent);

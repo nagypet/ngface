@@ -24,8 +24,8 @@ describe('ExcelFilterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExcelFilterComponent ]
-    })
+    imports: [ExcelFilterComponent]
+})
     .compileComponents();
   });
 

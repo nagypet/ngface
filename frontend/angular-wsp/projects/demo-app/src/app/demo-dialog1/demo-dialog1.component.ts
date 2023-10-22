@@ -15,14 +15,20 @@
  */
 
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import {FormBaseComponent} from '../../../../ngface/src/lib/form/form-base.component';
 import {Ngface} from '../../../../ngface/src/lib/ngface-models';
+import { NgfaceButtonComponent } from '../../../../ngface/src/lib/widgets/ngface-button/ngface-button.component';
+import { NgfaceTextInputComponent } from '../../../../ngface/src/lib/widgets/ngface-text-input/ngface-text-input.component';
+import { NgfaceNumericInputComponent } from '../../../../ngface/src/lib/widgets/ngface-numeric-input/ngface-numeric-input.component';
+import { NgfaceFormComponent } from '../../../../ngface/src/lib/form/ngface-form/ngface-form.component';
 
 @Component({
-  selector: 'app-demo-dialog1',
-  templateUrl: './demo-dialog1.component.html',
-  styleUrls: ['./demo-dialog1.component.scss']
+    selector: 'app-demo-dialog1',
+    templateUrl: './demo-dialog1.component.html',
+    styleUrls: ['./demo-dialog1.component.scss'],
+    standalone: true,
+    imports: [MatDialogModule, NgfaceFormComponent, NgfaceNumericInputComponent, NgfaceTextInputComponent, NgfaceButtonComponent]
 })
 export class DemoDialog1Component extends FormBaseComponent implements OnInit
 {

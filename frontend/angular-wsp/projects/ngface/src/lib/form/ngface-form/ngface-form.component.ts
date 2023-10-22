@@ -24,10 +24,11 @@ export class ControlData
 }
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'ngface-form',
-  templateUrl: './ngface-form.component.html',
-  styleUrls: ['./ngface-form.component.css']
+    // tslint:disable-next-line:component-selector
+    selector: 'ngface-form',
+    templateUrl: './ngface-form.component.html',
+    styleUrls: ['./ngface-form.component.css'],
+    standalone: true
 })
 export class NgfaceFormComponent implements OnInit, OnChanges, AfterViewInit
 {

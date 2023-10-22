@@ -24,8 +24,8 @@ describe('DemoForm1Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DemoForm1Component ]
-    })
+    imports: [DemoForm1Component]
+})
     .compileComponents();
   });
 

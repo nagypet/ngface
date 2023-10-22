@@ -17,7 +17,8 @@
 import {Directive, ElementRef, HostListener} from '@angular/core';
 
 @Directive({
-  selector: '[numericInputFilter]'
+    selector: '[numericInputFilter]',
+    standalone: true
 })
 export class NumericInputFilterDirective
 {
