@@ -29,6 +29,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import {NgfaceModule} from '../../../ngface/src/lib/ngface.module';
+import {A11yModule} from '@angular/cdk/a11y';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -38,12 +39,13 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     DemoForm1Component,
     DemoDialog1Component
   ],
-  imports: [
-    BrowserModule,
-    NgfaceModule,
-    HttpClientModule,
-    MatDialogModule,
-  ],
+    imports: [
+        BrowserModule,
+        NgfaceModule,
+        HttpClientModule,
+        MatDialogModule,
+        A11yModule,
+    ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
     {provide: MAT_DATE_LOCALE, useValue: 'hu'},

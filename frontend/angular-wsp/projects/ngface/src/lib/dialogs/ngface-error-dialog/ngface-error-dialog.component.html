@@ -1,7 +1,7 @@
-<div class="d-flex centered">
+<div mat-dialog-title class="d-flex centered">
   <mat-icon class="material-icons-outlined">warning</mat-icon>
 </div>
-<div class="error-main">
+<div mat-dialog-content class="error-main">
   <p class="error-title">There is a problem!</p>
   <p class="error-text">{{getErrorText()}}</p>
   <ng-scrollbar *ngIf="showDetails" class="error-dialog-details-scrollbar" track="all">
@@ -10,6 +10,7 @@
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button color="primary" (click)="onOkClick()" cdkTrapFocus
-          [cdkTrapFocusAutoCapture]="true">Close</button>
+          [cdkTrapFocusAutoCapture]="true">Close
+  </button>
   <button mat-raised-button (click)="onDetailsClick()">Technical info</button>
 </div>

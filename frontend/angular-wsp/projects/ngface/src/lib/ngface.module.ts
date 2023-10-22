@@ -52,6 +52,7 @@ import {ErrorInterceptor} from './interceptors/error-interceptor.service';
 import {NgfaceErrorDialogComponent} from './dialogs/ngface-error-dialog/ngface-error-dialog.component';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {A11yModule} from '@angular/cdk/a11y';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -93,7 +94,8 @@ import {A11yModule} from '@angular/cdk/a11y';
     MatSortModule,
     NgScrollbarModule,
     OverlayModule,
-    A11yModule
+    A11yModule,
+    MatDialogModule
   ],
   exports: [
     NgfaceButtonComponent,
