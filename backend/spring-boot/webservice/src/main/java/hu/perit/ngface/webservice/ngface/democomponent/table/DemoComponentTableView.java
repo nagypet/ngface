@@ -94,6 +94,9 @@ public class DemoComponentTableView implements ComponentView
 
         table.data(this.data.getTableDTO().getData());
 
+        // Notification
+        table.notification(this.data.getTableDTO().getContent().getNotification());
+
         return table;
     }
 

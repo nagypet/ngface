@@ -42,7 +42,7 @@ public class DemoComponentDTO extends ComponentDTO implements Serializable
     public static final String PLACE_OF_BIRTH_ID = "place-of-birth";
     public static final String EMAIL_ID = "email";
     public static final String ROLE_ID = "role";
-    public static final String AMOUNT_ID = "amount";
+    public static final String PRICE_ID = "price";
     public static final String COUNT_SAMPLES_ID = "count-samples";
     public static final String ACCOUNT_NO = "account-no";
     public static final String CHECK_IN_DATE_ID = "check-in-date";
@@ -64,8 +64,8 @@ public class DemoComponentDTO extends ComponentDTO implements Serializable
     @DTOValue(id = ROLE_ID)
     private String role;
 
-    @DTOValue(id = AMOUNT_ID)
-    private Double amount;
+    @DTOValue(id = PRICE_ID)
+    private Double price;
 
     @DTOValue(id = COUNT_SAMPLES_ID)
     private Long countSamples;
