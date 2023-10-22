@@ -15,11 +15,14 @@
  */
 
 import { Component } from '@angular/core';
+import { DemoForm1Component } from './demo-form1/demo-form1.component';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: true,
+    imports: [DemoForm1Component]
 })
 export class AppComponent {
   title = 'demo-app';

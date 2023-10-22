@@ -17,13 +17,18 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {InputBaseComponent} from '../input-base.component';
 import {Ngface} from '../../ngface-models';
-import {AbstractControl, FormControl, FormGroup, ValidatorFn} from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, ReactiveFormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'ngface-date-range-input',
-  templateUrl: './ngface-date-range-input.component.html',
-  styleUrls: ['./ngface-date-range-input.component.scss']
+    // tslint:disable-next-line:component-selector
+    selector: 'ngface-date-range-input',
+    templateUrl: './ngface-date-range-input.component.html',
+    styleUrls: ['./ngface-date-range-input.component.scss'],
+    standalone: true,
+    imports: [MatFormFieldModule, MatDatepickerModule, ReactiveFormsModule, NgIf]
 })
 export class NgfaceDateRangeInputComponent extends InputBaseComponent implements OnChanges
 {

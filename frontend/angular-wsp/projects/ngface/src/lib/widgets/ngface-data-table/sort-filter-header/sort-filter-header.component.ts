@@ -15,16 +15,21 @@
  */
 
 import {Component, ElementRef, EventEmitter, Input, Output, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
-import {FilterChangeEvent, ValueSetSearchEvent} from '../excel-filter/excel-filter.component';
+import { FilterChangeEvent, ValueSetSearchEvent, ExcelFilterComponent } from '../excel-filter/excel-filter.component';
 import {Ngface} from '../../../ngface-models';
 import {Overlay, OverlayRef} from '@angular/cdk/overlay';
 import {TemplatePortal} from '@angular/cdk/portal';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSortModule } from '@angular/material/sort';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
-  exportAs: 'ngFaceSortFilterHeader',
-  selector: '[ngface-sort-filter-header]',
-  templateUrl: './sort-filter-header.component.html',
-  styleUrls: ['./sort-filter-header.component.scss']
+    exportAs: 'ngFaceSortFilterHeader',
+    selector: '[ngface-sort-filter-header]',
+    templateUrl: './sort-filter-header.component.html',
+    styleUrls: ['./sort-filter-header.component.scss'],
+    standalone: true,
+    imports: [NgIf, MatSortModule, NgClass, MatIconModule, ExcelFilterComponent]
 })
 export class SortFilterHeaderComponent
 {

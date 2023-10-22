@@ -17,12 +17,19 @@
 import {Component, OnChanges, SimpleChange} from '@angular/core';
 import {InputBaseComponent} from '../input-base.component';
 import {Ngface} from '../../ngface-models';
+import { MatOptionModule } from '@angular/material/core';
+import { NgFor, NgIf } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'ngface-select',
-  templateUrl: './ngface-select.component.html',
-  styleUrls: ['./ngface-select.component.scss']
+    // tslint:disable-next-line:component-selector
+    selector: 'ngface-select',
+    templateUrl: './ngface-select.component.html',
+    styleUrls: ['./ngface-select.component.scss'],
+    standalone: true,
+    imports: [MatFormFieldModule, MatSelectModule, ReactiveFormsModule, NgFor, MatOptionModule, NgIf]
 })
 export class NgfaceSelectComponent extends InputBaseComponent implements OnChanges {
 

@@ -17,12 +17,16 @@
 import {Component, Inject, LOCALE_ID} from '@angular/core';
 import {Ngface} from '../../ngface-models';
 import {InputBaseComponent} from '../input-base.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { IntlNumericInputComponent } from './intl-numeric-input/intl-numeric-input.component';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'ngface-numeric-input',
-  templateUrl: './ngface-numeric-input.component.html',
-  styleUrls: ['./ngface-numeric-input.component.scss']
+    // tslint:disable-next-line:component-selector
+    selector: 'ngface-numeric-input',
+    templateUrl: './ngface-numeric-input.component.html',
+    styleUrls: ['./ngface-numeric-input.component.scss'],
+    standalone: true,
+    imports: [IntlNumericInputComponent, ReactiveFormsModule]
 })
 export class NgfaceNumericInputComponent extends InputBaseComponent
 {

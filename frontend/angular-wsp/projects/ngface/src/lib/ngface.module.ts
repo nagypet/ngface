@@ -56,23 +56,6 @@ import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
-  declarations: [
-    NgfaceButtonComponent,
-    NgfaceDataTableComponent,
-    NgfaceDateInputComponent,
-    NgfaceDateRangeInputComponent,
-    NgfaceNumericInputComponent,
-    NgfaceSelectComponent,
-    NgfaceTextInputComponent,
-    IntlNumericInputComponent,
-    SortFilterHeaderComponent,
-    ExcelFilterComponent,
-    NumericInputFilterDirective,
-    DebounceInputDirective,
-    SafeHtmlPipe,
-    NgfaceFormComponent,
-    NgfaceErrorDialogComponent
-  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -95,7 +78,22 @@ import {MatDialogModule} from '@angular/material/dialog';
     NgScrollbarModule,
     OverlayModule,
     A11yModule,
-    MatDialogModule
+    MatDialogModule,
+    NgfaceButtonComponent,
+    NgfaceDataTableComponent,
+    NgfaceDateInputComponent,
+    NgfaceDateRangeInputComponent,
+    NgfaceNumericInputComponent,
+    NgfaceSelectComponent,
+    NgfaceTextInputComponent,
+    IntlNumericInputComponent,
+    SortFilterHeaderComponent,
+    ExcelFilterComponent,
+    NumericInputFilterDirective,
+    DebounceInputDirective,
+    SafeHtmlPipe,
+    NgfaceFormComponent,
+    NgfaceErrorDialogComponent
   ],
   exports: [
     NgfaceButtonComponent,
@@ -114,7 +112,7 @@ import {MatDialogModule} from '@angular/material/dialog';
       useClass: ErrorInterceptor,
       multi: true
     }
-  ],
+  ]
 })
 export class NgfaceModule
 {

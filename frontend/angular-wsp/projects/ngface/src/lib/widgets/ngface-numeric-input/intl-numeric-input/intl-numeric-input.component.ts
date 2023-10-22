@@ -15,10 +15,13 @@
  */
 
 import {Component, Inject, Input, LOCALE_ID} from '@angular/core';
-import {ControlValueAccessor, FormControl, FormGroupDirective, NG_VALUE_ACCESSOR, NgForm} from '@angular/forms';
+import { ControlValueAccessor, FormControl, FormGroupDirective, NG_VALUE_ACCESSOR, NgForm, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {NumericFormatter} from '../../../numeric-formatter';
 import {getLocaleNumberSymbol, NumberSymbol} from '@angular/common';
 import {ErrorStateMatcher} from '@angular/material/core';
+import { NumericInputFilterDirective } from '../../../directives/numeric-input-filter-directive';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher
@@ -37,17 +40,19 @@ export class MyErrorStateMatcher implements ErrorStateMatcher
 }
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'ngface-intl-numeric-input',
-  templateUrl: './intl-numeric-input.component.html',
-  styleUrls: ['./intl-numeric-input.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: IntlNumericInputComponent
-    }
-  ]
+    // tslint:disable-next-line:component-selector
+    selector: 'ngface-intl-numeric-input',
+    templateUrl: './intl-numeric-input.component.html',
+    styleUrls: ['./intl-numeric-input.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            multi: true,
+            useExisting: IntlNumericInputComponent
+        }
+    ],
+    standalone: true,
+    imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, NumericInputFilterDirective, FormsModule]
 })
 export class IntlNumericInputComponent implements ControlValueAccessor
 {

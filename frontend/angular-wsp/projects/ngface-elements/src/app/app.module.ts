@@ -20,10 +20,10 @@ import localeDeExtra from '@angular/common/locales/extra/de';
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
 @NgModule({
-    declarations: [AppComponent],
     imports: [
         BrowserModule,
-        NgfaceModule
+        NgfaceModule,
+        AppComponent
     ],
     providers: [
         { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },

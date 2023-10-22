@@ -1,8 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import {BehaviorSubject} from 'rxjs';
 import {ErrorService} from '../../services/error.service';
+import { A11yModule } from '@angular/cdk/a11y';
+import { MatButtonModule } from '@angular/material/button';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+import { NgIf } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface SpvitaminErrorResponse
 {
@@ -45,7 +50,9 @@ export interface StackTraceElement
 @Component({
     selector: 'lib-ngface-error-dialog',
     templateUrl: './ngface-error-dialog.component.html',
-    styleUrls: ['./ngface-error-dialog.component.scss']
+    styleUrls: ['./ngface-error-dialog.component.scss'],
+    standalone: true,
+    imports: [MatDialogModule, MatIconModule, NgIf, NgScrollbarModule, MatButtonModule, A11yModule]
 })
 export class NgfaceErrorDialogComponent implements OnInit
 {

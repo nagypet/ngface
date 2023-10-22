@@ -14,15 +14,36 @@
  * limitations under the License.
  */
 
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import {enableProdMode, importProvidersFrom, LOCALE_ID} from '@angular/core';
+import localeDe from '@angular/common/locales/de';
+import localeDeExtra from '@angular/common/locales/extra/de';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
 
-if (environment.production) {
+import {environment} from './environments/environment';
+import {AppComponent} from './app/app.component';
+import {A11yModule} from '@angular/cdk/a11y';
+import {MatDialogModule} from '@angular/material/dialog';
+import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {NgfaceModule} from '../../ngface/src/lib/ngface.module';
+import {bootstrapApplication, BrowserModule} from '@angular/platform-browser';
+import {MAT_DATE_LOCALE} from '@angular/material/core';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import {registerLocaleData} from '@angular/common';
+
+registerLocaleData(localeDe, 'de-DE', localeDeExtra);
+
+if (environment.production)
+{
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
+bootstrapApplication(AppComponent, {
+  providers: [
+    importProvidersFrom(BrowserModule, NgfaceModule, MatDialogModule, A11yModule),
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
+    {provide: MAT_DATE_LOCALE, useValue: 'hu'},
+    {provide: LOCALE_ID, useValue: 'de-DE'},
+    provideHttpClient(withInterceptorsFromDi())
+  ]
+})
   .catch(err => console.error(err));

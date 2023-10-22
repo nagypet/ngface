@@ -24,8 +24,8 @@ describe('DemoDialog1Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DemoDialog1Component ]
-    })
+    imports: [DemoDialog1Component]
+})
     .compileComponents();
   });
 
