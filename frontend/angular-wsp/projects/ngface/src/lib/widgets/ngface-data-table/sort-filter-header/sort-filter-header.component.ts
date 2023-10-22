@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
 import {FilterChangeEvent, ValueSetSearchEvent} from '../excel-filter/excel-filter.component';
 import {Ngface} from '../../../ngface-models';
+import {Overlay, OverlayRef} from '@angular/cdk/overlay';
+import {TemplatePortal} from '@angular/cdk/portal';
 
 @Component({
   exportAs: 'ngFaceSortFilterHeader',
@@ -24,11 +26,12 @@ import {Ngface} from '../../../ngface-models';
   templateUrl: './sort-filter-header.component.html',
   styleUrls: ['./sort-filter-header.component.scss']
 })
-export class SortFilterHeaderComponent implements OnInit, OnChanges
+export class SortFilterHeaderComponent
 {
+  @ViewChild('excel_filter') templateExcelFilter!: TemplateRef<unknown>;
 
   @Input()
-  text = "";
+  text = '';
 
   @Input()
   sortable = false;
@@ -51,38 +54,39 @@ export class SortFilterHeaderComponent implements OnInit, OnChanges
   @Output()
   filtererClearedEvent: EventEmitter<string> = new EventEmitter();
 
-  showExcelFilter = false;
+  private overlayRef?: OverlayRef;
 
-  constructor(private el: ElementRef)
-  {
-  }
-
-  ngOnInit(): void
-  {
-  }
-
-  ngOnChanges(): void
+  constructor(
+    private el: ElementRef,
+    private readonly overlay: Overlay,
+    private viewContainerRef: ViewContainerRef)
   {
   }
 
   onFilterIconClick($event: MouseEvent): void
   {
-    this.showExcelFilter = !this.showExcelFilter;
+    this.overlayRef = this.overlay.create({
+      hasBackdrop: true,
+      backdropClass: 'cdk-overlay-transparent-backdrop',
+      panelClass: 'mat-elevation-z8',
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+      positionStrategy: this.overlay
+        .position()
+        .flexibleConnectedTo(this.el)
+        .withPositions([
+          {
+            originX: 'end',
+            originY: 'bottom',
+            overlayX: 'end',
+            overlayY: 'top'
+          }
+        ])
+    });
+    const templatePortal = new TemplatePortal(this.templateExcelFilter, this.viewContainerRef);
+    this.overlayRef.attach(templatePortal);
+    this.overlayRef.backdropClick().subscribe(() => this.overlayRef?.detach());
   }
 
-  @HostListener('document:click', ['$event'])
-  onDocumentClick($event: any): void
-  {
-    if (this.el.nativeElement.childNodes[0]?.children[1]?.children[0] !== $event.target)
-    {
-      this.showExcelFilter = false;
-    }
-  }
-
-  onEscape(): void
-  {
-    this.showExcelFilter = false;
-  }
 
   onValueSetSearch($event: ValueSetSearchEvent): void
   {
@@ -97,7 +101,7 @@ export class SortFilterHeaderComponent implements OnInit, OnChanges
     {
       this.filterer.active = $event.changed;
     }
-    this.showExcelFilter = false;
+    this.overlayRef?.detach();
     if ($event.changed)
     {
       this.filtererChangeEvent.emit($event.filterer);
@@ -108,10 +112,6 @@ export class SortFilterHeaderComponent implements OnInit, OnChanges
     }
   }
 
-  onExcelFilterClose(): void
-  {
-    this.showExcelFilter = false;
-  }
 
   isActive(): boolean
   {
@@ -121,5 +121,10 @@ export class SortFilterHeaderComponent implements OnInit, OnChanges
   getClass(): string
   {
     return this.filterer?.active ? 'ngface-filter-header-set' : '';
+  }
+
+  onExcelFilterClosed($event: void): void
+  {
+    this.overlayRef?.detach();
   }
 }

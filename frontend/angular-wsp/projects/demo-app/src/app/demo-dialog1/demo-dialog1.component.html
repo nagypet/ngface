@@ -14,10 +14,10 @@
   ~ limitations under the License.
   -->
 
-<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-title>{{data.title}}</div>
 <ngface-form [formdata]="formData" mat-dialog-content (keydown.enter)="onOkClick()">
   <div class="ngface-row">
-    <ngface-numeric-input [formdata]="formData" widgetid="postCode" cdkFocusInitial></ngface-numeric-input>
+    <ngface-numeric-input [formdata]="formData" widgetid="postCode"></ngface-numeric-input>
   </div>
   <div class="ngface-row">
     <ngface-text-input [formdata]="formData" widgetid="city"></ngface-text-input>

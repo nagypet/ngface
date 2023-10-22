@@ -17,17 +17,21 @@
 <div class="ngface-sort-filter-header">
   <div *ngIf="sortable" class="ngface-sort-header" mat-sort-header>{{text}}</div>
   <div *ngIf="!sortable" class="ngface-nosort-header">{{text}}</div>
-  <button *ngIf="filterable && !isActive()" class="ngface-filter-header" [ngClass]="getClass()" (click)="onFilterIconClick($event)" (keydown.escape)="onEscape()">
+  <button *ngIf="filterable && !isActive()" class="ngface-filter-header" [ngClass]="getClass()" (click)="onFilterIconClick($event)">
     <mat-icon class="material-icons-outlined ngface-table-header-icon">filter_list</mat-icon>
   </button>
-  <button *ngIf="filterable && isActive()" class="ngface-filter-header" [ngClass]="getClass()" (click)="onFilterIconClick($event)" (keydown.escape)="onEscape()">
+  <button *ngIf="filterable && isActive()" class="ngface-filter-header" [ngClass]="getClass()" (click)="onFilterIconClick($event)">
     <mat-icon class="material-icons-filled ngface-table-header-icon">filter_alt</mat-icon>
   </button>
 </div>
 
-<ngface-excel-filter *ngIf="showExcelFilter"
-                     [filterer]="filterer"
-                     (valueSetSearchEvent)="onValueSetSearch($event)"
-                     (filtererChangeEvent)="onFiltererChange($event)"
-                     (onCloseEvent)="onExcelFilterClose()"
-></ngface-excel-filter>
+<!-- Will be shown as an overlay -->
+<ng-template #excel_filter>
+  <ngface-excel-filter
+    [filterer]="filterer"
+    (valueSetSearchEvent)="onValueSetSearch($event)"
+    (filtererChangeEvent)="onFiltererChange($event)"
+    (onCloseEvent)="onExcelFilterClosed($event)"
+  ></ngface-excel-filter>
+</ng-template>
+

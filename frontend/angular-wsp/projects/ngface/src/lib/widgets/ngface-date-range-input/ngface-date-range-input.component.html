@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<mat-form-field class="ngface-input-field" [floatLabel]="floatLabelControl.value">
+<mat-form-field class="ngface-input-field" [floatLabel]="floatLabelControl.value" [subscriptSizing]="'dynamic'">
   <mat-label>{{getData().label}}</mat-label>
   <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
     <input matStartDate autocomplete="off" formControlName="start"

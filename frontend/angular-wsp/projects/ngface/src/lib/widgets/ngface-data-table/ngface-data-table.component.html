@@ -64,14 +64,13 @@
           >
             <!-- ActionCell -->
             <div *ngIf="isActionCell(row, column)">
-              <button *ngFor="let action of getActions(row, column)" mat-icon-button [disabled]="!action.enabled">
-                <mat-icon class="material-icons-outlined"
-                          [ngClass]="getActionClass(action)"
-                          (click)="$event.stopPropagation(); actionClick(row, action.id)"
-                          [matTooltip]="action.enabled ? action.label : ''"
-                          matTooltipPosition="above">
-                  {{action.icon}}
-                </mat-icon>
+              <button *ngFor="let action of getActions(row, column)" mat-icon-button
+                      [disabled]="!action.enabled"
+                      [matTooltip]="action.enabled ? action.label : ''"
+                      matTooltipPosition="above"
+                      (click)="$event.stopPropagation(); actionClick(row, action.id)"
+              >
+                <mat-icon class="material-icons-outlined" [ngClass]="getActionClass(action)">{{action.icon}}</mat-icon>
               </button>
               {{getCellText(row, column)}}
             </div>
