@@ -9,6 +9,7 @@
   </ng-scrollbar>
 </div>
 <div mat-dialog-actions>
-  <button mat-raised-button color="primary" (click)="onOkClick()" cdkFocusInitial>Close</button>
+  <button mat-raised-button color="primary" (click)="onOkClick()" cdkTrapFocus
+          [cdkTrapFocusAutoCapture]="true">Close</button>
   <button mat-raised-button (click)="onDetailsClick()">Technical info</button>
 </div>

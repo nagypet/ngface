@@ -19,8 +19,12 @@
     <button type="button" (click)="onClearFilter()">Clear filter</button>
   </div>
   <div class="searchbox">
-    <input type="text" placeholder="Search..." [formControl]="formControlSearch" (debounceInput)="onSearchTextChange($event)"
-           [debounceTime]="500">
+    <input type="text" placeholder="Search..." [formControl]="formControlSearch" (debounceInput)="onSearchTextChange($event)" cdkTrapFocus
+           [cdkTrapFocusAutoCapture]="true"
+           [debounceTime]="500"
+           (keydown.escape)="onCancel()"
+           (keydown.enter)="onOk()"
+    >
     <mat-icon>search</mat-icon>
   </div>
   <div class="listbox">

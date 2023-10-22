@@ -51,6 +51,7 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {ErrorInterceptor} from './interceptors/error-interceptor.service';
 import {NgfaceErrorDialogComponent} from './dialogs/ngface-error-dialog/ngface-error-dialog.component';
 import {OverlayModule} from '@angular/cdk/overlay';
+import {A11yModule} from '@angular/cdk/a11y';
 
 
 @NgModule({
@@ -91,7 +92,8 @@ import {OverlayModule} from '@angular/cdk/overlay';
     MatPaginatorModule,
     MatSortModule,
     NgScrollbarModule,
-    OverlayModule
+    OverlayModule,
+    A11yModule
   ],
   exports: [
     NgfaceButtonComponent,
