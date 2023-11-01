@@ -41,6 +41,9 @@ A light-weight backend-frontend communication using **widgets**.
 - Predefined and custom formatters can be assigned to widgets and table cells, such as `FormatCurrency.EUR`
 - Backend code can be mostly generated similar to `ng generate` 
 
+![](docs/ngface_intro.png)
+
+
 ## Code samples - backend
 
 The app looks like this:
