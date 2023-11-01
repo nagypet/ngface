@@ -27,8 +27,8 @@ class FiltererTest
     @Test
     void testEqual()
     {
-        Filterer filterer1 = new Filterer("col").active(true).valueSet(new ValueSet(true).valueSet(List.of("alma", "korte")));
-        Filterer filterer2 = new Filterer("col").active(true).valueSet(new ValueSet(true).valueSet(List.of("alma", "korte")));
+        Filterer filterer1 = new Filterer("col").active(true).valueSet(new ValueSet(true).values(List.of("alma", "korte")));
+        Filterer filterer2 = new Filterer("col").active(true).valueSet(new ValueSet(true).values(List.of("alma", "korte")));
         assertThat(filterer1).isEqualTo(filterer2);
     }
 }

@@ -53,66 +53,69 @@ import {NgfaceErrorDialogComponent} from './dialogs/ngface-error-dialog/ngface-e
 import {OverlayModule} from '@angular/cdk/overlay';
 import {A11yModule} from '@angular/cdk/a11y';
 import {MatDialogModule} from '@angular/material/dialog';
+import {NgfaceAutocompleteComponent} from './widgets/ngface-autocomplete/ngface-autocomplete.component';
 
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    MatTooltipModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatBadgeModule,
-    FormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatTableModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatPaginatorModule,
-    MatSortModule,
-    NgScrollbarModule,
-    OverlayModule,
-    A11yModule,
-    MatDialogModule,
-    NgfaceButtonComponent,
-    NgfaceDataTableComponent,
-    NgfaceDateInputComponent,
-    NgfaceDateRangeInputComponent,
-    NgfaceNumericInputComponent,
-    NgfaceSelectComponent,
-    NgfaceTextInputComponent,
-    IntlNumericInputComponent,
-    SortFilterHeaderComponent,
-    ExcelFilterComponent,
-    NumericInputFilterDirective,
-    DebounceInputDirective,
-    SafeHtmlPipe,
-    NgfaceFormComponent,
-    NgfaceErrorDialogComponent
-  ],
-  exports: [
-    NgfaceButtonComponent,
-    NgfaceDataTableComponent,
-    NgfaceDateInputComponent,
-    NgfaceDateRangeInputComponent,
-    NgfaceNumericInputComponent,
-    NgfaceSelectComponent,
-    NgfaceTextInputComponent,
-    NgfaceFormComponent,
-    SafeHtmlPipe
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor,
-      multi: true
-    }
-  ]
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        MatTooltipModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatBadgeModule,
+        FormsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatTableModule,
+        MatCheckboxModule,
+        MatIconModule,
+        MatPaginatorModule,
+        MatSortModule,
+        NgScrollbarModule,
+        OverlayModule,
+        A11yModule,
+        MatDialogModule,
+        NgfaceButtonComponent,
+        NgfaceDataTableComponent,
+        NgfaceDateInputComponent,
+        NgfaceDateRangeInputComponent,
+        NgfaceNumericInputComponent,
+        NgfaceSelectComponent,
+        NgfaceTextInputComponent,
+        IntlNumericInputComponent,
+        SortFilterHeaderComponent,
+        ExcelFilterComponent,
+        NumericInputFilterDirective,
+        DebounceInputDirective,
+        SafeHtmlPipe,
+        NgfaceFormComponent,
+        NgfaceErrorDialogComponent,
+        NgfaceAutocompleteComponent
+    ],
+    exports: [
+        NgfaceButtonComponent,
+        NgfaceDataTableComponent,
+        NgfaceDateInputComponent,
+        NgfaceDateRangeInputComponent,
+        NgfaceNumericInputComponent,
+        NgfaceSelectComponent,
+        NgfaceTextInputComponent,
+        NgfaceFormComponent,
+        NgfaceAutocompleteComponent,
+        SafeHtmlPipe
+    ],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorInterceptor,
+            multi: true
+        }
+    ]
 })
 export class NgfaceModule
 {

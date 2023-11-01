@@ -25,7 +25,12 @@ import hu.perit.ngface.core.widget.input.DateInput;
 import hu.perit.ngface.core.widget.input.NumericInput;
 import hu.perit.ngface.core.widget.input.TextInput;
 import hu.perit.ngface.core.widget.table.Table;
-import jakarta.validation.*;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 

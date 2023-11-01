@@ -70,7 +70,7 @@ public class FiltererFactory
         // clicks the filter icon on the column header.
         if (!(BooleanUtils.isTrue(skipRemote) && BooleanUtils.isTrue(filtererDef.remote())))
         {
-            valueSet.valueSet(filtererDef.valueProvider.apply(searchText));
+            valueSet.values(filtererDef.valueProvider.apply(searchText));
         }
         return valueSet;
     }

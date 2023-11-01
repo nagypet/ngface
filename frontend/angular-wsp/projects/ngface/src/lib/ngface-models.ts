@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.36.1070 on 2023-10-05 00:24:04.
+// Generated using typescript-generator version 2.36.1070 on 2023-11-01 13:08:07.
 
 export namespace Ngface {
 
@@ -49,6 +49,20 @@ export namespace Ngface {
             value: string;
         }
 
+    }
+
+    export interface Autocomplete extends Input<Data, string, Autocomplete> {
+        data: Data;
+    }
+
+    export interface Data extends Value<string> {
+        type: "Autocomplete.Data";
+        value: string;
+        extendedReadOnlyData: ExtendedReadOnlyData;
+    }
+
+    export interface ExtendedReadOnlyData {
+        valueSet: ValueSet;
     }
 
     export interface DateInput extends Input<DateInput.Data, Date, DateInput> {
@@ -306,7 +320,7 @@ export namespace Ngface {
     }
 
     export interface WidgetData {
-        type: "WidgetData" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
+        type: "WidgetData" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
     }
 
     export interface VoidWidgetData extends WidgetData {
@@ -346,7 +360,7 @@ export namespace Ngface {
     }
 
     export interface Value<V> extends WidgetData {
-        type: "Value" | "FormattedText.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
+        type: "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
         value: V;
     }
 

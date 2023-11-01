@@ -17,8 +17,10 @@
 package hu.perit.ngface.webservice.ngface.democomponent;
 
 import hu.perit.ngface.core.controller.ComponentController;
+import hu.perit.ngface.core.widget.input.Autocomplete;
 import hu.perit.ngface.core.widget.input.DateRangeInput;
 import hu.perit.ngface.core.widget.input.Select;
+import hu.perit.ngface.webservice.service.api.AddressService;
 import hu.perit.ngface.webservice.service.api.SessionData;
 import hu.perit.ngface.webservice.service.api.SessionPersistenceService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author Peter Nagy
@@ -37,6 +40,7 @@ import java.time.LocalDate;
 public class DemoComponentController implements ComponentController<DemoComponentDTO, Long>
 {
     private final SessionPersistenceService sessionPersistenceService;
+    private final AddressService addressService;
 
 
     @Override
@@ -49,6 +53,7 @@ public class DemoComponentController implements ComponentController<DemoComponen
             data.setSelectData(getSelectData().selected(data.getSelectData().getSelected()));
             data.setSelect2Data(getSelectData().selected(data.getSelect2Data().getSelected()));
             data.setSelect3Data(getSelectData().selected(data.getSelect3Data().getSelected()));
+            data.setAutocompleteData(getAutocompleteData(data.getAutocompleteData().getValue()));
 
             return data;
         }
@@ -65,6 +70,7 @@ public class DemoComponentController implements ComponentController<DemoComponen
         data.setSelectData(getSelectData());
         data.setSelect2Data(getSelectData());
         data.setSelect3Data(getSelectData().selected("id_first"));
+        data.setAutocompleteData(getAutocompleteData(null));
 
         return data;
     }
@@ -78,6 +84,15 @@ public class DemoComponentController implements ComponentController<DemoComponen
             .addOption(new Select.Option("id_third", "Third option"))
             .addOption(new Select.Option("id_fourth", "Fourth option"))
             ;
+    }
+
+
+    private Autocomplete.Data getAutocompleteData(String value)
+    {
+        Autocomplete.Data data = new Autocomplete.Data(value);
+        List<String> distinctDistricts = this.addressService.getDistinctDistricts(null);
+        data.getExtendedReadOnlyData().options(distinctDistricts);
+        return data;
     }
 
 

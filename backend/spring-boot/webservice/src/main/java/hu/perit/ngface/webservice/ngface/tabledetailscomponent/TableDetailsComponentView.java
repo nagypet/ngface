@@ -20,6 +20,7 @@ import hu.perit.ngface.core.formating.NumericFormat;
 import hu.perit.ngface.core.view.ComponentView;
 import hu.perit.ngface.core.widget.button.Button;
 import hu.perit.ngface.core.widget.form.Form;
+import hu.perit.ngface.core.widget.input.Autocomplete;
 import hu.perit.ngface.core.widget.input.NumericInput;
 import hu.perit.ngface.core.widget.input.TextInput;
 import hu.perit.ngface.core.widget.input.validator.Max;
@@ -62,11 +63,11 @@ public class TableDetailsComponentView implements ComponentView
                 .addValidator(new Required("Street is required!"))
                 .addValidator(new Size(INVALID_LENGTH).min(2).max(30))
             )
-            .addWidget(new TextInput(AddressTableRow.COL_DISTRICT)
-                .value(this.data.getDistrict())
+            .addWidget(new Autocomplete(AddressTableRow.COL_DISTRICT)
+                .data(this.data.getDistrict())
                 .label("District")
                 .addValidator(new Required("District is required!"))
-                //.addValidator(new Size(INVALID_LENGTH).min(2).max(20))
+                .addValidator(new Size(INVALID_LENGTH).min(2).max(20))
             )
             .addWidget(Button.SAVE)
             .addWidget(Button.CANCEL)

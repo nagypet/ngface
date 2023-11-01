@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ToString
 @Getter
@@ -36,7 +35,7 @@ import java.util.stream.Collectors;
 public class ValueSet
 {
     // If there are more then MAX_SIZE criteria, then they will not be provided, but must be searched for
-    private static int MAX_SIZE = 100;
+    private static final int MAX_SIZE = 100;
 
     // Remote means, the list of criteria is way too large, cannot be provided without a filter pattern. The client must
     // narrow down the list of distinct items by providing some filter patterns. The client must fetch the value set from
@@ -50,10 +49,10 @@ public class ValueSet
         this.remote = remote;
     }
 
-    public ValueSet valueSet(Collection<String> valueSet)
+    public ValueSet values(Collection<String> valueSet)
     {
         this.values = new ArrayList<>();
-        List<String> sortedValueSet = valueSet.stream().sorted(Comparator.nullsFirst(Comparator.naturalOrder())).collect(Collectors.toList());
+        List<String> sortedValueSet = valueSet.stream().sorted(Comparator.nullsFirst(Comparator.naturalOrder())).toList();
         for (String value : sortedValueSet)
         {
             this.values.add(new Item().text(value));

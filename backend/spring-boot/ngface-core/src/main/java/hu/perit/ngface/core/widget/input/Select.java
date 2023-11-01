@@ -16,16 +16,13 @@
 
 package hu.perit.ngface.core.widget.input;
 
+import hu.perit.ngface.core.widget.base.Input;
 import hu.perit.ngface.core.widget.base.WidgetData;
 import hu.perit.ngface.core.widget.input.validator.Required;
-import hu.perit.ngface.core.widget.base.Input;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,8 +40,9 @@ public class Select extends Input<Select.Data, Void, Select>
     @Override
     protected List<Class<?>> getAllowedValidators()
     {
-        return Arrays.asList(Required.class);
+        return List.of(Required.class);
     }
+
 
     @ToString
     @lombok.Data
@@ -56,13 +54,11 @@ public class Select extends Input<Select.Data, Void, Select>
 
     @ToString(callSuper = true)
     @Getter
-    public static class Data extends WidgetData implements Serializable
+    public static class Data extends WidgetData
     {
-        @Serial
-        private static final long serialVersionUID = 4759152995764164528L;
-
         private final Map<String, String> options = new LinkedHashMap<>();
         private String selected;
+
 
         public Data addOption(Select.Option option)
         {

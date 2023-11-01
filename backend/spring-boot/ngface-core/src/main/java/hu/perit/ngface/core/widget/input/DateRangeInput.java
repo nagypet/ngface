@@ -16,18 +16,16 @@
 
 package hu.perit.ngface.core.widget.input;
 
-import hu.perit.ngface.core.widget.exception.NgFaceException;
-import hu.perit.ngface.core.widget.input.validator.Required;
 import hu.perit.ngface.core.widget.base.Input;
 import hu.perit.ngface.core.widget.base.Validator;
 import hu.perit.ngface.core.widget.base.WidgetData;
+import hu.perit.ngface.core.widget.exception.NgFaceException;
+import hu.perit.ngface.core.widget.input.validator.Required;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,10 +40,12 @@ public class DateRangeInput extends Input<DateRangeInput.Data, Void, DateRangeIn
     private String placeholder2;
     private final List<Validator<?>> validators2 = new ArrayList<>();
 
+
     public DateRangeInput(String id)
     {
         super(id);
     }
+
 
     @Override
     protected List<Class<?>> getAllowedValidators()
@@ -67,7 +67,8 @@ public class DateRangeInput extends Input<DateRangeInput.Data, Void, DateRangeIn
 
         if (!getAllowedValidators().contains(validator.getClass()))
         {
-            throw new NgFaceException(String.format("'%s' does not allow validator of type '%s'!", getClass().getSimpleName(), validator.getClass().getSimpleName()));
+            throw new NgFaceException(
+                String.format("'%s' does not allow validator of type '%s'!", getClass().getSimpleName(), validator.getClass().getSimpleName()));
         }
 
         this.validators2.add(validator);
@@ -79,13 +80,11 @@ public class DateRangeInput extends Input<DateRangeInput.Data, Void, DateRangeIn
     @RequiredArgsConstructor
     @Getter
     @EqualsAndHashCode(callSuper = true)
-    public static class Data extends WidgetData implements Serializable
+    public static class Data extends WidgetData
     {
-        @Serial
-        private static final long serialVersionUID = 3056327753712279955L;
-
         private final LocalDate startDate;
         private final LocalDate endDate;
+
 
         // For JSon deserialization
         private Data()
