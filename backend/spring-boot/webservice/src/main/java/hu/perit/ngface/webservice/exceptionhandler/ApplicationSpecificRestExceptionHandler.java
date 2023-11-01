@@ -19,8 +19,8 @@ package hu.perit.ngface.webservice.exceptionhandler;
 import hu.perit.spvitamin.core.StackTracer;
 import hu.perit.spvitamin.core.exception.ApplicationRuntimeException;
 import hu.perit.spvitamin.core.exception.ExceptionWrapper;
+import hu.perit.spvitamin.spring.exceptionhandler.DefaultRestExceptionResponseHandler;
 import hu.perit.spvitamin.spring.exceptionhandler.RestExceptionResponse;
-import hu.perit.spvitamin.spring.exceptionhandler.RestResponseEntityExceptionHandler;
 import io.micrometer.tracing.Span;
 import io.micrometer.tracing.Tracer;
 import jakarta.validation.ConstraintViolationException;
@@ -44,7 +44,7 @@ import java.io.IOException;
 @ControllerAdvice
 @Slf4j
 @RequiredArgsConstructor
-public class ApplicationSpecificRestExceptionHandler extends RestResponseEntityExceptionHandler
+public class ApplicationSpecificRestExceptionHandler extends DefaultRestExceptionResponseHandler
 {
     private final Tracer tracer;
 

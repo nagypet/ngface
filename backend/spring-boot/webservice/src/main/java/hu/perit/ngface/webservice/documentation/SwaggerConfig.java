@@ -46,7 +46,7 @@ public class SwaggerConfig
 								.url("https://www.apache.org/licenses/LICENSE-2.0"))
 						.contact(new Contact()
 								.name("Peter Nagy")
-								.url("https://github.com/nagypet/elasticsearchstudy")
+								.url("https://github.com/nagypet/ngface")
 								.email("peter.nagy@perit.hu")))
 				.components(new Components()
 						.addSecuritySchemes("basic", new io.swagger.v3.oas.models.security.SecurityScheme().type(io.swagger.v3.oas.models.security.SecurityScheme.Type.HTTP).scheme("basic"))
