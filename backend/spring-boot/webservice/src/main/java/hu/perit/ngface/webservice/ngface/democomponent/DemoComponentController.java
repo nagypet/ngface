@@ -53,7 +53,8 @@ public class DemoComponentController implements ComponentController<DemoComponen
             data.setSelectData(getSelectData().selected(data.getSelectData().getSelected()));
             data.setSelect2Data(getSelectData().selected(data.getSelect2Data().getSelected()));
             data.setSelect3Data(getSelectData().selected(data.getSelect3Data().getSelected()));
-            data.setAutocompleteData(getAutocompleteData(data.getAutocompleteData().getValue()));
+            data.setAutocompleteData(getAutocompleteDistrictsData(data.getAutocompleteData().getValue()));
+            data.setAutocompleteStreetsData(getAutocompleteStreetsData(data.getAutocompleteStreetsData().getValue()));
 
             return data;
         }
@@ -70,7 +71,8 @@ public class DemoComponentController implements ComponentController<DemoComponen
         data.setSelectData(getSelectData());
         data.setSelect2Data(getSelectData());
         data.setSelect3Data(getSelectData().selected("id_first"));
-        data.setAutocompleteData(getAutocompleteData(null));
+        data.setAutocompleteData(getAutocompleteDistrictsData(null));
+        data.setAutocompleteStreetsData(getAutocompleteStreetsData(null));
 
         return data;
     }
@@ -87,10 +89,19 @@ public class DemoComponentController implements ComponentController<DemoComponen
     }
 
 
-    private Autocomplete.Data getAutocompleteData(String value)
+    private Autocomplete.Data getAutocompleteDistrictsData(String value)
     {
         Autocomplete.Data data = new Autocomplete.Data(value);
         List<String> distinctDistricts = this.addressService.getDistinctDistricts(null);
+        data.getExtendedReadOnlyData().options(distinctDistricts);
+        return data;
+    }
+
+
+    private Autocomplete.Data getAutocompleteStreetsData(String value)
+    {
+        Autocomplete.Data data = new Autocomplete.Data(value);
+        List<String> distinctDistricts = this.addressService.getDistinctStreets(null);
         data.getExtendedReadOnlyData().options(distinctDistricts);
         return data;
     }

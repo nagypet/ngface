@@ -38,7 +38,10 @@ import {NgfaceDateInputComponent} from '../../../../ngface/src/lib/widgets/ngfac
 import {NgfaceNumericInputComponent} from '../../../../ngface/src/lib/widgets/ngface-numeric-input/ngface-numeric-input.component';
 import {NgfaceTextInputComponent} from '../../../../ngface/src/lib/widgets/ngface-text-input/ngface-text-input.component';
 import {NgfaceFormComponent} from '../../../../ngface/src/lib/form/ngface-form/ngface-form.component';
-import {NgfaceAutocompleteComponent} from '../../../../ngface/src/lib/widgets/ngface-autocomplete/ngface-autocomplete.component';
+import {
+    AutocompleteRequest,
+    NgfaceAutocompleteComponent
+} from '../../../../ngface/src/lib/widgets/ngface-autocomplete/ngface-autocomplete.component';
 
 // tslint:disable-next-line:no-namespace
 export namespace DemoForm1Component
@@ -274,5 +277,10 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
             {
                 this.reloadTable();
             });
+    }
+
+    onAutocompleteRequest($event: AutocompleteRequest): void
+    {
+
     }
 }
