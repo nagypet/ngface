@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-import { Component } from '@angular/core';
-import { DemoForm1Component } from './demo-form1/demo-form1.component';
+import {Component} from '@angular/core';
+import {HeaderComponent} from './header/header.component';
+import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {FooterComponent} from './footer/footer.component';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     standalone: true,
-    imports: [DemoForm1Component]
+    imports: [HeaderComponent, RouterLink, RouterLinkActive, RouterOutlet, FooterComponent]
 })
 export class AppComponent {
   title = 'demo-app';

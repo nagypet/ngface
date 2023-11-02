@@ -23,9 +23,9 @@ import {environment} from '../../environments/environment';
 @Injectable({
     providedIn: 'root'
 })
-export class DemoFormService
+export class WidgetDemoFormService
 {
-    private readonly serviceUrl = `/frontend/forms/demo`;
+    private readonly serviceUrl = `/frontend/forms/demo/widgets`;
 
     constructor(private httpClient: HttpClient)
     {
@@ -46,16 +46,5 @@ export class DemoFormService
             })
         };
         return this.httpClient.post(`${environment.baseURL}${this.serviceUrl}`, submitFormData, httpOptions);
-    }
-
-
-    public reloadTableData(): Observable<any>
-    {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        };
-        return this.httpClient.post(`${environment.baseURL}/frontend/addresses/reset`, httpOptions);
     }
 }

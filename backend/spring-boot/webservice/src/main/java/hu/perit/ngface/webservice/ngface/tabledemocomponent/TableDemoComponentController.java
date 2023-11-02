@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.webservice.ngface.democomponent.table;
+package hu.perit.ngface.webservice.ngface.tabledemocomponent;
 
 import hu.perit.ngface.core.controller.TableControllerImpl;
 import hu.perit.ngface.core.types.intf.DataRetrievalParams;
@@ -43,7 +43,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class DemoComponentTableController extends TableControllerImpl<DemoComponentTableDTO, AddressTableRow, Long>
+public class TableDemoComponentController extends TableControllerImpl<TableDemoComponentDTO, AddressTableRow, Long>
 {
     private final AddressService addressService;
     private final AddressTableRowMapper addressTableRowMapper;
@@ -51,9 +51,9 @@ public class DemoComponentTableController extends TableControllerImpl<DemoCompon
 
 
     @Override
-    public DemoComponentTableDTO getTable(DataRetrievalParams dataRetrievalParams)
+    public TableDemoComponentDTO getTable(DataRetrievalParams dataRetrievalParams)
     {
-        DemoComponentTableDTO data = new DemoComponentTableDTO();
+        TableDemoComponentDTO data = new TableDemoComponentDTO();
 
         // Content
         TableSessionDefaults<AddressTableRow, Long> sessionDefaults = getSessionDefaults();
@@ -80,9 +80,9 @@ public class DemoComponentTableController extends TableControllerImpl<DemoCompon
 
 
     @Override
-    public DemoComponentTableDTO getTableRow(Long rowId)
+    public TableDemoComponentDTO getTableRow(Long rowId)
     {
-        DemoComponentTableDTO data = new DemoComponentTableDTO();
+        TableDemoComponentDTO data = new TableDemoComponentDTO();
 
         try
         {
@@ -99,7 +99,7 @@ public class DemoComponentTableController extends TableControllerImpl<DemoCompon
 
 
     @Override
-    public void onSave(DemoComponentTableDTO data)
+    public void onSave(TableDemoComponentDTO data)
     {
         super.onSave(data.getTableDTO().getData());
     }

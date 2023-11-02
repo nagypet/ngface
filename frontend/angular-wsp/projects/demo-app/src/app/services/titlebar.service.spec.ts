@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DemoFormTableService } from './demo-form-table.service';
+import { TitlebarService } from './titlebar.service';
 
-describe('DemoFormTableService', () => {
-  let service: DemoFormTableService;
+describe('TitlebarService', () => {
+  let service: TitlebarService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DemoFormTableService);
+    service = TestBed.inject(TitlebarService);
   });
 
   it('should be created', () => {

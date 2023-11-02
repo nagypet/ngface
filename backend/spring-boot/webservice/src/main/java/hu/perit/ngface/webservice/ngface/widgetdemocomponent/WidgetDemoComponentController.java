@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.webservice.ngface.democomponent;
+package hu.perit.ngface.webservice.ngface.widgetdemocomponent;
 
 import hu.perit.ngface.core.controller.ComponentController;
 import hu.perit.ngface.core.widget.input.Autocomplete;
@@ -37,17 +37,17 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class DemoComponentController implements ComponentController<DemoComponentDTO, Long>
+public class WidgetDemoComponentController implements ComponentController<WidgetDemoComponentDTO, Long>
 {
     private final SessionPersistenceService sessionPersistenceService;
     private final AddressService addressService;
 
 
     @Override
-    public DemoComponentDTO getForm(Long id)
+    public WidgetDemoComponentDTO getForm(Long id)
     {
         SessionData sessionData = this.sessionPersistenceService.getSessionData();
-        DemoComponentDTO data = sessionData.getDemoComponentDTO();
+        WidgetDemoComponentDTO data = sessionData.getWidgetDemoComponentDTO();
         if (data != null)
         {
             data.setSelectData(getSelectData().selected(data.getSelectData().getSelected()));
@@ -60,7 +60,7 @@ public class DemoComponentController implements ComponentController<DemoComponen
         }
 
         // The data
-        data = new DemoComponentDTO();
+        data = new WidgetDemoComponentDTO();
 
         data.setOwnersName("Peter");
         data.setRole("Admin");
@@ -108,10 +108,10 @@ public class DemoComponentController implements ComponentController<DemoComponen
 
 
     @Override
-    public void onFormSubmit(DemoComponentDTO data)
+    public void onFormSubmit(WidgetDemoComponentDTO data)
     {
         SessionData sessionData = this.sessionPersistenceService.getSessionData();
-        sessionData.setDemoComponentDTO(data);
+        sessionData.setWidgetDemoComponentDTO(data);
         this.sessionPersistenceService.saveSessionData(sessionData);
     }
 }

@@ -7,7 +7,7 @@ import {environment} from '../../environments/environment';
 @Injectable({
     providedIn: 'root'
 })
-export class DemoFormTableService
+export class TableDemoFormService
 {
     private readonly serviceUrl = `/frontend/forms/demo/table`;
 
@@ -71,5 +71,15 @@ export class DemoFormTableService
                 .set('column', column)
                 .set('searchText', searchText)
         });
+    }
+
+    public reloadTableData(): Observable<any>
+    {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        };
+        return this.httpClient.post(`${environment.baseURL}/frontend/addresses/reset`, httpOptions);
     }
 }

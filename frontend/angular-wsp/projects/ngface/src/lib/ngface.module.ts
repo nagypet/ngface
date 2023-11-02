@@ -54,6 +54,8 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {A11yModule} from '@angular/cdk/a11y';
 import {MatDialogModule} from '@angular/material/dialog';
 import {NgfaceAutocompleteComponent} from './widgets/ngface-autocomplete/ngface-autocomplete.component';
+import { NgfaceTitlebarComponent } from './titlebar/ngface-titlebar/ngface-titlebar.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 @NgModule({
@@ -95,7 +97,9 @@ import {NgfaceAutocompleteComponent} from './widgets/ngface-autocomplete/ngface-
         SafeHtmlPipe,
         NgfaceFormComponent,
         NgfaceErrorDialogComponent,
-        NgfaceAutocompleteComponent
+        NgfaceAutocompleteComponent,
+        MatToolbarModule,
+        NgfaceTitlebarComponent,
     ],
     exports: [
         NgfaceButtonComponent,

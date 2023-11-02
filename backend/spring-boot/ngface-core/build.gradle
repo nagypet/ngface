@@ -118,6 +118,7 @@ generateTypeScript {
             'hu.perit.ngface.core.widget.button.**',
             'hu.perit.ngface.core.widget.table.**',
             'hu.perit.ngface.core.widget.formattedtext.**',
+            'hu.perit.ngface.core.widget.titlebar.**',
             'hu.perit.ngface.core.types.intf.*'
     ]
     customTypeNaming = [
@@ -137,7 +138,8 @@ generateTypeScript {
             'hu.perit.ngface.core.types.intf.DataRetrievalParams$Filter:DataRetrievalParams.Filter',
             'hu.perit.ngface.core.types.intf.DataRetrievalParams$Filter$Item:DataRetrievalParams.Filter.Item',
             'hu.perit.ngface.core.types.intf.RowSelectParams$SelectMode:RowSelectParams.SelectMode',
-            'hu.perit.ngface.core.types.intf.RowSelectParams$Row:RowSelectParams.Row'
+            'hu.perit.ngface.core.types.intf.RowSelectParams$Row:RowSelectParams.Row',
+            'hu.perit.ngface.core.types.intf.Menu$Item:Menu.Item'
     ]
     outputFile = 'build/ngface-models.ts'
     outputFileType = 'implementationFile'

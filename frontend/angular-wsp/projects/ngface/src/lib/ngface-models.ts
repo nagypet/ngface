@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.36.1070 on 2023-11-01 13:08:07.
+// Generated using typescript-generator version 2.36.1070 on 2023-11-02 12:57:59.
 
 export namespace Ngface {
 
@@ -8,6 +8,10 @@ export namespace Ngface {
         page: DataRetrievalParams.Page | null;
         sort: DataRetrievalParams.Sort | null;
         filters: DataRetrievalParams.Filter[] | null;
+    }
+
+    export interface Menu {
+        items: Menu.Item[];
     }
 
     export interface RowSelectParams<T> {
@@ -283,6 +287,13 @@ export namespace Ngface {
         value: string;
     }
 
+    export interface Titlebar extends Widget<VoidWidgetData, Titlebar> {
+        data: VoidWidgetData;
+        appTitle: string;
+        menu: Menu;
+        actions: Action[];
+    }
+
     export namespace DataRetrievalParams {
 
         export interface Page {
@@ -306,6 +317,17 @@ export namespace Ngface {
         export interface Filter {
             column: string;
             valueSet: DataRetrievalParams.Filter.Item[];
+        }
+
+    }
+
+    export namespace Menu {
+
+        export interface Item {
+            id: string;
+            label: string;
+            icon: string;
+            submenu: Menu;
         }
 
     }

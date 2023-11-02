@@ -9,7 +9,7 @@ import {Ngface} from '../../../../ngface/src/lib/ngface-models';
 })
 export class TableDetailsService
 {
-    private readonly serviceUrl = `/frontend/forms/table-details`;
+    private readonly serviceUrl = `/frontend/forms/demo/table-details`;
 
     constructor(private httpClient: HttpClient)
     {

@@ -23,9 +23,9 @@ import hu.perit.ngface.core.widget.form.Form;
 import hu.perit.ngface.core.widget.table.Filterer;
 import hu.perit.ngface.rest.NgfaceTableRestController;
 import hu.perit.ngface.webservice.config.Constants;
-import hu.perit.ngface.webservice.ngface.democomponent.table.DemoComponentTableController;
-import hu.perit.ngface.webservice.ngface.democomponent.table.DemoComponentTableDTO;
-import hu.perit.ngface.webservice.ngface.democomponent.table.DemoComponentTableView;
+import hu.perit.ngface.webservice.ngface.tabledemocomponent.TableDemoComponentController;
+import hu.perit.ngface.webservice.ngface.tabledemocomponent.TableDemoComponentDTO;
+import hu.perit.ngface.webservice.ngface.tabledemocomponent.TableDemoComponentView;
 import hu.perit.spvitamin.spring.restmethodlogger.LoggedRestMethod;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,16 +34,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequestMapping("/frontend/forms/demo/table")
-public class DemoFormTableRestController extends NgfaceTableRestController<DemoComponentTableController, DemoComponentTableDTO, DemoComponentTableView, Long>
+public class TableDemoFormRestController extends NgfaceTableRestController<TableDemoComponentController, TableDemoComponentDTO, TableDemoComponentView, Long>
 {
-    public DemoFormTableRestController(DemoComponentTableController tableController)
+    public TableDemoFormRestController(TableDemoComponentController tableController)
     {
         super(tableController);
     }
 
 
     @Override
-    @LoggedRestMethod(eventId = Constants.DEMO_FORM_TABLE_CONTROLLER_GET_TABLE, subsystem = Constants.SUBSYSTEM_NAME)
+    @LoggedRestMethod(eventId = Constants.TABLE_DEMO_FORM_CONTROLLER_GET_TABLE, subsystem = Constants.SUBSYSTEM_NAME)
     public Form getTable(DataRetrievalParams dataRetrievalParams)
     {
         return super.getTable(dataRetrievalParams);
@@ -51,7 +51,7 @@ public class DemoFormTableRestController extends NgfaceTableRestController<DemoC
 
 
     @Override
-    @LoggedRestMethod(eventId = Constants.DEMO_FORM_TABLE_CONTROLLER_GET_TABLE_ROW, subsystem = Constants.SUBSYSTEM_NAME)
+    @LoggedRestMethod(eventId = Constants.TABLE_DEMO_FORM_CONTROLLER_GET_TABLE_ROW, subsystem = Constants.SUBSYSTEM_NAME)
     public Form getTableRow(Long rowId)
     {
         return super.getTableRow(rowId);
@@ -59,7 +59,7 @@ public class DemoFormTableRestController extends NgfaceTableRestController<DemoC
 
 
     @Override
-    @LoggedRestMethod(eventId = Constants.DEMO_FORM_TABLE_CONTROLLER_GET_COLUMN_FILTERER, subsystem = Constants.SUBSYSTEM_NAME)
+    @LoggedRestMethod(eventId = Constants.TABLE_DEMO_FORM_CONTROLLER_GET_COLUMN_FILTERER, subsystem = Constants.SUBSYSTEM_NAME)
     public Filterer getColumnFilterer(String column, String searchText)
     {
         return super.getColumnFilterer(column, searchText);
@@ -67,7 +67,7 @@ public class DemoFormTableRestController extends NgfaceTableRestController<DemoC
 
 
     @Override
-    @LoggedRestMethod(eventId = Constants.DEMO_FORM_TABLE_CONTROLLER_ON_ROW_SELECT, subsystem = Constants.SUBSYSTEM_NAME)
+    @LoggedRestMethod(eventId = Constants.TABLE_DEMO_FORM_CONTROLLER_ON_ROW_SELECT, subsystem = Constants.SUBSYSTEM_NAME)
     public void onRowSelect(RowSelectParams<Long> rowSelectParams) throws Exception
     {
         super.onRowSelect(rowSelectParams);
@@ -75,7 +75,7 @@ public class DemoFormTableRestController extends NgfaceTableRestController<DemoC
 
 
     @Override
-    @LoggedRestMethod(eventId = Constants.DEMO_FORM_TABLE_CONTROLLER_SUBMIT_TABLE, subsystem = Constants.SUBSYSTEM_NAME)
+    @LoggedRestMethod(eventId = Constants.TABLE_DEMO_FORM_CONTROLLER_SUBMIT_TABLE, subsystem = Constants.SUBSYSTEM_NAME)
     public void submitTable(SubmitFormData submitFormData)
     {
         super.submitTable(submitFormData);
@@ -83,15 +83,15 @@ public class DemoFormTableRestController extends NgfaceTableRestController<DemoC
 
 
     @Override
-    protected DemoComponentTableView supplyView(DemoComponentTableDTO data)
+    protected TableDemoComponentView supplyView(TableDemoComponentDTO data)
     {
-        return new DemoComponentTableView(data);
+        return new TableDemoComponentView(data);
     }
 
 
     @Override
-    protected DemoComponentTableDTO supplyDTO()
+    protected TableDemoComponentDTO supplyDTO()
     {
-        return new DemoComponentTableDTO();
+        return new TableDemoComponentDTO();
     }
 }

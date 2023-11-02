@@ -20,33 +20,36 @@ import hu.perit.ngface.core.types.intf.SubmitFormData;
 import hu.perit.ngface.core.widget.form.Form;
 import hu.perit.ngface.rest.NgfaceFormRestController;
 import hu.perit.ngface.webservice.config.Constants;
-import hu.perit.ngface.webservice.ngface.democomponent.DemoComponentController;
-import hu.perit.ngface.webservice.ngface.democomponent.DemoComponentDTO;
-import hu.perit.ngface.webservice.ngface.democomponent.DemoComponentView;
+import hu.perit.ngface.webservice.ngface.tabledetailscomponent.TableDetailsComponentController;
+import hu.perit.ngface.webservice.ngface.tabledetailscomponent.TableDetailsComponentDTO;
+import hu.perit.ngface.webservice.ngface.tabledetailscomponent.TableDetailsComponentView;
 import hu.perit.spvitamin.spring.restmethodlogger.LoggedRestMethod;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/frontend/forms/demo")
-public class DemoFormRestController extends NgfaceFormRestController<DemoComponentController, DemoComponentDTO, DemoComponentView, Long>
+@Slf4j
+@RequestMapping("/frontend/forms/demo/table-details")
+public class TableDetailsFormRestController
+    extends NgfaceFormRestController<TableDetailsComponentController, TableDetailsComponentDTO, TableDetailsComponentView, Long>
 {
-    public DemoFormRestController(DemoComponentController componentController)
+    public TableDetailsFormRestController(TableDetailsComponentController componentController)
     {
         super(componentController);
     }
 
 
     @Override
-    @LoggedRestMethod(eventId = Constants.DEMO_FORM_CONTROLLER_GET_FORM, subsystem = Constants.SUBSYSTEM_NAME)
-    public Form getForm(Long ignored)
+    @LoggedRestMethod(eventId = Constants.TABLE_DETAILS_CONTROLLER_GET_FORM, subsystem = Constants.SUBSYSTEM_NAME)
+    public Form getForm(Long id)
     {
-        return super.getForm(ignored);
+        return super.getForm(id);
     }
 
 
     @Override
-    @LoggedRestMethod(eventId = Constants.DEMO_FORM_CONTROLLER_SUBMIT_FORM, subsystem = Constants.SUBSYSTEM_NAME)
+    @LoggedRestMethod(eventId = Constants.TABLE_DETAILS_CONTROLLER_SUBMIT_FORM, subsystem = Constants.SUBSYSTEM_NAME)
     public void submitForm(SubmitFormData submitFormData)
     {
         super.submitForm(submitFormData);
@@ -54,15 +57,15 @@ public class DemoFormRestController extends NgfaceFormRestController<DemoCompone
 
 
     @Override
-    protected DemoComponentView supplyView(DemoComponentDTO data)
+    protected TableDetailsComponentView supplyView(TableDetailsComponentDTO data)
     {
-        return new DemoComponentView(data);
+        return new TableDetailsComponentView(data);
     }
 
 
     @Override
-    protected DemoComponentDTO supplyDTO()
+    protected TableDetailsComponentDTO supplyDTO()
     {
-        return new DemoComponentDTO();
+        return new TableDetailsComponentDTO();
     }
 }

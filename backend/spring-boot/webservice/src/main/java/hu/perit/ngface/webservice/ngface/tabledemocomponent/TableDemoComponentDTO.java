@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.webservice.ngface.democomponent.table;
+package hu.perit.ngface.webservice.ngface.tabledemocomponent;
 
 import hu.perit.ngface.core.data.ComponentDTO;
 import hu.perit.ngface.core.data.DTOValue;
@@ -23,7 +23,7 @@ import hu.perit.ngface.webservice.model.AddressTableRow;
 import lombok.Data;
 
 @Data
-public class DemoComponentTableDTO extends ComponentDTO
+public class TableDemoComponentDTO extends ComponentDTO
 {
     public static final String TABLE_MULTISELECT = "table-multiselect";
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.webservice.ngface.democomponent;
+package hu.perit.ngface.webservice.ngface.widgetdemocomponent;
 
 import hu.perit.ngface.core.data.ComponentDTO;
 import hu.perit.ngface.core.data.DTOValue;
@@ -32,7 +32,7 @@ import java.time.LocalDate;
  * @author Peter Nagy
  */
 @Data
-public class DemoComponentDTO extends ComponentDTO
+public class WidgetDemoComponentDTO extends ComponentDTO
 {
     public static final String OWNERS_NAME_ID = "name";
     public static final String PLACE_OF_BIRTH_ID = "place-of-birth";

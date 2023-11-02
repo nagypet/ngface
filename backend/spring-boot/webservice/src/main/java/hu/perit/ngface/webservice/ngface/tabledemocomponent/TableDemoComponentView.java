@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package hu.perit.ngface.webservice.ngface.democomponent.table;
+package hu.perit.ngface.webservice.ngface.tabledemocomponent;
 
 import hu.perit.ngface.core.formating.CurrencyFormat;
 import hu.perit.ngface.core.formating.NumericFormat;
-import hu.perit.ngface.core.types.intf.RowSelectParams;
 import hu.perit.ngface.core.view.ComponentView;
 import hu.perit.ngface.core.widget.base.VoidWidgetData;
 import hu.perit.ngface.core.widget.base.Widget;
@@ -31,30 +30,43 @@ import hu.perit.ngface.core.widget.table.Table;
 import hu.perit.ngface.core.widget.table.cell.ActionCell;
 import hu.perit.ngface.webservice.model.AddressTableRow;
 import hu.perit.spvitamin.core.typehelpers.LongUtils;
+import hu.perit.spvitamin.spring.httplogging.LoggingHelper;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 @RequiredArgsConstructor
-public class DemoComponentTableView implements ComponentView
+public class TableDemoComponentView implements ComponentView
 {
     public static final String BUTTON_SELECT_ALL = "button-select-all";
     public static final String BUTTON_CLEAR_ALL = "button-clear-all";
 
-    private final DemoComponentTableDTO data;
+    private final TableDemoComponentDTO data;
 
 
     @Override
     public Form getForm()
     {
-        Form form = new Form("demo-form-table")
+        Form form = new Form("table-demo-form")
 //                .addWidget(getTable("table", Table.SelectMode.NONE))
 //                .addWidget(getTable("table-singleselect", Table.SelectMode.SINGLE))
 //                .addWidget(new Button("button-details").label("Details"))
-            .addWidget(getTable(DemoComponentTableDTO.TABLE_MULTISELECT, Table.SelectMode.CHECKBOX));
+            .addWidget(getTable(TableDemoComponentDTO.TABLE_MULTISELECT, Table.SelectMode.CHECKBOX))
+            .addWidget(new Button("button-reload")
+                .label("Reload addresses from resource")
+                .hint("Only available from within the perit.hu domain")
+                .style(Button.Style.PRIMARY)
+                .enabled(isReloadEnabled()));
         getActionBar().values().stream().filter(Objects::nonNull).forEach(form::addWidget);
         return form;
     }
@@ -98,6 +110,39 @@ public class DemoComponentTableView implements ComponentView
         table.notification(this.data.getTableDTO().getContent().getNotification());
 
         return table;
+    }
+
+
+    // if origin = localhost:4200 or x-forwarded-for equals to perit.hu domain IP address
+    private boolean isReloadEnabled()
+    {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (requestAttributes == null)
+        {
+            return false;
+        }
+        HttpServletRequest httpServletRequest = ((ServletRequestAttributes) requestAttributes).getRequest();
+        String host = httpServletRequest.getHeader("host");
+        if ("localhost:4200".equalsIgnoreCase(host))
+        {
+            return true;
+        }
+
+        String clientIpAddr = LoggingHelper.getClientIpAddr(httpServletRequest);
+        try
+        {
+            InetAddress peritHuInetAddress = InetAddress.getByName("perit.hu");
+            String peritHuIp = peritHuInetAddress.getHostAddress();
+            if (StringUtils.equals(clientIpAddr, peritHuIp))
+            {
+                return true;
+            }
+        }
+        catch (UnknownHostException e)
+        {
+            // Do nothing
+        }
+        return false;
     }
 
 
