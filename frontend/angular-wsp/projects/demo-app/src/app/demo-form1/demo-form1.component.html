@@ -15,74 +15,79 @@
   -->
 
 <div class="container">
-  <h1>ngface demo application 2.0 RC1</h1>
-  <br>
+    <h1>ngface demo application 2.1</h1>
+    <br>
 
-  <!-- Form part -->
-  <div class="ngface-form">
-    <ngface-form [formdata]="formData" (keydown.enter)="onOkClick()">
-      <p>This is a form with some widgets. The types, contents, hints, placeholders, validators of the widgets are set in the backend. See
-        the network tab in your browser's developer tools windows to see the data flow between the backend and frontend.</p>
-      <div class="row ngface-row">
-        <ngface-text-input [formdata]="formData" widgetid="name" class="col-sm"></ngface-text-input>
-        <ngface-text-input [formdata]="formData" widgetid="place-of-birth" class="col-sm"></ngface-text-input>
-        <ngface-text-input [formdata]="formData" widgetid="email" class="col-sm"></ngface-text-input>
-        <ngface-text-input [formdata]="formData" widgetid="role" class="col-sm"></ngface-text-input>
-      </div>
-      <div class="row ngface-row">
-        <ngface-numeric-input [formdata]="formData" widgetid="price" class="col-sm"></ngface-numeric-input>
-        <ngface-numeric-input [formdata]="formData" widgetid="count-samples" class="col-sm"></ngface-numeric-input>
-        <ngface-text-input [formdata]="formData" widgetid="account-no" class="col-sm"></ngface-text-input>
-        <div class="col-sm" style="min-width: 220px"></div>
-      </div>
-      <div class="row ngface-row">
-        <ngface-date-input [formdata]="formData" widgetid="check-in-date" class="col-sm"></ngface-date-input>
-        <ngface-date-input [formdata]="formData" widgetid="check-out-date" class="col-sm"></ngface-date-input>
-        <ngface-date-range-input [formdata]="formData" widgetid="date-range" class="col-sm"></ngface-date-range-input>
-        <ngface-date-range-input [formdata]="formData" widgetid="date-range2" class="col-sm"></ngface-date-range-input>
-      </div>
-      <div class="row ngface-row">
-        <ngface-select [formdata]="formData" widgetid="select" class="col-sm"></ngface-select>
-        <ngface-select [formdata]="formData" widgetid="select2" class="col-sm"></ngface-select>
-        <ngface-select [formdata]="formData" widgetid="select3" class="col-sm"></ngface-select>
-        <div class="col-sm" style="min-width: 220px"></div>
-      </div>
-      <div class="ngface-row">
-        <ngface-button [formdata]="formData" widgetid="button-ok" (click)="onOkClick()"></ngface-button>
-        <ngface-button [formdata]="formData" widgetid="button-cancel"></ngface-button>
-        <ngface-button [formdata]="formData" widgetid="button-delete"></ngface-button>
-      </div>
-    </ngface-form>
-  </div>
-
-  <!-- Table part -->
-  <div class="ngface-form">
-    <ngface-data-table [formdata]="formData" widgetid="table-multiselect"
-                       (tableReloadEvent)="onTableReload($event)"
-                       (actionClickEvent)="onTableActionClick($event)"
-                       (tableValueSetSearchEvent)="onTableValueSetSearch($event)"
-                       (tableViewParamsChangeEvent)="onTableViewParamsChange($event)"
-                       (rowClickEvent)="onRowClick($event)"
-                       (masterToggleEvent)="onMasterToggle($event)"
-    >
-    </ngface-data-table>
-    <div class="ngface-row">
-      <ngface-button [formdata]="formData" widgetid="button-reload" (click)="onReloadClick()"></ngface-button>
-      <ngface-button *ngIf="isWidgetAvailable('button-select-all')" [formdata]="formData"
-                     widgetid="button-select-all"
-                     (click)="onActionButton('SELECT_ALL')">
-      </ngface-button>
-      <ngface-button *ngIf="isWidgetAvailable('button-clear-all')" [formdata]="formData"
-                     widgetid="button-clear-all"
-                     (click)="onActionButton('SELECT_NONE')">
-      </ngface-button>
+    <!-- Form part -->
+    <div class="ngface-form">
+        <ngface-form [formdata]="formData" (keydown.enter)="onOkClick()">
+            <p>This is a form with some widgets. The types, contents, hints, placeholders, validators of the widgets are set in the backend.
+                See
+                the network tab in your browser's developer tools windows to see the data flow between the backend and frontend.</p>
+            <div class="row ngface-row">
+                <ngface-text-input [formdata]="formData" widgetid="name" class="col-sm"></ngface-text-input>
+                <ngface-text-input [formdata]="formData" widgetid="place-of-birth" class="col-sm"></ngface-text-input>
+                <ngface-text-input [formdata]="formData" widgetid="email" class="col-sm"></ngface-text-input>
+                <ngface-text-input [formdata]="formData" widgetid="role" class="col-sm"></ngface-text-input>
+            </div>
+            <div class="row ngface-row">
+                <ngface-numeric-input [formdata]="formData" widgetid="price" class="col-sm"></ngface-numeric-input>
+                <ngface-numeric-input [formdata]="formData" widgetid="count-samples" class="col-sm"></ngface-numeric-input>
+                <ngface-text-input [formdata]="formData" widgetid="account-no" class="col-sm"></ngface-text-input>
+                <div class="col-sm" style="min-width: 220px"></div>
+            </div>
+            <div class="row ngface-row">
+                <ngface-date-input [formdata]="formData" widgetid="check-in-date" class="col-sm"></ngface-date-input>
+                <ngface-date-input [formdata]="formData" widgetid="check-out-date" class="col-sm"></ngface-date-input>
+                <ngface-date-range-input [formdata]="formData" widgetid="date-range" class="col-sm"></ngface-date-range-input>
+                <ngface-date-range-input [formdata]="formData" widgetid="date-range2" class="col-sm"></ngface-date-range-input>
+            </div>
+            <div class="row ngface-row">
+                <ngface-select [formdata]="formData" widgetid="select" class="col-sm"></ngface-select>
+                <ngface-select [formdata]="formData" widgetid="select2" class="col-sm"></ngface-select>
+                <ngface-select [formdata]="formData" widgetid="select3" class="col-sm"></ngface-select>
+                <ngface-autocomplete [formdata]="formData" widgetid="autocomplete" class="col-sm"></ngface-autocomplete>
+                <ngface-autocomplete [formdata]="formData" widgetid="autocomplete-streets" class="col-sm"
+                                     (onAutocompleteRequest)="onAutocompleteRequest($event)"
+                ></ngface-autocomplete>
+                <div class="col-sm" style="min-width: 220px"></div>
+            </div>
+            <div class="ngface-row">
+                <ngface-button [formdata]="formData" widgetid="button-ok" (click)="onOkClick()"></ngface-button>
+                <ngface-button [formdata]="formData" widgetid="button-cancel"></ngface-button>
+                <ngface-button [formdata]="formData" widgetid="button-delete"></ngface-button>
+            </div>
+        </ngface-form>
     </div>
-  </div>
 
-  <!-- Developer info part -->
-  <div class="ngface-form">
-    <p>Developed by <a href="https://perit.hu" target="_blank">perit</a>.</p>
-    <p>Source code on <a href="https://github.com/nagypet/ngface" target="_blank">github</a>.</p>
-    <p>Report an <a href="https://github.com/nagypet/ngface/issues" target="_blank">issue</a>.</p>
-  </div>
+    <!-- Table part -->
+    <div class="ngface-form">
+        <ngface-data-table [formdata]="formData" widgetid="table-multiselect"
+                           (tableReloadEvent)="onTableReload($event)"
+                           (actionClickEvent)="onTableActionClick($event)"
+                           (tableValueSetSearchEvent)="onTableValueSetSearch($event)"
+                           (tableViewParamsChangeEvent)="onTableViewParamsChange($event)"
+                           (rowClickEvent)="onRowClick($event)"
+                           (masterToggleEvent)="onMasterToggle($event)"
+        >
+        </ngface-data-table>
+        <div class="ngface-row">
+            <ngface-button [formdata]="formData" widgetid="button-reload" (click)="onReloadClick()"></ngface-button>
+            <ngface-button *ngIf="isWidgetAvailable('button-select-all')" [formdata]="formData"
+                           widgetid="button-select-all"
+                           (click)="onActionButton('SELECT_ALL')">
+            </ngface-button>
+            <ngface-button *ngIf="isWidgetAvailable('button-clear-all')" [formdata]="formData"
+                           widgetid="button-clear-all"
+                           (click)="onActionButton('SELECT_NONE')">
+            </ngface-button>
+        </div>
+    </div>
+
+    <!-- Developer info part -->
+    <div class="ngface-form">
+        <p>Developed by <a href="https://perit.hu" target="_blank">perit</a>.</p>
+        <p>Source code on <a href="https://github.com/nagypet/ngface" target="_blank">github</a>.</p>
+        <p>Report an <a href="https://github.com/nagypet/ngface/issues" target="_blank">issue</a>.</p>
+    </div>
 </div>

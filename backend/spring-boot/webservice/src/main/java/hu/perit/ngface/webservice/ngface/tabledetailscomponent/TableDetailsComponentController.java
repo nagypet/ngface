@@ -17,6 +17,7 @@
 package hu.perit.ngface.webservice.ngface.tabledetailscomponent;
 
 import hu.perit.ngface.core.controller.ComponentController;
+import hu.perit.ngface.core.widget.input.Autocomplete;
 import hu.perit.ngface.webservice.db.addressdb.table.AddressEntity;
 import hu.perit.ngface.webservice.exceptionhandler.ApplicationMessage;
 import hu.perit.ngface.webservice.service.api.AddressService;
@@ -25,6 +26,8 @@ import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +54,7 @@ public class TableDetailsComponentController implements ComponentController<Tabl
             data.setPostCode(addressEntity.getPostCode());
             data.setCity(addressEntity.getCity());
             data.setStreet(addressEntity.getStreet());
-            data.setDistrict(addressEntity.getDistrict());
+            data.setDistrict(getAutocompleteData(addressEntity.getDistrict()));
             return data;
         }
         catch (ResourceNotFoundException e)
@@ -61,9 +64,18 @@ public class TableDetailsComponentController implements ComponentController<Tabl
     }
 
 
+    private Autocomplete.Data getAutocompleteData(String value)
+    {
+        Autocomplete.Data data = new Autocomplete.Data(value);
+        List<String> distinctDistricts = this.addressService.getDistinctDistricts(null);
+        data.getExtendedReadOnlyData().options(distinctDistricts);
+        return data;
+    }
+
+
     @Override
     public void onFormSubmit(TableDetailsComponentDTO data)
     {
-        this.addressService.update(Long.parseLong(data.getId()), data.getPostCode(), data.getCity(), data.getStreet(), data.getDistrict());
+        this.addressService.update(Long.parseLong(data.getId()), data.getPostCode(), data.getCity(), data.getStreet(), data.getDistrict().getValue());
     }
 }

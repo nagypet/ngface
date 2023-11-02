@@ -19,6 +19,7 @@ package hu.perit.ngface.webservice.ngface.tabledetailscomponent;
 import hu.perit.ngface.core.data.ComponentDTO;
 import hu.perit.ngface.core.data.DTOId;
 import hu.perit.ngface.core.data.DTOValue;
+import hu.perit.ngface.core.widget.input.Autocomplete;
 import hu.perit.ngface.webservice.model.AddressTableRow;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -52,6 +53,5 @@ public class TableDetailsComponentDTO extends ComponentDTO
 
     @DTOValue(id = AddressTableRow.COL_DISTRICT)
     @NotNull
-    @Size(min = 2, max = 20)
-    private String district;
+    private Autocomplete.Data district;
 }

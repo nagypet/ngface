@@ -19,15 +19,9 @@ package hu.perit.ngface.core.types.table;
 import hu.perit.ngface.core.widget.table.Table;
 import lombok.Data;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 @Data
-public class TableSessionDefaults<R extends AbstractTableRow<I>, I> implements Serializable
+public class TableSessionDefaults<R extends AbstractTableRow<I>, I>
 {
-    @Serial
-    private static final long serialVersionUID = -4669848429850190591L;
-
     private Table.Data tableData = new Table.Data();
-    private SelectionStore<R, I> selectionStore = new SelectionStore();
+    private SelectionStore<R, I> selectionStore = new SelectionStore<>();
 }

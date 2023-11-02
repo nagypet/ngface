@@ -18,12 +18,11 @@ package hu.perit.ngface.webservice.ngface.democomponent;
 
 import hu.perit.ngface.core.data.ComponentDTO;
 import hu.perit.ngface.core.data.DTOValue;
+import hu.perit.ngface.core.widget.input.Autocomplete;
 import hu.perit.ngface.core.widget.input.DateRangeInput;
 import hu.perit.ngface.core.widget.input.Select;
 import lombok.Data;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -33,11 +32,8 @@ import java.time.LocalDate;
  * @author Peter Nagy
  */
 @Data
-public class DemoComponentDTO extends ComponentDTO implements Serializable
+public class DemoComponentDTO extends ComponentDTO
 {
-    @Serial
-    private static final long serialVersionUID = 999563503618787276L;
-
     public static final String OWNERS_NAME_ID = "name";
     public static final String PLACE_OF_BIRTH_ID = "place-of-birth";
     public static final String EMAIL_ID = "email";
@@ -51,6 +47,8 @@ public class DemoComponentDTO extends ComponentDTO implements Serializable
     public static final String SELECT_ID = "select";
     public static final String SELECT2_ID = "select2";
     public static final String SELECT3_ID = "select3";
+    public static final String AUTOCOMPLETE_ID = "autocomplete";
+    public static final String AUTOCOMPLETE_STREETS_ID = "autocomplete-streets";
 
     @DTOValue(id = OWNERS_NAME_ID)
     private String ownersName;
@@ -87,4 +85,10 @@ public class DemoComponentDTO extends ComponentDTO implements Serializable
 
     @DTOValue(id = SELECT3_ID)
     private Select.Data select3Data;
+
+    @DTOValue(id = AUTOCOMPLETE_ID)
+    private Autocomplete.Data autocompleteData;
+
+    @DTOValue(id = AUTOCOMPLETE_STREETS_ID)
+    private Autocomplete.Data autocompleteStreetsData;
 }
