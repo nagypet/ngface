@@ -29,7 +29,7 @@ import {bootstrapApplication, BrowserModule} from '@angular/platform-browser';
 import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import {registerLocaleData} from '@angular/common';
-import {provideRouter} from '@angular/router';
+import {provideRouter, withHashLocation} from '@angular/router';
 import {APP_ROUTES} from './app/app-routing.module';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
@@ -42,7 +42,7 @@ if (environment.production)
 bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(BrowserModule, NgfaceModule, MatDialogModule, A11yModule),
-    provideRouter(APP_ROUTES),
+    provideRouter(APP_ROUTES, withHashLocation()),
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
     {provide: MAT_DATE_LOCALE, useValue: 'hu'},
     {provide: LOCALE_ID, useValue: 'de-DE'},
