@@ -10,13 +10,13 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {DebounceInputDirective} from '../../directives/debounce-input-directive';
 import {A11yModule} from '@angular/cdk/a11y';
-import {map, Observable, startWith, Subject} from 'rxjs';
+import {AutocompleteValueSetProvider} from './autocomplete-value-set-provider';
 
 export interface AutocompleteRequest
 {
     widgetId: string;
     searchText: string;
-    filteredOptions: Observable<string[]>;
+    valueSetProvider: AutocompleteValueSetProvider;
 }
 
 @Component({
@@ -43,8 +43,7 @@ export class NgfaceAutocompleteComponent extends InputBaseComponent implements O
     @Output()
     onAutocompleteRequest: EventEmitter<AutocompleteRequest> = new EventEmitter();
 
-    searchText: Subject<string> = new Subject<string>();
-    filteredOptions: Observable<string[]> = new Observable<string[]>();
+    valueSetProvider = new AutocompleteValueSetProvider();
 
     constructor()
     {
@@ -55,13 +54,7 @@ export class NgfaceAutocompleteComponent extends InputBaseComponent implements O
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void
     {
         super.ngOnChanges(changes);
-        if (!this.getData().data.extendedReadOnlyData.valueSet.remote)
-        {
-            this.filteredOptions = this.searchText.pipe(
-                startWith(''),
-                map(value => this.filter(value || '')),
-            );
-        }
+        this.valueSetProvider.valueSet = this.getData().data.extendedReadOnlyData.valueSet;
     }
 
 
@@ -72,7 +65,10 @@ export class NgfaceAutocompleteComponent extends InputBaseComponent implements O
         {
             return {
                 type: 'Autocomplete',
-                data: {type: 'Autocomplete.Data', value: '', extendedReadOnlyData: {valueSet: {remote: false, truncated: false, values: []}}},
+                data: {
+                    type: 'Autocomplete.Data',
+                    value: '',
+                    extendedReadOnlyData: {valueSet: {remote: false, truncated: false, values: []}}},
                 placeholder: 'widget id: ' + this.widgetid,
                 label: 'undefined label',
                 validators: [],
@@ -84,21 +80,16 @@ export class NgfaceAutocompleteComponent extends InputBaseComponent implements O
         return this.formdata?.widgets[this.widgetid] as Ngface.Autocomplete;
     }
 
-    private filter(value: string): string[]
-    {
-        const filterValue = value.toLowerCase();
-
-        return this.getData().data.extendedReadOnlyData.valueSet.values
-            .map(i => i.text)
-            .filter(item => item.toLowerCase().includes(filterValue));
-    }
 
     onSearchTextChange($event: string): void
     {
-        this.searchText.next($event);
-        if (this.getData().data.extendedReadOnlyData.valueSet.remote)
+        if (this.valueSetProvider.isRemote())
         {
-            this.onAutocompleteRequest.emit({widgetId: this.widgetid, searchText: $event, filteredOptions: this.filteredOptions});
+            this.onAutocompleteRequest.emit({widgetId: this.widgetid, searchText: $event, valueSetProvider: this.valueSetProvider});
+        }
+        else
+        {
+            this.valueSetProvider.searchText = $event;
         }
     }
 }

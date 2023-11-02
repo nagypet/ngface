@@ -281,6 +281,10 @@ export class DemoForm1Component extends FormBaseComponent implements OnInit
 
     onAutocompleteRequest($event: AutocompleteRequest): void
     {
-
+        this.demoFormTableService.getColumnFilterer('street', $event.searchText).subscribe(filterer =>
+        {
+            console.log(filterer);
+            $event.valueSetProvider.valueSet = filterer.valueSet;
+        });
     }
 }

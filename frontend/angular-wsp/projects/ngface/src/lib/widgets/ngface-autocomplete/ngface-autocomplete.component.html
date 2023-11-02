@@ -26,7 +26,7 @@
          [debounceTime]="500"
   >
   <mat-autocomplete #auto="matAutocomplete">
-    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+    <mat-option *ngFor="let option of valueSetProvider.filteredOptions | async" [value]="option">
       {{option}}
     </mat-option>
   </mat-autocomplete>
