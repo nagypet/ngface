@@ -101,8 +101,8 @@ public class DemoComponentController implements ComponentController<DemoComponen
     private Autocomplete.Data getAutocompleteStreetsData(String value)
     {
         Autocomplete.Data data = new Autocomplete.Data(value);
-        List<String> distinctDistricts = this.addressService.getDistinctStreets(null);
-        data.getExtendedReadOnlyData().options(distinctDistricts);
+        List<String> distinctStreets = this.addressService.getDistinctStreets(null);
+        data.getExtendedReadOnlyData().options(distinctStreets);
         return data;
     }
 
