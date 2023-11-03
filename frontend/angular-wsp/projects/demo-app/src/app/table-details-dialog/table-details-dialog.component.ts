@@ -26,14 +26,14 @@ import {NgfaceAutocompleteComponent} from '../../../../ngface/src/lib/widgets/ng
 
 @Component({
     selector: 'app-demo-dialog1',
-    templateUrl: './demo-dialog1.component.html',
-    styleUrls: ['./demo-dialog1.component.scss'],
+    templateUrl: './table-details-dialog.component.html',
+    styleUrls: ['./table-details-dialog.component.scss'],
     standalone: true,
     imports: [MatDialogModule, NgfaceFormComponent, NgfaceNumericInputComponent, NgfaceTextInputComponent, NgfaceButtonComponent, NgfaceAutocompleteComponent]
 })
-export class DemoDialog1Component extends FormBaseComponent implements OnInit
+export class TableDetailsDialogComponent extends FormBaseComponent implements OnInit
 {
-  constructor(public dialogRef: MatDialogRef<DemoDialog1Component>,
+  constructor(public dialogRef: MatDialogRef<TableDetailsDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Ngface.Form)
   {
     super();

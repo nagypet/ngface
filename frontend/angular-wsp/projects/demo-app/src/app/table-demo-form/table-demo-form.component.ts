@@ -15,7 +15,7 @@ import {TableDemoFormService} from '../services/table-demo-form.service';
 import {TableDetailsService} from '../services/table-details.service';
 import {MatDialog} from '@angular/material/dialog';
 import {Ngface} from '../../../../ngface/src/lib/ngface-models';
-import {DemoDialog1Component} from '../demo-dialog1/demo-dialog1.component';
+import {TableDetailsDialogComponent} from '../table-details-dialog/table-details-dialog.component';
 import {WidgetDemoFormComponent} from '../widget-demo-form/widget-demo-form.component';
 
 @Component({
@@ -98,7 +98,7 @@ export class TableDemoFormComponent extends FormBaseComponent implements OnInit
         {
             console.log(dialogData);
             // Open dialog
-            const dialogRef = this.dialog.open(DemoDialog1Component, {
+            const dialogRef = this.dialog.open(TableDetailsDialogComponent, {
                 data: dialogData,
                 backdropClass: 'ngface-modal-dialog-backdrop'
             });

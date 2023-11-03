@@ -16,21 +16,21 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DemoDialog1Component } from './demo-dialog1.component';
+import { TableDetailsDialogComponent } from './table-details-dialog.component';
 
 describe('DemoDialog1Component', () => {
-  let component: DemoDialog1Component;
-  let fixture: ComponentFixture<DemoDialog1Component>;
+  let component: TableDetailsDialogComponent;
+  let fixture: ComponentFixture<TableDetailsDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [DemoDialog1Component]
+    imports: [TableDetailsDialogComponent]
 })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DemoDialog1Component);
+    fixture = TestBed.createComponent(TableDetailsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
