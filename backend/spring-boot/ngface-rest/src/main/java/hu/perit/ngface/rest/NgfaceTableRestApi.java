@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 public interface NgfaceTableRestApi<I>
 {
-    String URL_GET = "/get";
+    String URL_GET = "/get-table";
     String URL_COLVALUESET = "/filterer";
     String URL_SELECT = "/row-select";
 

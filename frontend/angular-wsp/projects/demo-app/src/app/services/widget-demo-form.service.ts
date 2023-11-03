@@ -25,7 +25,7 @@ import {environment} from '../../environments/environment';
 })
 export class WidgetDemoFormService
 {
-    private readonly serviceUrl = `/frontend/forms/demo/widgets`;
+    private readonly serviceUrl = `/frontend/forms/widget-form`;
 
     constructor(private httpClient: HttpClient)
     {

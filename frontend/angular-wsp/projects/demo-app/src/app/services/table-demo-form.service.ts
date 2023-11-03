@@ -9,7 +9,7 @@ import {environment} from '../../environments/environment';
 })
 export class TableDemoFormService
 {
-    private readonly serviceUrl = `/frontend/forms/demo/table`;
+    private readonly serviceUrl = `/frontend/forms/table-form`;
 
 
     constructor(private httpClient: HttpClient)
@@ -25,7 +25,7 @@ export class TableDemoFormService
         }
         const headers = new HttpHeaders();
         headers.append('Content-Type', 'application/json; charset=utf-8');
-        return this.httpClient.post(`${environment.baseURL}${this.serviceUrl}/get`, request, {headers});
+        return this.httpClient.post(`${environment.baseURL}${this.serviceUrl}/get-table`, request, {headers});
     }
 
 

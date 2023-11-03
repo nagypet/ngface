@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/frontend/forms/demo/widgets")
+@RequestMapping("/frontend/forms/widget-form")
 public class WidgetDemoFormRestController extends NgfaceFormRestController<WidgetDemoComponentController, WidgetDemoComponentDTO, WidgetDemoComponentView, Long>
 {
     public WidgetDemoFormRestController(WidgetDemoComponentController componentController)

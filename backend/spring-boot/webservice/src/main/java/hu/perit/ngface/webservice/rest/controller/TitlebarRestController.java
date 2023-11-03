@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/frontend/forms/demo/titlebar")
+@RequestMapping("/frontend/forms/titlebar")
 public class TitlebarRestController
 {
     @GetMapping

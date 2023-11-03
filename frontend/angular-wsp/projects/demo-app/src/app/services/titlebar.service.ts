@@ -8,7 +8,7 @@ import {environment} from '../../environments/environment';
 })
 export class TitlebarService {
 
-  private readonly serviceUrl = `/frontend/forms/demo/titlebar`;
+  private readonly serviceUrl = `/frontend/forms/titlebar`;
 
   constructor(private httpClient: HttpClient)
   {

@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-@RequestMapping("/frontend/forms/demo/table")
+@RequestMapping("/frontend/forms/table-form")
 public class TableDemoFormRestController extends NgfaceTableRestController<TableDemoComponentController, TableDemoComponentDTO, TableDemoComponentView, Long>
 {
     public TableDemoFormRestController(TableDemoComponentController tableController)
