@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
-import {TableDemoFormComponent} from './table-demo-form/table-demo-form.component';
-import {WidgetDemoFormComponent} from './widget-demo-form/widget-demo-form.component';
+import {TableDemoFormComponent} from './ui/table-demo-form/table-demo-form.component';
+import {WidgetDemoFormComponent} from './ui/widget-demo-form/widget-demo-form.component';
 
 
 export const APP_ROUTES: Routes = [

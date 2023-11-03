@@ -15,21 +15,21 @@
  */
 
 import {Component, OnInit} from '@angular/core';
-import {WidgetDemoFormService} from '../services/widget-demo-form.service';
-import {NgfaceDataTableComponent} from '../../../../ngface/src/lib/widgets/ngface-data-table/ngface-data-table.component';
-import {FormBaseComponent} from '../../../../ngface/src/lib/form/form-base.component';
-import {TableDemoFormService} from '../services/table-demo-form.service';
-import {NgfaceButtonComponent} from '../../../../ngface/src/lib/widgets/ngface-button/ngface-button.component';
-import {NgfaceSelectComponent} from '../../../../ngface/src/lib/widgets/ngface-select/ngface-select.component';
-import {NgfaceDateRangeInputComponent} from '../../../../ngface/src/lib/widgets/ngface-date-range-input/ngface-date-range-input.component';
-import {NgfaceDateInputComponent} from '../../../../ngface/src/lib/widgets/ngface-date-input/ngface-date-input.component';
-import {NgfaceNumericInputComponent} from '../../../../ngface/src/lib/widgets/ngface-numeric-input/ngface-numeric-input.component';
-import {NgfaceTextInputComponent} from '../../../../ngface/src/lib/widgets/ngface-text-input/ngface-text-input.component';
-import {NgfaceFormComponent} from '../../../../ngface/src/lib/form/ngface-form/ngface-form.component';
+import {WidgetDemoFormService} from '../../core/services/widget-demo-form.service';
+import {NgfaceDataTableComponent} from '../../../../../ngface/src/lib/widgets/ngface-data-table/ngface-data-table.component';
+import {FormBaseComponent} from '../../../../../ngface/src/lib/form/form-base.component';
+import {TableDemoFormService} from '../../core/services/table-demo-form.service';
+import {NgfaceButtonComponent} from '../../../../../ngface/src/lib/widgets/ngface-button/ngface-button.component';
+import {NgfaceSelectComponent} from '../../../../../ngface/src/lib/widgets/ngface-select/ngface-select.component';
+import {NgfaceDateRangeInputComponent} from '../../../../../ngface/src/lib/widgets/ngface-date-range-input/ngface-date-range-input.component';
+import {NgfaceDateInputComponent} from '../../../../../ngface/src/lib/widgets/ngface-date-input/ngface-date-input.component';
+import {NgfaceNumericInputComponent} from '../../../../../ngface/src/lib/widgets/ngface-numeric-input/ngface-numeric-input.component';
+import {NgfaceTextInputComponent} from '../../../../../ngface/src/lib/widgets/ngface-text-input/ngface-text-input.component';
+import {NgfaceFormComponent} from '../../../../../ngface/src/lib/form/ngface-form/ngface-form.component';
 import {
     AutocompleteRequest,
     NgfaceAutocompleteComponent
-} from '../../../../ngface/src/lib/widgets/ngface-autocomplete/ngface-autocomplete.component';
+} from '../../../../../ngface/src/lib/widgets/ngface-autocomplete/ngface-autocomplete.component';
 
 // tslint:disable-next-line:no-namespace
 export namespace WidgetDemoFormComponent

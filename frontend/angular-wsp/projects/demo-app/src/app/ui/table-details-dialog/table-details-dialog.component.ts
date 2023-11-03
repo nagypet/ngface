@@ -16,13 +16,13 @@
 
 import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import {FormBaseComponent} from '../../../../ngface/src/lib/form/form-base.component';
-import {Ngface} from '../../../../ngface/src/lib/ngface-models';
-import { NgfaceButtonComponent } from '../../../../ngface/src/lib/widgets/ngface-button/ngface-button.component';
-import { NgfaceTextInputComponent } from '../../../../ngface/src/lib/widgets/ngface-text-input/ngface-text-input.component';
-import { NgfaceNumericInputComponent } from '../../../../ngface/src/lib/widgets/ngface-numeric-input/ngface-numeric-input.component';
-import { NgfaceFormComponent } from '../../../../ngface/src/lib/form/ngface-form/ngface-form.component';
-import {NgfaceAutocompleteComponent} from '../../../../ngface/src/lib/widgets/ngface-autocomplete/ngface-autocomplete.component';
+import {FormBaseComponent} from '../../../../../ngface/src/lib/form/form-base.component';
+import {Ngface} from '../../../../../ngface/src/lib/ngface-models';
+import { NgfaceButtonComponent } from '../../../../../ngface/src/lib/widgets/ngface-button/ngface-button.component';
+import { NgfaceTextInputComponent } from '../../../../../ngface/src/lib/widgets/ngface-text-input/ngface-text-input.component';
+import { NgfaceNumericInputComponent } from '../../../../../ngface/src/lib/widgets/ngface-numeric-input/ngface-numeric-input.component';
+import { NgfaceFormComponent } from '../../../../../ngface/src/lib/form/ngface-form/ngface-form.component';
+import {NgfaceAutocompleteComponent} from '../../../../../ngface/src/lib/widgets/ngface-autocomplete/ngface-autocomplete.component';
 
 @Component({
     selector: 'app-demo-dialog1',

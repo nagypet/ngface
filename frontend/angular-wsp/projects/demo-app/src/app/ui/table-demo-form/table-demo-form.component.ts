@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NgIf} from '@angular/common';
-import {NgfaceButtonComponent} from '../../../../ngface/src/lib/widgets/ngface-button/ngface-button.component';
+import {NgfaceButtonComponent} from '../../../../../ngface/src/lib/widgets/ngface-button/ngface-button.component';
 import {
     ActionClickEvent,
     NgfaceDataTableComponent,
@@ -8,13 +8,13 @@ import {
     TableReloadEvent,
     TableValueSetSearchEvent,
     TableViewParamsChangeEvent
-} from '../../../../ngface/src/lib/widgets/ngface-data-table/ngface-data-table.component';
-import {NgfaceFormComponent} from '../../../../ngface/src/lib/form/ngface-form/ngface-form.component';
-import {FormBaseComponent} from '../../../../ngface/src/lib/form/form-base.component';
-import {TableDemoFormService} from '../services/table-demo-form.service';
-import {TableDetailsService} from '../services/table-details.service';
+} from '../../../../../ngface/src/lib/widgets/ngface-data-table/ngface-data-table.component';
+import {NgfaceFormComponent} from '../../../../../ngface/src/lib/form/ngface-form/ngface-form.component';
+import {FormBaseComponent} from '../../../../../ngface/src/lib/form/form-base.component';
+import {TableDemoFormService} from '../../core/services/table-demo-form.service';
+import {TableDetailsService} from '../../core/services/table-details.service';
 import {MatDialog} from '@angular/material/dialog';
-import {Ngface} from '../../../../ngface/src/lib/ngface-models';
+import {Ngface} from '../../../../../ngface/src/lib/ngface-models';
 import {TableDetailsDialogComponent} from '../table-details-dialog/table-details-dialog.component';
 import {WidgetDemoFormComponent} from '../widget-demo-form/widget-demo-form.component';
 

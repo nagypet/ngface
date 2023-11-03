@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Ngface} from '../../../../ngface/src/lib/ngface-models';
+import {Ngface} from '../../../../../ngface/src/lib/ngface-models';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {environment} from '../../environments/environment';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'

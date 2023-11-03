@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
-import {FormBaseComponent} from '../../../../ngface/src/lib/form/form-base.component';
-import {NgfaceTitlebarComponent} from '../../../../ngface/src/lib/titlebar/ngface-titlebar/ngface-titlebar.component';
-import {Ngface} from '../../../../ngface/src/lib/ngface-models';
-import {WidgetDemoFormService} from '../services/widget-demo-form.service';
-import {TitlebarService} from '../services/titlebar.service';
+import {FormBaseComponent} from '../../../../../ngface/src/lib/form/form-base.component';
+import {NgfaceTitlebarComponent} from '../../../../../ngface/src/lib/titlebar/ngface-titlebar/ngface-titlebar.component';
+import {Ngface} from '../../../../../ngface/src/lib/ngface-models';
+import {WidgetDemoFormService} from '../../core/services/widget-demo-form.service';
+import {TitlebarService} from '../../core/services/titlebar.service';
 
 @Component({
     selector: 'app-header',
