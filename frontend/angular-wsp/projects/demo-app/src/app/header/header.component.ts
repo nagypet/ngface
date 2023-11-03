@@ -41,11 +41,11 @@ export class HeaderComponent extends FormBaseComponent implements OnInit
         switch ($event.id)
         {
             case 'widgets_demo':
-                this.router.navigate(['demo-form1']);
+                this.router.navigate(['widget-demo']);
                 break;
 
             case 'table_demo':
-                this.router.navigate(['demo-form2']);
+                this.router.navigate(['table-demo']);
                 break;
         }
     }

@@ -16,12 +16,12 @@ import {TableDetailsService} from '../services/table-details.service';
 import {MatDialog} from '@angular/material/dialog';
 import {Ngface} from '../../../../ngface/src/lib/ngface-models';
 import {DemoDialog1Component} from '../demo-dialog1/demo-dialog1.component';
-import {DemoForm1Component} from '../demo-form1/demo-form1.component';
+import {WidgetDemoFormComponent} from '../widget-demo-form/widget-demo-form.component';
 
 @Component({
-    selector: 'app-demo-form2',
-    templateUrl: './demo-form2.component.html',
-    styleUrls: ['./demo-form2.component.scss'],
+    selector: 'app-table-demo-form',
+    templateUrl: './table-demo-form.component.html',
+    styleUrls: ['./table-demo-form.component.scss'],
     imports: [
         NgIf,
         NgfaceButtonComponent,
@@ -30,7 +30,7 @@ import {DemoForm1Component} from '../demo-form1/demo-form1.component';
     ],
     standalone: true
 })
-export class DemoForm2Component extends FormBaseComponent implements OnInit
+export class TableDemoFormComponent extends FormBaseComponent implements OnInit
 {
 
     constructor(
@@ -174,7 +174,7 @@ export class DemoForm2Component extends FormBaseComponent implements OnInit
             });
     }
 
-    onActionButton(action: DemoForm1Component.Actions): void
+    onActionButton(action: WidgetDemoFormComponent.Actions): void
     {
         if (action === 'SELECT_ALL')
         {

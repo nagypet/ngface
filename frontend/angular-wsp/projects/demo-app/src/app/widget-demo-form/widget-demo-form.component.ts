@@ -32,16 +32,16 @@ import {
 } from '../../../../ngface/src/lib/widgets/ngface-autocomplete/ngface-autocomplete.component';
 
 // tslint:disable-next-line:no-namespace
-export namespace DemoForm1Component
+export namespace WidgetDemoFormComponent
 {
     export type Actions = 'SELECT_ALL' | 'SELECT_NONE';
 }
 
 
 @Component({
-    selector: 'app-demo-form1',
-    templateUrl: './demo-form1.component.html',
-    styleUrls: ['./demo-form1.component.scss'],
+    selector: 'app-widget-demo-form',
+    templateUrl: './widget-demo-form.component.html',
+    styleUrls: ['./widget-demo-form.component.scss'],
     standalone: true,
     imports: [
         NgfaceFormComponent,
@@ -55,7 +55,7 @@ export namespace DemoForm1Component
         NgfaceAutocompleteComponent
     ]
 })
-export class DemoForm1Component extends FormBaseComponent implements OnInit
+export class WidgetDemoFormComponent extends FormBaseComponent implements OnInit
 {
     constructor(
         private demoFormService: WidgetDemoFormService,

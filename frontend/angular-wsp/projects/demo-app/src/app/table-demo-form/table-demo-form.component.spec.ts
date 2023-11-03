@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DemoForm2Component } from './demo-form2.component';
+import { TableDemoFormComponent } from './table-demo-form.component';
 
 describe('DemoForm2Component', () => {
-  let component: DemoForm2Component;
-  let fixture: ComponentFixture<DemoForm2Component>;
+  let component: TableDemoFormComponent;
+  let fixture: ComponentFixture<TableDemoFormComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DemoForm2Component]
+      declarations: [TableDemoFormComponent]
     });
-    fixture = TestBed.createComponent(DemoForm2Component);
+    fixture = TestBed.createComponent(TableDemoFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

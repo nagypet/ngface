@@ -16,21 +16,21 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DemoForm1Component } from './demo-form1.component';
+import { WidgetDemoFormComponent } from './widget-demo-form.component';
 
 describe('DemoForm1Component', () => {
-  let component: DemoForm1Component;
-  let fixture: ComponentFixture<DemoForm1Component>;
+  let component: WidgetDemoFormComponent;
+  let fixture: ComponentFixture<WidgetDemoFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [DemoForm1Component]
+    imports: [WidgetDemoFormComponent]
 })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DemoForm1Component);
+    fixture = TestBed.createComponent(WidgetDemoFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
