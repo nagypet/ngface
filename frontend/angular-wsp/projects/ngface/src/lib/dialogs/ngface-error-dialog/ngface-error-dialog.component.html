@@ -1,16 +1,23 @@
-<div mat-dialog-title class="d-flex centered">
-  <mat-icon class="material-icons-outlined">warning</mat-icon>
-</div>
-<div mat-dialog-content class="error-main">
-  <p class="error-title">There is a problem!</p>
-  <p class="error-text">{{getErrorText()}}</p>
-  <ng-scrollbar *ngIf="showDetails" class="error-dialog-details-scrollbar" track="all">
-    <p class="error-details" [innerHTML]="getErrorDetails()"></p>
-  </ng-scrollbar>
-</div>
-<div mat-dialog-actions>
-  <button mat-raised-button color="primary" (click)="onOkClick()" cdkTrapFocus
-          [cdkTrapFocusAutoCapture]="true">Close
-  </button>
-  <button mat-raised-button (click)="onDetailsClick()">Technical info</button>
+<div responsiveClass="ngface-error-dialog">
+    <!-- Title -->
+    <div mat-dialog-title class="d-flex centered" responsiveClass="ngface-error-dialog-title">
+        <mat-icon class="material-icons-outlined">warning</mat-icon>
+    </div>
+
+    <!-- Main part -->
+    <div mat-dialog-content responsiveClass="ngface-error-dialog-main">
+        <!--  <p class="error-title">There is a problem!</p>-->
+        <p class="error-text">{{getErrorText()}}</p>
+        <ng-scrollbar *ngIf="showDetails" responsiveClass="error-dialog-details-scrollbar" track="all">
+            <p class="error-details" [innerHTML]="getErrorDetails()"></p>
+        </ng-scrollbar>
+    </div>
+
+    <!-- Dialog actions -->
+    <div mat-dialog-actions responsiveClass="ngface-error-dialog-actions">
+        <button type="button" responsiveClass="ngface-button" mat-raised-button color="primary" (click)="onOkClick()" cdkTrapFocus
+                [cdkTrapFocusAutoCapture]="true">Close
+        </button>
+        <button type="button" responsiveClass="ngface-button" mat-raised-button (click)="onDetailsClick()">Technical info</button>
+    </div>
 </div>

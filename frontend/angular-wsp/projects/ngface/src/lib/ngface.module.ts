@@ -54,8 +54,9 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {A11yModule} from '@angular/cdk/a11y';
 import {MatDialogModule} from '@angular/material/dialog';
 import {NgfaceAutocompleteComponent} from './widgets/ngface-autocomplete/ngface-autocomplete.component';
-import { NgfaceTitlebarComponent } from './titlebar/ngface-titlebar/ngface-titlebar.component';
+import {NgfaceTitlebarComponent} from './titlebar/ngface-titlebar/ngface-titlebar.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {ResponsiveClassDirective} from './directives/responsive-class-directive';
 
 
 @NgModule({
@@ -100,6 +101,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
         NgfaceAutocompleteComponent,
         MatToolbarModule,
         NgfaceTitlebarComponent,
+        ResponsiveClassDirective
     ],
     exports: [
         NgfaceButtonComponent,
@@ -111,7 +113,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
         NgfaceTextInputComponent,
         NgfaceFormComponent,
         NgfaceAutocompleteComponent,
-        SafeHtmlPipe
+        SafeHtmlPipe,
+        ResponsiveClassDirective
     ],
     providers: [
         {

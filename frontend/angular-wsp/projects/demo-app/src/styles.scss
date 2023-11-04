@@ -28,6 +28,19 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.mat-toolbar {
+.container-mobile {
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+  max-width: unset;
+}
+
+.ngface-titlebar {
   border-radius: 5px;
+}
+
+.ngface-titlebar-mobile {
+  border-radius: 0;
 }

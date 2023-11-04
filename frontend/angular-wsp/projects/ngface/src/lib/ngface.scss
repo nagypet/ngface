@@ -17,9 +17,9 @@
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp");
 @import '@angular/cdk/overlay-prebuilt.css';
 
-/*
- * ngface-form
- */
+//----------------------------------------------------------------------------------------------------------------------
+// ngface-form
+//----------------------------------------------------------------------------------------------------------------------
 .ngface-form {
   padding: 20px;
   border: solid var(--bs-primary) 1px;
@@ -27,20 +27,42 @@
   margin-bottom: 20px;
 }
 
-/*
- * ngface-row
- */
-.ngface-row {
-  display: flex;
-  margin-bottom: 20px;
+.ngface-form-mobile {
+  padding: 10px 0 0 0;
+  margin: 0;
+  border-top: solid var(--bs-primary) 1px;
+  border-right: none;
+  border-bottom: none;
+  border-left: none;
+  border-radius: 0;
 }
 
-/*
- * ngface-input-field
- */
+//----------------------------------------------------------------------------------------------------------------------
+// ngface-row
+//----------------------------------------------------------------------------------------------------------------------
+.ngface-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.ngface-row-phone {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.ngface-row:last-child {
+  margin-bottom: 0;
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------
+// ngface-input-field
+//----------------------------------------------------------------------------------------------------------------------
 .ngface-input-field {
   width: 250px;
   margin-right: 20px;
+  margin-bottom: 10px;
 
   mat-hint {
     overflow: hidden;
@@ -48,11 +70,14 @@
     text-overflow: ellipsis;
   }
 }
+//.ngface-input-field-phone {
+//  width: 50%;
+//}
 
 
-/*
- * ngface-number
- */
+//----------------------------------------------------------------------------------------------------------------------
+// ngface-number
+//----------------------------------------------------------------------------------------------------------------------
 .ngface-number {
   .mat-mdc-input-element {
     text-align: end;
@@ -76,9 +101,29 @@
 }
 
 
-/*
- * ngface modal dialog styles
- */
+//----------------------------------------------------------------------------------------------------------------------
+// ngface-button
+//----------------------------------------------------------------------------------------------------------------------
+.ngface-button {
+  margin-right: 20px;
+  margin-bottom: 15px;
+}
+.ngface-button-mobile {
+  min-height: 42px;
+  border-radius: 21px !important;
+}
+.ngface-button-tablet {
+  width: 250px;
+}
+.ngface-button-phone {
+  margin-right: 0;
+  width: 100% !important;
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------
+// ngface modal dialog styles
+//----------------------------------------------------------------------------------------------------------------------
 .ngface-modal-dialog-backdrop {
   background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(5px);
@@ -87,8 +132,8 @@
 .mat-dialog-container {
   border: var(--bs-primary) 1px solid;
   border-radius: 5px !important;
-  background-color: #f5f5f5;
 }
+
 
 .mat-dialog-title {
   //background-color: rgba(255, 255, 255, .90);
@@ -99,6 +144,34 @@
   border-bottom: rgba(0, 0, 0, .12) solid 1px;
   padding: 25px 24px 5px 24px !important;
   background-color: white;
+}
+
+.mdc-dialog__surface {
+  //background-color: #f5f5f5!important;
+}
+
+.mdc-dialog__title {
+  background-color: #f5f5f5;
+  padding: 24px !important;
+  font-size: 20px !important;
+  border-bottom: 1px solid darkgray !important;
+}
+
+.mdc-dialog__title::before {
+  height: 100% !important;
+}
+
+
+.mdc-dialog__content {
+  padding: 24px !important;
+  background-color: white;
+}
+
+.mdc-dialog__actions {
+  background-color: #f5f5f5;
+  border-top: 1px solid darkgray !important;
+  padding: 24px !important;
+  padding-bottom: 9px !important;
 }
 
 
@@ -115,9 +188,9 @@
   color: rgba(0, 0, 0, .12);
 }
 
-/*
- * tooltip
- */
+//----------------------------------------------------------------------------------------------------------------------
+// tooltip
+//----------------------------------------------------------------------------------------------------------------------
 .mat-mdc-tooltip {
   background-color: white;
   border: 1px solid var(--bs-primary);
@@ -129,9 +202,9 @@
 }
 
 
-/*
- * mat-paginator
- */
+//----------------------------------------------------------------------------------------------------------------------
+// mat-paginator
+//----------------------------------------------------------------------------------------------------------------------
 .mat-paginator-container {
   flex-wrap: nowrap !important;
   min-width: 500px;
@@ -146,9 +219,9 @@
   white-space: nowrap;
 }
 
-/*
- * data-table
- */
+//----------------------------------------------------------------------------------------------------------------------
+// data-table
+//----------------------------------------------------------------------------------------------------------------------
 .ngface-data-table {
   width: 100%;
   margin: 20px auto;
@@ -274,6 +347,9 @@ ngface-data-table {
 }
 
 
+//----------------------------------------------------------------------------------------------------------------------
+// ngface-excel-filter
+//----------------------------------------------------------------------------------------------------------------------
 ngface-excel-filter {
   .mdc-form-field {
     height: 24px;
@@ -297,22 +373,4 @@ ngface-excel-filter {
       white-space: nowrap;
     }
   }
-}
-
-.mdc-dialog__surface {
-  background-color: #f5f5f5!important;
-}
-
-.mdc-dialog__title {
-  padding: 24px!important;
-  font-size: 20px!important;
-}
-
-.mdc-dialog__content {
-  padding: 24px!important;
-  background-color: white;
-}
-
-.mdc-dialog__actions {
-  padding: 24px!important;
 }

@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.36.1070 on 2023-11-02 12:57:59.
+// Generated using typescript-generator version 2.36.1070 on 2023-11-03 12:47:43.
 
 export namespace Ngface {
 
@@ -290,6 +290,7 @@ export namespace Ngface {
     export interface Titlebar extends Widget<VoidWidgetData, Titlebar> {
         data: VoidWidgetData;
         appTitle: string;
+        version: string;
         menu: Menu;
         actions: Action[];
     }

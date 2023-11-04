@@ -14,6 +14,20 @@
   ~ limitations under the License.
   -->
 
-<app-header></app-header>
-<router-outlet></router-outlet>
-<app-footer></app-footer>
+<!-- Desktop view-->
+<div *ngIf="deviceTypeService.deviceType !== 'Phone'" class="app">
+    <app-header class="header"></app-header>
+    <div class="main">
+        <router-outlet></router-outlet>
+        <app-footer></app-footer>
+    </div>
+</div>
+
+<!-- Mobile view-->
+<div *ngIf="deviceTypeService.deviceType === 'Phone'" class="app">
+    <app-header class="header"></app-header>
+    <div class="main">
+        <router-outlet></router-outlet>
+    </div>
+    <app-footer class="footer"></app-footer>
+</div>

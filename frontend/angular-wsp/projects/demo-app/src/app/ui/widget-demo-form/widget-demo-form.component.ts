@@ -21,7 +21,9 @@ import {FormBaseComponent} from '../../../../../ngface/src/lib/form/form-base.co
 import {TableDemoFormService} from '../../core/services/table-demo-form.service';
 import {NgfaceButtonComponent} from '../../../../../ngface/src/lib/widgets/ngface-button/ngface-button.component';
 import {NgfaceSelectComponent} from '../../../../../ngface/src/lib/widgets/ngface-select/ngface-select.component';
-import {NgfaceDateRangeInputComponent} from '../../../../../ngface/src/lib/widgets/ngface-date-range-input/ngface-date-range-input.component';
+import {
+    NgfaceDateRangeInputComponent
+} from '../../../../../ngface/src/lib/widgets/ngface-date-range-input/ngface-date-range-input.component';
 import {NgfaceDateInputComponent} from '../../../../../ngface/src/lib/widgets/ngface-date-input/ngface-date-input.component';
 import {NgfaceNumericInputComponent} from '../../../../../ngface/src/lib/widgets/ngface-numeric-input/ngface-numeric-input.component';
 import {NgfaceTextInputComponent} from '../../../../../ngface/src/lib/widgets/ngface-text-input/ngface-text-input.component';
@@ -30,6 +32,7 @@ import {
     AutocompleteRequest,
     NgfaceAutocompleteComponent
 } from '../../../../../ngface/src/lib/widgets/ngface-autocomplete/ngface-autocomplete.component';
+import {ResponsiveClassDirective} from '../../../../../ngface/src/lib/directives/responsive-class-directive';
 
 // tslint:disable-next-line:no-namespace
 export namespace WidgetDemoFormComponent
@@ -52,14 +55,15 @@ export namespace WidgetDemoFormComponent
         NgfaceSelectComponent,
         NgfaceButtonComponent,
         NgfaceDataTableComponent,
-        NgfaceAutocompleteComponent
+        NgfaceAutocompleteComponent,
+        ResponsiveClassDirective
     ]
 })
 export class WidgetDemoFormComponent extends FormBaseComponent implements OnInit
 {
     constructor(
-        private demoFormService: WidgetDemoFormService,
-        private demoFormTableService: TableDemoFormService
+        private widgetDemoFormService: WidgetDemoFormService,
+        private tableDemoFormService: TableDemoFormService
     )
     {
         super();
@@ -67,7 +71,7 @@ export class WidgetDemoFormComponent extends FormBaseComponent implements OnInit
 
     ngOnInit(): void
     {
-        this.demoFormService.getDemoForm().subscribe(form =>
+        this.widgetDemoFormService.getDemoForm().subscribe(form =>
         {
             console.log(form);
             this.formData = form;
@@ -87,16 +91,25 @@ export class WidgetDemoFormComponent extends FormBaseComponent implements OnInit
             const submitData = this.getSubmitData();
             console.log(submitData);
 
-            this.demoFormService.submitDemoForm({id: '', widgetDataMap: submitData}).subscribe(
+            this.widgetDemoFormService.submitDemoForm({id: '', widgetDataMap: submitData}).subscribe(
                 () => console.log('sumbitted'),
                 error => console.log(error));
         }
     }
 
 
+    onDeleteClick(): void
+    {
+        this.widgetDemoFormService.deleteForm().subscribe(next =>
+        {
+            console.log(next);
+        });
+    }
+
+
     onAutocompleteRequest($event: AutocompleteRequest): void
     {
-        this.demoFormTableService.getColumnFilterer('street', $event.searchText).subscribe(filterer =>
+        this.tableDemoFormService.getColumnFilterer('street', $event.searchText).subscribe(filterer =>
         {
             console.log(filterer);
             $event.valueSetProvider.valueSet = filterer.valueSet;

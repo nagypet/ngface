@@ -24,6 +24,7 @@ import hu.perit.ngface.webservice.ngface.widgetdemocomponent.WidgetDemoComponent
 import hu.perit.ngface.webservice.ngface.widgetdemocomponent.WidgetDemoComponentDTO;
 import hu.perit.ngface.webservice.ngface.widgetdemocomponent.WidgetDemoComponentView;
 import hu.perit.spvitamin.spring.restmethodlogger.LoggedRestMethod;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,6 +53,12 @@ public class WidgetDemoFormRestController extends NgfaceFormRestController<Widge
         super.submitForm(submitFormData);
     }
 
+    @DeleteMapping
+    @LoggedRestMethod(eventId = Constants.WIDGET_DEMO_FORM_CONTROLLER_DELETE_FORM, subsystem = Constants.SUBSYSTEM_NAME)
+    public void deleteForm(Long ignored)
+    {
+        this.componentController.deleteForm(ignored);
+    }
 
     @Override
     protected WidgetDemoComponentView supplyView(WidgetDemoComponentDTO data)

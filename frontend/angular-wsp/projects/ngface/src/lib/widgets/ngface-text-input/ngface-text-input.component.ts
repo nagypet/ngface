@@ -21,6 +21,7 @@ import { NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
 
 @Component({
     // tslint:disable-next-line:component-selector
@@ -28,7 +29,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     templateUrl: './ngface-text-input.component.html',
     styleUrls: ['./ngface-text-input.component.scss'],
     standalone: true,
-    imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, NgIf]
+    imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, NgIf, ResponsiveClassDirective]
 })
 export class NgfaceTextInputComponent extends InputBaseComponent
 {

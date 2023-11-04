@@ -31,7 +31,8 @@ public class TitlebarComponentView  implements ComponentView
     {
         return new Form("titlebar")
             .addWidget(new Titlebar("titlebar")
-                .appTitle("ngface demo application 2.1")
+                .appTitle("ngface demo application")
+                .version("2.2")
                 .menu(new Menu()
                     .addItem(new Menu.Item("widgets_demo", "Widgets demo").icon("widgets"))
                     .addItem(new Menu.Item("table_demo", "Table demo").icon("table_view"))

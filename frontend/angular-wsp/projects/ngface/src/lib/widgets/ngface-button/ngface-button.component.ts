@@ -20,13 +20,14 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
 
 @Component({
     selector: 'ngface-button',
     templateUrl: './ngface-button.component.html',
     styleUrls: ['./ngface-button.component.scss'],
     standalone: true,
-    imports: [MatButtonModule, NgClass, MatTooltipModule, MatBadgeModule]
+    imports: [MatButtonModule, NgClass, MatTooltipModule, MatBadgeModule, ResponsiveClassDirective]
 })
 export class NgfaceButtonComponent implements OnInit
 {

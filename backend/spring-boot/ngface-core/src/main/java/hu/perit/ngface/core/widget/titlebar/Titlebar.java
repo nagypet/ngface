@@ -32,6 +32,7 @@ import java.util.List;
 public class Titlebar extends Widget<VoidWidgetData, Titlebar>
 {
     private String appTitle = "App title";
+    private String version;
     private Menu menu = new Menu();
     private List<Action> actions;
 
@@ -43,6 +44,13 @@ public class Titlebar extends Widget<VoidWidgetData, Titlebar>
     public Titlebar appTitle(String appTitle)
     {
         this.appTitle = appTitle;
+        return this;
+    }
+
+
+    public Titlebar version(String version)
+    {
+        this.version = version;
         return this;
     }
 

@@ -14,17 +14,15 @@
   ~ limitations under the License.
   -->
 
-<div class="ngface-button">
-  <button type="button" (click)="onClick()" mat-raised-button [ngClass]="getClass()"
-          [id]="getData().id"
-          [disabled]="!isEnabled()"
-          [matBadgeHidden]="!isEnabled()"
-          [matTooltip]="getData().hint"
-          [matBadge]="getBadge()"
-          matBadgeColor="warn"
-  >
+<button type="button" (click)="onClick()" mat-raised-button [ngClass]="getClass()" responsiveClass="ngface-button"
+        [id]="getData().id"
+        [disabled]="!isEnabled()"
+        [matBadgeHidden]="!isEnabled()"
+        [matTooltip]="getData().hint"
+        [matBadge]="getBadge()"
+        matBadgeColor="warn"
+>
     <span (click)="!isEnabled() ? $event.stopPropagation() : undefined">
         {{getData().label}}
     </span>
-  </button>
-</div>
+</button>

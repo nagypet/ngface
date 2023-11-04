@@ -4,19 +4,23 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {Ngface} from '../../ngface-models';
 import {NgFor} from '@angular/common';
-import {AutocompleteRequest} from '../../widgets/ngface-autocomplete/ngface-autocomplete.component';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatBadgeModule} from '@angular/material/badge';
+import {DeviceTypeService} from '../../services/device-type.service';
+import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
 
 @Component({
     selector: 'ngface-titlebar',
     templateUrl: './ngface-titlebar.component.html',
-    styleUrls: ['./ngface-titlebar.component.css'],
+    styleUrls: ['./ngface-titlebar.component.scss'],
     imports: [
         MatToolbarModule,
         MatIconModule,
         MatButtonModule,
         NgFor,
-        MatMenuModule
+        MatMenuModule,
+        MatBadgeModule,
+        ResponsiveClassDirective
     ],
     standalone: true
 })
@@ -34,6 +38,11 @@ export class NgfaceTitlebarComponent
     @Output()
     actionClick: EventEmitter<Ngface.Action> = new EventEmitter();
 
+
+    constructor(public deviceTypeService: DeviceTypeService)
+    {
+    }
+
     getData(): Ngface.Titlebar
     {
         const widget = this.formdata?.widgets[this.widgetid];
@@ -42,6 +51,7 @@ export class NgfaceTitlebarComponent
             return {
                 type: 'Titlebar',
                 appTitle: 'App title',
+                version: '',
                 menu: {items: []},
                 data: {type: 'VoidWidgetData'},
                 actions: [],

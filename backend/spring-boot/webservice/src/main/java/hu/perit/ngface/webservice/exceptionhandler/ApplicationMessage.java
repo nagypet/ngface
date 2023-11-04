@@ -26,7 +26,8 @@ import java.util.Locale;
 public enum ApplicationMessage implements AbstractMessageType
 {
     CONSTRAINT_VIOLATION_1                          (400, LogLevel.DEBUG),
-    ONLY_EVEN_IDS_CAN_BE_EDITED                     (400, LogLevel.DEBUG)
+    ONLY_EVEN_IDS_CAN_BE_EDITED                     (400, LogLevel.DEBUG),
+    CANNOT_DELETE                                   (400, LogLevel.DEBUG)
     ;
 
     private final int httpStatusCode;

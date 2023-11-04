@@ -14,18 +14,39 @@
  * limitations under the License.
  */
 
-import {Component} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {HeaderComponent} from './ui/header/header.component';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {FooterComponent} from './ui/footer/footer.component';
+import {DeviceTypeService} from '../../../ngface/src/lib/services/device-type.service';
+import {NgIf} from '@angular/common';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     standalone: true,
-    imports: [HeaderComponent, RouterLink, RouterLinkActive, RouterOutlet, FooterComponent]
+    imports: [HeaderComponent, RouterLink, RouterLinkActive, RouterOutlet, FooterComponent, NgIf]
 })
-export class AppComponent {
-  title = 'demo-app';
+export class AppComponent implements OnInit
+{
+    title = 'demo-app';
+
+
+    constructor(public deviceTypeService: DeviceTypeService)
+    {
+    }
+
+    ngOnInit(): void
+    {
+        this.onWindowResize();
+    }
+
+
+    @HostListener('window:resize', ['$event'])
+    onWindowResize(): void
+    {
+        this.deviceTypeService.calculateDeviceType();
+    }
 }
+

@@ -17,6 +17,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {Ngface} from '../../../../../ngface/src/lib/ngface-models';
 import {TableDetailsDialogComponent} from '../table-details-dialog/table-details-dialog.component';
 import {WidgetDemoFormComponent} from '../widget-demo-form/widget-demo-form.component';
+import {ResponsiveClassDirective} from '../../../../../ngface/src/lib/directives/responsive-class-directive';
 
 @Component({
     selector: 'app-table-demo-form',
@@ -26,7 +27,8 @@ import {WidgetDemoFormComponent} from '../widget-demo-form/widget-demo-form.comp
         NgIf,
         NgfaceButtonComponent,
         NgfaceDataTableComponent,
-        NgfaceFormComponent
+        NgfaceFormComponent,
+        ResponsiveClassDirective
     ],
     standalone: true
 })

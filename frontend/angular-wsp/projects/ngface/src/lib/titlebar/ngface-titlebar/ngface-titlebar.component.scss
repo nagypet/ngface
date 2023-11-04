@@ -1,0 +1,32 @@
+// Titlebar
+.ngface-titlebar {
+    display: flex;
+    overflow: hidden;
+}
+
+.ngface-titlebar-mobile {
+    max-height: 50px;
+}
+
+// Main menu
+.titlebar-main-menu {
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+
+// App title
+.titlebar-app-title {
+    //flex-shrink: 1;
+    //flex-grow: 1;
+    //position: relative;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
+
+// Actions
+.titlebar-actions {
+    flex-shrink: 0;
+    margin-left: auto;
+}

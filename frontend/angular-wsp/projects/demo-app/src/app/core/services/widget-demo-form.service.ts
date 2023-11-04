@@ -47,4 +47,9 @@ export class WidgetDemoFormService
         };
         return this.httpClient.post(`${environment.baseURL}${this.serviceUrl}`, submitFormData, httpOptions);
     }
+
+    public deleteForm(): Observable<any>
+    {
+        return this.httpClient.delete(`${environment.baseURL}${this.serviceUrl}`);
+    }
 }

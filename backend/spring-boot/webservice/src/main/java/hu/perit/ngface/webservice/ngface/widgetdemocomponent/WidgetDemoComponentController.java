@@ -20,9 +20,11 @@ import hu.perit.ngface.core.controller.ComponentController;
 import hu.perit.ngface.core.widget.input.Autocomplete;
 import hu.perit.ngface.core.widget.input.DateRangeInput;
 import hu.perit.ngface.core.widget.input.Select;
+import hu.perit.ngface.webservice.exceptionhandler.ApplicationMessage;
 import hu.perit.ngface.webservice.service.api.AddressService;
 import hu.perit.ngface.webservice.service.api.SessionData;
 import hu.perit.ngface.webservice.service.api.SessionPersistenceService;
+import hu.perit.spvitamin.core.exception.ApplicationRuntimeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -113,5 +115,11 @@ public class WidgetDemoComponentController implements ComponentController<Widget
         SessionData sessionData = this.sessionPersistenceService.getSessionData();
         sessionData.setWidgetDemoComponentDTO(data);
         this.sessionPersistenceService.saveSessionData(sessionData);
+    }
+
+
+    public void deleteForm(Long id)
+    {
+        throw new ApplicationRuntimeException(ApplicationMessage.CANNOT_DELETE);
     }
 }

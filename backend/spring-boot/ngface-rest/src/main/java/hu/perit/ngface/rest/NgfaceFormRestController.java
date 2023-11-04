@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 public abstract class NgfaceFormRestController<C extends ComponentController<D, I>, D extends ComponentDTO, V extends ComponentView, I>
     implements NgfaceFormRestApi<I>
 {
-    private final C componentController;
+    protected final C componentController;
 
 
     @Override
