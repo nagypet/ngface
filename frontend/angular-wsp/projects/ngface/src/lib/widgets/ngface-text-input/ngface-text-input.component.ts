@@ -27,7 +27,6 @@ import {ResponsiveClassDirective} from '../../directives/responsive-class-direct
     // tslint:disable-next-line:component-selector
     selector: 'ngface-text-input',
     templateUrl: './ngface-text-input.component.html',
-    styleUrls: ['./ngface-text-input.component.scss'],
     standalone: true,
     imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, NgIf, ResponsiveClassDirective]
 })

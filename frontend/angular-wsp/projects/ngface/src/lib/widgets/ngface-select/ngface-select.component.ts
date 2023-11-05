@@ -28,7 +28,6 @@ import {ResponsiveClassDirective} from '../../directives/responsive-class-direct
     // tslint:disable-next-line:component-selector
     selector: 'ngface-select',
     templateUrl: './ngface-select.component.html',
-    styleUrls: ['./ngface-select.component.scss'],
     standalone: true,
     imports: [MatFormFieldModule, MatSelectModule, ReactiveFormsModule, NgFor, MatOptionModule, NgIf, ResponsiveClassDirective]
 })

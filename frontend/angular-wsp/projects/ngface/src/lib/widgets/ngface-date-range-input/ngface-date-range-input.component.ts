@@ -27,7 +27,6 @@ import {ResponsiveClassDirective} from '../../directives/responsive-class-direct
     // tslint:disable-next-line:component-selector
     selector: 'ngface-date-range-input',
     templateUrl: './ngface-date-range-input.component.html',
-    styleUrls: ['./ngface-date-range-input.component.scss'],
     standalone: true,
     imports: [MatFormFieldModule, MatDatepickerModule, ReactiveFormsModule, NgIf, ResponsiveClassDirective]
 })

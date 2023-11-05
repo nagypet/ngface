@@ -25,7 +25,6 @@ import {ResponsiveClassDirective} from '../../directives/responsive-class-direct
     // tslint:disable-next-line:component-selector
     selector: 'ngface-numeric-input',
     templateUrl: './ngface-numeric-input.component.html',
-    styleUrls: ['./ngface-numeric-input.component.scss'],
     standalone: true,
     imports: [IntlNumericInputComponent, ReactiveFormsModule, ResponsiveClassDirective]
 })

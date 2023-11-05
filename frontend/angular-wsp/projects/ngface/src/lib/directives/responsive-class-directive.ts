@@ -58,7 +58,7 @@ export class ResponsiveClassDirective
             }
         });
         const s = classNames.join(' ').toLowerCase();
-        console.log(`input: ${input} => ${s}`);
+        //console.log(`input: ${input} => ${s}`);
         return s;
     }
 }

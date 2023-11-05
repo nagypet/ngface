@@ -52,7 +52,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher
     // tslint:disable-next-line:component-selector
     selector: 'ngface-intl-numeric-input',
     templateUrl: './intl-numeric-input.component.html',
-    styleUrls: ['./intl-numeric-input.component.scss'],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
