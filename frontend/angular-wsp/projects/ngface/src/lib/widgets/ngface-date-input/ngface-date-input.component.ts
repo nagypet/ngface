@@ -22,13 +22,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
 
 @Component({
     selector: 'ngface-date-input',
     templateUrl: './ngface-date-input.component.html',
     styleUrls: ['./ngface-date-input.component.scss'],
     standalone: true,
-    imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, NgIf]
+    imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, NgIf, ResponsiveClassDirective]
 })
 export class NgfaceDateInputComponent extends InputBaseComponent
 {

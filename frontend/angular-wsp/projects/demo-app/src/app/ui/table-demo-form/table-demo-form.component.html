@@ -27,7 +27,7 @@
                            (masterToggleEvent)="onMasterToggle($event)"
         >
         </ngface-data-table>
-        <div class="ngface-row">
+        <div responsiveClass="ngface-row">
             <ngface-button [formdata]="formData" widgetid="button-reload" (click)="onReloadClick()"></ngface-button>
             <ngface-button *ngIf="isWidgetAvailable('button-select-all')" [formdata]="formData"
                            widgetid="button-select-all"

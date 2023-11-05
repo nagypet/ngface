@@ -23,31 +23,40 @@ import {DeviceTypeService} from '../services/device-type.service';
 })
 export class ResponsiveClassDirective
 {
-  // tslint:disable-next-line:variable-name
-  protected _elementClass: string[] = [];
+    // tslint:disable-next-line:variable-name
+    protected _elementClass: string[] = [];
 
-  @Input()
-  responsiveClass!: string;
+    @Input()
+    responsiveClass!: string;
 
-  @HostBinding('class')
-  get elementClass(): string {
-    return this.getDeviceDependentClass(this.responsiveClass);
-  }
-  set elementClass(val: string) {
-    this._elementClass = val.split(' ');
-  }
-
-  constructor(public deviceTypeService: DeviceTypeService) {
-  }
-
-  private getDeviceDependentClass(prefix: string): string
-  {
-    const deviceType = this.deviceTypeService.deviceType;
-    let classNameMixedCase = `${prefix} ${prefix}-${deviceType}`;
-    if (deviceType === 'Phone' || deviceType === 'Tablet')
+    @HostBinding('class')
+    get elementClass(): string
     {
-      classNameMixedCase += ` ${prefix}-mobile`;
+        return this.getDeviceDependentClass(this.responsiveClass);
     }
-    return classNameMixedCase.toLowerCase();
-  }
+
+    set elementClass(val: string)
+    {
+        this._elementClass = val.split(' ');
+    }
+
+    constructor(public deviceTypeService: DeviceTypeService)
+    {
+    }
+
+    private getDeviceDependentClass(input: string): string
+    {
+        const prefixes: string[] = input.split(' ');
+        const deviceType = this.deviceTypeService.deviceType;
+        let classNames = '';
+        prefixes.forEach(prefix =>
+        {
+            classNames = `${prefix} ${prefix}-${deviceType}`;
+            if (deviceType === 'Phone' || deviceType === 'Tablet')
+            {
+                classNames += ` ${prefix}-mobile`;
+            }
+        });
+        return classNames.toLowerCase();
+    }
 }

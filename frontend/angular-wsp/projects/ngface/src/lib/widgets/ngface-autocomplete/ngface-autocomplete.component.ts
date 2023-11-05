@@ -11,6 +11,7 @@ import {MatInputModule} from '@angular/material/input';
 import {DebounceInputDirective} from '../../directives/debounce-input-directive';
 import {A11yModule} from '@angular/cdk/a11y';
 import {AutocompleteValueSetProvider} from './autocomplete-value-set-provider';
+import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
 
 export interface AutocompleteRequest
 {
@@ -35,6 +36,7 @@ export interface AutocompleteRequest
         AsyncPipe,
         DebounceInputDirective,
         A11yModule,
+        ResponsiveClassDirective
     ],
     standalone: true
 })

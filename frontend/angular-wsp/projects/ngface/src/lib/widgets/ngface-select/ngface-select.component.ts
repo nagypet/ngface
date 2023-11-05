@@ -22,6 +22,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
 
 @Component({
     // tslint:disable-next-line:component-selector
@@ -29,7 +30,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     templateUrl: './ngface-select.component.html',
     styleUrls: ['./ngface-select.component.scss'],
     standalone: true,
-    imports: [MatFormFieldModule, MatSelectModule, ReactiveFormsModule, NgFor, MatOptionModule, NgIf]
+    imports: [MatFormFieldModule, MatSelectModule, ReactiveFormsModule, NgFor, MatOptionModule, NgIf, ResponsiveClassDirective]
 })
 export class NgfaceSelectComponent extends InputBaseComponent implements OnChanges {
 

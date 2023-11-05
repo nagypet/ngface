@@ -1,11 +1,11 @@
-<div responsiveClass="ngface-error-dialog">
+<div responsiveClass="ngface-dialog">
     <!-- Title -->
-    <div mat-dialog-title class="d-flex centered" responsiveClass="ngface-error-dialog-title">
+    <div mat-dialog-title class="d-flex centered" responsiveClass="ngface-dialog-title">
         <mat-icon class="material-icons-outlined">warning</mat-icon>
     </div>
 
     <!-- Main part -->
-    <div mat-dialog-content responsiveClass="ngface-error-dialog-main">
+    <div mat-dialog-content responsiveClass="ngface-dialog-main">
         <!--  <p class="error-title">There is a problem!</p>-->
         <p class="error-text">{{getErrorText()}}</p>
         <ng-scrollbar *ngIf="showDetails" responsiveClass="error-dialog-details-scrollbar" track="all">
@@ -14,7 +14,7 @@
     </div>
 
     <!-- Dialog actions -->
-    <div mat-dialog-actions responsiveClass="ngface-error-dialog-actions">
+    <div mat-dialog-actions responsiveClass="ngface-dialog-actions">
         <button type="button" responsiveClass="ngface-button" mat-raised-button color="primary" (click)="onOkClick()" cdkTrapFocus
                 [cdkTrapFocusAutoCapture]="true">Close
         </button>

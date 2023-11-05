@@ -46,6 +46,7 @@
   margin-bottom: 20px;
 }
 .ngface-row-phone {
+  align-items: unset!important;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -70,9 +71,9 @@
     text-overflow: ellipsis;
   }
 }
-//.ngface-input-field-phone {
-//  width: 50%;
-//}
+.ngface-input-field-phone {
+  width: calc(100vw - 40px)!important;
+}
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -122,6 +123,44 @@
 
 
 //----------------------------------------------------------------------------------------------------------------------
+// ngface-dialog
+//----------------------------------------------------------------------------------------------------------------------
+// Layout
+.ngface-dialog-mobile {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  width: 100vw;
+}
+// Title
+.ngface-dialog-title-mobile {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+// Main
+.ngface-dialog-main {
+  text-align: center;
+}
+.ngface-dialog-main-mobile {
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: hidden;
+  margin-bottom: auto;
+  max-height: unset;
+  display: flex;
+  flex-direction: column;
+}
+.ngface-dialog-main-desktop {
+  min-height: 100px;
+}
+// Actions
+.ngface-dialog-actions-mobile {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------
 // ngface modal dialog styles
 //----------------------------------------------------------------------------------------------------------------------
 .ngface-modal-dialog-backdrop {
@@ -144,6 +183,11 @@
   border-bottom: rgba(0, 0, 0, .12) solid 1px;
   padding: 25px 24px 5px 24px !important;
   background-color: white;
+}
+.mat-mdc-dialog-content {
+  max-height: unset!important;
+  display: flex!important;
+  flex-direction: column;
 }
 
 .mdc-dialog__surface {

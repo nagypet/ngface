@@ -14,22 +14,29 @@
   ~ limitations under the License.
   -->
 
-<div mat-dialog-title>{{data.title}}</div>
-<ngface-form [formdata]="formData" mat-dialog-content (keydown.enter)="onOkClick()">
-  <div class="ngface-row">
-    <ngface-numeric-input [formdata]="formData" widgetid="postCode"></ngface-numeric-input>
-  </div>
-  <div class="ngface-row">
-    <ngface-text-input [formdata]="formData" widgetid="city"></ngface-text-input>
-  </div>
-  <div class="ngface-row">
-    <ngface-text-input [formdata]="formData" widgetid="street"></ngface-text-input>
-  </div>
-  <div class="ngface-row">
-    <ngface-autocomplete [formdata]="formData" widgetid="district"></ngface-autocomplete>
-  </div>
-</ngface-form>
-<div mat-dialog-actions>
-  <ngface-button [formdata]="formData" widgetid="button-save" (click)="onOkClick()"></ngface-button>
-  <ngface-button [formdata]="formData" widgetid="button-cancel" (click)="onCancelClick()"></ngface-button>
+<div responsiveClass="ngface-dialog">
+    <!-- Title -->
+    <div mat-dialog-title responsiveClass="ngface-dialog-title">{{data.title}}</div>
+
+    <!-- Main part -->
+    <ngface-form [formdata]="formData" mat-dialog-content (keydown.enter)="onOkClick()" responsiveClass="ngface-dialog-main">
+        <div responsiveClass="ngface-row">
+            <ngface-numeric-input [formdata]="formData" widgetid="postCode"></ngface-numeric-input>
+        </div>
+        <div responsiveClass="ngface-row">
+            <ngface-text-input [formdata]="formData" widgetid="city"></ngface-text-input>
+        </div>
+        <div responsiveClass="ngface-row">
+            <ngface-text-input [formdata]="formData" widgetid="street"></ngface-text-input>
+        </div>
+        <div responsiveClass="ngface-row">
+            <ngface-autocomplete [formdata]="formData" widgetid="district"></ngface-autocomplete>
+        </div>
+    </ngface-form>
+
+    <!-- Dialog actions -->
+    <div responsiveClass="ngface-dialog-actions ngface-row" mat-dialog-actions>
+        <ngface-button [formdata]="formData" widgetid="button-save" (click)="onOkClick()"></ngface-button>
+        <ngface-button [formdata]="formData" widgetid="button-cancel" (click)="onCancelClick()"></ngface-button>
+    </div>
 </div>

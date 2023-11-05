@@ -18,6 +18,7 @@ import {Ngface} from '../../../../../ngface/src/lib/ngface-models';
 import {TableDetailsDialogComponent} from '../table-details-dialog/table-details-dialog.component';
 import {WidgetDemoFormComponent} from '../widget-demo-form/widget-demo-form.component';
 import {ResponsiveClassDirective} from '../../../../../ngface/src/lib/directives/responsive-class-directive';
+import {DeviceTypeService} from '../../../../../ngface/src/lib/services/device-type.service';
 
 @Component({
     selector: 'app-table-demo-form',
@@ -36,16 +37,17 @@ export class TableDemoFormComponent extends FormBaseComponent implements OnInit
 {
 
     constructor(
-        private demoFormTableService: TableDemoFormService,
+        private tableDemoFormService: TableDemoFormService,
         private tableDetailsService: TableDetailsService,
-        public dialog: MatDialog)
+        public dialog: MatDialog,
+        public deviceTypeService: DeviceTypeService)
     {
         super();
     }
 
     ngOnInit(): void
     {
-        this.demoFormTableService.getDemoFormTable().subscribe(form =>
+        this.tableDemoFormService.getDemoFormTable().subscribe(form =>
         {
             console.log(form);
             this.formData = form;
@@ -61,7 +63,7 @@ export class TableDemoFormComponent extends FormBaseComponent implements OnInit
 
     private reloadTable(searchRequest?: Ngface.DataRetrievalParams): void
     {
-        this.demoFormTableService.getDemoFormTable(searchRequest).subscribe(table =>
+        this.tableDemoFormService.getDemoFormTable(searchRequest).subscribe(table =>
         {
             console.log(table);
             // This is required to trigger change detection
@@ -102,7 +104,9 @@ export class TableDemoFormComponent extends FormBaseComponent implements OnInit
             // Open dialog
             const dialogRef = this.dialog.open(TableDetailsDialogComponent, {
                 data: dialogData,
-                backdropClass: 'ngface-modal-dialog-backdrop'
+                backdropClass: 'ngface-modal-dialog-backdrop',
+                minWidth: this.deviceTypeService.deviceType === 'Phone' ? '100%' : undefined,
+                minHeight: this.deviceTypeService.deviceType === 'Phone' ? '100dvh' : undefined
             });
 
             // Subscribe to afterClosed
@@ -116,7 +120,7 @@ export class TableDemoFormComponent extends FormBaseComponent implements OnInit
                         {
                             console.log('sumbitted');
                             // reload table content
-                            this.demoFormTableService.getDemoFormTableRow(row.id).subscribe(data =>
+                            this.tableDemoFormService.getDemoFormTableRow(row.id).subscribe(data =>
                             {
                                 console.log(data);
                                 // @ts-ignore
@@ -135,7 +139,7 @@ export class TableDemoFormComponent extends FormBaseComponent implements OnInit
         console.log($event);
 
         // Ask the backend for updated set of criteria based on 'column' and 'searchText'
-        this.demoFormTableService.getColumnFilterer($event.column, $event.searchEvent.searchText).subscribe(filterer =>
+        this.tableDemoFormService.getColumnFilterer($event.column, $event.searchEvent.searchText).subscribe(filterer =>
         {
             console.log(filterer);
             $event.searchEvent.valueSetProvider.setValueSet(filterer.valueSet);
@@ -152,13 +156,13 @@ export class TableDemoFormComponent extends FormBaseComponent implements OnInit
             sorter: $event.sorter,
             filtererMap: $event.filtererMap
         };
-        this.demoFormTableService.submitDemoFormTable({id: '', widgetDataMap: {['table-multiselect']: widgetData}}).subscribe(
+        this.tableDemoFormService.submitDemoFormTable({id: '', widgetDataMap: {['table-multiselect']: widgetData}}).subscribe(
             () => console.log(widgetData));
     }
 
     onReloadClick(): void
     {
-        this.demoFormTableService.reloadTableData().subscribe(
+        this.tableDemoFormService.reloadTableData().subscribe(
             () =>
             {
                 console.log('Table data reloaded!');
@@ -168,7 +172,7 @@ export class TableDemoFormComponent extends FormBaseComponent implements OnInit
 
     onRowClick($event: Ngface.Row<number>): void
     {
-        this.demoFormTableService.onRowSelect(
+        this.tableDemoFormService.onRowSelect(
             {selectMode: 'SINGLE', rows: [{id: $event.id, selected: $event.selected}]})
             .subscribe(() =>
             {
@@ -180,7 +184,7 @@ export class TableDemoFormComponent extends FormBaseComponent implements OnInit
     {
         if (action === 'SELECT_ALL')
         {
-            this.demoFormTableService.onRowSelect(
+            this.tableDemoFormService.onRowSelect(
                 {selectMode: 'ALL_CHECKED', rows: []})
                 .subscribe(() =>
                 {
@@ -190,7 +194,7 @@ export class TableDemoFormComponent extends FormBaseComponent implements OnInit
 
         if (action === 'SELECT_NONE')
         {
-            this.demoFormTableService.onRowSelect(
+            this.tableDemoFormService.onRowSelect(
                 {selectMode: 'ALL_UNCHECKED', rows: []})
                 .subscribe(() =>
                 {
@@ -207,7 +211,7 @@ export class TableDemoFormComponent extends FormBaseComponent implements OnInit
         {
             return;
         }
-        this.demoFormTableService.onRowSelect(
+        this.tableDemoFormService.onRowSelect(
             {selectMode: 'SINGLE', rows: table.rows.map(i => ({id: i.id, selected: $event.checked}))})
             .subscribe(() =>
             {
