@@ -45,13 +45,15 @@
   flex-wrap: wrap;
   margin-bottom: 20px;
 }
+
 .ngface-row-phone {
-  align-items: unset!important;
+  align-items: unset !important;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   margin-bottom: 20px;
 }
+
 .ngface-row:last-child {
   margin-bottom: 0;
 }
@@ -71,8 +73,9 @@
     text-overflow: ellipsis;
   }
 }
+
 .ngface-input-field-phone {
-  width: calc(100vw - 40px)!important;
+  width: calc(100vw - 40px) !important;
 }
 
 
@@ -101,6 +104,9 @@
   }
 }
 
+.ngface-number-phone.mat-mdc-form-field {
+  display: flex!important;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 // ngface-button
@@ -109,13 +115,16 @@
   margin-right: 20px;
   margin-bottom: 15px;
 }
+
 .ngface-button-mobile {
   min-height: 42px;
   border-radius: 21px !important;
 }
+
 .ngface-button-tablet {
   width: 250px;
 }
+
 .ngface-button-phone {
   margin-right: 0;
   width: 100% !important;
@@ -132,15 +141,18 @@
   height: 100dvh;
   width: 100vw;
 }
+
 // Title
 .ngface-dialog-title-mobile {
   flex-grow: 0;
   flex-shrink: 0;
 }
+
 // Main
 .ngface-dialog-main {
   text-align: center;
 }
+
 .ngface-dialog-main-mobile {
   flex-grow: 1;
   flex-shrink: 1;
@@ -150,9 +162,11 @@
   display: flex;
   flex-direction: column;
 }
+
 .ngface-dialog-main-desktop {
   min-height: 100px;
 }
+
 // Actions
 .ngface-dialog-actions-mobile {
   flex-grow: 0;
@@ -184,9 +198,10 @@
   padding: 25px 24px 5px 24px !important;
   background-color: white;
 }
+
 .mat-mdc-dialog-content {
-  max-height: unset!important;
-  display: flex!important;
+  max-height: unset !important;
+  display: flex !important;
   flex-direction: column;
 }
 

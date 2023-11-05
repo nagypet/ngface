@@ -48,15 +48,17 @@ export class ResponsiveClassDirective
     {
         const prefixes: string[] = input.split(' ');
         const deviceType = this.deviceTypeService.deviceType;
-        let classNames = '';
+        const classNames: string[] = [];
         prefixes.forEach(prefix =>
         {
-            classNames = `${prefix} ${prefix}-${deviceType}`;
+            classNames.push(`${prefix} ${prefix}-${deviceType}`);
             if (deviceType === 'Phone' || deviceType === 'Tablet')
             {
-                classNames += ` ${prefix}-mobile`;
+                classNames.push(`${prefix}-mobile`);
             }
         });
-        return classNames.toLowerCase();
+        const s = classNames.join(' ').toLowerCase();
+        console.log(`input: ${input} => ${s}`);
+        return s;
     }
 }

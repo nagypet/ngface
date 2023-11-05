@@ -23,7 +23,6 @@ export interface AutocompleteRequest
 @Component({
     selector: 'ngface-autocomplete',
     templateUrl: './ngface-autocomplete.component.html',
-    styleUrls: ['./ngface-autocomplete.component.css'],
     imports: [
         MatFormFieldModule,
         MatOptionModule,

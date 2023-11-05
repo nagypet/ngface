@@ -25,7 +25,6 @@ import {ResponsiveClassDirective} from '../../directives/responsive-class-direct
 @Component({
     selector: 'ngface-button',
     templateUrl: './ngface-button.component.html',
-    styleUrls: ['./ngface-button.component.scss'],
     standalone: true,
     imports: [MatButtonModule, NgClass, MatTooltipModule, MatBadgeModule, ResponsiveClassDirective]
 })

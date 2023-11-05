@@ -19,6 +19,7 @@ import {Ngface} from '../../ngface-models';
 import {InputBaseComponent} from '../input-base.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {IntlNumericInputComponent} from './intl-numeric-input/intl-numeric-input.component';
+import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
 
 @Component({
     // tslint:disable-next-line:component-selector
@@ -26,7 +27,7 @@ import {IntlNumericInputComponent} from './intl-numeric-input/intl-numeric-input
     templateUrl: './ngface-numeric-input.component.html',
     styleUrls: ['./ngface-numeric-input.component.scss'],
     standalone: true,
-    imports: [IntlNumericInputComponent, ReactiveFormsModule]
+    imports: [IntlNumericInputComponent, ReactiveFormsModule, ResponsiveClassDirective]
 })
 export class NgfaceNumericInputComponent extends InputBaseComponent
 {

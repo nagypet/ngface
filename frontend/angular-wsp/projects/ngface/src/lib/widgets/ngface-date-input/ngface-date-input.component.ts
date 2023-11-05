@@ -27,7 +27,6 @@ import {ResponsiveClassDirective} from '../../directives/responsive-class-direct
 @Component({
     selector: 'ngface-date-input',
     templateUrl: './ngface-date-input.component.html',
-    styleUrls: ['./ngface-date-input.component.scss'],
     standalone: true,
     imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, NgIf, ResponsiveClassDirective]
 })
