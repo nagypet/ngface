@@ -44,14 +44,16 @@
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 20px;
+
+  // When ngface-input-field placed in a ngface-row, there should be a right margin
+  .ngface-input-field {
+    margin-right: 20px;
+  }
 }
 
 .ngface-row-phone {
   align-items: unset !important;
-  display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
 }
 
 .ngface-row:last-child {
@@ -60,11 +62,19 @@
 
 
 //----------------------------------------------------------------------------------------------------------------------
+// ngface-col
+//----------------------------------------------------------------------------------------------------------------------
+.ngface-col {
+  display: flex;
+  flex-direction: column;
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------
 // ngface-input-field
 //----------------------------------------------------------------------------------------------------------------------
 .ngface-input-field {
   width: 250px;
-  margin-right: 20px;
   margin-bottom: 10px;
 
   mat-hint {
@@ -75,7 +85,7 @@
 }
 
 .ngface-input-field-phone {
-  width: calc(100vw - 40px) !important;
+  width: calc(100vw - 45px) !important;
 }
 
 .ngface-date-range-input {
@@ -108,9 +118,6 @@
   }
 }
 
-.ngface-number-phone.mat-mdc-form-field {
-  display: flex!important;
-}
 
 //----------------------------------------------------------------------------------------------------------------------
 // ngface-button
@@ -118,6 +125,7 @@
 .ngface-button {
   margin-right: 20px;
   margin-bottom: 15px;
+  max-width: 350px;
 }
 
 .ngface-button-mobile {
@@ -172,9 +180,16 @@
 }
 
 // Actions
-.ngface-dialog-actions-mobile {
+.ngface-dialog-actions-tablet {
+  flex-wrap: wrap;
+  align-items: unset!important;
+}
+
+.ngface-dialog-actions-phone {
   flex-grow: 0;
   flex-shrink: 0;
+  flex-direction: column;
+  align-items: unset!important;
 }
 
 

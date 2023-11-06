@@ -9,6 +9,7 @@ import {NgScrollbarModule} from 'ngx-scrollbar';
 import {NgIf} from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
+import {DeviceTypeService} from '../../services/device-type.service';
 
 export interface SpvitaminErrorResponse
 {
@@ -62,7 +63,8 @@ export class NgfaceErrorDialogComponent implements OnInit
 
     constructor(public dialogRef: MatDialogRef<NgfaceErrorDialogComponent>,
                 @Inject(MAT_DIALOG_DATA) public inputData: BehaviorSubject<HttpErrorResponse | undefined>,
-                private errorService: ErrorService
+                private errorService: ErrorService,
+                public deviceTypeService: DeviceTypeService
     )
     {
         inputData.subscribe(error =>

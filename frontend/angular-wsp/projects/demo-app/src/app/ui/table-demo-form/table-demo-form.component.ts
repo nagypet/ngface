@@ -106,7 +106,8 @@ export class TableDemoFormComponent extends FormBaseComponent implements OnInit
                 data: dialogData,
                 backdropClass: 'ngface-modal-dialog-backdrop',
                 minWidth: this.deviceTypeService.deviceType === 'Phone' ? '100%' : undefined,
-                minHeight: this.deviceTypeService.deviceType === 'Phone' ? '100dvh' : undefined
+                minHeight: this.deviceTypeService.deviceType === 'Phone' ? '100dvh' : undefined,
+                maxHeight: Math.min(this.deviceTypeService.height, 600).toString() + 'px'
             });
 
             // Subscribe to afterClosed

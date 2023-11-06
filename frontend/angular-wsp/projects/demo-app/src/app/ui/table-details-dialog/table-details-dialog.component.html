@@ -20,22 +20,16 @@
 
     <!-- Main part -->
     <ngface-form [formdata]="formData" mat-dialog-content (keydown.enter)="onOkClick()" responsiveClass="ngface-dialog-main">
-        <div responsiveClass="ngface-row">
+        <div responsiveClass="ngface-col">
             <ngface-numeric-input [formdata]="formData" widgetid="postCode"></ngface-numeric-input>
-        </div>
-        <div responsiveClass="ngface-row">
             <ngface-text-input [formdata]="formData" widgetid="city"></ngface-text-input>
-        </div>
-        <div responsiveClass="ngface-row">
             <ngface-text-input [formdata]="formData" widgetid="street"></ngface-text-input>
-        </div>
-        <div responsiveClass="ngface-row">
             <ngface-autocomplete [formdata]="formData" widgetid="district"></ngface-autocomplete>
         </div>
     </ngface-form>
 
     <!-- Dialog actions -->
-    <div responsiveClass="ngface-dialog-actions ngface-row" mat-dialog-actions>
+    <div responsiveClass="ngface-dialog-actions" mat-dialog-actions>
         <ngface-button [formdata]="formData" widgetid="button-save" (click)="onOkClick()"></ngface-button>
         <ngface-button [formdata]="formData" widgetid="button-cancel" (click)="onCancelClick()"></ngface-button>
     </div>
