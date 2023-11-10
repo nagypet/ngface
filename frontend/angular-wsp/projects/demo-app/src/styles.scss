@@ -28,7 +28,7 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.container-mobile {
+.container.mobile {
   padding-left: 20px;
   padding-right: 20px;
   margin-left: 0;
@@ -41,6 +41,6 @@ body {
   border-radius: 5px;
 }
 
-.ngface-titlebar-mobile {
+.ngface-titlebar.mobile {
   border-radius: 0;
 }

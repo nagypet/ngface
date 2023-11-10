@@ -49,14 +49,19 @@ export class ResponsiveClassDirective
         const prefixes: string[] = input.split(' ');
         const deviceType = this.deviceTypeService.deviceType;
         const classNames: string[] = [];
+        // the class itself
         prefixes.forEach(prefix =>
         {
-            classNames.push(`${prefix} ${prefix}-${deviceType}`);
-            if (deviceType === 'Phone' || deviceType === 'Tablet')
-            {
-                classNames.push(`${prefix}-mobile`);
-            }
+            classNames.push(prefix);
         });
+        // device type
+        classNames.push(deviceType);
+        if (deviceType === 'Phone' || deviceType === 'Tablet')
+        {
+            classNames.push('mobile');
+        }
+        // orientation
+        classNames.push(this.deviceTypeService.orientation === 'Portrait' ? 'portrait' : 'landscape');
         const s = classNames.join(' ').toLowerCase();
         //console.log(`input: ${input} => ${s}`);
         return s;

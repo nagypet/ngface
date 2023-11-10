@@ -20,7 +20,7 @@
 
     <!-- Main part -->
     <ngface-form [formdata]="formData" mat-dialog-content (keydown.enter)="onOkClick()" responsiveClass="ngface-dialog-main">
-        <div responsiveClass="ngface-col">
+        <div responsiveClass="ngface-row">
             <ngface-numeric-input [formdata]="formData" widgetid="postCode"></ngface-numeric-input>
             <ngface-text-input [formdata]="formData" widgetid="city"></ngface-text-input>
             <ngface-text-input [formdata]="formData" widgetid="street"></ngface-text-input>

@@ -29,7 +29,7 @@
   margin-bottom: 20px;
 }
 
-.ngface-form-mobile {
+.ngface-form.mobile {
   padding: 10px 0 0 0;
   margin: 0;
   border-top: solid var(--bs-primary) 1px;
@@ -37,6 +37,11 @@
   border-bottom: none;
   border-left: none;
   border-radius: 0;
+}
+
+.ngface-form.phone.portrait {
+  max-width: 330px;
+  margin: auto;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -53,7 +58,7 @@
   }
 }
 
-.ngface-row-phone {
+.ngface-row.phone.portrait {
   align-items: unset !important;
   flex-direction: column;
 }
@@ -77,7 +82,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 .ngface-input-field {
   width: 250px;
-  max-width: 350px;
+  max-width: 330px;
   margin-bottom: 10px;
 
   mat-hint {
@@ -87,7 +92,7 @@
   }
 }
 
-.ngface-input-field-phone {
+.ngface-input-field.phone {
   width: calc(100vw - 45px) !important;
 }
 

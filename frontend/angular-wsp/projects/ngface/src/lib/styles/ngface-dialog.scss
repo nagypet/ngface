@@ -2,18 +2,18 @@
 // ngface-dialog
 //----------------------------------------------------------------------------------------------------------------------
 // Layout
-.ngface-dialog-mobile {
+.ngface-dialog.mobile {
   display: flex;
   flex-direction: column;
   //min-width: must be set programmatically, there must be a bug in mat-dialog
 }
-.ngface-dialog-phone {
+.ngface-dialog.phone {
   height: 100dvh;
 }
 
 
 // Title
-.ngface-dialog-title-mobile {
+.ngface-dialog-title.mobile {
   flex-grow: 0;
   flex-shrink: 0;
 }
@@ -23,20 +23,20 @@
   text-align: center;
 }
 
-.ngface-dialog-main-mobile {
+.ngface-dialog-main.mobile {
   flex-grow: 1;
   flex-shrink: 1;
-  overflow: hidden;
+  overflow: auto;
   margin-bottom: auto;
   max-height: unset;
   display: flex;
   flex-direction: column;
 }
 
-.ngface-dialog-main-tablet {
+.ngface-dialog-main.tablet {
   min-height: 100px;
 }
-.ngface-dialog-main-desktop {
+.ngface-dialog-main.desktop {
   min-height: 100px;
 }
 
@@ -52,7 +52,7 @@
     margin-right: 20px;
   }
 }
-.ngface-dialog-actions-mobile {
+.ngface-dialog-actions.mobile {
   display: inline!important;
   flex-grow: 0;
   flex-shrink: 0;
