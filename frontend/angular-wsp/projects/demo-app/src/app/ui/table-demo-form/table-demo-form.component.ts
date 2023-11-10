@@ -105,9 +105,7 @@ export class TableDemoFormComponent extends FormBaseComponent implements OnInit
             const dialogRef = this.dialog.open(TableDetailsDialogComponent, {
                 data: dialogData,
                 backdropClass: 'ngface-modal-dialog-backdrop',
-                minWidth: this.deviceTypeService.deviceType === 'Phone' ? '100%' : undefined,
-                minHeight: this.deviceTypeService.deviceType === 'Phone' ? '100dvh' : undefined,
-                maxHeight: Math.min(this.deviceTypeService.height, 600).toString() + 'px'
+                minWidth: this.deviceTypeService.deviceType === 'Phone' ? '100%' : undefined
             });
 
             // Subscribe to afterClosed

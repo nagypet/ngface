@@ -1,0 +1,19 @@
+//----------------------------------------------------------------------------------------------------------------------
+// ngface-button
+//----------------------------------------------------------------------------------------------------------------------
+.ngface-button {
+  margin-right: 20px;
+  margin-bottom: 15px;
+  max-width: 350px;
+}
+
+.ngface-button-phone {
+  min-height: 42px;
+  border-radius: 21px !important;
+  border: 2px solid var(--bs-primary);
+}
+
+.ngface-button-phone {
+  margin-right: 0;
+  width: 100% !important;
+}

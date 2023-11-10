@@ -15,9 +15,8 @@
 
     <!-- Dialog actions -->
     <div mat-dialog-actions responsiveClass="ngface-dialog-actions">
-        <button type="button" responsiveClass="ngface-button" mat-raised-button color="primary" (click)="onOkClick()" cdkTrapFocus
-                [cdkTrapFocusAutoCapture]="true">Close
-        </button>
-        <button type="button" responsiveClass="ngface-button" mat-raised-button (click)="onDetailsClick()">Technical info</button>
+        <ngface-button [formdata]="formData" widgetid="button-close" (click)="onOkClick()" cdkTrapFocus
+                       [cdkTrapFocusAutoCapture]="true"></ngface-button>
+        <ngface-button [formdata]="formData" widgetid="button-info" (click)="onDetailsClick()"></ngface-button>
     </div>
 </div>

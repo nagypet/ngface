@@ -41,6 +41,11 @@ export class ErrorService
             return '800px';
         }
 
+        if (this.deviceTypeService.deviceType === 'Tablet')
+        {
+            return Math.min(800, this.deviceTypeService.width * 0.8).toString() + 'px';
+        }
+
         return this.deviceTypeService.width.toString() + 'px';
     }
 

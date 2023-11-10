@@ -10,6 +10,8 @@ import {NgIf} from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
 import {DeviceTypeService} from '../../services/device-type.service';
+import {NgfaceButtonComponent} from '../../widgets/ngface-button/ngface-button.component';
+import {Ngface} from '../../ngface-models';
 
 export interface SpvitaminErrorResponse
 {
@@ -54,10 +56,11 @@ export interface StackTraceElement
     templateUrl: './ngface-error-dialog.component.html',
     styleUrls: ['./ngface-error-dialog.component.scss'],
     standalone: true,
-    imports: [MatDialogModule, MatIconModule, NgIf, NgScrollbarModule, MatButtonModule, A11yModule, ResponsiveClassDirective]
+    imports: [MatDialogModule, MatIconModule, NgIf, NgScrollbarModule, MatButtonModule, A11yModule, ResponsiveClassDirective, NgfaceButtonComponent]
 })
 export class NgfaceErrorDialogComponent implements OnInit
 {
+    formData = NgfaceErrorDialogComponent.getFormData();
     public showDetails = false;
     private data: ErrorResponse = {timestamp: new Date(), status: undefined, path: undefined, traceId: undefined, exception: undefined, statusText: undefined, message: undefined};
 
@@ -96,6 +99,25 @@ export class NgfaceErrorDialogComponent implements OnInit
                 };
             }
         });
+    }
+
+    private static getFormData(): Ngface.Form
+    {
+        return {id: 'ngface-error-dialog', title: '', widgets: NgfaceErrorDialogComponent.getWidgets()};
+    }
+
+
+    private static getWidgets(): { [index: string]: Ngface.Button; }
+    {
+        return {
+            'button-close': this.getButton('button-close', 'Close', 'PRIMARY'),
+            'button-info': this.getButton('button-info', 'Technical info', 'NONE')
+        };
+    }
+
+    private static getButton(buttonId: string, label: string, style: Ngface.Style): Ngface.Button
+    {
+        return {id: buttonId, type: 'Button', label, style, badge: '', hint: '', data: {type: 'VoidWidgetData'}, enabled: true};
     }
 
     ngOnInit(): void
