@@ -403,4 +403,4 @@ NewComponentView.java generated
 # Contact
 Developed by [perit](https://perit.hu).
 
-Try in on [http://ngface.perit.hu](http://ngface.perit.hu)
+Try in on [https://ngface.perit.hu](https://ngface.perit.hu)
