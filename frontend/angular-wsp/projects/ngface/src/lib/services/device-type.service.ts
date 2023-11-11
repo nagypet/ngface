@@ -19,13 +19,37 @@ export enum Orientation
 })
 export class DeviceTypeService
 {
-    public deviceTypeSubject: BehaviorSubject<DeviceTypes> = new BehaviorSubject<DeviceTypes>(DeviceTypes.Desktop);
-    public orientationSubject: BehaviorSubject<Orientation> = new BehaviorSubject<Orientation>(Orientation.Landscape);
-    public width = 0;
-    public height = 0;
+    // tslint:disable-next-line:variable-name
+    private _deviceTypeSubject: BehaviorSubject<DeviceTypes> = new BehaviorSubject<DeviceTypes>(DeviceTypes.Desktop);
+    get deviceTypeSubject(): BehaviorSubject<DeviceTypes>
+    {
+        return this._deviceTypeSubject;
+    }
+
+    // tslint:disable-next-line:variable-name
+    private _orientationSubject: BehaviorSubject<Orientation> = new BehaviorSubject<Orientation>(Orientation.Landscape);
+    get orientationSubject(): BehaviorSubject<Orientation>
+    {
+        return this._orientationSubject;
+    }
+
+// tslint:disable-next-line:variable-name
+    private _width = 0;
+    get width(): number
+    {
+        return this._width;
+    }
+
+    // tslint:disable-next-line:variable-name
+    private _height = 0;
+    get height(): number
+    {
+        return this._height;
+    }
+
     get isHeightXSmall(): boolean
     {
-        return this.height <= 400;
+        return this.height <= 450;
     }
 
     get deviceType(): DeviceTypes
@@ -45,8 +69,8 @@ export class DeviceTypeService
 
     public calculateDeviceType(): void
     {
-        this.width = window.innerWidth;
-        this.height = window.innerHeight;
+        this._width = window.innerWidth;
+        this._height = window.innerHeight;
 
         // Device Type
         let type: DeviceTypes;
@@ -70,10 +94,10 @@ export class DeviceTypeService
         }
 
         // Orientation
-        const o = this.width > this.height ? Orientation.Landscape : Orientation.Portrait;
-        if (o !== this.orientation)
+        const ori = this.width > this.height ? Orientation.Landscape : Orientation.Portrait;
+        if (ori !== this.orientation)
         {
-            this.orientationSubject.next(o);
+            this.orientationSubject.next(ori);
             console.log('orientation: ' + this.orientation.toString());
         }
     }

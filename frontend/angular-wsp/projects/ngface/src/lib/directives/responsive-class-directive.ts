@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-import {Directive, HostBinding, Input} from '@angular/core';
+import {Directive, HostBinding, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {DeviceTypeService} from '../services/device-type.service';
 
 @Directive({
     selector: '[responsiveClass]',
     standalone: true
 })
-export class ResponsiveClassDirective
+export class ResponsiveClassDirective implements OnChanges
 {
     // tslint:disable-next-line:variable-name
-    protected _elementClass: string[] = [];
+    protected _elementClass = '';
 
     @Input()
     responsiveClass!: string;
@@ -32,16 +32,21 @@ export class ResponsiveClassDirective
     @HostBinding('class')
     get elementClass(): string
     {
-        return this.getDeviceDependentClass(this.responsiveClass);
+        return this.getDeviceDependentClass(this._elementClass);
     }
 
     set elementClass(val: string)
     {
-        this._elementClass = val.split(' ');
+        this._elementClass = val;
     }
 
     constructor(public deviceTypeService: DeviceTypeService)
     {
+    }
+
+    ngOnChanges(changes: SimpleChanges): void
+    {
+        this._elementClass = this.responsiveClass;
     }
 
     private getDeviceDependentClass(input: string): string
