@@ -6,12 +6,10 @@
         <mat-icon>menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        @for (menuItem of getData().menu.items; track menuItem) {
-          <button mat-menu-item (click)="onMenuClick(menuItem)">
-            <mat-icon>{{menuItem.icon}}</mat-icon>
-            <span>{{menuItem.label}}</span>
-          </button>
-        }
+        <button *ngFor="let menuItem of getData().menu.items" mat-menu-item responsiveClass="ngface-menuitem" [ngClass]="getClass(menuItem)" (click)="onMenuClick(menuItem)">
+          <mat-icon>{{getIcon(menuItem)}}</mat-icon>
+          <span>{{menuItem.label}}</span>
+        </button>
       </mat-menu>
     </div>
 

@@ -3,7 +3,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {Ngface} from '../../ngface-models';
-import {NgFor} from '@angular/common';
+import {NgClass, NgFor} from '@angular/common';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatBadgeModule} from '@angular/material/badge';
 import {DeviceTypeService} from '../../services/device-type.service';
@@ -20,7 +20,8 @@ import {ResponsiveClassDirective} from '../../directives/responsive-class-direct
         NgFor,
         MatMenuModule,
         MatBadgeModule,
-        ResponsiveClassDirective
+        ResponsiveClassDirective,
+        NgClass
     ],
     standalone: true
 })
@@ -38,6 +39,7 @@ export class NgfaceTitlebarComponent
     @Output()
     actionClick: EventEmitter<Ngface.Action> = new EventEmitter();
 
+    private selectedMenuItem?: Ngface.Menu.Item;
 
     constructor(public deviceTypeService: DeviceTypeService)
     {
@@ -71,6 +73,27 @@ export class NgfaceTitlebarComponent
 
     onMenuClick(menuItem: Ngface.Menu.Item): void
     {
+        this.selectedMenuItem = menuItem;
         this.menuItemClick.emit(menuItem);
+    }
+
+    getClass(menuItem: Ngface.Menu.Item): string
+    {
+        if (menuItem.id === this.selectedMenuItem?.id)
+        {
+            return 'selected';
+        }
+
+        return '';
+    }
+
+    getIcon(menuItem: Ngface.Menu.Item): string
+    {
+        if (menuItem.id === this.selectedMenuItem?.id)
+        {
+            return 'check';
+        }
+
+        return menuItem.icon;
     }
 }
