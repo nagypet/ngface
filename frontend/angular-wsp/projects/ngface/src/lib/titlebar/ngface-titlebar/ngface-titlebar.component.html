@@ -22,25 +22,28 @@
         <mat-icon>menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button *ngFor="let menuItem of getData().menu.items" mat-menu-item responsiveClass="ngface-menuitem" [ngClass]="getClass(menuItem)" (click)="onMenuClick(menuItem)">
-          <mat-icon>{{getIcon(menuItem)}}</mat-icon>
-          <span>{{menuItem.label}}</span>
-        </button>
+        @for (menuItem of getData().menu.items;track menuItem) {
+          <button mat-menu-item responsiveClass="ngface-menuitem" [ngClass]="getClass(menuItem)"
+                  (click)="onMenuClick(menuItem)">
+            <mat-icon>{{ getIcon(menuItem) }}</mat-icon>
+            <span>{{ menuItem.label }}</span>
+          </button>
+        }
       </mat-menu>
     </div>
 
     <!-- App title -->
     <div responsiveClass="titlebar-app-title">
-      {{getData().appTitle}} {{getData().version}}
+      {{ getData().appTitle }} {{ getData().version }}
     </div>
 
     <!-- Action buttons -->
     <div responsiveClass="titlebar-actions">
-      <button *ngFor="let action of getData().actions" mat-icon-button
-              (click)="onActionClick(action)"
-      >
-        <mat-icon>{{action.icon}}</mat-icon>
-      </button>
+      @for (action of getData().actions;track action) {
+        <button mat-icon-button (click)="onActionClick(action)">
+          <mat-icon>{{ action.icon }}</mat-icon>
+        </button>
+      }
     </div>
   </mat-toolbar>
 </p>

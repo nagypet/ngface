@@ -31,82 +31,83 @@ import {ResponsiveClassDirective} from '../../directives/responsive-class-direct
 
 export interface AutocompleteRequest
 {
-    widgetId: string;
-    searchText: string;
-    valueSetProvider: AutocompleteValueSetProvider;
+  widgetId: string;
+  searchText: string;
+  valueSetProvider: AutocompleteValueSetProvider;
 }
 
 @Component({
-    selector: 'ngface-autocomplete',
-    templateUrl: './ngface-autocomplete.component.html',
-    imports: [
-        MatFormFieldModule,
-        MatOptionModule,
-        MatSelectModule,
-        NgForOf,
-        NgIf,
-        ReactiveFormsModule,
-        MatAutocompleteModule,
-        MatInputModule,
-        AsyncPipe,
-        DebounceInputDirective,
-        A11yModule,
-        ResponsiveClassDirective
-    ],
-    standalone: true
+  selector: 'ngface-autocomplete',
+  templateUrl: './ngface-autocomplete.component.html',
+  imports: [
+    MatFormFieldModule,
+    MatOptionModule,
+    MatSelectModule,
+    NgForOf,
+    NgIf,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    AsyncPipe,
+    DebounceInputDirective,
+    A11yModule,
+    ResponsiveClassDirective
+  ],
+  standalone: true
 })
 export class NgfaceAutocompleteComponent extends InputBaseComponent implements OnChanges
 {
-    @Output()
-    onAutocompleteRequest: EventEmitter<AutocompleteRequest> = new EventEmitter();
+  @Output()
+  onAutocompleteRequest: EventEmitter<AutocompleteRequest> = new EventEmitter();
 
-    valueSetProvider = new AutocompleteValueSetProvider();
+  valueSetProvider = new AutocompleteValueSetProvider();
 
-    constructor()
+  constructor()
+  {
+    super();
+  }
+
+
+  ngOnChanges(changes: { [propName: string]: SimpleChange }): void
+  {
+    super.ngOnChanges(changes);
+    this.valueSetProvider.valueSet = this.getData().data.extendedReadOnlyData.valueSet;
+  }
+
+
+  getData(): Ngface.Autocomplete
+  {
+    const widget = this.formdata?.widgets[this.widgetid];
+    if (!widget || widget?.type !== 'Autocomplete')
     {
-        super();
+      return {
+        type: 'Autocomplete',
+        data: {
+          type: 'Autocomplete.Data',
+          value: '',
+          extendedReadOnlyData: {valueSet: {remote: false, truncated: false, values: []}}
+        },
+        placeholder: 'widget id: ' + this.widgetid,
+        label: 'undefined label',
+        validators: [],
+        enabled: false,
+        id: '',
+        hint: ''
+      };
     }
+    return this.formdata?.widgets[this.widgetid] as Ngface.Autocomplete;
+  }
 
 
-    ngOnChanges(changes: { [propName: string]: SimpleChange }): void
+  onSearchTextChange($event: string): void
+  {
+    if (this.valueSetProvider.isRemote())
     {
-        super.ngOnChanges(changes);
-        this.valueSetProvider.valueSet = this.getData().data.extendedReadOnlyData.valueSet;
+      this.onAutocompleteRequest.emit({widgetId: this.widgetid, searchText: $event, valueSetProvider: this.valueSetProvider});
     }
-
-
-    getData(): Ngface.Autocomplete
+    else
     {
-        const widget = this.formdata?.widgets[this.widgetid];
-        if (!widget || widget?.type !== 'Autocomplete')
-        {
-            return {
-                type: 'Autocomplete',
-                data: {
-                    type: 'Autocomplete.Data',
-                    value: '',
-                    extendedReadOnlyData: {valueSet: {remote: false, truncated: false, values: []}}},
-                placeholder: 'widget id: ' + this.widgetid,
-                label: 'undefined label',
-                validators: [],
-                enabled: false,
-                id: '',
-                hint: ''
-            };
-        }
-        return this.formdata?.widgets[this.widgetid] as Ngface.Autocomplete;
+      this.valueSetProvider.searchText = $event;
     }
-
-
-    onSearchTextChange($event: string): void
-    {
-        if (this.valueSetProvider.isRemote())
-        {
-            this.onAutocompleteRequest.emit({widgetId: this.widgetid, searchText: $event, valueSetProvider: this.valueSetProvider});
-        }
-        else
-        {
-            this.valueSetProvider.searchText = $event;
-        }
-    }
+  }
 }

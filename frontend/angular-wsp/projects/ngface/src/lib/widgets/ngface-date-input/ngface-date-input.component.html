@@ -14,15 +14,18 @@
   ~ limitations under the License.
   -->
 
-<mat-form-field responsiveClass="ngface-input-field ngface-date-input" [floatLabel]="floatLabelControl.value" [subscriptSizing]="'dynamic'">
-  <mat-label>{{getData().label}}</mat-label>
+<mat-form-field responsiveClass="ngface-input-field ngface-date-input" [floatLabel]="floatLabelControl.value"
+                [subscriptSizing]="'dynamic'">
+  <mat-label>{{ getData().label }}</mat-label>
   <input matInput autocomplete="off" [matDatepicker]="picker"
          [formControl]="formControl"
          [required]="isRequired()"
          [errorStateMatcher]="errorStateMatcher"
   >
-  <mat-hint>{{getData().hint}}</mat-hint>
+  <mat-hint>{{ getData().hint }}</mat-hint>
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
-  <mat-error *ngIf="formControl.errors">{{getValidationErrors()}}</mat-error>
+  @if (formControl.errors) {
+    <mat-error>{{ getValidationErrors() }}</mat-error>
+  }
 </mat-form-field>

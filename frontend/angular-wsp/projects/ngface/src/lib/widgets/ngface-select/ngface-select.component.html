@@ -14,17 +14,20 @@
   ~ limitations under the License.
   -->
 
-<mat-form-field responsiveClass="ngface-input-field ngface-select" [floatLabel]="floatLabelControl.value" [subscriptSizing]="'dynamic'">
-  <mat-label>{{getData().label}}</mat-label>
+<mat-form-field responsiveClass="ngface-input-field ngface-select" [floatLabel]="floatLabelControl.value"
+                [subscriptSizing]="'dynamic'">
+  <mat-label>{{ getData().label }}</mat-label>
   <mat-select [formControl]="formControl"
               [placeholder]="getData().placeholder !== null ? getData().placeholder : ''"
               [required]="isRequired()"
               [errorStateMatcher]="errorStateMatcher"
   >
-    <mat-option *ngFor="let optionId of getOptionIds()"
-                [value]="optionId"
-    >{{getOptionValue(optionId)}}</mat-option>
+    @for (optionId of getOptionIds();track optionId) {
+      <mat-option [value]="optionId">{{ getOptionValue(optionId) }}</mat-option>
+    }
   </mat-select>
-  <mat-hint>{{getData().hint}}</mat-hint>
-  <mat-error *ngIf="formControl.errors">{{getValidationErrors()}}</mat-error>
+  <mat-hint>{{ getData().hint }}</mat-hint>
+  @if (formControl.errors) {
+    <mat-error>{{ getValidationErrors() }}</mat-error>
+  }
 </mat-form-field>

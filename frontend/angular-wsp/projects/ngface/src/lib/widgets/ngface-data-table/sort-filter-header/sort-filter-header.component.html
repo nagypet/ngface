@@ -15,14 +15,21 @@
   -->
 
 <div class="ngface-sort-filter-header">
-  <div *ngIf="sortable" class="ngface-sort-header" mat-sort-header>{{text}}</div>
-  <div *ngIf="!sortable" class="ngface-nosort-header">{{text}}</div>
-  <button *ngIf="filterable && !isActive()" class="ngface-filter-header" [ngClass]="getClass()" (click)="onFilterIconClick($event)">
-    <mat-icon class="material-icons-outlined ngface-table-header-icon">filter_list</mat-icon>
-  </button>
-  <button *ngIf="filterable && isActive()" class="ngface-filter-header" [ngClass]="getClass()" (click)="onFilterIconClick($event)">
-    <mat-icon class="material-icons-filled ngface-table-header-icon">filter_alt</mat-icon>
-  </button>
+  @if (sortable) {
+    <div class="ngface-sort-header" mat-sort-header>{{ text }}</div>
+  } @else {
+    <div class="ngface-nosort-header">{{ text }}</div>
+  }
+  @if (filterable) {
+    <button class="ngface-filter-header" [ngClass]="getClass()"
+            (click)="onFilterIconClick($event)">
+      @if (!isActive()) {
+        <mat-icon class="material-icons-outlined ngface-table-header-icon">filter_list</mat-icon>
+      } @else {
+        <mat-icon class="material-icons-filled ngface-table-header-icon">filter_alt</mat-icon>
+      }
+    </button>
+  }
 </div>
 
 <!-- Will be shown as an overlay -->
