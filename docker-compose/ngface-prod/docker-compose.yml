@@ -55,7 +55,6 @@ services:
     image: docker-registry:5000/ngface-app:latest
     ports:
       - "127.0.0.1:16000:80"
-      - "127.0.0.1:16001:443"
     networks:
       - ngface-net
     restart: unless-stopped
