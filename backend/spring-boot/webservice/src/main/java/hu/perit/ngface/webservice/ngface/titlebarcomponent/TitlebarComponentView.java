@@ -36,6 +36,7 @@ public class TitlebarComponentView  implements ComponentView
                 .menu(new Menu()
                     .addItem(new Menu.Item("widgets_demo", "Widgets demo").icon("widgets"))
                     .addItem(new Menu.Item("table_demo", "Table demo").icon("table_view"))
+                    .defaultItemId("widgets_demo")
                 )
                 .actions(List.of(
                     new Action("like").icon("favorite"),

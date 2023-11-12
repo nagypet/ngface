@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -26,90 +26,100 @@ import {DeviceTypeService} from '../../services/device-type.service';
 import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
 
 @Component({
-    selector: 'ngface-titlebar',
-    templateUrl: './ngface-titlebar.component.html',
-    styleUrls: ['./ngface-titlebar.component.scss'],
-    imports: [
-        MatToolbarModule,
-        MatIconModule,
-        MatButtonModule,
-        NgFor,
-        MatMenuModule,
-        MatBadgeModule,
-        ResponsiveClassDirective,
-        NgClass
-    ],
-    standalone: true
+  selector: 'ngface-titlebar',
+  templateUrl: './ngface-titlebar.component.html',
+  styleUrls: ['./ngface-titlebar.component.scss'],
+  imports: [
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    NgFor,
+    MatMenuModule,
+    MatBadgeModule,
+    ResponsiveClassDirective,
+    NgClass
+  ],
+  standalone: true
 })
-export class NgfaceTitlebarComponent
+export class NgfaceTitlebarComponent implements OnChanges
 {
-    @Input()
-    formdata?: Ngface.Form;
+  @Input()
+  formdata?: Ngface.Form;
 
-    @Input()
-    widgetid = '';
+  @Input()
+  widgetid = '';
 
-    @Output()
-    menuItemClick: EventEmitter<Ngface.Menu.Item> = new EventEmitter();
+  @Output()
+  menuItemClick: EventEmitter<Ngface.Menu.Item> = new EventEmitter();
 
-    @Output()
-    actionClick: EventEmitter<Ngface.Action> = new EventEmitter();
+  @Output()
+  actionClick: EventEmitter<Ngface.Action> = new EventEmitter();
 
-    private selectedMenuItem?: Ngface.Menu.Item;
+  private selectedMenuItemId?: string;
 
-    constructor(public deviceTypeService: DeviceTypeService)
+  constructor(public deviceTypeService: DeviceTypeService)
+  {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void
+  {
+    this.selectedMenuItemId = this.getData().menu.defaultItemId;
+    const item = this.getData().menu.items.find(i => i.id === this.selectedMenuItemId);
+    if (item)
     {
+      this.onMenuClick(item);
+    }
+  }
+
+  getData(): Ngface.Titlebar
+  {
+    const widget = this.formdata?.widgets[this.widgetid];
+    if (!widget || widget?.type !== 'Titlebar')
+    {
+      return {
+        type: 'Titlebar',
+        appTitle: 'App title',
+        version: '',
+        menu: {items: [], defaultItemId: ''},
+        data: {type: 'VoidWidgetData'},
+        actions: [],
+        label: 'undefined label',
+        enabled: false,
+        id: '',
+        hint: ''
+      };
+    }
+    return this.formdata?.widgets[this.widgetid] as Ngface.Titlebar;
+  }
+
+  onActionClick(action: Ngface.Action): void
+  {
+    this.actionClick.emit(action);
+  }
+
+  onMenuClick(menuItem: Ngface.Menu.Item): void
+  {
+    this.selectedMenuItemId = menuItem.id;
+    this.menuItemClick.emit(menuItem);
+  }
+
+  getClass(menuItem: Ngface.Menu.Item): string
+  {
+    if (menuItem.id === this.selectedMenuItemId)
+    {
+      return 'selected';
     }
 
-    getData(): Ngface.Titlebar
+    return '';
+  }
+
+  getIcon(menuItem: Ngface.Menu.Item): string
+  {
+    if (menuItem.id === this.selectedMenuItemId)
     {
-        const widget = this.formdata?.widgets[this.widgetid];
-        if (!widget || widget?.type !== 'Titlebar')
-        {
-            return {
-                type: 'Titlebar',
-                appTitle: 'App title',
-                version: '',
-                menu: {items: []},
-                data: {type: 'VoidWidgetData'},
-                actions: [],
-                label: 'undefined label',
-                enabled: false,
-                id: '',
-                hint: ''
-            };
-        }
-        return this.formdata?.widgets[this.widgetid] as Ngface.Titlebar;
+      return 'check';
     }
 
-    onActionClick(action: Ngface.Action): void
-    {
-        this.actionClick.emit(action);
-    }
-
-    onMenuClick(menuItem: Ngface.Menu.Item): void
-    {
-        this.selectedMenuItem = menuItem;
-        this.menuItemClick.emit(menuItem);
-    }
-
-    getClass(menuItem: Ngface.Menu.Item): string
-    {
-        if (menuItem.id === this.selectedMenuItem?.id)
-        {
-            return 'selected';
-        }
-
-        return '';
-    }
-
-    getIcon(menuItem: Ngface.Menu.Item): string
-    {
-        if (menuItem.id === this.selectedMenuItem?.id)
-        {
-            return 'check';
-        }
-
-        return menuItem.icon;
-    }
+    return menuItem.icon;
+  }
 }

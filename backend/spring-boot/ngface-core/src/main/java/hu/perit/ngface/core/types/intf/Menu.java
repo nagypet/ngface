@@ -30,6 +30,7 @@ import java.util.List;
 public class Menu
 {
     private final List<Item> items = new ArrayList<>();
+    private String defaultItemId;
 
 
     public Menu addItem(String id, String label)
@@ -41,6 +42,13 @@ public class Menu
     public Menu addItem(Item item)
     {
         this.items.add(item);
+        return this;
+    }
+
+
+    public Menu defaultItemId(String defaultItemId)
+    {
+        this.defaultItemId = defaultItemId;
         return this;
     }
 
