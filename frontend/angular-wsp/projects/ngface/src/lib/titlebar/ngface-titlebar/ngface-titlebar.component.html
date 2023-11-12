@@ -1,32 +1,32 @@
 <p>
-    <mat-toolbar color="primary" responsiveClass="ngface-titlebar">
-        <div responsiveClass="titlebar-main-menu">
-            <!-- Main menu -->
-            <button mat-icon-button [matMenuTriggerFor]="menu">
-                <mat-icon>menu</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-                <button *ngFor="let menuItem of getData().menu.items" mat-menu-item
-                        (click)="onMenuClick(menuItem)"
-                >
-                    <mat-icon>{{menuItem.icon}}</mat-icon>
-                    <span>{{menuItem.label}}</span>
-                </button>
-            </mat-menu>
-        </div>
+  <mat-toolbar color="primary" responsiveClass="ngface-titlebar">
+    <div responsiveClass="titlebar-main-menu">
+      <!-- Main menu -->
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        @for (menuItem of getData().menu.items; track menuItem) {
+          <button mat-menu-item (click)="onMenuClick(menuItem)">
+            <mat-icon>{{menuItem.icon}}</mat-icon>
+            <span>{{menuItem.label}}</span>
+          </button>
+        }
+      </mat-menu>
+    </div>
 
-        <!-- App title -->
-        <div responsiveClass="titlebar-app-title">
-            {{getData().appTitle}} {{getData().version}}
-        </div>
+    <!-- App title -->
+    <div responsiveClass="titlebar-app-title">
+      {{getData().appTitle}} {{getData().version}}
+    </div>
 
-        <!-- Action buttons -->
-        <div responsiveClass="titlebar-actions">
-            <button *ngFor="let action of getData().actions" mat-icon-button
-                    (click)="onActionClick(action)"
-            >
-                <mat-icon>{{action.icon}}</mat-icon>
-            </button>
-        </div>
-    </mat-toolbar>
+    <!-- Action buttons -->
+    <div responsiveClass="titlebar-actions">
+      <button *ngFor="let action of getData().actions" mat-icon-button
+              (click)="onActionClick(action)"
+      >
+        <mat-icon>{{action.icon}}</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
 </p>
