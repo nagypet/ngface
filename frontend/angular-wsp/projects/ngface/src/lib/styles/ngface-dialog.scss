@@ -32,7 +32,7 @@
   flex-shrink: 1;
   overflow: auto;
   margin-bottom: auto;
-  max-height: unset;
+  max-height: unset!important;
   display: flex;
   flex-direction: column;
 }

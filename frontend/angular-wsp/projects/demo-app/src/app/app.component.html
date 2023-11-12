@@ -14,26 +14,6 @@
   ~ limitations under the License.
   -->
 
-<div *ngIf="deviceTypeService.deviceType !== 'Desktop' && !deviceTypeService.isHeightXSmall; then fixed_footer_layout else scrolling_footer_layout"></div>
-
-<!-- Mobile layout -->
-<ng-template #fixed_footer_layout>
-    <div class="app">
-        <app-header class="header"></app-header>
-        <div class="main">
-            <router-outlet></router-outlet>
-        </div>
-        <app-footer class="footer"></app-footer>
-    </div>
-</ng-template>
-
-<!-- Desktop layout -->
-<ng-template #scrolling_footer_layout>
-    <div class="app">
-        <app-header class="header"></app-header>
-        <div class="main">
-            <router-outlet></router-outlet>
-            <app-footer></app-footer>
-        </div>
-    </div>
-</ng-template>
+<app-header></app-header>
+<router-outlet></router-outlet>
+<app-footer></app-footer>
