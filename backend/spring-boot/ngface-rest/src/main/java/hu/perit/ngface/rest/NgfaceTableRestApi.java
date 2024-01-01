@@ -19,6 +19,7 @@ package hu.perit.ngface.rest;
 import hu.perit.ngface.core.types.intf.DataRetrievalParams;
 import hu.perit.ngface.core.types.intf.RowSelectParams;
 import hu.perit.ngface.core.types.intf.SubmitFormData;
+import hu.perit.ngface.core.types.intf.TableActionParams;
 import hu.perit.ngface.core.widget.form.Form;
 import hu.perit.ngface.core.widget.table.Filterer;
 import jakarta.validation.Valid;
@@ -29,6 +30,7 @@ public interface NgfaceTableRestApi<I>
     String URL_GET = "/get-table";
     String URL_COLVALUESET = "/filterer";
     String URL_SELECT = "/row-select";
+    String URL_ACTIONCLICK = "/action-click";
 
     @PostMapping(URL_GET)
     Form getTable(@Valid @RequestBody DataRetrievalParams dataRetrievalParams);
@@ -46,6 +48,8 @@ public interface NgfaceTableRestApi<I>
     @PutMapping(URL_SELECT)
     void onRowSelect(@Valid @RequestBody RowSelectParams<I> rowSelectParams) throws Exception;
 
+    @PutMapping(URL_ACTIONCLICK)
+    void onActionClick(@Valid @RequestBody TableActionParams<I> tableActionParams) throws Exception;
 
     @PostMapping
     void submitTable(@RequestBody SubmitFormData submitFormData);

@@ -1,0 +1,65 @@
+package hu.perit.ngface.sse.notification;
+
+import hu.perit.spvitamin.core.exception.ExceptionWrapper;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = true)
+public class SseMessageNotification extends SseNotification
+{
+
+    public static final String TXT_ERROR = "ERROR";
+
+    public enum Level
+    {
+        INFO,
+        WARNING,
+        ERROR
+    }
+
+    private final Level level;
+    @Nullable
+    private final String message;
+    @Nullable
+    private final String details;
+    @Nullable
+    private final String errorText;
+
+    public static SseMessageNotification create(Level level, String message, String details)
+    {
+        return new SseMessageNotification(level, message, details, null);
+    }
+
+    public static SseMessageNotification create(Throwable throwable)
+    {
+        if (throwable == null)
+        {
+            return create(Level.ERROR, TXT_ERROR, null);
+        }
+
+        ExceptionWrapper exception = ExceptionWrapper.of(throwable);
+        String message = Optional.ofNullable(exception.getRootCause())
+                .map(t -> StringUtils.isNotBlank(t.getMessage()) ? t.getMessage() : t.toString())
+                .orElse(TXT_ERROR);
+        String details = throwable.getMessage();
+        return create(Level.ERROR, StringUtils.abbreviate(message, 50), StringUtils.abbreviate(message.equalsIgnoreCase(details) ? null : details, 200));
+    }
+
+    public SseMessageNotification(Level level, @Nullable String message, @Nullable String details, @Nullable String errorText)
+    {
+        super(Type.MESSAGE);
+        this.level = level;
+        this.message = message;
+        this.details = details;
+        this.errorText = errorText;
+    }
+}

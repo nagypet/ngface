@@ -71,7 +71,7 @@
                             [disabled]="!action.enabled"
                             [matTooltip]="action.enabled ? action.label : ''"
                             matTooltipPosition="above"
-                            (click)="$event.stopPropagation(); actionClick(row, action.id)"
+                            (click)="$event.stopPropagation(); actionClick(row, action)"
                     >
                       <mat-icon class="material-icons-outlined" [ngClass]="getActionClass(action)">{{ action.icon }}
                       </mat-icon>

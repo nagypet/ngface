@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
@@ -37,11 +38,11 @@ class TextInputTest
 
         try
         {
-            String json = new JSonSerializer().toJson(data);
+            String json = JSonSerializer.toJson(data);
             log.debug(json);
             WidgetData deserializedData = JSonSerializer.fromJson(json, WidgetData.class);
             log.debug(deserializedData.toString());
-            assertTrue(data.equals(deserializedData));
+            assertEquals(data, deserializedData);
         }
         catch (IOException e)
         {

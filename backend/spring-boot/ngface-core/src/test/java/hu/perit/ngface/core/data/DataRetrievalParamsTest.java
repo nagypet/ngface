@@ -40,7 +40,7 @@ class DataRetrievalParamsTest
 
         try
         {
-            String json = new JSonSerializer().toJson(dataRetrievalParams);
+            String json = JSonSerializer.toJson(dataRetrievalParams);
             log.debug(json);
             DataRetrievalParams deserializedData = JSonSerializer.fromJson(json, DataRetrievalParams.class);
             log.debug(deserializedData.toString());

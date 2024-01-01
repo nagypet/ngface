@@ -15,23 +15,23 @@
  */
 
 import {AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild} from '@angular/core';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, SortDirection, MatSortModule } from '@angular/material/sort';
-import { MatTable, MatTableModule } from '@angular/material/table';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatSort, MatSortModule, SortDirection} from '@angular/material/sort';
+import {MatTable, MatTableModule} from '@angular/material/table';
 import {DataTableDataSource} from './data-table-datasource';
 import {tap} from 'rxjs/operators';
 import {merge} from 'rxjs';
-import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
+import {MatCheckboxChange, MatCheckboxModule} from '@angular/material/checkbox';
 import {NumericFormatter} from '../../numeric-formatter';
 import {ValueSetSearchEvent} from './excel-filter/excel-filter.component';
 import {Ngface} from '../../ngface-models';
-import { SafeHtmlPipe } from '../../directives/safe-html.pipe';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { SortFilterHeaderComponent } from './sort-filter-header/sort-filter-header.component';
-import { NgScrollbarModule } from 'ngx-scrollbar';
-import { NgClass, NgIf, NgFor } from '@angular/common';
+import {SafeHtmlPipe} from '../../directives/safe-html.pipe';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {SortFilterHeaderComponent} from './sort-filter-header/sort-filter-header.component';
+import {NgScrollbarModule} from 'ngx-scrollbar';
+import {NgClass, NgFor, NgIf} from '@angular/common';
 import ActionCell = Ngface.ActionCell;
 import NumericCell = Ngface.NumericCell;
 import DataRetrievalParams = Ngface.DataRetrievalParams;
@@ -50,9 +50,9 @@ export interface TableViewParamsChangeEvent
   filtererMap: { [index: string]: Ngface.Filterer };
 }
 
-export interface ActionClickEvent
+export interface ActionClickEvent<T>
 {
-  row: Ngface.Row<any>;
+  row: Ngface.Row<T>;
   actionId: string;
 }
 
@@ -69,11 +69,11 @@ export interface TableMasterToggleEvent
 
 
 @Component({
-    selector: 'ngface-data-table',
-    templateUrl: './ngface-data-table.component.html',
-    styleUrls: ['./ngface-data-table.component.scss'],
-    standalone: true,
-    imports: [NgClass, NgIf, NgScrollbarModule, MatTableModule, MatSortModule, NgFor, MatCheckboxModule, SortFilterHeaderComponent, MatTooltipModule, MatButtonModule, MatIconModule, MatPaginatorModule, SafeHtmlPipe]
+  selector: 'ngface-data-table',
+  templateUrl: './ngface-data-table.component.html',
+  styleUrls: ['./ngface-data-table.component.scss'],
+  standalone: true,
+  imports: [NgClass, NgIf, NgScrollbarModule, MatTableModule, MatSortModule, NgFor, MatCheckboxModule, SortFilterHeaderComponent, MatTooltipModule, MatButtonModule, MatIconModule, MatPaginatorModule, SafeHtmlPipe]
 })
 export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
 {
@@ -93,7 +93,7 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
   rowClickEvent: EventEmitter<Ngface.Row<any>> = new EventEmitter();
 
   @Output()
-  actionClickEvent: EventEmitter<ActionClickEvent> = new EventEmitter();
+  actionClickEvent: EventEmitter<ActionClickEvent<any>> = new EventEmitter();
 
   @Output()
   tableValueSetSearchEvent: EventEmitter<TableValueSetSearchEvent> = new EventEmitter();
@@ -541,9 +541,9 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
     return !this.dataSource.getRows().find(r => !r.selected);
   }
 
-  actionClick(row: Ngface.Row<any>, actionId: string): void
+  actionClick(row: Ngface.Row<any>, action: Ngface.Action): void
   {
-    this.actionClickEvent.emit({row, actionId});
+    this.actionClickEvent.emit({row, actionId: action.id});
   }
 
   getActions(row: Ngface.Row<any>, column: string): Ngface.Action[] | null

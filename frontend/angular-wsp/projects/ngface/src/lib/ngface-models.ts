@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.36.1070 on 2023-11-12 10:53:23.
+// Generated using typescript-generator version 2.36.1070 on 2023-12-16 07:57:56.
 
 export namespace Ngface {
 
@@ -25,10 +25,10 @@ export namespace Ngface {
         widgetDataMap: { [index: string]: WidgetData };
     }
 
-    export interface TableActionParams {
+    export interface TableActionParams<T> {
         actionTriggerMode: ActionTriggerMode;
         actionId: string;
-        rowId: string | null;
+        rowId: T | null;
     }
 
     export interface Button extends Widget<VoidWidgetData, Button> {

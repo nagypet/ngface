@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-}
-
 plugins {
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
@@ -43,8 +37,8 @@ dependencies {
     implementation project(':ngface-core')
 
     // Lombok
-    compileOnly "org.projectlombok:lombok"
-    annotationProcessor "org.projectlombok:lombok"
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
     // Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -66,12 +60,6 @@ dependencies {
     // Lombok
     testCompileOnly "org.projectlombok:lombok"
     testAnnotationProcessor "org.projectlombok:lombok"
-
-    // spvitamin
-//    testImplementation project(':spvitamin-core')
-//    testImplementation project(':spvitamin-spring-general')
-    testImplementation 'hu.perit.spvitamin:spvitamin-core'
-    testImplementation 'hu.perit.spvitamin:spvitamin-spring-general'
 
     testImplementation 'ch.qos.logback:logback-classic:1.4.7'
     testImplementation 'ch.qos.logback:logback-core:1.4.7'

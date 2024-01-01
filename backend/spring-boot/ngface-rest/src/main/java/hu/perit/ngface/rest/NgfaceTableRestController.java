@@ -21,6 +21,7 @@ import hu.perit.ngface.core.data.ComponentDTO;
 import hu.perit.ngface.core.types.intf.DataRetrievalParams;
 import hu.perit.ngface.core.types.intf.RowSelectParams;
 import hu.perit.ngface.core.types.intf.SubmitFormData;
+import hu.perit.ngface.core.types.intf.TableActionParams;
 import hu.perit.ngface.core.view.ComponentView;
 import hu.perit.ngface.core.widget.form.Form;
 import hu.perit.ngface.core.widget.table.Filterer;
@@ -28,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public abstract class NgfaceTableRestController<C extends TableController<D, ?, I>, D extends ComponentDTO, V extends ComponentView, I>
-    implements NgfaceTableRestApi<I>
+        implements NgfaceTableRestApi<I>
 {
     private final C tableController;
 
@@ -62,6 +63,11 @@ public abstract class NgfaceTableRestController<C extends TableController<D, ?, 
         this.tableController.onRowSelect(rowSelectParams);
     }
 
+    @Override
+    public void onActionClick(TableActionParams<I> tableActionParams) throws Exception
+    {
+        this.tableController.onActionClick(tableActionParams);
+    }
 
     @Override
     public void submitTable(SubmitFormData submitFormData)

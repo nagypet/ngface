@@ -28,6 +28,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -50,6 +51,20 @@ public class Row<T>
     public Row<T> putCell(String colId, String text)
     {
         this.cells.put(colId, new TextCell(text));
+        return this;
+    }
+
+    public Row<T> putCell(String colId, OffsetDateTime offsetDateTime)
+    {
+        if (offsetDateTime != null)
+        {
+            String text = offsetDateTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            this.cells.put(colId, new TextCell(text));
+        }
+        else
+        {
+            this.cells.put(colId, new TextCell(""));
+        }
         return this;
     }
 

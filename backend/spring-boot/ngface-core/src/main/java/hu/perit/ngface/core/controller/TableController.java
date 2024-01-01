@@ -40,7 +40,7 @@ public interface TableController<D, R extends AbstractTableRow<I>, I>
      *
      * @param tableActionParams
      */
-    void onActionClick(TableActionParams tableActionParams) throws Exception;
+    void onActionClick(TableActionParams<I> tableActionParams) throws Exception;
 
 
     /**
