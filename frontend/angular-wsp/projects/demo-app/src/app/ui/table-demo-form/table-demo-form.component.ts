@@ -97,7 +97,7 @@ export class TableDemoFormComponent extends FormBaseComponent implements OnInit
     }
 
 
-    onTableActionClick($event: ActionClickEvent): void
+    onTableActionClick($event: ActionClickEvent<number>): void
     {
         if ($event.actionId === 'edit')
         {
