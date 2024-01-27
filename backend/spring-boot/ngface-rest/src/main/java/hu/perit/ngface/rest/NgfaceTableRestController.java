@@ -31,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 public abstract class NgfaceTableRestController<C extends TableController<D, ?, I>, D extends ComponentDTO, V extends ComponentView, I>
         implements NgfaceTableRestApi<I>
 {
-    private final C tableController;
+    protected final C tableController;
 
 
     @Override
