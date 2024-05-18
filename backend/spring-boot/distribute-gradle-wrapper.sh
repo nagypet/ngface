@@ -26,4 +26,5 @@ copyTo generator
 copyTo ngface-core
 copyTo ngface-data-jpa
 copyTo ngface-rest
+copyTo ngface-sse
 copyTo webservice

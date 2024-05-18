@@ -27,6 +27,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -63,10 +64,17 @@ public abstract class NgfaceQueryServiceImpl<E> implements NgfaceQueryService<E>
             pageRequest = PageRequest.of(pageNumberInt, pageSizeInt, Sort.by(getDefaultSortOrder()));
         }
 
-        if (dataRetrievalParams.getFilters() != null && !dataRetrievalParams.getFilters().isEmpty())
+        // Default filters allow a 'hard-coded' filter to be applied always for the given view
+        List<DataRetrievalParams.Filter> filters = getDefaultFilters();
+        if (dataRetrievalParams.getFilters() != null)
+        {
+            filters.addAll(dataRetrievalParams.getFilters());
+        }
+
+        if (!filters.isEmpty())
         {
             Specification<E> spec = null;
-            for (DataRetrievalParams.Filter filter : dataRetrievalParams.getFilters())
+            for (DataRetrievalParams.Filter filter : filters)
             {
                 if (StringUtils.isNotBlank(filter.getColumn()))
                 {
@@ -87,6 +95,12 @@ public abstract class NgfaceQueryServiceImpl<E> implements NgfaceQueryService<E>
         }
 
         return this.repo.findAll(pageRequest);
+    }
+
+
+    protected List<DataRetrievalParams.Filter> getDefaultFilters()
+    {
+        return Collections.emptyList();
     }
 
 
