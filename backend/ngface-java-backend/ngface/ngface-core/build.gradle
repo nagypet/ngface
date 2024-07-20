@@ -1,0 +1,158 @@
+/*
+ * Copyright 2020-2022 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'cz.habarta.typescript-generator', name: 'typescript-generator-gradle-plugin', version: '2.36.1070'
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
+    id 'java-library'
+}
+apply plugin: 'cz.habarta.typescript-generator'
+apply from: '../gradle/common.gradle'
+
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+
+dependencies {
+    implementation 'org.jetbrains:annotations:20.1.0'
+
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Compile dependencies
+    // -----------------------------------------------------------------------------------------------------------------
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // apache.commons
+    implementation "org.apache.commons:commons-lang3:${commonsLang3Version}"
+    implementation "org.apache.commons:commons-collections4:${commonsCollections4Version}"
+
+    // Validation
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+    implementation 'org.hibernate:hibernate-validator:8.0.0.Final'
+    implementation 'org.glassfish.expressly:expressly:5.0.0'
+
+    // FasterXML
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+    implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    // Mapstruct
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+    // Slf4J
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+
+    // Google findbugs
+    implementation "com.google.code.findbugs:${findbugsVersion}"
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Test dependencies
+    // -----------------------------------------------------------------------------------------------------------------
+    // Lombok
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+    // spvitamin
+//    testImplementation project(':spvitamin-core')
+//    testImplementation project(':spvitamin-spring-general')
+    testImplementation 'hu.perit.spvitamin:spvitamin-core'
+    testImplementation 'hu.perit.spvitamin:spvitamin-spring-general'
+
+    // JUnit
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
+
+    // AssertJ
+    testImplementation 'org.assertj:assertj-core:3.24.2'
+
+    testImplementation 'ch.qos.logback:logback-classic:1.4.7'
+    testImplementation 'ch.qos.logback:logback-core:1.4.7'
+}
+
+
+dependencyManagement {
+    imports {
+        mavenBom "hu.perit.spvitamin:spvitamin-dependencies:${spvitaminVersion}"
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+
+generateTypeScript {
+    jsonLibrary = 'jackson2'
+    classPatterns = [
+            'hu.perit.ngface.core.widget.input.**',
+            'hu.perit.ngface.core.widget.form.**',
+            'hu.perit.ngface.core.widget.button.**',
+            'hu.perit.ngface.core.widget.table.**',
+            'hu.perit.ngface.core.widget.formattedtext.**',
+            'hu.perit.ngface.core.widget.titlebar.**',
+            'hu.perit.ngface.core.types.intf.*'
+    ]
+    customTypeNaming = [
+            'hu.perit.ngface.core.widget.input.TextInput$Data:TextInput.Data',
+            'hu.perit.ngface.core.widget.input.NumericInput$Data:NumericInput.Data',
+            'hu.perit.ngface.core.widget.input.DateInput$Data:DateInput.Data',
+            'hu.perit.ngface.core.widget.input.DateTimeInput$Data:DateTimeInput.Data',
+            'hu.perit.ngface.core.widget.input.DateRangeInput$Data:DateRangeInput.Data',
+            'hu.perit.ngface.core.widget.input.Select$Data:Select.Data',
+            'hu.perit.ngface.core.widget.formattedtext.FormattedText$Data:FormattedText.Data',
+            'hu.perit.ngface.core.widget.table.Table$SelectMode:Table.SelectMode',
+            'hu.perit.ngface.core.widget.table.Table$Data:Table.Data',
+            'hu.perit.ngface.core.widget.table.Column$Size:Column.Size',
+            'hu.perit.ngface.core.widget.table.ValueSet$Item:ValueSet.Item',
+            'hu.perit.ngface.core.types.intf.DataRetrievalParams$Page:DataRetrievalParams.Page',
+            'hu.perit.ngface.core.types.intf.DataRetrievalParams$Sort:DataRetrievalParams.Sort',
+            'hu.perit.ngface.core.types.intf.DataRetrievalParams$Filter:DataRetrievalParams.Filter',
+            'hu.perit.ngface.core.types.intf.DataRetrievalParams$Filter$Item:DataRetrievalParams.Filter.Item',
+            'hu.perit.ngface.core.types.intf.RowSelectParams$SelectMode:RowSelectParams.SelectMode',
+            'hu.perit.ngface.core.types.intf.RowSelectParams$Row:RowSelectParams.Row',
+            'hu.perit.ngface.core.types.intf.Menu$Item:Menu.Item'
+    ]
+    outputFile = 'build/ngface-models.ts'
+    outputFileType = 'implementationFile'
+    outputKind = 'module'
+    namespace = 'Ngface'
+    //disableTaggedUnions = true
+    optionalProperties = 'useSpecifiedAnnotations'
+    optionalAnnotations = [
+            'javax.annotation.Nullable'
+    ]
+    optionalPropertiesDeclaration = 'nullableType'
+}
+
+dist.configure {
+    finalizedBy generateTypeScript
+}

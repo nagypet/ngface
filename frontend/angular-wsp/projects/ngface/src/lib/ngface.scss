@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp");
+//@import url("https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp");
+@import './styles/material-design-icons';
 @import '@angular/cdk/overlay-prebuilt.css';
 @import './styles/ngface-button';
 @import './styles/ngface-dialog';
