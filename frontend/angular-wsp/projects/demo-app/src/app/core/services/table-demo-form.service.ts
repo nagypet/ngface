@@ -25,7 +25,7 @@ import {environment} from '../../../environments/environment';
 })
 export class TableDemoFormService
 {
-    private readonly serviceUrl = `/frontend/forms/table-form`;
+    private readonly serviceUrl = '/frontend/forms/table-form';
 
 
     constructor(private httpClient: HttpClient)

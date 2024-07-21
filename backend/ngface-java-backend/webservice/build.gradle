@@ -30,7 +30,7 @@ apply from: '../gradle/docker.gradle'
 
 
 repositories {
-	mavenCentral()
+    mavenCentral()
     mavenLocal()
 }
 
@@ -49,6 +49,7 @@ dependencies {
     implementation project(':ngface-core')
     implementation project(':ngface-rest')
     implementation project(':ngface-data-jpa')
+    implementation project(':ngface-sse')
 
 //    implementation project(':spvitamin-core')
 //    implementation project(':spvitamin-spring-general')
@@ -73,7 +74,7 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
 
     // Spring Boot
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -89,25 +90,25 @@ dependencies {
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 
     // Swagger
-    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.3"
-    implementation "org.springdoc:springdoc-openapi-starter-webmvc-api:2.0.3"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${sprindocVersion}"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-api:${sprindocVersion}"
 
     // apache.commons
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation "org.apache.commons:commons-lang3:${commonsLang3Version}"
 
     // Validation
-    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+    implementation 'jakarta.validation:jakarta.validation-api'
     implementation 'org.hibernate:hibernate-validator:8.0.0.Final'
 
     // Guava
-    implementation 'com.google.guava:guava:31.1-jre'
+    implementation "com.google.guava:guava:${guavaVersion}"
 
     // Mapstruct
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
     // OpenCSV
-    implementation 'com.opencsv:opencsv:5.7.1'
+    implementation "com.opencsv:opencsv:${openCsvVersion}"
 
     // Slf4J
     implementation 'org.slf4j:slf4j-api:2.0.7'
@@ -135,7 +136,7 @@ dependencyManagement {
 
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 

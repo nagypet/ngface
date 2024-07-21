@@ -16,44 +16,47 @@
 
 
 <div responsiveClass="container">
-    <!-- Form part -->
-    <div responsiveClass="ngface-form">
-        <ngface-form [formdata]="formData" (keydown.enter)="onOkClick()">
-            <p>This is a form with some widgets. The types, contents, hints, placeholders, validators of the widgets are set in the backend.
-                See
-                the network tab in your browser's developer tools windows to see the data flow between the backend and frontend.</p>
-            <div responsiveClass="ngface-row">
-                <ngface-text-input [formdata]="formData" widgetid="name"></ngface-text-input>
-                <ngface-text-input [formdata]="formData" widgetid="place-of-birth"></ngface-text-input>
-                <ngface-text-input [formdata]="formData" widgetid="email"></ngface-text-input>
-                <ngface-text-input [formdata]="formData" widgetid="role"></ngface-text-input>
-            </div>
-            <div responsiveClass="ngface-row">
-                <ngface-numeric-input [formdata]="formData" widgetid="price"></ngface-numeric-input>
-                <ngface-numeric-input [formdata]="formData" widgetid="count-samples"></ngface-numeric-input>
-                <ngface-text-input [formdata]="formData" widgetid="account-no"></ngface-text-input>
-            </div>
-            <div responsiveClass="ngface-row">
-                <ngface-date-input [formdata]="formData" widgetid="check-in-date"></ngface-date-input>
-                <ngface-date-input [formdata]="formData" widgetid="check-out-date"></ngface-date-input>
-                <ngface-date-range-input [formdata]="formData" widgetid="date-range"></ngface-date-range-input>
-                <ngface-date-range-input [formdata]="formData" widgetid="date-range2"></ngface-date-range-input>
-            </div>
-            <div responsiveClass="ngface-row">
-                <ngface-select [formdata]="formData" widgetid="select"></ngface-select>
-                <ngface-select [formdata]="formData" widgetid="select2"></ngface-select>
-                <ngface-select [formdata]="formData" widgetid="select3"></ngface-select>
-            </div>
-            <div responsiveClass="ngface-row">
-                <ngface-autocomplete [formdata]="formData" widgetid="autocomplete"></ngface-autocomplete>
-                <ngface-autocomplete [formdata]="formData" widgetid="autocomplete-streets"
-                                     (onAutocompleteRequest)="onAutocompleteRequest($event)"
-                ></ngface-autocomplete>
-            </div>
-            <div responsiveClass="ngface-dialog-actions">
-                <ngface-button [formdata]="formData" widgetid="button-ok" (click)="onOkClick()"></ngface-button>
-                <ngface-button [formdata]="formData" widgetid="button-delete" (click)="onDeleteClick()"></ngface-button>
-            </div>
-        </ngface-form>
-    </div>
+  <!-- Form part -->
+  <div responsiveClass="ngface-form">
+    <ngface-form [formdata]="formData" (keydown.enter)="onOkClick()">
+      <p>This is a form with some widgets. The types, contents, hints, placeholders, validators of the widgets are set
+        in the backend.
+        See
+        the network tab in your browser's developer tools windows to see the data flow between the backend and
+        frontend.</p>
+      <div responsiveClass="ngface-row">
+        <ngface-text-input [formdata]="formData" widgetid="name"></ngface-text-input>
+        <ngface-text-input [formdata]="formData" widgetid="place-of-birth"></ngface-text-input>
+        <ngface-text-input [formdata]="formData" widgetid="email"></ngface-text-input>
+        <ngface-text-input [formdata]="formData" widgetid="role"></ngface-text-input>
+      </div>
+      <div responsiveClass="ngface-row">
+        <ngface-numeric-input [formdata]="formData" widgetid="price"></ngface-numeric-input>
+        <ngface-numeric-input [formdata]="formData" widgetid="count-samples"></ngface-numeric-input>
+        <ngface-text-input [formdata]="formData" widgetid="account-no"></ngface-text-input>
+        <p>SSE lastEventId: {{lastEventId}}</p>
+      </div>
+      <div responsiveClass="ngface-row">
+        <ngface-date-input [formdata]="formData" widgetid="check-in-date"></ngface-date-input>
+        <ngface-date-input [formdata]="formData" widgetid="check-out-date"></ngface-date-input>
+        <ngface-date-range-input [formdata]="formData" widgetid="date-range"></ngface-date-range-input>
+        <ngface-date-range-input [formdata]="formData" widgetid="date-range2"></ngface-date-range-input>
+      </div>
+      <div responsiveClass="ngface-row">
+        <ngface-select [formdata]="formData" widgetid="select"></ngface-select>
+        <ngface-select [formdata]="formData" widgetid="select2"></ngface-select>
+        <ngface-select [formdata]="formData" widgetid="select3"></ngface-select>
+      </div>
+      <div responsiveClass="ngface-row">
+        <ngface-autocomplete [formdata]="formData" widgetid="autocomplete"></ngface-autocomplete>
+        <ngface-autocomplete [formdata]="formData" widgetid="autocomplete-streets"
+                             (onAutocompleteRequest)="onAutocompleteRequest($event)"
+        ></ngface-autocomplete>
+      </div>
+      <div responsiveClass="ngface-dialog-actions">
+        <ngface-button [formdata]="formData" widgetid="button-ok" (click)="onOkClick()"></ngface-button>
+        <ngface-button [formdata]="formData" widgetid="button-delete" (click)="onDeleteClick()"></ngface-button>
+      </div>
+    </ngface-form>
+  </div>
 </div>

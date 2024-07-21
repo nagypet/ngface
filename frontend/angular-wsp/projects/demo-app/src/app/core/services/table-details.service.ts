@@ -25,7 +25,7 @@ import {Ngface} from '../../../../../ngface/src/lib/ngface-models';
 })
 export class TableDetailsService
 {
-    private readonly serviceUrl = `/frontend/forms/table-details-form`;
+    private readonly serviceUrl = '/frontend/forms/table-details-form';
 
     constructor(private httpClient: HttpClient)
     {

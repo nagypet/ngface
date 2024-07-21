@@ -22,7 +22,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"hu.perit.spvitamin", "hu.perit.ngface.webservice"})
+@ComponentScan(basePackages = {"hu.perit.spvitamin", "hu.perit.ngface", "hu.perit.ngface.webservice"})
 public class NgfaceApplication
 {
 
