@@ -269,10 +269,13 @@
 
 .mat-badge-content {
   width: auto !important;
-  min-width: 22px;
-  padding: 0 5px 0 5px;
-  border-radius: 11px;
-  text-overflow: unset;
+  min-width: 22px !important;
+  padding: 0 5px 0 5px !important;
+  border-radius: 11px !important;
+  text-overflow: unset !important;
+  z-index: 2147483647 !important;
+  right: 0 !important;
+  left: unset !important;
 }
 
 .mdc-checkbox__ripple {

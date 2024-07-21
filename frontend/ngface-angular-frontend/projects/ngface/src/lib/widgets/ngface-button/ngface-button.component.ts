@@ -16,10 +16,10 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {Ngface} from '../../ngface-models';
-import { MatBadgeModule } from '@angular/material/badge';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { NgClass } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {NgClass} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
 import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
 
 @Component({
