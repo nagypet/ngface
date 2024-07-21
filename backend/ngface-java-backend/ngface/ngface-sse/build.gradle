@@ -14,15 +14,6 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'cz.habarta.typescript-generator', name: 'typescript-generator-gradle-plugin', version: '2.36.1070'
-    }
-}
-
 plugins {
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
@@ -30,8 +21,8 @@ plugins {
     id 'jacoco'
     id 'maven-publish'
     id 'signing'
+    id 'cz.habarta.typescript-generator' version '3.2.1263'
 }
-apply plugin: 'cz.habarta.typescript-generator'
 apply from: '../gradle/common.gradle'
 
 
