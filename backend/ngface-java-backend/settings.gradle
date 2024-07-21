@@ -2,4 +2,4 @@
 
 apply from: 'gradle/include-subprojects.gradle' 
 
-rootProject.name = 'ngface'
+rootProject.name = 'ngface-java-backend'
