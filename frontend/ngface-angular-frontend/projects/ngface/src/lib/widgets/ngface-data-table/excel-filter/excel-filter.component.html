@@ -33,7 +33,7 @@
       <div class="list-item" (click)="onItemSelected(valueSetItem)">
         @if (valueSetItem.selectable) {
           <mat-checkbox
-            [(ngModel)]="valueSetItem.masterSelect ? isAllSelected(valueSetItem): valueSetItem.selected"
+            [ngModel]="valueSetItem.masterSelect ? isAllSelected(valueSetItem): valueSetItem.selected"
             [disabled]="!isCheckBoxEnabled(valueSetItem)"
             [indeterminate]="isAnySelected(valueSetItem) && !isAllSelected(valueSetItem)"
             (ngModelChange)="onCheckBoxClicked(valueSetItem, $event)"
