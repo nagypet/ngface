@@ -17,6 +17,7 @@
 package hu.perit.ngface.sse;
 
 import hu.perit.spvitamin.core.StackTracer;
+import hu.perit.spvitamin.core.exception.ExceptionGuard;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,9 +40,11 @@ import java.util.function.BiFunction;
  * an instance of an SseEvent (Server-sent-event) object. Calling the fire() method from within the backend will initiate
  * the sending of an event to each frontend which are subscribed.
  *
- * @param <T> Type of event to be sent to the client
- * @param <F> Type of filter key of subscriptions. This can be used to reduce network traffic in order only subscribers
- *            matching a certain criteria will receive the event.
+ * @param <T>
+ *     Type of event to be sent to the client
+ * @param <F>
+ *     Type of filter key of subscriptions. This can be used to reduce network traffic in order only subscribers
+ *     matching a certain criteria will receive the event.
  * @author np
  */
 @Slf4j
@@ -60,11 +63,13 @@ public class ServerSentEvent<T, F>
     private final AtomicInteger lastEventId = new AtomicInteger(0);
     private final CircularFifoQueue<EventQueueItem<T>> eventQueue;
 
+
     public ServerSentEvent()
     {
         this.resendPolicy = ResendPolicy.ONLY_LAST_EVENT;
         this.eventQueue = new CircularFifoQueue<>(1);
     }
+
 
     public ServerSentEvent(ResendPolicy resendPolicy, int maxEventQueueSize)
     {
@@ -74,9 +79,11 @@ public class ServerSentEvent<T, F>
 
 
     /**
-     * @param lastReceivedEventIdAsString When the SSE connection was closed, the browser sends a new subscribe request, and in this request, he sends
-     *                                    the last received message id. Upon receiving a non null lastReceivedEventIdAsString, the server should resend the last event.
-     * @param filterKey                   This key can be used to filter subscriptions in the fire() method.
+     * @param lastReceivedEventIdAsString
+     *     When the SSE connection was closed, the browser sends a new subscribe request, and in this request, he sends
+     *     the last received message id. Upon receiving a non null lastReceivedEventIdAsString, the server should resend the last event.
+     * @param filterKey
+     *     This key can be used to filter subscriptions in the fire() method.
      * @return
      */
     public synchronized Subscription<F> subscribe(String lastReceivedEventIdAsString, F filterKey)
@@ -130,6 +137,7 @@ public class ServerSentEvent<T, F>
         }
     }
 
+
     /**
      * Default media type is Json. This function should not throw any exception.
      *
@@ -146,6 +154,7 @@ public class ServerSentEvent<T, F>
             this.sendEvent(subscription, eventId, args);
         }
     }
+
 
     /**
      * Default media type is Json. This function should not throw any exception.
@@ -167,6 +176,7 @@ public class ServerSentEvent<T, F>
         }
     }
 
+
     /**
      * This event type sends the last eventId to the frontend
      *
@@ -178,10 +188,12 @@ public class ServerSentEvent<T, F>
         this.sendEvent("synchronizing", subscription, eventId, null);
     }
 
+
     private void sendEvent(Subscription<F> subscription, int eventId, T args)
     {
         this.sendEvent("message", subscription, eventId, args);
     }
+
 
     private void sendEvent(String eventName, Subscription<F> subscription, int eventId, T args)
     {
@@ -189,9 +201,9 @@ public class ServerSentEvent<T, F>
         {
             log.debug("Sending event {}:{} => subscription {}", eventName, eventId, subscription.id);
             SseEmitter.SseEventBuilder event = SseEmitter.event()
-                    .data(args == null ? "NULL" : args)
-                    .name(eventName)
-                    .id(String.valueOf(eventId));
+                .data(args == null ? "NULL" : args)
+                .name(eventName)
+                .id(String.valueOf(eventId));
             // Ha SseEventBuilder-t adunk át, akkor nem lehet MediaType-ot definiálni
             subscription.send(event);
             //subscription.send(args, MediaType.APPLICATION_JSON);
@@ -199,7 +211,8 @@ public class ServerSentEvent<T, F>
         catch (Exception ex)
         {
             log.info("Subscription failed: {}", subscription.id);
-            subscription.completeWithError(ex);
+            // completeWithError has been commented out with spring boot 3.3.2 because it just caused problems.
+            //subscription.completeWithError(ex);
             if (ex instanceof IOException)
             {
                 log.info(ex.toString());
@@ -219,12 +232,14 @@ public class ServerSentEvent<T, F>
         private final int id;
         private final F filterKey;
 
+
         public Subscription(int id, Long timeout, F filterKey)
         {
             super(timeout);
             this.id = id;
             this.filterKey = filterKey;
         }
+
 
         @Override
         public boolean equals(Object o)
@@ -242,16 +257,17 @@ public class ServerSentEvent<T, F>
             Subscription<?> that = (Subscription<?>) o;
 
             return new EqualsBuilder()
-                    .append(id, that.id)
-                    .isEquals();
+                .append(id, that.id)
+                .isEquals();
         }
+
 
         @Override
         public int hashCode()
         {
             return new HashCodeBuilder(17, 37)
-                    .append(id)
-                    .toHashCode();
+                .append(id)
+                .toHashCode();
         }
     }
 

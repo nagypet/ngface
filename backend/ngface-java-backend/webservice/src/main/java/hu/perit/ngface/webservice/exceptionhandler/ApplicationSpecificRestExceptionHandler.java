@@ -56,6 +56,13 @@ public class ApplicationSpecificRestExceptionHandler extends DefaultRestExceptio
 
         ExceptionWrapper exception = ExceptionWrapper.of(ex);
 
+        if (exception.causedBy(IOException.class, "Broken pipe"))
+        {
+            // in case of an event-stream
+            log.warn(StackTracer.toString(ex));
+            return null;
+        }
+
         if (exception.instanceOf(IOException.class))
         {
             log.error(StackTracer.toString(ex));

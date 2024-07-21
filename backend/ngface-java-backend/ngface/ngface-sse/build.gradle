@@ -53,6 +53,7 @@ dependencies {
 //    implementation project(':spvitamin-spring-general')
     implementation 'hu.perit.spvitamin:spvitamin-core'
     implementation 'hu.perit.spvitamin:spvitamin-spring-general'
+    implementation 'hu.perit.spvitamin:spvitamin-spring-logging'
 
     // Lombok
     compileOnly "org.projectlombok:lombok"
