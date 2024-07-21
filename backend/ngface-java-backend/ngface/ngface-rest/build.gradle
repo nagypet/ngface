@@ -18,6 +18,9 @@ plugins {
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
     id 'java-library'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'signing'
 }
 apply from: '../gradle/common.gradle'
 

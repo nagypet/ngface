@@ -1,0 +1,123 @@
+/*
+ * Copyright 2020-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+// Note that plugins block cannot be used in subprojects, that is wha the old fashioned way
+apply plugin: 'java-platform'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+group = 'hu.perit.ngface'
+
+
+/********************************************************************************************************
+ * Version information
+ *******************************************************************************************************/
+if (new File("${projectDir}/version.ver").exists()) {
+    version = rootProject.file("${projectDir}/version.ver").text.trim()
+} else if (new File("${projectDir}/../version.ver").exists()) {
+    version = rootProject.file("${projectDir}/../version.ver").text.trim()
+} else {
+    throw new RuntimeException("version.ver not found while processing ${project.name}!")
+}
+
+
+dependencies {
+    constraints {
+        api project(":ngface-core")
+        api project(":ngface-data-jpa")
+        api project(":ngface-rest")
+        api project(":ngface-sse")
+    }
+}
+
+
+publishing {
+    if (project.hasProperty('ossrhUsername')) {
+        repositories {
+            maven {
+                credentials {
+                    username "${ossrhUsername}"
+                    password "${ossrhPassword}"
+                }
+                name 'Staging'
+                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            }
+        }
+    }
+    publications {
+        spvitamin(MavenPublication) {
+            customizePom(pom)
+            from components.javaPlatform
+        }
+    }
+}
+
+if (project.hasProperty('ossrhUsername')) {
+    signing {
+        sign publishing.publications.spvitamin
+    }
+}
+
+
+def customizePom(pom) {
+    pom.withXml {
+        def root = asNode()
+
+        // eliminate test-scoped dependencies (no need in maven central POMs)
+        root.dependencies.removeAll { dep ->
+            dep.scope == "test"
+        }
+
+        // add all items necessary for maven central publication
+        root.children().last() + {
+            resolveStrategy = Closure.DELEGATE_FIRST
+
+            name "${project.group}:${project.name}"
+            description 'A light-weight backend-frontend communication using widgets.'
+            url 'https://github.com/nagypet/ngface'
+
+            scm {
+                connection 'scm:git:git://github.com/nagypet/ngface.git'
+                developerConnection 'scm:git:ssh://github.com:nagypet/ngface.git'
+                url 'https://github.com/nagypet/ngface.git'
+            }
+
+            licenses {
+                license {
+                    name 'The Apache License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                }
+            }
+
+            developers {
+                developer {
+                    id 'nagypet'
+                    name 'Peter Nagy'
+                    email 'peter.nagy@perit.hu'
+                }
+            }
+        }
+    }
+}
+
+
+
