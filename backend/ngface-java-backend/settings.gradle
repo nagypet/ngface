@@ -1,5 +1,13 @@
 // include-subprojects.gradle contains this constant: COMPILE_SPVITAMIN
 
-apply from: 'gradle/include-subprojects.gradle' 
+apply from: 'gradle/include-subprojects.gradle'
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            from(files("gradle/version-catalog.toml"))
+        }
+    }
+}
 
 rootProject.name = 'ngface-java-backend'

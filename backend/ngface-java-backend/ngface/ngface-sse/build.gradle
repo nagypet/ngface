@@ -15,13 +15,13 @@
  */
 
 plugins {
-    id 'org.springframework.boot' version "${springBootVersion}"
-    id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
+    alias libs.plugins.org.springframework.boot
+    alias libs.plugins.io.spring.dependency.management
     id 'java-library'
     id 'jacoco'
     id 'maven-publish'
     id 'signing'
-    id 'cz.habarta.typescript-generator' version '3.2.1263'
+    alias libs.plugins.habarta.typescript.generator
 }
 apply from: '../gradle/common.gradle'
 
@@ -33,7 +33,7 @@ repositories {
 
 
 dependencies {
-    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation libs.jetbrains.annotations
 
     // -----------------------------------------------------------------------------------------------------------------
     // Compile dependencies
@@ -42,46 +42,40 @@ dependencies {
 
 //    implementation project(':spvitamin-core')
 //    implementation project(':spvitamin-spring-general')
+    implementation platform(libs.spvitamin)
     implementation 'hu.perit.spvitamin:spvitamin-core'
     implementation 'hu.perit.spvitamin:spvitamin-spring-general'
     implementation 'hu.perit.spvitamin:spvitamin-spring-logging'
 
     // Lombok
-    compileOnly "org.projectlombok:lombok"
-    annotationProcessor "org.projectlombok:lombok"
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
 
     // Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     // Validation
-    implementation 'jakarta.validation:jakarta.validation-api'
+    implementation libs.jakarta.validation.api
 
     // apache.commons
-    implementation "org.apache.commons:commons-lang3:${commonsLang3Version}"
-    implementation "org.apache.commons:commons-collections4:${commonsCollections4Version}"
+    implementation libs.commons.lang3
+    implementation libs.commons.collections4
 
     // Google findbugs
-    implementation "com.google.code.findbugs:${findbugsVersion}"
+    implementation libs.google.code.findbugs
 
     // Slf4J
-    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation libs.slf4j.api
 
     // -----------------------------------------------------------------------------------------------------------------
     // Test dependencies
     // -----------------------------------------------------------------------------------------------------------------
     // Lombok
-    testCompileOnly "org.projectlombok:lombok"
-    testAnnotationProcessor "org.projectlombok:lombok"
+    testCompileOnly libs.lombok
+    testAnnotationProcessor libs.lombok
 
-    testImplementation 'ch.qos.logback:logback-classic:1.4.7'
-    testImplementation 'ch.qos.logback:logback-core:1.4.7'
-}
-
-
-dependencyManagement {
-    imports {
-        mavenBom "hu.perit.spvitamin:spvitamin-dependencies:${spvitaminVersion}"
-    }
+    testImplementation libs.logback.classic
+    testImplementation libs.logback.core
 }
 
 

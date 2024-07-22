@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2020-2021 the original author or authors.
  *
@@ -15,22 +14,16 @@
  * limitations under the License.
  */
 
-buildscript {
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:5.1.0'
-    }
-}
-
-
 plugins {
     id 'application'
+    alias libs.plugins.johnrengelman.shadow
 }
 
-apply plugin: 'com.github.johnrengelman.shadow'
 apply from: '../gradle/common.gradle'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 
@@ -41,19 +34,19 @@ application {
 }
 
 
-  
-dependencies {	
-    implementation "hu.perit.spvitamin:spvitamin-core:${spvitaminVersion}"
+dependencies {
+    implementation platform(libs.spvitamin)
+    implementation "hu.perit.spvitamin:spvitamin-core"
 
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
 
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
-    implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
-    implementation group: 'commons-cli', name: 'commons-cli', version: '1.5.0'
+    implementation libs.commons.lang3
+    implementation libs.commons.io
+    implementation libs.commons.cli
 
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
-    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
-    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.10'
+    implementation libs.slf4j.api
+    implementation libs.logback.classic
+    implementation libs.logback.core
 }
 

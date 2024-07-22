@@ -16,7 +16,7 @@
 
 
 class Constants {
-    // Set this constant to true if spvitamin will be compiled as source
+    // Set this constant to true if spvitamin/ngface will be compiled as source
     static final boolean COMPILE_SPVITAMIN = true
     static final boolean COMPILE_NGFACE = true
 }
@@ -48,7 +48,7 @@ class ProjectConfigurer {
 
     private void discoverRecursive(File root) {
         root.eachDir() { dir ->
-            if (this.isDirRelevant(dir)) {
+            if (isDirRelevant(dir)) {
                 if (new File(dir, 'build.gradle').exists() && !dir.name.equals("spvitamin") && !dir.name.equals("ngface") && (Constants.COMPILE_SPVITAMIN || !"${root}".contains("spvitamin")) && (Constants.COMPILE_NGFACE || !"${root}".contains("ngface"))) {
                     this.settings.include "${dir.name}"
                     def projDir = new File("${root}", "${dir.name}")
@@ -62,7 +62,7 @@ class ProjectConfigurer {
     }
 
 
-    private boolean isDirRelevant(File dir) {
+    private static boolean isDirRelevant(File dir) {
         return !(dir.name.equals("admin-gui") || dir.name.equals(".git") || dir.name.equals(".gradle") || dir.name.equals("build") || dir.name.equals("out"))
     }
 }

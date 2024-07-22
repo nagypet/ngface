@@ -17,4 +17,12 @@
 
 apply from: '../gradle/include-project-dependencies.gradle'
 
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            from(files("../gradle/version-catalog.toml"))
+        }
+    }
+}
+
 rootProject.name = 'ngf'

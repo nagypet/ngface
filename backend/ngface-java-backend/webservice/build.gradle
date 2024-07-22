@@ -15,8 +15,8 @@
  */
 
 plugins {
-    id 'org.springframework.boot' version "${springBootVersion}"
-    id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
+    alias libs.plugins.org.springframework.boot
+    alias libs.plugins.io.spring.dependency.management
     id 'application'
 }
 
@@ -59,6 +59,7 @@ dependencies {
 //    implementation project(':spvitamin-spring-security')
 //    implementation project(':spvitamin-spring-data')
 
+    implementation platform(libs.spvitamin)
     implementation 'hu.perit.spvitamin:spvitamin-core'
     implementation 'hu.perit.spvitamin:spvitamin-spring-general'
     implementation 'hu.perit.spvitamin:spvitamin-spring-server'
@@ -68,10 +69,10 @@ dependencies {
     implementation 'hu.perit.spvitamin:spvitamin-spring-data'
 
     // Lombok
-    compileOnly 'org.projectlombok:lombok'
-    testCompileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
+    compileOnly libs.lombok
+    testCompileOnly libs.lombok
+    annotationProcessor libs.lombok
+    testAnnotationProcessor libs.lombok
 
     // Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -89,29 +90,29 @@ dependencies {
     implementation 'io.micrometer:micrometer-tracing'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 
-    // Swagger
-    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${sprindocVersion}"
-    implementation "org.springdoc:springdoc-openapi-starter-webmvc-api:${sprindocVersion}"
+    // Springdoc
+    implementation libs.openapi.ui
+    implementation libs.openapi.api
 
     // apache.commons
-    implementation "org.apache.commons:commons-lang3:${commonsLang3Version}"
+    implementation libs.commons.lang3
 
     // Validation
     implementation 'jakarta.validation:jakarta.validation-api'
-    implementation 'org.hibernate:hibernate-validator:8.0.0.Final'
+    implementation libs.hibernate.validator
 
     // Guava
-    implementation "com.google.guava:guava:${guavaVersion}"
+    implementation libs.guava
 
     // Mapstruct
-    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
-    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    implementation libs.mapstruct
+    annotationProcessor libs.mapstruct.processor
 
     // OpenCSV
-    implementation "com.opencsv:opencsv:${openCsvVersion}"
+    implementation libs.opencsv
 
     // Slf4J
-    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation libs.slf4j.api
 
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -125,13 +126,6 @@ dependencies {
     //------------------------------------------------------------------------------------------------------------------
     // PostgreSQL
     runtimeOnly 'org.postgresql:postgresql'
-}
-
-
-dependencyManagement {
-    imports {
-        mavenBom "hu.perit.spvitamin:spvitamin-dependencies:${spvitaminVersion}"
-    }
 }
 
 
