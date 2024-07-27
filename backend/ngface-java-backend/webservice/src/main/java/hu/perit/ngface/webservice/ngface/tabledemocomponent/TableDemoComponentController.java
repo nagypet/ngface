@@ -106,7 +106,7 @@ public class TableDemoComponentController extends TableControllerImpl<TableDemoC
 
 
     @Override
-    public void onActionClick(TableActionParams tableActionParams) throws Exception
+    public void onActionClick(TableActionParams<Long> tableActionParams) throws Exception
     {
         log.debug(tableActionParams.toString());
     }
