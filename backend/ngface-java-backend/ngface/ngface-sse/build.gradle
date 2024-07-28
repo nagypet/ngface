@@ -42,6 +42,7 @@ dependencies {
 
 //    implementation project(':spvitamin-core')
 //    implementation project(':spvitamin-spring-general')
+//    implementation project(':spvitamin-spring-logging')
     implementation platform(libs.spvitamin)
     implementation 'hu.perit.spvitamin:spvitamin-core'
     implementation 'hu.perit.spvitamin:spvitamin-spring-general'
