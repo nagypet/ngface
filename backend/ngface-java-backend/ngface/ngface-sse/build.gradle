@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2022 the original author or authors.
+ * Copyright 2020-2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,6 +73,9 @@ dependencies {
     // Lombok
     testCompileOnly libs.lombok
     testAnnotationProcessor libs.lombok
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'hu.perit.spvitamin:spvitamin-test'
 
     testImplementation libs.logback.classic
     testImplementation libs.logback.core
