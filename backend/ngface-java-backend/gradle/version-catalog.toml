@@ -1,8 +1,8 @@
 [plugins]
+habarta-typescript-generator = { id = 'cz.habarta.typescript-generator', version = '3.2.1263' }
 io-spring-dependency-management = { id = 'io.spring.dependency-management', version = '1.1.6' }
 johnrengelman-shadow = { id = 'com.github.johnrengelman.shadow', version = '8.1.1' }
 org-springframework-boot = { id = 'org.springframework.boot', version = '3.3.2' }
-habarta-typescript-generator = { id = 'cz.habarta.typescript-generator', version = '3.2.1263' }
 
 [versions]
 jackson = '2.17.2'
@@ -12,20 +12,20 @@ mapstruct = '1.5.5.Final'
 springdoc = '2.6.0'
 
 [libraries]
-assertj = 'org.assertj:assertj-core:3.25.3'
+assertj = 'org.assertj:assertj-core:3.26.3'
 commons-cli = 'commons-cli:commons-cli:1.5.0'
-commons-collections4 = 'org.apache.commons:commons-collections4:4.4'
-commons-io = 'commons-io:commons-io:2.15.1'
-commons-lang3 = 'org.apache.commons:commons-lang3:3.14.0'
+commons-collections4 = 'org.apache.commons:commons-collections4:4.5.0-M2'
+commons-io = 'commons-io:commons-io:2.16.1'
+commons-lang3 = 'org.apache.commons:commons-lang3:3.15.0'
 glassfish-expressly = 'org.glassfish.expressly:expressly:5.0.0'
 google-code-findbugs = 'com.google.code.findbugs:jsr305:3.0.2'
 guava = 'com.google.guava:guava:33.2.1-jre'
-hibernate-validator = 'org.hibernate:hibernate-validator:8.0.0.Final'
+hibernate-validator = 'org.hibernate:hibernate-validator:8.0.1.Final'
 jackson-annotations = { module = 'com.fasterxml.jackson.core:jackson-annotations', version.ref = 'jackson' }
 jackson-core = { module = 'com.fasterxml.jackson.core:jackson-core', version.ref = 'jackson' }
 jackson-databind = { module = 'com.fasterxml.jackson.core:jackson-databind', version.ref = 'jackson' }
-jakarta-validation-api = 'jakarta.validation:jakarta.validation-api:3.0.2'
-jetbrains-annotations = 'org.jetbrains:annotations:20.1.0'
+jakarta-validation-api = 'jakarta.validation:jakarta.validation-api:3.1.0'
+jetbrains-annotations = 'org.jetbrains:annotations:24.1.0'
 junit-jupiter-api = { module = 'org.junit.jupiter:junit-jupiter-api', version.ref = 'junit' }
 junit-jupiter-engine = { module = 'org.junit.jupiter:junit-jupiter-engine', version.ref = 'junit' }
 logback-classic = { module = 'ch.qos.logback:logback-classic', version.ref = 'logback' }
@@ -36,5 +36,5 @@ mapstruct-processor = { module = 'org.mapstruct:mapstruct-processor', version.re
 openapi-api = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-api', version.ref = 'springdoc' }
 openapi-ui = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-ui', version.ref = 'springdoc' }
 opencsv = 'com.opencsv:opencsv:5.9'
-slf4j-api = 'org.slf4j:slf4j-api:2.0.7'
+slf4j-api = 'org.slf4j:slf4j-api:2.0.13'
 spvitamin = 'hu.perit.spvitamin:spvitamin-dependencies:3.3.2-1-SNAPSHOT'
