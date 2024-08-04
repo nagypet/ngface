@@ -38,7 +38,7 @@ import java.util.Objects;
 public class DateRangeInput extends Input<DateRangeInput.Data, Void, DateRangeInput>
 {
     private String placeholder2;
-    private final List<Validator<?>> validators2 = new ArrayList<>();
+    private final List<Validator> validators2 = new ArrayList<>();
 
 
     public DateRangeInput(String id)
@@ -61,7 +61,7 @@ public class DateRangeInput extends Input<DateRangeInput.Data, Void, DateRangeIn
     }
 
 
-    public DateRangeInput addValidator2(Validator<?> validator)
+    public DateRangeInput addValidator2(Validator validator)
     {
         Objects.requireNonNull(validator, "validator may not be null'");
 

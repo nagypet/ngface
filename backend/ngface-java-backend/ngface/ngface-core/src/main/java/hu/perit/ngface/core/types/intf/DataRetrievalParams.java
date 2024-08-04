@@ -22,7 +22,12 @@ import hu.perit.ngface.core.widget.table.Paginator;
 import hu.perit.ngface.core.widget.table.Sorter;
 import hu.perit.ngface.core.widget.table.Table;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
@@ -198,15 +203,15 @@ public class DataRetrievalParams
         Map<String, Filterer> defaultFiltererMap = defaults.getFiltererMap();
         if (defaultFiltererMap != null)
         {
-            for (String filtererKey : defaultFiltererMap.keySet())
+            for (Map.Entry<String, Filterer> filtererEntry : defaultFiltererMap.entrySet())
             {
-                if (filterNotAvailable(params.getFilters(), filtererKey))
+                if (filterNotAvailable(params.getFilters(), filtererEntry.getKey()))
                 {
                     if (params.getFilters() == null)
                     {
                         params.setFilters(new ArrayList<>());
                     }
-                    Filterer filterer = defaultFiltererMap.get(filtererKey);
+                    Filterer filterer = filtererEntry.getValue();
                     if (filterer != null && BooleanUtils.isTrue(filterer.getActive()))
                     {
                         params.getFilters().add(Filter.of(filterer));

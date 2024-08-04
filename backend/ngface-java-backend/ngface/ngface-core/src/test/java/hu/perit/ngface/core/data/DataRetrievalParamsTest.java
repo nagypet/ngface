@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @Slf4j
@@ -44,13 +44,12 @@ class DataRetrievalParamsTest
             log.debug(json);
             DataRetrievalParams deserializedData = JSonSerializer.fromJson(json, DataRetrievalParams.class);
             log.debug(deserializedData.toString());
-            assertTrue(dataRetrievalParams.equals(deserializedData));
+            assertThat(dataRetrievalParams).isEqualTo(deserializedData);
         }
         catch (IOException e)
         {
             log.error(StackTracer.toString(e));
             fail();
         }
-
     }
 }

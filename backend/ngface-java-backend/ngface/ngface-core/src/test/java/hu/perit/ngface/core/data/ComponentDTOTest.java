@@ -18,19 +18,34 @@ package hu.perit.ngface.core.data;
 
 import hu.perit.ngface.core.types.intf.SubmitFormData;
 import hu.perit.ngface.core.widget.input.TextInput;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 class ComponentDTOTest
 {
     @Test
-    void testValidation()
+    void testValidationOk()
     {
         SubmitFormData submitFormData = new SubmitFormData();
         submitFormData.setWidgetDataMap(new HashMap<>());
         submitFormData.getWidgetDataMap().put("ownersName", new TextInput.Data("Peter"));
         MyComponentDTO dto = new MyComponentDTO();
-        dto.formSubmitted(submitFormData);
+        assertThatCode(() -> dto.formSubmitted(submitFormData)).doesNotThrowAnyException();
+    }
+
+
+    @Test
+    void testValidationNok()
+    {
+        SubmitFormData submitFormData = new SubmitFormData();
+        submitFormData.setWidgetDataMap(new HashMap<>());
+        submitFormData.getWidgetDataMap().put("ownersName", new TextInput.Data(null));
+        MyComponentDTO dto = new MyComponentDTO();
+        assertThatThrownBy(() -> dto.formSubmitted(submitFormData)).isInstanceOf(ConstraintViolationException.class);
     }
 }

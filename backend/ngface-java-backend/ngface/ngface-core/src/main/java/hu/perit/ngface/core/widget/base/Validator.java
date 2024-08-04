@@ -25,7 +25,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor
-public abstract class Validator<SUB extends Validator>
+public abstract class Validator
 {
     private final String type = getClass().getSimpleName();
     private final String message;

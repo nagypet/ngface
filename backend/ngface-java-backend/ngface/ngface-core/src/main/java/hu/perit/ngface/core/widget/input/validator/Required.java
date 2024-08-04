@@ -22,7 +22,7 @@ import lombok.ToString;
 
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class Required extends Validator<Required>
+public class Required extends Validator
 {
     public Required(String message)
     {

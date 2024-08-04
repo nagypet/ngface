@@ -24,7 +24,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class Size extends Validator<Size>
+public class Size extends Validator
 {
     private int min = 0;
     private int max = Integer.MAX_VALUE;
@@ -36,13 +36,13 @@ public class Size extends Validator<Size>
 
     public Size min(Integer min)
     {
-        this.min = min != null ? min.intValue() : 0;
+        this.min = min != null ? min : 0;
         return this;
     }
 
     public Size max(Integer max)
     {
-        this.max = max != null ? max.intValue() : 0;
+        this.max = max != null ? max : 0;
         return this;
     }
 }

@@ -16,7 +16,6 @@
 
 package hu.perit.ngface.core.data;
 
-import hu.perit.ngface.core.reflection.ReflectionUtils;
 import hu.perit.ngface.core.types.intf.SubmitFormData;
 import hu.perit.ngface.core.types.table.TableDTO;
 import hu.perit.ngface.core.widget.base.WidgetData;
@@ -25,6 +24,7 @@ import hu.perit.ngface.core.widget.input.DateInput;
 import hu.perit.ngface.core.widget.input.NumericInput;
 import hu.perit.ngface.core.widget.input.TextInput;
 import hu.perit.ngface.core.widget.table.Table;
+import hu.perit.spvitamin.core.reflection.ReflectionUtils;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;

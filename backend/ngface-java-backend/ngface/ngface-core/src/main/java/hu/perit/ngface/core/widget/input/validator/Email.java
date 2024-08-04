@@ -24,7 +24,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class Email extends Validator<Email>
+public class Email extends Validator
 {
     public Email(String message)
     {

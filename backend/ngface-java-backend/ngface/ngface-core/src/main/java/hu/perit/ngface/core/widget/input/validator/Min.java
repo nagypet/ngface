@@ -24,7 +24,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class Min extends Validator<Min>
+public class Min extends Validator
 {
     private final Double min;
 

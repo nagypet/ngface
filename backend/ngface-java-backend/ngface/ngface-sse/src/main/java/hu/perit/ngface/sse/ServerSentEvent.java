@@ -17,7 +17,6 @@
 package hu.perit.ngface.sse;
 
 import hu.perit.spvitamin.core.StackTracer;
-import hu.perit.spvitamin.core.exception.ExceptionGuard;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 
 /**
  * Backend -> Frontend communication. The frontend may call the subscribe() method via a REST interface in order to get
@@ -161,7 +160,7 @@ public class ServerSentEvent<T, F>
      *
      * @param args
      */
-    public synchronized void fire(T args, F filterCriteria, BiFunction<F, F, Boolean> filterFunction)
+    public synchronized void fire(T args, F filterCriteria, BiPredicate<F, F> filterFunction)
     {
         // Készítünk egy másolatot, és azon iterálunk
         List<Subscription<F>> subscriptions = new ArrayList<>(this.subscribers.values());
@@ -169,7 +168,7 @@ public class ServerSentEvent<T, F>
         this.eventQueue.add(new EventQueueItem<>(eventId, args));
         for (Subscription<F> subscription : subscriptions)
         {
-            if (filterFunction.apply(filterCriteria, subscription.filterKey))
+            if (filterFunction.test(filterCriteria, subscription.filterKey))
             {
                 this.sendEvent(subscription, eventId, args);
             }

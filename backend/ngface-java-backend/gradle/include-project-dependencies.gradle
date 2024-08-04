@@ -50,7 +50,7 @@ class ProjectConfigurer {
      */
     private void discoverProjects(File root) {
         root.eachDir() { dir ->
-            if (this.isDirRelevant(dir)) {
+            if (isDirRelevant(dir)) {
                 if (new File(dir, 'build.gradle').exists() && !dir.name.equals("spvitamin") && !dir.name.equals("ngface")) {
                     this.projectMap.put(dir.name, dir)
                 } else {
@@ -61,7 +61,7 @@ class ProjectConfigurer {
     }
 
 
-    private boolean isDirRelevant(File dir) {
+    private static boolean isDirRelevant(File dir) {
         return !(dir.name.equals("admin-gui") || dir.name.equals(".git") || dir.name.equals(".gradle") || dir.name.equals("build") || dir.name.equals("out") || dir.name.equals("src"))
     }
 
@@ -85,8 +85,9 @@ class ProjectConfigurer {
                         //println String.join("", Collections.nCopies(level, "    ")) + ":${projName}"
                         if (this.projectMap[projName] == null) {
                             println 'Project does not exist: ' + projName
+                        } else {
+                            deps += this.getDependendentProjects(this.projectMap[projName], level + 1)
                         }
-                        deps += this.getDependendentProjects(this.projectMap[projName], level + 1)
                     }
                 }
             }

@@ -35,9 +35,9 @@ import java.util.Objects;
 public abstract class Input<WD extends WidgetData, V, SUB extends Input> extends Widget<WD, SUB>
 {
     private String placeholder;
-    private final List<Validator<?>> validators = new ArrayList<>();
+    private final List<Validator> validators = new ArrayList<>();
 
-    public Input(String id)
+    protected Input(String id)
     {
         super(id);
     }
@@ -60,7 +60,7 @@ public abstract class Input<WD extends WidgetData, V, SUB extends Input> extends
     }
 
 
-    public SUB addValidator(Validator<?> validator)
+    public SUB addValidator(Validator validator)
     {
         Objects.requireNonNull(validator, "validator may not be null'");
 

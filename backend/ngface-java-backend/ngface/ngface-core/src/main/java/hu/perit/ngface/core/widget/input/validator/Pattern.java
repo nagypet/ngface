@@ -24,7 +24,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class Pattern extends Validator<Pattern>
+public class Pattern extends Validator
 {
     private final String pattern;
 

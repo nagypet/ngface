@@ -24,7 +24,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class Max extends Validator<Max>
+public class Max extends Validator
 {
     private final Double max;
 

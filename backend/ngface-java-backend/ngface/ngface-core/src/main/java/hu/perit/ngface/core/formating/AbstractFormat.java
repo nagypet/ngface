@@ -25,5 +25,5 @@ import java.util.List;
 @Getter
 public class AbstractFormat
 {
-    protected final List<Validator<?>> validators = new ArrayList<>();
+    protected final List<Validator> validators = new ArrayList<>();
 }

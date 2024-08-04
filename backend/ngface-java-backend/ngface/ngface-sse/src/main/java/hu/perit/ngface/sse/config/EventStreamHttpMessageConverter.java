@@ -25,20 +25,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
-import org.springframework.http.converter.StringHttpMessageConverter;
-
-import java.nio.charset.StandardCharsets;
 
 @Slf4j
 public class EventStreamHttpMessageConverter extends AbstractHttpMessageConverter<RestExceptionResponse>
 {
-    private final StringHttpMessageConverter stringHttpMessageConverter;
-
-
     public EventStreamHttpMessageConverter()
     {
         super(new MediaType("text", "event-stream"));
-        this.stringHttpMessageConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
     }
 
 

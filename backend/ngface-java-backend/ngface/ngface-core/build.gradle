@@ -35,10 +35,13 @@ repositories {
 dependencies {
     implementation libs.jetbrains.annotations
 
-
     // -----------------------------------------------------------------------------------------------------------------
     // Compile dependencies
     // -----------------------------------------------------------------------------------------------------------------
+    //implementation project(':spvitamin-core')
+    implementation platform(libs.spvitamin)
+    implementation 'hu.perit.spvitamin:spvitamin-core'
+
     // Lombok
     compileOnly libs.lombok
     annotationProcessor libs.lombok
@@ -75,11 +78,7 @@ dependencies {
     testAnnotationProcessor libs.lombok
 
     // spvitamin
-//    testImplementation project(':spvitamin-core')
-//    testImplementation project(':spvitamin-spring-general')
-
-    implementation platform(libs.spvitamin)
-    testImplementation 'hu.perit.spvitamin:spvitamin-core'
+    //testImplementation project(':spvitamin-spring-general')
     testImplementation 'hu.perit.spvitamin:spvitamin-spring-general'
 
     // JUnit
