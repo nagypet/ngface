@@ -25,10 +25,10 @@ import {IUploadEvent} from './ngface-file-upload.type';
 export class NgfaceFileUploadComponent
 {
   @ViewChildren(UploadItemComponent)
-  fileUploads: QueryList<UploadItemComponent>;
+  fileUploads!: QueryList<UploadItemComponent>;
 
   @Input()
-  httpUrl: string;
+  httpUrl!: string;
 
   @Input()
   uploadAllColor = 'primary';

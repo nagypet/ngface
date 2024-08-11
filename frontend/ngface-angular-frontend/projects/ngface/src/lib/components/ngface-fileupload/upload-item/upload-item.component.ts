@@ -28,12 +28,12 @@ export class UploadItemComponent implements OnInit, OnDestroy
 {
 
   // tslint:disable-next-line:variable-name
-  private _file: File;
+  private _file!: File;
   // tslint:disable-next-line:variable-name
-  private _id: number;
+  private _id!: number;
 
   @Input()
-  httpUrl: string;
+  httpUrl!: string;
 
   @Input()
   get file(): File

@@ -25,6 +25,11 @@
   }
   */
 
+  ::ng-deep .mat-sort-header-arrow {
+    color: var(--app-primary-palette-800, #6c757d);
+  }
+
+
   .ngface-sort-header {
     display: inline-flex;
     flex-grow: 1;
@@ -41,15 +46,15 @@
     border: none !important;
     background-color: rgba(0, 0, 0, 0);
     outline: none;
-    color: var(--bs-gray-500);
+    color: var(--app-primary-palette-400, #adb5bd);
   }
 
   .ngface-filter-header:hover {
-    color: var(--bs-gray-600);
+    color: var(--app-primary-palette-800, #6c757d);
   }
 
   .ngface-filter-header-set {
-    color: var(--bs-gray-900);
+    color: var(--app-primary-palette-900, #212529);
   }
 
   .ngface-table-header-icon {
