@@ -38,7 +38,7 @@ class SseNotificationTest
     void toStringTest_shouldReturnString()
     {
         assertEquals(
-                "SseNotification(type=RELOAD)",
+                "SseNotification(type=RELOAD, subject=subject)",
                 sseNotification.toString());
     }
 

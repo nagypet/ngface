@@ -20,10 +20,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SseUpdateNotificationTest
 {
@@ -35,8 +34,7 @@ class SseUpdateNotificationTest
     @BeforeEach
     public void init()
     {
-        sseUpdateNotification = new SseUpdateNotification(SUBJECT, new HashSet<>());
-        sseUpdateNotification.getJobIds().add(1L);
+        sseUpdateNotification = new SseUpdateNotification(SUBJECT, Set.of(1L));
     }
 
 
@@ -51,7 +49,7 @@ class SseUpdateNotificationTest
     void toStringTest_shouldReturnString()
     {
         assertEquals(
-            "SseUpdateNotification(subject=alma, jobIds=[1])",
+            "SseUpdateNotification(super=SseNotification(type=UPDATE, subject=alma), jobIds=[1])",
             sseUpdateNotification.toString());
     }
 

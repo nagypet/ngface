@@ -26,7 +26,7 @@ import java.util.Set;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class SseUpdateNotification extends SseNotification
 {
