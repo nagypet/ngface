@@ -16,7 +16,7 @@
 
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.36.1070 on 2023-12-16 07:57:56.
+// Generated using typescript-generator version 3.2.1263 on 2024-08-10 08:17:44.
 
 export namespace Ngface {
 
@@ -102,7 +102,7 @@ export namespace Ngface {
     export interface DateRangeInput extends Input<DateRangeInput.Data, void, DateRangeInput> {
         data: DateRangeInput.Data;
         placeholder2: string;
-        validators2: Validator<any>[];
+        validators2: Validator[];
     }
 
     export namespace DateRangeInput {
@@ -174,25 +174,25 @@ export namespace Ngface {
 
     }
 
-    export interface Email extends Validator<Email> {
+    export interface Email extends Validator {
     }
 
-    export interface Max extends Validator<Max> {
+    export interface Max extends Validator {
         max: number;
     }
 
-    export interface Min extends Validator<Min> {
+    export interface Min extends Validator {
         min: number;
     }
 
-    export interface Pattern extends Validator<Pattern> {
+    export interface Pattern extends Validator {
         pattern: string;
     }
 
-    export interface Required extends Validator<Required> {
+    export interface Required extends Validator {
     }
 
-    export interface Size extends Validator<Size> {
+    export interface Size extends Validator {
         min: number;
         max: number;
     }
@@ -376,7 +376,7 @@ export namespace Ngface {
         data: WD;
     }
 
-    export interface Validator<SUB> {
+    export interface Validator {
         type: string;
         message: string;
     }
@@ -406,11 +406,11 @@ export namespace Ngface {
 
     export interface Input<WD, V, SUB> extends Widget<WD, SUB> {
         placeholder: string;
-        validators: Validator<any>[];
+        validators: Validator[];
     }
 
     export interface AbstractFormat {
-        validators: Validator<any>[];
+        validators: Validator[];
     }
 
     export type Direction = "ASC" | "DESC" | "UNDEFINED";

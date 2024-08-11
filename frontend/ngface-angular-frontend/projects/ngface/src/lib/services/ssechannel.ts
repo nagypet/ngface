@@ -163,7 +163,7 @@ export class SseChannel
   }
 
 
-  private handleServerEvent(event: MessageEvent)
+  private handleServerEvent(event: MessageEvent): void
   {
     if (this.debugLogEnabled)
     {
@@ -173,7 +173,7 @@ export class SseChannel
     this.zone.run(() => this.onMessage(event));
   }
 
-  private handleError(event: MessageEvent)
+  private handleError(event: MessageEvent): void
   {
     if (this.onError)
     {

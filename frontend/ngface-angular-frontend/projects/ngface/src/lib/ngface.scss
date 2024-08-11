@@ -21,20 +21,29 @@
 @import './styles/ngface-dialog';
 
 //----------------------------------------------------------------------------------------------------------------------
+// Color constants
+//----------------------------------------------------------------------------------------------------------------------
+:root {
+  --color-disabled: rgba(0, 0, 0, .12);
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------
 // ngface-form
 //----------------------------------------------------------------------------------------------------------------------
 .ngface-form {
   width: 100%;
   padding: 20px;
-  border: solid var(--bs-primary) 1px;
+  border: solid var(--app-primary-palette-default, #0d6efd) 1px;
   border-radius: 5px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, .16);
   margin-bottom: 20px;
 }
 
 .ngface-form.mobile {
   padding: 10px 0 0 0;
   margin: 0;
-  border-top: solid var(--bs-primary) 1px;
+  border-top: solid var(--app-primary-palette-default, #0d6efd) 1px;
   border-right: none;
   border-bottom: none;
   border-left: none;
@@ -102,6 +111,11 @@
   width: 300px;
 }
 
+.mat-mdc-form-field-error {
+  font-size: 12px;
+  line-height: 12px;
+}
+
 
 //----------------------------------------------------------------------------------------------------------------------
 // ngface-number
@@ -130,16 +144,16 @@
 
 
 .ngface-mat-icon-enabled {
-  color: var(--bs-primary);
+  color: var(--app-primary-palette-default, #0d6efd);
 }
 
 .ngface-mat-icon-enabled:hover {
-  color: blue;
+  color: var(--app-primary-palette-800, blue);
 }
 
 
 .ngface-mat-icon-disabled {
-  color: rgba(0, 0, 0, .12);
+  color: var(--color-disabled, rgba(0, 0, 0, .12));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -147,11 +161,11 @@
 //----------------------------------------------------------------------------------------------------------------------
 .mat-mdc-tooltip {
   background-color: white;
-  border: 1px solid var(--bs-primary);
+  border: 1px solid var(--app-primary-palette-default, #0d6efd);
   border-radius: 5px;
   padding: 5px 15px !important;
   --mdc-plain-tooltip-container-color: white;
-  --mdc-plain-tooltip-supporting-text-color: var(--bs-primary) !important;
+  --mdc-plain-tooltip-supporting-text-color: var(--app-primary-palette-default, #0d6efd) !important;
   --mdc-plain-tooltip-supporting-text-size: 14px;
 }
 
@@ -181,7 +195,7 @@
   margin: 20px auto;
 
   .ngface-data-table-scrollable-area {
-    border: rgba(0, 0, 0, .12) solid 1px;
+    border: var(--app-primary-palette-300 ,rgba(0, 0, 0, .12)) solid 1px;
     border-radius: 5px;
     // height should be set in the app, where the table widget is used
     height: 600px;
@@ -239,7 +253,6 @@
 
   .cellvalue-null {
     color: lightgray;
-    background-color: ivory;
     font-style: italic;
   }
 

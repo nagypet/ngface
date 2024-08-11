@@ -41,7 +41,7 @@ export class ErrorInterceptor implements HttpInterceptor
                     {
                         this.errorService.handleError(error);
                     }
-                    return throwError(error);
+                    return throwError(() => error);
                 })
             );
     }

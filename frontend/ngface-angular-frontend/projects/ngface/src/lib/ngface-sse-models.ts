@@ -16,26 +16,26 @@
 
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.36.1070 on 2023-12-17 09:06:40.
+// Generated using typescript-generator version 3.2.1263 on 2024-08-10 08:17:44.
 
 export namespace NgfaceSse {
 
     export interface SseMessageNotification extends SseNotification {
         level: SseMessageNotification.Level;
-        message: string | null;
-        details: string | null;
-        errorText: string | null;
+        message?: string;
+        details?: string;
+        errorText?: string;
     }
 
     export interface SseNotification {
         type: SseNotification.Type;
+        subject: string;
     }
 
     export interface SseReloadNotification extends SseNotification {
     }
 
     export interface SseUpdateNotification extends SseNotification {
-        subject: string;
         jobIds: number[];
     }
 

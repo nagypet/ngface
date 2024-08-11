@@ -447,7 +447,7 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
     const cell = row.cells[column];
     if (!cell?.value)
     {
-      return 'cellvalue-null';
+      return 'cellvalue-null ' + this.getCellClass(column);
     }
 
     return this.getCellClass(column);

@@ -95,7 +95,7 @@ export abstract class InputBaseComponent implements OnChanges
   }
 
 
-  protected createNgValidators(validator: Ngface.Validator<any>): ValidatorFn[]
+  protected createNgValidators(validator: Ngface.Validator): ValidatorFn[]
   {
     const validators = new Array<ValidatorFn>();
 
@@ -147,7 +147,7 @@ export abstract class InputBaseComponent implements OnChanges
    * @param name
    * @private
    */
-  protected getValidator(name: string): Ngface.Validator<any> | undefined
+  protected getValidator(name: string): Ngface.Validator | undefined
   {
     let validatorName = name;
     if (name === 'minlength' || name === 'maxlength')
@@ -163,7 +163,7 @@ export abstract class InputBaseComponent implements OnChanges
    * @param name
    * @private
    */
-  protected getValidatorFrom(validators: Ngface.Validator<any>[] | undefined, name: string): Ngface.Validator<any> | undefined
+  protected getValidatorFrom(validators: Ngface.Validator[] | undefined, name: string): Ngface.Validator | undefined
   {
     let validatorName = name;
     if (name === 'minlength' || name === 'maxlength')
@@ -216,7 +216,7 @@ export abstract class InputBaseComponent implements OnChanges
   }
 
 
-  getValidationErrorsFromFormControl(fc: AbstractControl | null, validators: Ngface.Validator<any>[] | undefined): string[]
+  getValidationErrorsFromFormControl(fc: AbstractControl | null, validators: Ngface.Validator[] | undefined): string[]
   {
     const validationErrors = fc?.errors;
     const errorMessages = new Array<string>();

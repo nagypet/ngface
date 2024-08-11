@@ -1,0 +1,24 @@
+.upload-queue {
+  width: 100%;
+}
+
+.upload-item-card {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.file-summary {
+  font-size: 0.85rem;
+}
+
+.upload-progress {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 10px;
+
+  ::ng-deep .mat-progress-bar .mat-progress-bar-element {
+    transition: none;
+  }
+}
