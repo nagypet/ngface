@@ -395,6 +395,64 @@ NewComponentView.java generated
 ```
 ![](docs/screenshot4.jpg)
 
+# Binding the ngface lib to the app
+
+## Initializing the DeviceTypeService
+
+In order the responsiveness work, the `DeviceTypeService` has to be initialized.
+
+```typescript
+export class AppComponent implements OnInit
+{
+    title = 'demo-app';
+    
+    constructor(public deviceTypeService: DeviceTypeService)
+    {
+    }
+
+    ngOnInit(): void
+    {
+        this.onWindowResize();
+}
+
+
+    @HostListener('window:resize', ['$event'])
+    onWindowResize(): void
+    {
+        this.deviceTypeService.calculateDeviceType();
+    }
+}
+```
+
+## Theming
+
+The ngface lib can use the applications theme. Put this into your styles.scss.
+
+```scss
+@use '@angular/material' as mat;
+@use '../../ngface/src/lib/styles/theme' as ngface;
+
+@include mat.core();
+
+$my-primary: mat.m2-define-palette(mat.$m2-blue-palette);
+$my-accent: mat.m2-define-palette(mat.$m2-blue-palette);
+$my-warn: mat.m2-define-palette(mat.$m2-red-palette);
+
+$my-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $my-primary,
+    accent: $my-accent,
+    warn: $my-warn
+  )
+));
+
+@include mat.all-component-themes($my-theme);
+
+@include ngface.set-palette($my-primary, primary);
+@include ngface.set-palette($my-warn, warn);
+```
+
+Ngface will use only the primary and the warn palette.
 
 # Open issues
 
