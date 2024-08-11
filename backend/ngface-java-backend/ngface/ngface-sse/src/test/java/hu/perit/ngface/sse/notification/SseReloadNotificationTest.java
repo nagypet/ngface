@@ -18,13 +18,13 @@ package hu.perit.ngface.sse.notification;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SseReloadNotificationTest
 {
-    private SseReloadNotification sseReloadNotification = new SseReloadNotification();
+    private static final String SUBJECT = "subject";
+
+    private final SseReloadNotification sseReloadNotification = new SseReloadNotification(SUBJECT);
 
 
     @Test
@@ -38,8 +38,8 @@ class SseReloadNotificationTest
     void toStringTest_shouldReturnString()
     {
         assertEquals(
-            "SseReloadNotification()",
-            sseReloadNotification.toString());
+                "SseReloadNotification()",
+                sseReloadNotification.toString());
     }
 
 
@@ -60,7 +60,7 @@ class SseReloadNotificationTest
     @Test
     void equalsTest_whenComparedToOtherWithSameTypeAndSameFields_shouldReturnTrue()
     {
-        SseReloadNotification other = new SseReloadNotification();
+        SseReloadNotification other = new SseReloadNotification(SUBJECT);
 
         assertEquals(sseReloadNotification, other);
     }
@@ -83,7 +83,7 @@ class SseReloadNotificationTest
     @Test
     void hashCodeTest_shouldReturnInteger()
     {
-        SseReloadNotification other = new SseReloadNotification();
+        SseReloadNotification other = new SseReloadNotification(SUBJECT);
 
         assertEquals(sseReloadNotification.hashCode(), other.hashCode());
     }

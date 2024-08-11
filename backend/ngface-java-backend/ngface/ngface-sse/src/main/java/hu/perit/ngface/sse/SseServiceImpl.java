@@ -22,7 +22,6 @@ import hu.perit.ngface.sse.notification.SseReloadNotification;
 import hu.perit.ngface.sse.notification.SseUpdateNotification;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -30,8 +29,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import static java.lang.Math.max;
@@ -50,10 +49,7 @@ public class SseServiceImpl implements SseService
     private final LinkedBlockingDeque<SseNotification> queue = new LinkedBlockingDeque<>();
     private final Thread processingThread = new Thread(this::dispatchNotifications);
     private final NotificationWatchDog notificationWatchDog;
-    private final List<SseNotificationDispatcher> notificationDispatcherList = new ArrayList<>(List.of(
-            new SseReloadNotificationDispatcher(),
-            new SseMessageNotificationDispatcher()
-    ));
+    private final Map<SseNotification, SseNotificationDispatcher> notificationDispatcherList = new HashMap<>();
 
     @Autowired
     public SseServiceImpl(NotificationWatchDog notificationWatchDog)
@@ -75,7 +71,7 @@ public class SseServiceImpl implements SseService
     }
 
     @PreDestroy
-    protected void shotdown()
+    protected void shutdown()
     {
         this.processingThread.interrupt();
     }
@@ -107,7 +103,7 @@ public class SseServiceImpl implements SseService
             {
                 // take() will block the current thread as long the queue is empty. We want to optimize
                 SseNotification notification = this.queue.take();
-                this.notificationDispatcherList.forEach(d -> d.dispatch(notification));
+                getDispatcher(notification).dispatch(notification);
             }
             catch (InterruptedException e)
             {
@@ -115,6 +111,24 @@ public class SseServiceImpl implements SseService
                 return;
             }
         }
+    }
+
+
+    // Get the right dispatcher by type and subject
+    private SseNotificationDispatcher getDispatcher(SseNotification notification)
+    {
+        return this.notificationDispatcherList.computeIfAbsent(notification, key -> createDispatcher(key));
+    }
+
+
+    private SseNotificationDispatcher createDispatcher(SseNotification notification)
+    {
+        return switch (notification.getType())
+        {
+            case RELOAD -> new SseReloadNotificationDispatcher(notification.getSubject(), this.serverSentEvent, this.notificationWatchDog);
+            case MESSAGE -> new SseMessageNotificationDispatcher(notification.getSubject(), this.serverSentEvent);
+            case UPDATE -> new SseUpdateNotificationDispatcher(notification.getSubject(), this.serverSentEvent, this.notificationWatchDog);
+        };
     }
 
 
@@ -127,47 +141,35 @@ public class SseServiceImpl implements SseService
     @Override
     public synchronized void sendNotification(SseNotification sseNotification)
     {
-        if (sseNotification instanceof SseUpdateNotification updateNotification)
+        if (StringUtils.isBlank(sseNotification.getSubject()))
         {
-            if (StringUtils.isBlank(updateNotification.getSubject()))
-            {
-                throw new IllegalStateException(MessageFormat.format("The subject is mandatory for {0}", SseUpdateNotification.class.getName()));
-            }
-            if (!dispatcherExists(updateNotification.getSubject()))
-            {
-                this.notificationDispatcherList.add(new SseUpdateNotificationDispatcher(updateNotification.getSubject()));
-            }
+            throw new IllegalStateException(MessageFormat.format("The subject is mandatory for {0}", SseUpdateNotification.class.getName()));
         }
         queueNotification(sseNotification);
     }
 
-    private boolean dispatcherExists(String subject)
-    {
-        return this.notificationDispatcherList.stream()
-                .filter(SseUpdateNotificationDispatcher.class::isInstance)
-                .anyMatch(u -> ((SseUpdateNotificationDispatcher) u).getSubject().equals(subject));
-    }
-
 
     @Override
-    public void sendError(Throwable throwable)
+    public void sendError(String subject, Throwable throwable)
     {
-        SseNotification notification = SseMessageNotification.create(throwable);
-        queueNotification(notification);
-    }
-
-    @Override
-    public void sendReload()
-    {
-        SseReloadNotification notification = SseReloadNotification.create();
+        SseNotification notification = SseMessageNotification.create(subject, throwable);
         queueNotification(notification);
     }
 
 
-    protected void resendNotification(SseNotification sseNotification)
+    @Override
+    public void sendReload(String subject)
+    {
+        SseReloadNotification notification = SseReloadNotification.create(subject);
+        queueNotification(notification);
+    }
+
+
+    @Override
+    public void resendNotification(SseNotification sseNotification)
     {
         queueNotification(sseNotification);
-        this.notificationDispatcherList.forEach(d -> d.triggerEventFired(sseNotification));
+        getDispatcher(sseNotification).triggerEventFired(sseNotification);
     }
 
 
@@ -185,7 +187,8 @@ public class SseServiceImpl implements SseService
 
 
     // Unit test
-    int getQueueSize()
+    @Override
+    public int getQueueSize()
     {
         return this.queue.size();
     }
@@ -194,14 +197,22 @@ public class SseServiceImpl implements SseService
     // SseReloadNotificationDispatcher
     //------------------------------------------------------------------------------------------------------------------
 
-    private class SseReloadNotificationDispatcher implements SseNotificationDispatcher
+    @RequiredArgsConstructor
+    private static class SseReloadNotificationDispatcher implements SseNotificationDispatcher
     {
+        private final String subject;
+        private final ServerSentEvent<SseNotification, String> serverSentEvent;
+        private final NotificationWatchDog notificationWatchDog;
+
         private long lastReloadSent = 0;
+        private SseReloadNotification pendingNotifications = null;
+        private boolean triggerEventInProgress = false;
+
 
         @Override
         public boolean handlesNotification(SseNotification notification)
         {
-            return notification instanceof SseReloadNotification;
+            return notification instanceof SseReloadNotification && this.subject.equals(notification.getSubject());
         }
 
         @Override
@@ -209,6 +220,7 @@ public class SseServiceImpl implements SseService
         {
             if (handlesNotification(notification))
             {
+                SseReloadNotification reloadNotification = (SseReloadNotification) notification;
                 // Let's see how long ago the last RELOAD event has been sent
                 long diff = System.currentTimeMillis() - lastReloadSent;
 
@@ -217,10 +229,31 @@ public class SseServiceImpl implements SseService
                 {
                     log.info(SENDING_NOTIFICATION_FORMAT, notification, diff);
                     serverSentEvent.fire(notification);
+                    this.pendingNotifications = null;
                     lastReloadSent = System.currentTimeMillis();
                 }
+                else
+                {
+                    log.debug("Queueing notification {}, last sent {} ms ago", reloadNotification, diff);
 
-                // Otherwise skip sending
+                    // Otherwise only collect updates
+                    appendToPendingNotifications(reloadNotification);
+
+                    if (!this.triggerEventInProgress)
+                    {
+                        long sleepTime = max(0, 1200 - diff);
+                        this.triggerEventInProgress = true;
+                        notificationWatchDog.resendInMillis(sleepTime, reloadNotification);
+                    }
+                }
+            }
+        }
+
+        private void appendToPendingNotifications(SseReloadNotification reloadNotification)
+        {
+            if (this.pendingNotifications == null)
+            {
+                this.pendingNotifications = reloadNotification;
             }
         }
     }
@@ -230,18 +263,20 @@ public class SseServiceImpl implements SseService
     // SseUpdateNotificationDispatcher
     //------------------------------------------------------------------------------------------------------------------
     @RequiredArgsConstructor
-    private class SseUpdateNotificationDispatcher implements SseNotificationDispatcher
+    private static class SseUpdateNotificationDispatcher implements SseNotificationDispatcher
     {
-        private long lastUpdateSent = 0;
-        private SseUpdateNotification pendingUpdates = null;
-        private boolean triggerEventInProgress = false;
-        @Getter
         private final String subject;
+        private final ServerSentEvent<SseNotification, String> serverSentEvent;
+        private final NotificationWatchDog notificationWatchDog;
+
+        private long lastUpdateSent = 0;
+        private SseUpdateNotification pendingNotifications = null;
+        private boolean triggerEventInProgress = false;
 
         @Override
         public boolean handlesNotification(SseNotification notification)
         {
-            return notification instanceof SseUpdateNotification updateNotification && this.subject.equals(updateNotification.getSubject());
+            return notification instanceof SseUpdateNotification && this.subject.equals(notification.getSubject());
         }
 
         @Override
@@ -257,9 +292,9 @@ public class SseServiceImpl implements SseService
                 if (diff >= 1000)
                 {
                     appendToPendingNotifications(updateNotification);
-                    log.info(SENDING_NOTIFICATION_FORMAT, this.pendingUpdates, diff);
-                    serverSentEvent.fire(this.pendingUpdates);
-                    this.pendingUpdates = null;
+                    log.info(SENDING_NOTIFICATION_FORMAT, this.pendingNotifications, diff);
+                    serverSentEvent.fire(this.pendingNotifications);
+                    this.pendingNotifications = null;
                     this.lastUpdateSent = System.currentTimeMillis();
                 }
                 else
@@ -290,13 +325,13 @@ public class SseServiceImpl implements SseService
 
         private void appendToPendingNotifications(SseUpdateNotification newNotification)
         {
-            if (this.pendingUpdates == null)
+            if (this.pendingNotifications == null)
             {
-                this.pendingUpdates = newNotification;
+                this.pendingNotifications = newNotification;
                 return;
             }
 
-            this.pendingUpdates.append(newNotification);
+            this.pendingNotifications.append(newNotification);
         }
     }
 
@@ -304,12 +339,16 @@ public class SseServiceImpl implements SseService
     //------------------------------------------------------------------------------------------------------------------
     // SseMessageNotificationDispatcher
     //------------------------------------------------------------------------------------------------------------------
-    private class SseMessageNotificationDispatcher implements SseNotificationDispatcher
+    @RequiredArgsConstructor
+    private static class SseMessageNotificationDispatcher implements SseNotificationDispatcher
     {
+        private final String subject;
+        private final ServerSentEvent<SseNotification, String> serverSentEvent;
+
         @Override
         public boolean handlesNotification(SseNotification notification)
         {
-            return notification instanceof SseMessageNotification;
+            return notification instanceof SseMessageNotification && this.subject.equals(notification.getSubject());
         }
 
         @Override

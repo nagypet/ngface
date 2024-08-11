@@ -30,7 +30,6 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class SseUpdateNotification extends SseNotification
 {
-    private final String subject;
     private final Set<Long> jobIds;
 
     public static SseUpdateNotification create(String subject, Long jobId)
@@ -40,8 +39,7 @@ public class SseUpdateNotification extends SseNotification
 
     public SseUpdateNotification(String subject, Set<Long> jobIds)
     {
-        super(Type.UPDATE);
-        this.subject = subject;
+        super(Type.UPDATE, subject);
         this.jobIds = new HashSet<>(jobIds);
     }
 

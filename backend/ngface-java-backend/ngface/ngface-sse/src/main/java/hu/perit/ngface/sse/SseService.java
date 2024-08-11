@@ -26,13 +26,17 @@ public interface SseService
     void sendNotification(SseNotification sseNotification);
 
     /**
-     *
      * @param throwable
      */
-    void sendError(Throwable throwable);
+    void sendError(String subject, Throwable throwable);
 
     /**
      * Sends a reload message to the frontend
      */
-    void sendReload();
+    void sendReload(String subject);
+
+    void resendNotification(SseNotification sseNotification);
+
+    // Unit test
+    int getQueueSize();
 }

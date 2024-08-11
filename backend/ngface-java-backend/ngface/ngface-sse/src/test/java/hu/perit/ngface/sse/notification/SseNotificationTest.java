@@ -18,13 +18,13 @@ package hu.perit.ngface.sse.notification;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SseNotificationTest
 {
-    private SseNotification sseNotification = new SseNotification(SseNotification.Type.RELOAD);
+    private static final String SUBJECT = "subject";
+
+    private final SseNotification sseNotification = new SseNotification(SseNotification.Type.RELOAD, SUBJECT);
 
 
     @Test
@@ -38,8 +38,8 @@ class SseNotificationTest
     void toStringTest_shouldReturnString()
     {
         assertEquals(
-            "SseNotification(type=RELOAD)",
-            sseNotification.toString());
+                "SseNotification(type=RELOAD)",
+                sseNotification.toString());
     }
 
 
@@ -60,7 +60,7 @@ class SseNotificationTest
     @Test
     void equalsTest_whenComparedToOtherWithSameTypeAndSameFields_shouldReturnTrue()
     {
-        SseNotification other = new SseNotification(SseNotification.Type.RELOAD);
+        SseNotification other = new SseNotification(SseNotification.Type.RELOAD, SUBJECT);
 
         assertEquals(sseNotification, other);
     }
@@ -69,7 +69,7 @@ class SseNotificationTest
     @Test
     void equalsTest_whenComparedToOtherWithSameTypeAndDifferentFields_shouldReturnFalse()
     {
-        SseNotification other = new SseNotification(SseNotification.Type.MESSAGE);
+        SseNotification other = new SseNotification(SseNotification.Type.MESSAGE, SUBJECT);
 
         assertNotEquals(sseNotification, other);
     }
@@ -92,7 +92,7 @@ class SseNotificationTest
     @Test
     void hashCodeTest_shouldReturnInteger()
     {
-        SseNotification other = new SseNotification(SseNotification.Type.RELOAD);
+        SseNotification other = new SseNotification(SseNotification.Type.RELOAD, SUBJECT);
 
         assertEquals(sseNotification.hashCode(), other.hashCode());
     }

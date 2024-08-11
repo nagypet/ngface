@@ -107,7 +107,7 @@ generateTypeScript {
     optionalAnnotations = [
             'javax.annotation.Nullable'
     ]
-    optionalPropertiesDeclaration = 'nullableType'
+    optionalPropertiesDeclaration = 'questionMark'
 }
 
 dist.configure {

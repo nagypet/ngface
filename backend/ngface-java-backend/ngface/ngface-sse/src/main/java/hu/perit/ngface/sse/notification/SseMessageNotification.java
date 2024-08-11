@@ -32,7 +32,6 @@ import java.util.Optional;
 @EqualsAndHashCode(callSuper = true)
 public class SseMessageNotification extends SseNotification
 {
-
     public static final String TXT_ERROR = "ERROR";
 
     public enum Level
@@ -50,16 +49,16 @@ public class SseMessageNotification extends SseNotification
     @Nullable
     private final String errorText;
 
-    public static SseMessageNotification create(Level level, String message, String details)
+    public static SseMessageNotification create(String subject, Level level, String message, String details)
     {
-        return new SseMessageNotification(level, message, details, null);
+        return new SseMessageNotification(subject, level, message, details, null);
     }
 
-    public static SseMessageNotification create(Throwable throwable)
+    public static SseMessageNotification create(String subject, Throwable throwable)
     {
         if (throwable == null)
         {
-            return create(Level.ERROR, TXT_ERROR, null);
+            return create(subject, Level.ERROR, TXT_ERROR, null);
         }
 
         ExceptionWrapper exception = ExceptionWrapper.of(throwable);
@@ -67,12 +66,12 @@ public class SseMessageNotification extends SseNotification
                 .map(t -> StringUtils.isNotBlank(t.getMessage()) ? t.getMessage() : t.toString())
                 .orElse(TXT_ERROR);
         String details = throwable.getMessage();
-        return create(Level.ERROR, StringUtils.abbreviate(message, 50), StringUtils.abbreviate(message.equalsIgnoreCase(details) ? null : details, 200));
+        return create(subject, Level.ERROR, StringUtils.abbreviate(message, 50), StringUtils.abbreviate(message.equalsIgnoreCase(details) ? null : details, 200));
     }
 
-    public SseMessageNotification(Level level, @Nullable String message, @Nullable String details, @Nullable String errorText)
+    public SseMessageNotification(String subject, Level level, @Nullable String message, @Nullable String details, @Nullable String errorText)
     {
-        super(Type.MESSAGE);
+        super(Type.MESSAGE, subject);
         this.level = level;
         this.message = message;
         this.details = details;

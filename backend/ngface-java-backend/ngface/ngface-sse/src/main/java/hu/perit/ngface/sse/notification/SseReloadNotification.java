@@ -27,13 +27,13 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class SseReloadNotification extends SseNotification
 {
-    public static SseReloadNotification create()
+    public static SseReloadNotification create(String subject)
     {
-        return new SseReloadNotification();
+        return new SseReloadNotification(subject);
     }
 
-    public SseReloadNotification()
+    public SseReloadNotification(String subject)
     {
-        super(Type.RELOAD);
+        super(Type.RELOAD, subject);
     }
 }

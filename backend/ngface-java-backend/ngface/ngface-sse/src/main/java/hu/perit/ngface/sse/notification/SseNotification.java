@@ -40,4 +40,5 @@ public class SseNotification
     }
 
     private final Type type;
+    private final String subject;
 }
