@@ -199,7 +199,7 @@ export class NgfaceErrorDialogComponent implements OnInit
     details += `Status: ${this.data.status} - ${this.inputData.value?.statusText}`;
     if (this.data.timestamp)
     {
-      const formattedDate = formatDate(this.data.timestamp, 'yyyy-dd-MM hh:mm:ss zzzz', this.locale, '');
+      const formattedDate = formatDate(this.data.timestamp, 'yyyy-MM-dd hh:mm:ss zzzz', this.locale, '');
       details += `<br>Timestamp: ${formattedDate}`;
     }
     details += `<br>Message: ${this.data.message}`;
