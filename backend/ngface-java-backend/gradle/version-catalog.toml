@@ -2,24 +2,24 @@
 habarta-typescript-generator = { id = 'cz.habarta.typescript-generator', version = '3.2.1263' }
 io-spring-dependency-management = { id = 'io.spring.dependency-management', version = '1.1.6' }
 johnrengelman-shadow = { id = 'com.github.johnrengelman.shadow', version = '8.1.1' }
-org-springframework-boot = { id = 'org.springframework.boot', version = '3.3.2' }
+org-springframework-boot = { id = 'org.springframework.boot', version = '3.3.3' }
 
 [versions]
 jackson = '2.17.2'
 junit = '5.10.3'
-logback = '1.5.6'
-mapstruct = '1.5.5.Final'
+logback = '1.5.8'
+mapstruct = '1.6.0'
 springdoc = '2.6.0'
 
 [libraries]
 assertj = 'org.assertj:assertj-core:3.26.3'
-commons-cli = 'commons-cli:commons-cli:1.5.0'
+commons-cli = 'commons-cli:commons-cli:1.9.0'
 commons-collections4 = 'org.apache.commons:commons-collections4:4.5.0-M2'
 commons-io = 'commons-io:commons-io:2.16.1'
-commons-lang3 = 'org.apache.commons:commons-lang3:3.15.0'
+commons-lang3 = 'org.apache.commons:commons-lang3:3.16.0'
 glassfish-expressly = 'org.glassfish.expressly:expressly:5.0.0'
 google-code-findbugs = 'com.google.code.findbugs:jsr305:3.0.2'
-guava = 'com.google.guava:guava:33.2.1-jre'
+guava = 'com.google.guava:guava:33.3.0-jre'
 hibernate-validator = 'org.hibernate:hibernate-validator:8.0.1.Final'
 jackson-annotations = { module = 'com.fasterxml.jackson.core:jackson-annotations', version.ref = 'jackson' }
 jackson-core = { module = 'com.fasterxml.jackson.core:jackson-core', version.ref = 'jackson' }
@@ -37,4 +37,4 @@ openapi-api = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-api', v
 openapi-ui = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-ui', version.ref = 'springdoc' }
 opencsv = 'com.opencsv:opencsv:5.9'
 slf4j-api = 'org.slf4j:slf4j-api:2.0.13'
-spvitamin = 'hu.perit.spvitamin:spvitamin-dependencies:3.3.2-1-SNAPSHOT'
+spvitamin = 'hu.perit.spvitamin:spvitamin-dependencies:3.3.3-1-SNAPSHOT'
