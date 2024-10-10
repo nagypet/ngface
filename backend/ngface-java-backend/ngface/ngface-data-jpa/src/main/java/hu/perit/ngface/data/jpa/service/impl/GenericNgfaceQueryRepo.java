@@ -16,13 +16,9 @@
 
 package hu.perit.ngface.data.jpa.service.impl;
 
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-@Slf4j
-public abstract class NgfaceQueryServiceImpl<E> extends GenericNgfaceQueryServiceImpl<E, Long>
+public interface GenericNgfaceQueryRepo<E, ID> extends JpaRepository<E, ID>, JpaSpecificationExecutor<E>
 {
-    protected NgfaceQueryServiceImpl(NgfaceQueryRepo<E> repo, int defaultPageSize)
-    {
-        super(repo, defaultPageSize);
-    }
 }

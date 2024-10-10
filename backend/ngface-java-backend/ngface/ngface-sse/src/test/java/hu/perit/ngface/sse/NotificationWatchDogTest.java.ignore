@@ -16,20 +16,27 @@
 
 package hu.perit.ngface.sse;
 
+import hu.perit.ngface.sse.notification.SseNotification;
 import hu.perit.ngface.sse.notification.SseUpdateNotification;
 import hu.perit.spvitamin.spring.config.SpringContextMock;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.Duration;
 import java.util.HashSet;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
+@Slf4j
 class NotificationWatchDogTest
 {
     @MockBean
@@ -45,8 +52,8 @@ class NotificationWatchDogTest
     public void init()
     {
         SpringContextMock.builder()
-            .append(SseService.class, sseService)
-            .build(applicationContext);
+                .append(SseService.class, sseService)
+                .build(applicationContext);
 
         notificationWatchDog = new NotificationWatchDog();
     }
@@ -55,10 +62,16 @@ class NotificationWatchDogTest
     @Test
     void resendInMillisTest_shouldVerifyMock()
     {
-        SseUpdateNotification updateNotification = new SseUpdateNotification("alma", new HashSet<>());
+        SseUpdateNotification<Long> updateNotification = new SseUpdateNotification<>("alma", new HashSet<>());
 
         notificationWatchDog.resendInMillis(1L, updateNotification);
 
-        verify(sseService).resendNotification(updateNotification);
+        await().atMost(Duration.ofSeconds(10));
+
+        ArgumentCaptor<SseNotification> argumentCaptor = ArgumentCaptor.forClass(SseNotification.class);
+        verify(sseService).resendNotification(argumentCaptor.capture());
+        SseNotification sseNotification = argumentCaptor.getValue();
+        assertThat(sseNotification).isNotNull();
+        assertThat(sseNotification.getSubject()).isEqualTo("alma");
     }
 }

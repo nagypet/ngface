@@ -120,6 +120,8 @@ generateTypeScript {
             'hu.perit.ngface.core.widget.table.Table$SelectMode:Table.SelectMode',
             'hu.perit.ngface.core.widget.table.Table$Data:Table.Data',
             'hu.perit.ngface.core.widget.table.Column$Size:Column.Size',
+            'hu.perit.ngface.core.widget.table.Column$TextAlign:Column.TextAlign',
+            'hu.perit.ngface.core.widget.table.ColumnGroup$TextAlign:ColumnGroup.TextAlign',
             'hu.perit.ngface.core.widget.table.ValueSet$Item:ValueSet.Item',
             'hu.perit.ngface.core.types.intf.DataRetrievalParams$Page:DataRetrievalParams.Page',
             'hu.perit.ngface.core.types.intf.DataRetrievalParams$Sort:DataRetrievalParams.Sort',

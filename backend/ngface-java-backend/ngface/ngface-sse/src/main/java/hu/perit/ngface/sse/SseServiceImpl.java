@@ -24,11 +24,9 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -101,7 +99,7 @@ public class SseServiceImpl implements SseService
         {
             try
             {
-                // take() will block the current thread as long the queue is empty. We want to optimize
+                // take() will block the current thread as long the queue is empty.
                 SseNotification notification = this.queue.take();
                 getDispatcher(notification).dispatch(notification);
             }
@@ -125,9 +123,11 @@ public class SseServiceImpl implements SseService
     {
         return switch (notification.getType())
         {
-            case RELOAD -> new SseReloadNotificationDispatcher(notification.getSubject(), this.serverSentEvent, this.notificationWatchDog);
+            case RELOAD ->
+                    new SseReloadNotificationDispatcher(notification.getSubject(), this.serverSentEvent, this.notificationWatchDog);
             case MESSAGE -> new SseMessageNotificationDispatcher(notification.getSubject(), this.serverSentEvent);
-            case UPDATE -> new SseUpdateNotificationDispatcher(notification.getSubject(), this.serverSentEvent, this.notificationWatchDog);
+            case UPDATE ->
+                    new SseUpdateNotificationDispatcher(notification.getSubject(), this.serverSentEvent, this.notificationWatchDog);
         };
     }
 
@@ -141,10 +141,6 @@ public class SseServiceImpl implements SseService
     @Override
     public synchronized void sendNotification(SseNotification sseNotification)
     {
-        if (StringUtils.isBlank(sseNotification.getSubject()))
-        {
-            throw new IllegalStateException(MessageFormat.format("The subject is mandatory for {0}", SseUpdateNotification.class.getName()));
-        }
         queueNotification(sseNotification);
     }
 
@@ -270,7 +266,7 @@ public class SseServiceImpl implements SseService
         private final NotificationWatchDog notificationWatchDog;
 
         private long lastUpdateSent = 0;
-        private SseUpdateNotification pendingNotifications = null;
+        private SseUpdateNotification<?> pendingNotifications = null;
         private boolean triggerEventInProgress = false;
 
         @Override
@@ -284,7 +280,7 @@ public class SseServiceImpl implements SseService
         {
             if (handlesNotification(notification))
             {
-                SseUpdateNotification updateNotification = (SseUpdateNotification) notification;
+                SseUpdateNotification<?> updateNotification = (SseUpdateNotification<?>) notification;
                 // Let's see how long ago the last UPDATE event has been sent
                 long diff = System.currentTimeMillis() - this.lastUpdateSent;
 

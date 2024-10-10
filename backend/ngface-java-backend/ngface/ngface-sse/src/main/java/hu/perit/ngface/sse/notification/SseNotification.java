@@ -18,16 +18,17 @@ package hu.perit.ngface.sse.notification;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
+
+import java.text.MessageFormat;
 
 /**
  * This is the object sent to the frontend in case of an asynchronous event
  */
 @Setter
 @Getter
-@RequiredArgsConstructor
 @ToString
 @EqualsAndHashCode
 public class SseNotification
@@ -41,4 +42,20 @@ public class SseNotification
 
     private final Type type;
     private final String subject;
+
+    public SseNotification(Type type, String subject)
+    {
+        if (StringUtils.isBlank(subject))
+        {
+            throw new IllegalStateException(MessageFormat.format("The subject is mandatory for {0}", this.getClass().getName()));
+        }
+
+        if (type == null)
+        {
+            throw new IllegalStateException(MessageFormat.format("The type is mandatory for {0}", this.getClass().getName()));
+        }
+
+        this.subject = subject;
+        this.type = type;
+    }
 }

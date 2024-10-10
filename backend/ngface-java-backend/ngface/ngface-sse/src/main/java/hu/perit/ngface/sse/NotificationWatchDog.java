@@ -18,33 +18,70 @@ package hu.perit.ngface.sse;
 
 import hu.perit.ngface.sse.notification.SseNotification;
 import hu.perit.spvitamin.spring.config.SpringContext;
+import jakarta.annotation.PreDestroy;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
 public class NotificationWatchDog
 {
-    @Async
+    private final ExecutorService executor;
+
+    public NotificationWatchDog()
+    {
+        BasicThreadFactory factory = new BasicThreadFactory.Builder()
+                .namingPattern("sse-watchdog-%d")
+                .build();
+        executor = Executors.newFixedThreadPool(100, factory);
+    }
+
+
+    @PreDestroy
+    private void shutdown()
+    {
+        this.executor.shutdown();
+    }
+
+
+    // The @Async annotation did not work in every case
     public void resendInMillis(long sleepTime, SseNotification sseNotification)
     {
-        // To avoid circular dependencies
-        SseServiceImpl sseService = (SseServiceImpl) SpringContext.getBean(SseService.class);
-        try
+        this.executor.submit(new AsyncJob(sleepTime, sseNotification));
+    }
+
+
+    @RequiredArgsConstructor
+    private static class AsyncJob implements Runnable
+    {
+        private final Long sleepTime;
+        private final SseNotification sseNotification;
+
+
+        @Override
+        public void run()
         {
-            if (sleepTime > 0)
+            // To avoid circular dependencies
+            SseServiceImpl sseService = (SseServiceImpl) SpringContext.getBean(SseService.class);
+            try
             {
-                TimeUnit.MILLISECONDS.sleep(sleepTime);
+                if (sleepTime > 0)
+                {
+                    TimeUnit.MILLISECONDS.sleep(sleepTime);
+                }
             }
+            catch (InterruptedException e)
+            {
+                Thread.currentThread().interrupt();
+            }
+            log.debug("Fireing trigger event {}", sseNotification);
+            sseService.resendNotification(sseNotification);
         }
-        catch (InterruptedException e)
-        {
-            Thread.currentThread().interrupt();
-        }
-        log.debug("Fireing trigger event {}", sseNotification);
-        sseService.resendNotification(sseNotification);
     }
 }

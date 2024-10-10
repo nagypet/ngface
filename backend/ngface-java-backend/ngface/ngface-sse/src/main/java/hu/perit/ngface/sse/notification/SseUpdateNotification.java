@@ -28,22 +28,22 @@ import java.util.Set;
 @Getter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class SseUpdateNotification extends SseNotification
+public class SseUpdateNotification<T> extends SseNotification
 {
-    private final Set<Long> jobIds;
+    private final Set<T> jobIds;
 
-    public static SseUpdateNotification create(String subject, Long jobId)
+    public static <T> SseUpdateNotification<T> create(String subject, T jobId)
     {
-        return new SseUpdateNotification(subject, Set.of(jobId));
+        return new SseUpdateNotification<>(subject, Set.of(jobId));
     }
 
-    public SseUpdateNotification(String subject, Set<Long> jobIds)
+    public SseUpdateNotification(String subject, Set<T> jobIds)
     {
         super(Type.UPDATE, subject);
         this.jobIds = new HashSet<>(jobIds);
     }
 
-    public void append(SseUpdateNotification updateNotification)
+    public void append(SseUpdateNotification<T> updateNotification)
     {
         this.jobIds.addAll(updateNotification.jobIds);
     }

@@ -24,6 +24,7 @@ import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
+import java.text.MessageFormat;
 import java.util.Optional;
 
 @Setter
@@ -56,6 +57,11 @@ public class SseMessageNotification extends SseNotification
 
     public static SseMessageNotification create(String subject, Throwable throwable)
     {
+        if (StringUtils.isBlank(subject))
+        {
+            throw new IllegalStateException(MessageFormat.format("The subject is mandatory for {0}", SseMessageNotification.class.getName()));
+        }
+
         if (throwable == null)
         {
             return create(subject, Level.ERROR, TXT_ERROR, null);

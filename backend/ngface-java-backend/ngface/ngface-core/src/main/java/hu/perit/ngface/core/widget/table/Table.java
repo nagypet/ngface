@@ -39,6 +39,7 @@ public class Table<T> extends Widget<Table.Data, Table<T>>
         CHECKBOX
     }
 
+    private final Map<String, ColumnGroup> columnGroups = new LinkedHashMap<>();
     private final Map<String, Column> columns = new LinkedHashMap<>();
     private final List<Row<T>> rows = new ArrayList<>();
     @Nullable
@@ -52,6 +53,23 @@ public class Table<T> extends Widget<Table.Data, Table<T>>
     {
         super(id);
         this.data = new Table.Data();
+    }
+
+
+    public Table<T> addColumnGroup(ColumnGroup columnGroup)
+    {
+        if (!this.rows.isEmpty())
+        {
+            throw new NgFaceException("Please define columns before adding rows!");
+        }
+
+        if (!columnGroup.isValid())
+        {
+            throw new NgFaceException("columnGroup is invalid!");
+        }
+
+        this.columnGroups.put(columnGroup.getId(), columnGroup);
+        return this;
     }
 
 
