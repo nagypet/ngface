@@ -113,7 +113,7 @@ export class WidgetDemoFormComponent extends FormBaseComponent implements OnInit
     switch (notification.type)
     {
       case 'UPDATE':
-        const updateNotification: NgfaceSse.SseUpdateNotification = JSON.parse(event.data);
+        const updateNotification: NgfaceSse.SseUpdateNotification<number> = JSON.parse(event.data);
         if (updateNotification.subject === 'tick')
         {
           console.log(updateNotification);

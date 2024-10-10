@@ -15,6 +15,6 @@
 # limitations under the License.
 #
 
-docker run -it --rm -v $(pwd):/opt/app np/node-angular-18 /opt/app/build.sh
+docker run -it --rm -v $(pwd):/opt/app np/node-angular-18-2 /opt/app/build.sh
 docker build -t docker-registry:5000/ngface-app:latest .
 docker push docker-registry:5000/ngface-app:latest
