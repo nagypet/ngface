@@ -10,37 +10,43 @@
       <button mat-fab color="primary" (click)="fileInput.click()">
         <mat-icon>attach_file</mat-icon>
       </button>
-      <p class="upload-drop-zone-text">Select or drag and drop files here</p>
+      <p class="upload-drop-zone-text">{{ dropZoneText }}</p>
     </div>
   </div>
 
   <div class="upload-item-container">
     <upload-item
-      *ngFor="let file of files; let i = index"
+      *ngFor="let fileStatus of files; let i = index"
       [httpUrl]="httpUrl"
-      [file]="file"
+      [file]="fileStatus.file"
       [id]="i"
       (removeItem)="removeItem($event)"
-      (onUpload)="onUpload.emit($event)"
+      (onUpload)="emitUpload($event)"
     ></upload-item>
   </div>
 
-  <div class="ngface-row">
-    <button class="ngface-button"
-            [color]="uploadAllColor"
-            mat-raised-button
-            *ngIf="files.length > 0"
-            (click)="uploadAll()"
-    >
-      {{ uploadAllLabel }}
-    </button>
-    <button class="ngface-button"
-            mat-raised-button
-            [color]="removeAllColor"
-            *ngIf="files.length > 0"
-            (click)="removeAll()"
-    >
-      {{ removeAllLabel }}
-    </button>
-  </div>
+  @if (getCountOpen() > 0) {
+    <div class="ngface-row">
+      <button class="ngface-button"
+              [color]="uploadAllColor"
+              mat-raised-button
+              *ngIf="files.length > 0"
+              (click)="uploadAll()"
+              [matBadge]="getBadge()"
+              matBadgeColor="warn"
+      >
+        {{ uploadAllLabel }}
+      </button>
+      <button class="ngface-button"
+              mat-raised-button
+              [color]="removeAllColor"
+              *ngIf="files.length > 0"
+              (click)="removeAll()"
+              [matBadge]="getBadge()"
+              matBadgeColor="warn"
+      >
+        {{ removeAllLabel }}
+      </button>
+    </div>
+  }
 </div>

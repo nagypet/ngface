@@ -113,6 +113,7 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns: string[] = [];
+  columnGroups: string[] = [];
 
   constructor(@Inject(LOCALE_ID) public locale: string,
               private el: ElementRef)
@@ -121,14 +122,22 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
 
   ngOnChanges(): void
   {
-    this.displayedColumns = [];
     const data: Ngface.Table<any> = this.getData();
+    this.dataSource.setWidgetData(data);
+
+    this.displayedColumns = [];
     if (data.selectMode === 'CHECKBOX')
     {
       this.displayedColumns = ['___checkbox-column___'];
     }
     Object.keys(data.columns).forEach(c => this.displayedColumns.push(c));
-    this.dataSource.setWidgetData(data);
+
+    // Column groups
+    this.columnGroups = [];
+    if (data.columnGroups)
+    {
+      Object.keys(data.columnGroups).forEach(c => this.columnGroups.push(c));
+    }
 
     if (this.getSortColumn())
     {
@@ -350,6 +359,7 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
       return {
         type: 'Table',
         columns: {},
+        columnGroups: {},
         rows: [],
         totalRow: null,
         data: {
@@ -618,4 +628,32 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
   {
     return !!this.getData().totalRow;
   }
+
+  getColGroupText(columnGroup: string): string
+  {
+    const columnGroupText = this.getData().columnGroups[columnGroup]?.text;
+    return columnGroupText ? columnGroupText : "";
+  }
+
+  getColGroupColSpan(columnGroup: string): number
+  {
+    const colSpan = this.getData().columnGroups[columnGroup]?.colSpan;
+    return colSpan ? colSpan : 1;
+  }
+
+  getColGroupClass(column: string): string | null
+  {
+    switch (this.getData().columnGroups[column]?.textAlign)
+    {
+      case 'LEFT':
+        return 'align-left';
+      case 'CENTER':
+        return 'align-center';
+      case 'RIGHT':
+        return 'align-right';
+    }
+
+    return null;
+  }
+
 }

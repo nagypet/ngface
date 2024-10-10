@@ -16,427 +16,446 @@
 
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2024-08-10 08:17:44.
+// Generated using typescript-generator version 3.2.1263 on 2024-10-03 07:37:59.
 
 export namespace Ngface {
 
-    export interface DataRetrievalParams {
-        page: DataRetrievalParams.Page | null;
-        sort: DataRetrievalParams.Sort | null;
-        filters: DataRetrievalParams.Filter[] | null;
-    }
+  export interface DataRetrievalParams {
+    page: DataRetrievalParams.Page | null;
+    sort: DataRetrievalParams.Sort | null;
+    filters: DataRetrievalParams.Filter[] | null;
+  }
 
-    export interface Menu {
-        items: Menu.Item[];
-        defaultItemId: string;
-    }
+  export interface Menu {
+    items: Menu.Item[];
+    defaultItemId: string;
+  }
 
-    export interface RowSelectParams<T> {
-        selectMode: RowSelectParams.SelectMode;
-        rows: RowSelectParams.Row<T>[];
-    }
+  export interface RowSelectParams<T> {
+    selectMode: RowSelectParams.SelectMode;
+    rows: RowSelectParams.Row<T>[];
+  }
 
-    export interface SubmitFormData {
-        id: string;
-        widgetDataMap: { [index: string]: WidgetData };
-    }
+  export interface SubmitFormData {
+    id: string;
+    widgetDataMap: { [index: string]: WidgetData };
+  }
 
-    export interface TableActionParams<T> {
-        actionTriggerMode: ActionTriggerMode;
-        actionId: string;
-        rowId: T | null;
-    }
+  export interface TableActionParams<T> {
+    actionTriggerMode: ActionTriggerMode;
+    actionId: string;
+    rowId: T | null;
+  }
 
-    export interface Button extends Widget<VoidWidgetData, Button> {
-        data: VoidWidgetData;
-        style: Style;
-        badge: string;
-    }
+  export interface Button extends Widget<VoidWidgetData, Button> {
+    data: VoidWidgetData;
+    style: Style;
+    badge: string;
+  }
 
-    export interface Form {
-        id: string;
-        title: string;
-        widgets: { [index: string]: Widget<any, any> };
-    }
+  export interface Form {
+    id: string;
+    title: string;
+    widgets: { [index: string]: Widget<any, any> };
+  }
 
-    export interface FormattedText extends Widget<FormattedText.Data, FormattedText> {
-        data: FormattedText.Data;
-    }
+  export interface FormattedText extends Widget<FormattedText.Data, FormattedText> {
+    data: FormattedText.Data;
+  }
 
-    export namespace FormattedText {
-
-        export interface Data extends Value<string> {
-            type: "FormattedText.Data";
-            value: string;
-        }
-
-    }
-
-    export interface Autocomplete extends Input<Data, string, Autocomplete> {
-        data: Data;
-    }
+  export namespace FormattedText {
 
     export interface Data extends Value<string> {
-        type: "Autocomplete.Data";
-        value: string;
-        extendedReadOnlyData: ExtendedReadOnlyData;
+      type: "FormattedText.Data";
+      value: string;
     }
 
-    export interface ExtendedReadOnlyData {
-        valueSet: ValueSet;
+  }
+
+  export interface Autocomplete extends Input<Data, string, Autocomplete> {
+    data: Data;
+  }
+
+  export interface Data extends Value<string> {
+    type: "Autocomplete.Data";
+    value: string;
+    extendedReadOnlyData: ExtendedReadOnlyData;
+  }
+
+  export interface ExtendedReadOnlyData {
+    valueSet: ValueSet;
+  }
+
+  export interface DateInput extends Input<DateInput.Data, Date, DateInput> {
+    data: DateInput.Data;
+  }
+
+  export namespace DateInput {
+
+    export interface Data extends Value<Date> {
+      type: "DateInput.Data";
+      value: Date;
     }
 
-    export interface DateInput extends Input<DateInput.Data, Date, DateInput> {
-        data: DateInput.Data;
+  }
+
+  export interface DateRangeInput extends Input<DateRangeInput.Data, void, DateRangeInput> {
+    data: DateRangeInput.Data;
+    placeholder2: string;
+    validators2: Validator[];
+  }
+
+  export namespace DateRangeInput {
+
+    export interface Data extends WidgetData {
+      type: "DateRangeInput.Data";
+      startDate: Date;
+      endDate: Date;
     }
 
-    export namespace DateInput {
+  }
 
-        export interface Data extends Value<Date> {
-            type: "DateInput.Data";
-            value: Date;
-        }
+  export interface DateTimeInput extends Input<DateTimeInput.Data, Date, DateTimeInput> {
+    data: DateTimeInput.Data;
+  }
 
+  export namespace DateTimeInput {
+
+    export interface Data extends Value<Date> {
+      type: "DateTimeInput.Data";
+      value: Date;
     }
 
-    export interface DateRangeInput extends Input<DateRangeInput.Data, void, DateRangeInput> {
-        data: DateRangeInput.Data;
-        placeholder2: string;
-        validators2: Validator[];
+  }
+
+  export interface NumericInput extends Input<NumericInput.Data, number, NumericInput> {
+    data: NumericInput.Data;
+    format: NumericFormat;
+  }
+
+  export namespace NumericInput {
+
+    export interface Data extends Value<number> {
+      type: "NumericInput.Data";
+      value: number;
     }
 
-    export namespace DateRangeInput {
+  }
 
-        export interface Data extends WidgetData {
-            type: "DateRangeInput.Data";
-            startDate: Date;
-            endDate: Date;
-        }
+  export interface Select extends Input<Select.Data, void, Select> {
+    data: Select.Data;
+  }
 
+  export namespace Select {
+
+    export interface Data extends WidgetData {
+      type: "Select.Data";
+      options: { [index: string]: string };
+      selected: string;
     }
 
-    export interface DateTimeInput extends Input<DateTimeInput.Data, Date, DateTimeInput> {
-        data: DateTimeInput.Data;
+  }
+
+  export interface Option {
+    id: string;
+    value: string;
+  }
+
+  export interface TextInput extends Input<TextInput.Data, string, TextInput> {
+    data: TextInput.Data;
+  }
+
+  export namespace TextInput {
+
+    export interface Data extends Value<string> {
+      type: "TextInput.Data";
+      value: string;
     }
 
-    export namespace DateTimeInput {
+  }
 
-        export interface Data extends Value<Date> {
-            type: "DateTimeInput.Data";
-            value: Date;
-        }
+  export interface Email extends Validator {
+  }
 
+  export interface Max extends Validator {
+    max: number;
+  }
+
+  export interface Min extends Validator {
+    min: number;
+  }
+
+  export interface Pattern extends Validator {
+    pattern: string;
+  }
+
+  export interface Required extends Validator {
+  }
+
+  export interface Size extends Validator {
+    min: number;
+    max: number;
+  }
+
+  export interface Action {
+    id: string;
+    label: string;
+    icon: string;
+    enabled: boolean;
+  }
+
+  export interface Column {
+    id: string;
+    text: string;
+    sortable: boolean;
+    size: Column.Size;
+    textAlign: Column.TextAlign;
+  }
+
+  export interface ColumnGroup {
+    id: string;
+    text: string;
+    colSpan: number;
+    textAlign: ColumnGroup.TextAlign;
+    valid: boolean;
+  }
+
+  export interface Filterer {
+    column: string;
+    valueSet: ValueSet;
+    searchText: string;
+    active: boolean;
+  }
+
+  export interface FiltererFactory {
+    filtererDefMap: { [index: string]: FiltererDef };
+  }
+
+  export interface FiltererDef {
+    column: string;
+    remote: boolean;
+    valueProvider: Function<string, string[]>;
+  }
+
+  export interface Paginator {
+    pageIndex: number;
+    pageSize: number;
+    length: number;
+    pageSizeOptions: number[];
+  }
+
+  export interface Row<T> {
+    id: T;
+    cells: { [index: string]: Cell<any, any> };
+    selected: boolean;
+  }
+
+  export interface Sorter {
+    column: string;
+    direction: Direction;
+  }
+
+  export interface Table<T> extends Widget<Table.Data, Table<T>> {
+    data: Table.Data;
+    columnGroups: { [index: string]: ColumnGroup };
+    columns: { [index: string]: Column };
+    rows: Row<T>[];
+    totalRow: Row<T> | null;
+    selectMode: Table.SelectMode;
+    notification: string;
+  }
+
+  export namespace Table {
+
+    export interface Data extends WidgetData {
+      type: "Table.Data";
+      paginator: Paginator | null;
+      sorter: Sorter | null;
+      filtererMap: { [index: string]: Filterer };
     }
 
-    export interface NumericInput extends Input<NumericInput.Data, number, NumericInput> {
-        data: NumericInput.Data;
-        format: NumericFormat;
+  }
+
+  export interface TableDataBuilder {
+  }
+
+  export interface ValueSet {
+    remote: boolean;
+    truncated: boolean;
+    values: ValueSet.Item[];
+  }
+
+  export namespace ValueSet {
+
+    export interface Item {
+      text: string;
+      selected: boolean;
     }
 
-    export namespace NumericInput {
+  }
 
-        export interface Data extends Value<number> {
-            type: "NumericInput.Data";
-            value: number;
-        }
+  export interface ActionCell extends Cell<Action[], ActionCell> {
+    value: Action[];
+  }
 
+  export interface Cell<V, SUB> {
+    type: string;
+    value: V;
+    label: string;
+  }
+
+  export interface NumericCell extends Cell<number, NumericCell> {
+    value: number;
+    format: NumericFormat;
+  }
+
+  export interface TextCell extends Cell<string, TextCell> {
+    value: string;
+  }
+
+  export interface Titlebar extends Widget<VoidWidgetData, Titlebar> {
+    data: VoidWidgetData;
+    appTitle: string;
+    version: string;
+    menu: Menu;
+    actions: Action[];
+  }
+
+  export namespace DataRetrievalParams {
+
+    export interface Page {
+      index: number;
+      size: number;
     }
 
-    export interface Select extends Input<Select.Data, void, Select> {
-        data: Select.Data;
+  }
+
+  export namespace DataRetrievalParams {
+
+    export interface Sort {
+      column: string;
+      direction: Direction;
     }
 
-    export namespace Select {
+  }
 
-        export interface Data extends WidgetData {
-            type: "Select.Data";
-            options: { [index: string]: string };
-            selected: string;
-        }
+  export namespace DataRetrievalParams {
 
+    export interface Filter {
+      column: string;
+      valueSet: DataRetrievalParams.Filter.Item[];
     }
 
-    export interface Option {
-        id: string;
-        value: string;
+  }
+
+  export namespace Menu {
+
+    export interface Item {
+      id: string;
+      label: string;
+      icon: string;
+      submenu: Menu;
     }
 
-    export interface TextInput extends Input<TextInput.Data, string, TextInput> {
-        data: TextInput.Data;
-    }
+  }
 
-    export namespace TextInput {
-
-        export interface Data extends Value<string> {
-            type: "TextInput.Data";
-            value: string;
-        }
-
-    }
-
-    export interface Email extends Validator {
-    }
-
-    export interface Max extends Validator {
-        max: number;
-    }
-
-    export interface Min extends Validator {
-        min: number;
-    }
-
-    export interface Pattern extends Validator {
-        pattern: string;
-    }
-
-    export interface Required extends Validator {
-    }
-
-    export interface Size extends Validator {
-        min: number;
-        max: number;
-    }
-
-    export interface Action {
-        id: string;
-        label: string;
-        icon: string;
-        enabled: boolean;
-    }
-
-    export interface Column {
-        id: string;
-        text: string;
-        sortable: boolean;
-        size: Column.Size;
-        textAlign: TextAlign;
-    }
-
-    export interface Filterer {
-        column: string;
-        valueSet: ValueSet;
-        searchText: string;
-        active: boolean;
-    }
-
-    export interface FiltererFactory {
-        filtererDefMap: { [index: string]: FiltererDef };
-    }
-
-    export interface FiltererDef {
-        column: string;
-        remote: boolean;
-        valueProvider: Function<string, string[]>;
-    }
-
-    export interface Paginator {
-        pageIndex: number;
-        pageSize: number;
-        length: number;
-        pageSizeOptions: number[];
-    }
+  export namespace RowSelectParams {
 
     export interface Row<T> {
-        id: T;
-        cells: { [index: string]: Cell<any, any> };
-        selected: boolean;
+      id: T;
+      selected: boolean;
     }
 
-    export interface Sorter {
-        column: string;
-        direction: Direction;
+  }
+
+  export interface WidgetData {
+    type: "WidgetData" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
+  }
+
+  export interface VoidWidgetData extends WidgetData {
+    type: "VoidWidgetData";
+  }
+
+  export interface Widget<WD, SUB> {
+    type: string;
+    id: string;
+    label: string;
+    hint: string;
+    enabled: boolean;
+    data: WD;
+  }
+
+  export interface Validator {
+    type: string;
+    message: string;
+  }
+
+  export interface NumericFormat extends AbstractFormat {
+    precision: number;
+    prefix: string;
+    suffix: string;
+    digitGrouping: boolean;
+  }
+
+  export interface Function<T, R> {
+  }
+
+  export namespace DataRetrievalParams.Filter {
+
+    export interface Item {
+      text: string | null;
     }
 
-    export interface Table<T> extends Widget<Table.Data, Table<T>> {
-        data: Table.Data;
-        columns: { [index: string]: Column };
-        rows: Row<T>[];
-        totalRow: Row<T> | null;
-        selectMode: Table.SelectMode;
-        notification: string;
-    }
+  }
 
-    export namespace Table {
+  export interface Value<V> extends WidgetData {
+    type: "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
+    value: V;
+  }
 
-        export interface Data extends WidgetData {
-            type: "Table.Data";
-            paginator: Paginator | null;
-            sorter: Sorter | null;
-            filtererMap: { [index: string]: Filterer };
-        }
+  export interface Input<WD, V, SUB> extends Widget<WD, SUB> {
+    placeholder: string;
+    validators: Validator[];
+  }
 
-    }
+  export interface AbstractFormat {
+    validators: Validator[];
+  }
 
-    export interface TableDataBuilder {
-    }
+  export type Direction = "ASC" | "DESC" | "UNDEFINED";
 
-    export interface ValueSet {
-        remote: boolean;
-        truncated: boolean;
-        values: ValueSet.Item[];
-    }
+  export type Style = "NONE" | "PRIMARY" | "ACCENT" | "WARN";
 
-    export namespace ValueSet {
+  export namespace Column {
 
-        export interface Item {
-            text: string;
-            selected: boolean;
-        }
+    export type Size = "AUTO" | "XS" | "S" | "M" | "L" | "XL" | "TIMESTAMP" | "NUMBER";
 
-    }
+  }
 
-    export interface ActionCell extends Cell<Action[], ActionCell> {
-        value: Action[];
-    }
-
-    export interface Cell<V, SUB> {
-        type: string;
-        value: V;
-        label: string;
-    }
-
-    export interface NumericCell extends Cell<number, NumericCell> {
-        value: number;
-        format: NumericFormat;
-    }
-
-    export interface TextCell extends Cell<string, TextCell> {
-        value: string;
-    }
-
-    export interface Titlebar extends Widget<VoidWidgetData, Titlebar> {
-        data: VoidWidgetData;
-        appTitle: string;
-        version: string;
-        menu: Menu;
-        actions: Action[];
-    }
-
-    export namespace DataRetrievalParams {
-
-        export interface Page {
-            index: number;
-            size: number;
-        }
-
-    }
-
-    export namespace DataRetrievalParams {
-
-        export interface Sort {
-            column: string;
-            direction: Direction;
-        }
-
-    }
-
-    export namespace DataRetrievalParams {
-
-        export interface Filter {
-            column: string;
-            valueSet: DataRetrievalParams.Filter.Item[];
-        }
-
-    }
-
-    export namespace Menu {
-
-        export interface Item {
-            id: string;
-            label: string;
-            icon: string;
-            submenu: Menu;
-        }
-
-    }
-
-    export namespace RowSelectParams {
-
-        export interface Row<T> {
-            id: T;
-            selected: boolean;
-        }
-
-    }
-
-    export interface WidgetData {
-        type: "WidgetData" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
-    }
-
-    export interface VoidWidgetData extends WidgetData {
-        type: "VoidWidgetData";
-    }
-
-    export interface Widget<WD, SUB> {
-        type: string;
-        id: string;
-        label: string;
-        hint: string;
-        enabled: boolean;
-        data: WD;
-    }
-
-    export interface Validator {
-        type: string;
-        message: string;
-    }
-
-    export interface NumericFormat extends AbstractFormat {
-        precision: number;
-        prefix: string;
-        suffix: string;
-        digitGrouping: boolean;
-    }
-
-    export interface Function<T, R> {
-    }
-
-    export namespace DataRetrievalParams.Filter {
-
-        export interface Item {
-            text: string | null;
-        }
-
-    }
-
-    export interface Value<V> extends WidgetData {
-        type: "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
-        value: V;
-    }
-
-    export interface Input<WD, V, SUB> extends Widget<WD, SUB> {
-        placeholder: string;
-        validators: Validator[];
-    }
-
-    export interface AbstractFormat {
-        validators: Validator[];
-    }
-
-    export type Direction = "ASC" | "DESC" | "UNDEFINED";
-
-    export type Style = "NONE" | "PRIMARY" | "ACCENT" | "WARN";
-
-    export namespace Column {
-
-        export type Size = "AUTO" | "XS" | "S" | "M" | "L" | "XL" | "TIMESTAMP" | "NUMBER";
-
-    }
+  export namespace Column {
 
     export type TextAlign = "LEFT" | "CENTER" | "RIGHT";
 
-    export namespace Table {
+  }
 
-        export type SelectMode = "NONE" | "SINGLE" | "MULTI" | "CHECKBOX";
+  export namespace ColumnGroup {
 
-    }
+    export type TextAlign = "LEFT" | "CENTER" | "RIGHT";
 
-    export namespace RowSelectParams {
+  }
 
-        export type SelectMode = "ALL_CHECKED" | "ALL_UNCHECKED" | "SINGLE";
+  export namespace Table {
 
-    }
+    export type SelectMode = "NONE" | "SINGLE" | "MULTI" | "CHECKBOX";
 
-    export type ActionTriggerMode = "ALL_SELECTED" | "SINGLE";
+  }
+
+  export namespace RowSelectParams {
+
+    export type SelectMode = "ALL_CHECKED" | "ALL_UNCHECKED" | "SINGLE";
+
+  }
+
+  export type ActionTriggerMode = "ALL_SELECTED" | "SINGLE";
 
 }

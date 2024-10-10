@@ -28,7 +28,7 @@ export class NumericFormatter
     if (digitGrouping !== null && !digitGrouping)
     {
       const localeNumberSymbol = getLocaleNumberSymbol(locale, NumberSymbol.Group);
-      formattedNumber = formattedNumber.replace(localeNumberSymbol, '');
+      formattedNumber = formattedNumber.replaceAll(localeNumberSymbol, '');
     }
     return formattedNumber;
   }

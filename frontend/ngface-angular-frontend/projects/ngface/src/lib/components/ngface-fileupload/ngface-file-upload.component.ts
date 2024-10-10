@@ -4,7 +4,13 @@ import {MatButton, MatFabButton} from '@angular/material/button';
 import {NgForOf, NgIf} from '@angular/common';
 import {UploadItemComponent} from './upload-item/upload-item.component';
 import {IUploadEvent} from './ngface-file-upload.type';
+import {MatBadge} from '@angular/material/badge';
 
+export interface FileStatus
+{
+  file: File;
+  uploaded: boolean;
+}
 
 // Adapted this project to my needs: https://github.com/nishantmc/angular-material-fileupload.git
 
@@ -17,7 +23,8 @@ import {IUploadEvent} from './ngface-file-upload.type';
     MatButton,
     NgIf,
     NgForOf,
-    UploadItemComponent
+    UploadItemComponent,
+    MatBadge
   ],
   templateUrl: './ngface-file-upload.component.html',
   styleUrl: './ngface-file-upload.component.css'
@@ -42,10 +49,13 @@ export class NgfaceFileUploadComponent
   @Input()
   removeAllLabel = 'Remove All';
 
+  @Input()
+  dropZoneText = 'Select or drag and drop files here';
+
   @Output() onUpload: EventEmitter<IUploadEvent> = new EventEmitter<IUploadEvent>();
 
 
-  public files: Array<File> = [];
+  public files: Array<FileStatus> = [];
 
 
   onFileInput($event: Event): void
@@ -56,7 +66,7 @@ export class NgfaceFileUploadComponent
     {
       for (let i = 0; i < target.files.length; i++)
       {
-        this.files.push(target.files[i]);
+        this.files.push({file: target.files[i], uploaded: false});
         console.log(`${i}: ${target.files[i].name}`);
       }
       console.log(`Added ${this.files.length} files to the queue`);
@@ -73,19 +83,65 @@ export class NgfaceFileUploadComponent
     });
   }
 
+
   removeAll(): void
   {
-    this.files = [];
+    for (let i = 0; i < this.files.length; i++)
+    {
+      if (!this.files[i].uploaded)
+      {
+        this.files.splice(i, 1);
+      }
+    }
   }
+
 
   removeItem($event: UploadItemComponent): void
   {
     for (let i = 0; i < this.files.length; i++)
     {
-      if ($event.file === this.files[i])
+      if ($event.file === this.files[i].file)
       {
         this.files.splice(i, 1);
       }
     }
+  }
+
+
+  emitUpload($event: IUploadEvent)
+  {
+    for (let i = 0; i < this.files.length; i++)
+    {
+      if ($event.file === this.files[i].file)
+      {
+        this.files[i].uploaded = true;
+      }
+    }
+    this.onUpload.emit($event)
+  }
+
+
+  public getCountOpen(): number
+  {
+    let sum = 0;
+    for (let i = 0; i < this.files.length; i++)
+    {
+      if (!this.files[i].uploaded)
+      {
+        sum++;
+      }
+    }
+    return sum;
+  }
+
+
+  public getBadge(): string
+  {
+    let countOpen = this.getCountOpen();
+    if (countOpen == 0)
+    {
+      return "";
+    }
+    return countOpen.toString();
   }
 }

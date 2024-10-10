@@ -42,7 +42,7 @@ export class NgfaceDateRangeInputComponent extends InputBaseComponent implements
     return this._range;
   }
 
-  get formGroupItem(): AbstractControl
+  override get formGroupItem(): AbstractControl
   {
     return this.range;
   }
@@ -50,14 +50,14 @@ export class NgfaceDateRangeInputComponent extends InputBaseComponent implements
   // Misused here to generate a getter in the web-component
   @Input()
   // tslint:disable-next-line:variable-name
-  protected get_form_group_item: AbstractControl = this.formGroupItem;
+  protected override get_form_group_item: AbstractControl = this.formGroupItem;
 
   constructor()
   {
     super();
   }
 
-  ngOnChanges(): void
+  override ngOnChanges(): void
   {
     const startDate = this.getData()?.data?.startDate ? this.getData()?.data?.startDate : '';
     const endDate = this.getData()?.data?.endDate ? this.getData()?.data?.endDate : '';
@@ -69,7 +69,7 @@ export class NgfaceDateRangeInputComponent extends InputBaseComponent implements
     {
       this.createNgValidators(v).forEach(ngValidator => startDateValidators.push(ngValidator));
     });
-    this.range.controls.start?.setValidators(startDateValidators);
+    this.range.controls['start']?.setValidators(startDateValidators);
 
     // Validators for endDate
     const endDateValidators = new Array<ValidatorFn>();
@@ -77,7 +77,7 @@ export class NgfaceDateRangeInputComponent extends InputBaseComponent implements
     {
       this.createNgValidators(v).forEach(ngValidator => endDateValidators.push(ngValidator));
     });
-    this.range.controls.end?.setValidators(endDateValidators);
+    this.range.controls['end']?.setValidators(endDateValidators);
 
     this.getData().enabled ? this.range.enable() : this.range.disable();
   }
@@ -105,10 +105,10 @@ export class NgfaceDateRangeInputComponent extends InputBaseComponent implements
   }
 
 
-  getValidationErrors(): string
+  override getValidationErrors(): string
   {
-    const validationErrorsStart = this.getValidationErrorsFromFormControl(this.range.controls.start, this.getData()?.validators);
-    const validationErrorsEnd = this.getValidationErrorsFromFormControl(this.range.controls.end, this.getData()?.validators2);
+    const validationErrorsStart = this.getValidationErrorsFromFormControl(this.range.controls['start'], this.getData()?.validators);
+    const validationErrorsEnd = this.getValidationErrorsFromFormControl(this.range.controls['end'], this.getData()?.validators2);
 
     const validationErrors = validationErrorsStart.concat(validationErrorsEnd);
     return validationErrors?.join(' ');

@@ -37,7 +37,7 @@ export class NgfaceSelectComponent extends InputBaseComponent implements OnChang
     super();
   }
 
-  ngOnChanges(changes: { [propName: string]: SimpleChange }): void
+  override ngOnChanges(changes: { [propName: string]: SimpleChange }): void
   {
     super.ngOnChanges(changes);
     this.formControl.setValue(this.getData()?.data?.selected);

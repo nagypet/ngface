@@ -1,26 +1,29 @@
 <div class="upload-queue" *ngIf="uploadProgress$ | async as uploadProgress">
   <mat-card class="upload-item-card">
     <span class="file-summary">{{ file.name }}({{ file.size | bytes }})</span>
-    <div class="upload-progress">
-      <mat-progress-bar
-        [value]="uploadProgress.progressPercentage"
-      ></mat-progress-bar>
+    @if (!completed) {
+      <div class="upload-progress">
+        <mat-progress-bar
+          [value]="uploadProgress.progressPercentage"
+        ></mat-progress-bar>
 
-      <button
-        mat-icon-button
-        (click)="upload()"
-        [disabled]="uploadInProgress$ | async"
-      >
-        <mat-icon>file_upload</mat-icon>
-      </button>
+        <button
+          mat-icon-button
+          (click)="upload()"
+          [disabled]="uploadInProgress$ | async"
+        >
+          <mat-icon>file_upload</mat-icon>
+        </button>
 
-      <button
-        mat-icon-button
-        (click)="remove()"
-      >
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </div>
-    <span class="file-summary">{{ uploadProgress.progressPercentage }}% [{{ uploadProgress.loaded | bytes }} of {{ uploadProgress.total | bytes }}]</span>
+        <button
+          mat-icon-button
+          (click)="remove()"
+        >
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </div>
+      <span class="file-summary">{{ uploadProgress.progressPercentage }}% [{{ uploadProgress.loaded | bytes }}
+        of {{ uploadProgress.total | bytes }}]</span>
+    }
   </mat-card>
 </div>

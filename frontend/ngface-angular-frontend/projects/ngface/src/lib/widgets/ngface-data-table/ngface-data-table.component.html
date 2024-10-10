@@ -45,7 +45,7 @@
             </td>
           } @else {
             <!-- Other columns -->
-            <!-- Header text -->
+              <!-- Header text -->
             <th [class]="getThClass(column)" mat-header-cell *matHeaderCellDef ngface-sort-filter-header
                 [text]="getHeaderText(column)"
                 [sortable]="isColumnSortable(column)"
@@ -93,6 +93,22 @@
         </ng-container>
       }
 
+      <!-- Column groups-->
+      @if (columnGroups.length > 0) {
+        @for (columnGroup of columnGroups;track columnGroup) {
+          <ng-container [matColumnDef]="columnGroup">
+
+            <th [class]="getColGroupClass(columnGroup)" mat-header-cell *matHeaderCellDef
+                [attr.colspan]="getColGroupColSpan(columnGroup)"
+            >
+              {{ getColGroupText(columnGroup) }}
+            </th>
+
+          </ng-container>
+        }
+
+        <tr mat-header-row *matHeaderRowDef="columnGroups; sticky: true"></tr>
+      }
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"
           (click)="onRowClick(row)"

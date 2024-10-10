@@ -8,6 +8,7 @@ import {IUploadEvent, IUploadProgress} from '../ngface-file-upload.type';
 import {BytesPipe} from '../../../directives/bytes.pipe';
 import {AsyncPipe, NgIf} from '@angular/common';
 import {HttpClient, HttpEventType} from '@angular/common/http';
+import {error} from 'ng-packagr/lib/utils/log';
 
 @Component({
   selector: 'upload-item',
@@ -68,6 +69,7 @@ export class UploadItemComponent implements OnInit, OnDestroy
 
   public subs = new Subscription();
 
+  public completed = false;
 
   constructor(
     private httpClient: HttpClient,
@@ -92,6 +94,11 @@ export class UploadItemComponent implements OnInit, OnDestroy
 
   public upload(): void
   {
+    if (this.completed)
+    {
+      return;
+    }
+
     this.uploadProgressSubject.next({
       progressPercentage: 0,
       loaded: 0,
@@ -126,7 +133,11 @@ export class UploadItemComponent implements OnInit, OnDestroy
           this.uploadInProgressSubject.next(false);
           this.onUpload.emit({file: this._file, event: error});
         },
-        () => this.uploadInProgressSubject.next(false)
+        () =>
+        {
+          this.uploadInProgressSubject.next(false);
+          this.completed = true;
+        }
       )
     );
   }

@@ -68,7 +68,7 @@ export class NgfaceAutocompleteComponent extends InputBaseComponent implements O
   }
 
 
-  ngOnChanges(changes: { [propName: string]: SimpleChange }): void
+  override ngOnChanges(changes: { [propName: string]: SimpleChange }): void
   {
     super.ngOnChanges(changes);
     this.valueSetProvider.valueSet = this.getData().data.extendedReadOnlyData.valueSet;
