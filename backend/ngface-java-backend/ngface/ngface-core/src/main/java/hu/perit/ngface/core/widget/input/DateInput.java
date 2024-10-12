@@ -20,6 +20,7 @@ import hu.perit.ngface.core.widget.exception.NgFaceException;
 import hu.perit.ngface.core.widget.input.validator.Required;
 import hu.perit.ngface.core.widget.base.Input;
 import hu.perit.ngface.core.widget.base.Value;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -32,11 +33,18 @@ import java.util.List;
  */
 
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class DateInput extends Input<DateInput.Data, LocalDate, DateInput>
 {
     public DateInput(String id)
     {
         super(id);
+    }
+
+    // Json
+    private DateInput()
+    {
+        super(null);
     }
 
     @Override

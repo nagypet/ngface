@@ -46,6 +46,11 @@ public class DateRangeInput extends Input<DateRangeInput.Data, Void, DateRangeIn
         super(id);
     }
 
+    // Json
+    private DateRangeInput()
+    {
+        super(null);
+    }
 
     @Override
     protected List<Class<?>> getAllowedValidators()

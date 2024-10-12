@@ -48,6 +48,12 @@ public class Button extends Widget<VoidWidgetData, Button>
         super(id);
     }
 
+    // Json
+    private Button()
+    {
+        super(null);
+    }
+
     public Button style(Style style)
     {
         this.style = style;

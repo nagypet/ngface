@@ -16,6 +16,7 @@
 
 package hu.perit.ngface.core.widget.table;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -24,6 +25,7 @@ import org.apache.commons.lang3.BooleanUtils;
 @RequiredArgsConstructor
 @ToString
 @Getter
+@EqualsAndHashCode
 public class Action
 {
     private final String id;
@@ -31,6 +33,11 @@ public class Action
     // See https://fonts.google.com/icons?selected=Material+Icons&icon.style=Outlined
     private String icon;
     private boolean enabled = true;
+
+    public Action()
+    {
+        this.id = null;
+    }
 
     public Action label(String label)
     {

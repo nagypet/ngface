@@ -22,4 +22,10 @@ public class TextCell extends Cell<String, TextCell>
     {
         super(text);
     }
+
+    // Json
+    private TextCell()
+    {
+        super(null);
+    }
 }

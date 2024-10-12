@@ -38,6 +38,12 @@ public class NumericCell extends Cell<BigDecimal, NumericCell>
         super(value != null ? new BigDecimal(value) : null);
     }
 
+    // Json
+    private NumericCell()
+    {
+        super(null);
+    }
+
     public NumericCell format(NumericFormat format)
     {
         this.format = format;

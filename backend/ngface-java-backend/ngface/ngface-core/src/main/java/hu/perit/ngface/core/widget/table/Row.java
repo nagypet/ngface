@@ -16,10 +16,12 @@
 
 package hu.perit.ngface.core.widget.table;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import hu.perit.ngface.core.formating.NumericFormat;
 import hu.perit.ngface.core.widget.table.cell.Cell;
 import hu.perit.ngface.core.widget.table.cell.NumericCell;
 import hu.perit.ngface.core.widget.table.cell.TextCell;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -36,8 +38,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 @ToString
 @Getter
+@EqualsAndHashCode
 public class Row<T>
 {
+    @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
     private final T id;
     private final Map<String, Cell<?, ?>> cells = new LinkedHashMap<>();
     private boolean selected;

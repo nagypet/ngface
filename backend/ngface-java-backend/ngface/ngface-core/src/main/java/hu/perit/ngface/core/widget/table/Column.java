@@ -16,16 +16,13 @@
 
 package hu.perit.ngface.core.widget.table;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @ToString
 @Getter
+@EqualsAndHashCode
 public class Column
 {
     public enum Size

@@ -16,11 +16,7 @@
 
 package hu.perit.ngface.core.widget.table;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -28,6 +24,7 @@ import java.util.List;
 @ToString
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@EqualsAndHashCode
 public class Paginator
 {
     private final Integer pageIndex;

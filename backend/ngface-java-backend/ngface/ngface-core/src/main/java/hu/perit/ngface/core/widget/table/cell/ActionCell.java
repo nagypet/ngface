@@ -17,15 +17,23 @@
 package hu.perit.ngface.core.widget.table.cell;
 
 import hu.perit.ngface.core.widget.table.Action;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 public class ActionCell extends Cell<List<Action>, ActionCell>
 {
     public ActionCell(List<Action> value)
     {
         super(new ArrayList<>(value));
+    }
+
+    // Json
+    private ActionCell()
+    {
+        super(null);
     }
 
     public ActionCell add(Action action)

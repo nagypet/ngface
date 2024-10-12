@@ -36,7 +36,7 @@ import java.util.List;
 
 @Getter
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class NumericInput extends Input<NumericInput.Data, BigDecimal, NumericInput>
 {
     private NumericFormat format = new NumericFormat();
@@ -44,6 +44,13 @@ public class NumericInput extends Input<NumericInput.Data, BigDecimal, NumericIn
     public NumericInput(String id)
     {
         super(id);
+    }
+
+
+    // Json
+    private NumericInput()
+    {
+        super(null);
     }
 
     @Override

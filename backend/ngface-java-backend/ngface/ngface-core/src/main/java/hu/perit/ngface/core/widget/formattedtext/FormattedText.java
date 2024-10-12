@@ -18,9 +18,11 @@ package hu.perit.ngface.core.widget.formattedtext;
 
 import hu.perit.ngface.core.widget.base.Value;
 import hu.perit.ngface.core.widget.base.Widget;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+@EqualsAndHashCode(callSuper = true)
 public class FormattedText extends Widget<FormattedText.Data, FormattedText>
 {
     public FormattedText(String id)

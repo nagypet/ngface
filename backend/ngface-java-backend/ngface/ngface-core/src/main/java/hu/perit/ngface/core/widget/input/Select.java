@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class Select extends Input<Select.Data, Void, Select>
 {
     public Select(String id)
@@ -36,6 +36,12 @@ public class Select extends Input<Select.Data, Void, Select>
         super(id);
     }
 
+
+    // Json
+    private Select()
+    {
+        super(null);
+    }
 
     @Override
     protected List<Class<?>> getAllowedValidators()

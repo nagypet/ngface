@@ -56,6 +56,13 @@ public class Table<T> extends Widget<Table.Data, Table<T>>
     }
 
 
+    // Json
+    private Table()
+    {
+        super(null);
+        this.data = new Table.Data();
+    }
+
     public Table<T> addColumnGroup(ColumnGroup columnGroup)
     {
         if (!this.rows.isEmpty())

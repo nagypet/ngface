@@ -18,8 +18,10 @@ package hu.perit.ngface.core.types.table;
 
 import hu.perit.ngface.core.widget.table.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class TableDTO<T extends AbstractTableRow<?>>
 {
     private TableContent<T> content = new TableContent<>();

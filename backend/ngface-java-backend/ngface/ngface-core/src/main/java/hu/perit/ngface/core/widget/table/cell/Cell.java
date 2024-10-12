@@ -16,14 +16,32 @@
 
 package hu.perit.ngface.core.widget.table.cell;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@RequiredArgsConstructor
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ActionCell.class, name = "ActionCell"),
+        @JsonSubTypes.Type(value = NumericCell.class, name = "NumericCell"),
+        @JsonSubTypes.Type(value = TextCell.class, name = "TextCell")
+})
+@EqualsAndHashCode
 public abstract class Cell<V, SUB extends Cell>
 {
     private final String type = getClass().getSimpleName();
     protected final V value;
     protected String label;
+
+    // Json
+    private Cell()
+    {
+        this.value = null;
+    }
 
     public SUB label(String label)
     {

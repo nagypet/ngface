@@ -16,6 +16,9 @@
 
 package hu.perit.ngface.core.types.table;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
 public interface AbstractTableRow<T>
 {
     T getId();

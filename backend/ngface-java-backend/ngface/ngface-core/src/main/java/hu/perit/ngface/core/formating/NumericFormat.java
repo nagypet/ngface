@@ -16,9 +16,11 @@
 
 package hu.perit.ngface.core.formating;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode(callSuper = true)
 public class NumericFormat extends AbstractFormat
 {
     public static final NumericFormat PERCENTAGE = new NumericFormat().suffix("%");

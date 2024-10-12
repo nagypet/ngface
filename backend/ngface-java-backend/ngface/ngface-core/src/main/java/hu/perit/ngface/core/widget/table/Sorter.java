@@ -17,16 +17,13 @@
 package hu.perit.ngface.core.widget.table;
 
 import hu.perit.ngface.core.types.intf.Direction;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @ToString
 @Getter
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@EqualsAndHashCode
 public class Sorter
 {
     private final String column;

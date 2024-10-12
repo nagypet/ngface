@@ -17,12 +17,14 @@
 package hu.perit.ngface.core.formating;
 
 import hu.perit.ngface.core.widget.base.Validator;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@EqualsAndHashCode
 public class AbstractFormat
 {
     protected final List<Validator> validators = new ArrayList<>();

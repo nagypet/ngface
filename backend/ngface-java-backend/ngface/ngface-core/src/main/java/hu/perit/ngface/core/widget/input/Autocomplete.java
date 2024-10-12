@@ -33,7 +33,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class Autocomplete extends Input<Autocomplete.Data, String, Autocomplete>
 {
     public Autocomplete(String id)
@@ -41,6 +41,12 @@ public class Autocomplete extends Input<Autocomplete.Data, String, Autocomplete>
         super(id);
     }
 
+
+    // Json
+    private Autocomplete()
+    {
+        super(null);
+    }
 
     @Override
     protected Data createDataFromSimpleValue(String value)
