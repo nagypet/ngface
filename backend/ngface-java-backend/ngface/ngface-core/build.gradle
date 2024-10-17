@@ -135,12 +135,12 @@ generateTypeScript {
     outputFileType = 'implementationFile'
     outputKind = 'module'
     namespace = 'Ngface'
-    //disableTaggedUnions = true
     optionalProperties = 'useSpecifiedAnnotations'
     optionalAnnotations = [
             'javax.annotation.Nullable'
     ]
     optionalPropertiesDeclaration = 'nullableType'
+    disableTaggedUnions = true
 }
 
 dist.configure {

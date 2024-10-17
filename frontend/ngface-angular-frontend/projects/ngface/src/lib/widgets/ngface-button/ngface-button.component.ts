@@ -60,7 +60,7 @@ export class NgfaceButtonComponent implements OnInit
         data: {type: 'VoidWidgetData'},
         style: 'NONE',
         badge: '',
-        type: '',
+        type: 'Button',
         label: 'undefined button',
         enabled: false,
         id: '',

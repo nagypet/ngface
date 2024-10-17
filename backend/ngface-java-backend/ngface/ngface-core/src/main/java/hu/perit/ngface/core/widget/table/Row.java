@@ -23,7 +23,6 @@ import hu.perit.ngface.core.widget.table.cell.NumericCell;
 import hu.perit.ngface.core.widget.table.cell.TextCell;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
 
@@ -35,14 +34,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@RequiredArgsConstructor
 @ToString
 @Getter
 @EqualsAndHashCode
 public class Row<T>
 {
-    @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
+    @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "idType")
     private final T id;
+    private String idType;
     private final Map<String, Cell<?, ?>> cells = new LinkedHashMap<>();
     private boolean selected;
 
@@ -50,6 +49,15 @@ public class Row<T>
     private Row()
     {
         this.id = null;
+    }
+
+    public Row(T id)
+    {
+        this.id = id;
+        if (id != null)
+        {
+            this.idType = id.getClass().getName();
+        }
     }
 
     public Row<T> putCell(String colId, String text)
