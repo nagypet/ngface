@@ -33,4 +33,11 @@ public class Min extends Validator
         super(message);
         this.min = min;
     }
+
+    // Json
+    private Min()
+    {
+        super(null);
+        this.min = null;
+    }
 }

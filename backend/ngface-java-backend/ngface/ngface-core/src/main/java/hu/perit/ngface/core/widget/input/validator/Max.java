@@ -33,4 +33,11 @@ public class Max extends Validator
         super(message);
         this.max = max;
     }
+
+    // Json
+    private Max()
+    {
+        super(null);
+        this.max = null;
+    }
 }

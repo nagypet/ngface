@@ -33,4 +33,11 @@ public class Pattern extends Validator
         super(message);
         this.pattern = pattern;
     }
+
+    // Json
+    private Pattern()
+    {
+        super(null);
+        this.pattern = null;
+    }
 }

@@ -30,4 +30,10 @@ public class Email extends Validator
     {
         super(message);
     }
+
+    // Json
+    private Email()
+    {
+        super(null);
+    }
 }

@@ -34,6 +34,12 @@ public class Size extends Validator
         super(message);
     }
 
+    // Json
+    private Size()
+    {
+        super(null);
+    }
+
     public Size min(Integer min)
     {
         this.min = min != null ? min : 0;

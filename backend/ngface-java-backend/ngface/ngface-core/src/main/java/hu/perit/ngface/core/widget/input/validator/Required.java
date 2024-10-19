@@ -28,4 +28,10 @@ public class Required extends Validator
     {
         super(message);
     }
+
+    // Json
+    private Required()
+    {
+        super(null);
+    }
 }

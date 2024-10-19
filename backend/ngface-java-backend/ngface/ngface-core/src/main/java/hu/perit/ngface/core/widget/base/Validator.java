@@ -16,6 +16,9 @@
 
 package hu.perit.ngface.core.widget.base;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import hu.perit.ngface.core.widget.input.validator.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +28,23 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Email.class, name = "Email"),
+        @JsonSubTypes.Type(value = Max.class, name = "Max"),
+        @JsonSubTypes.Type(value = Min.class, name = "Min"),
+        @JsonSubTypes.Type(value = Pattern.class, name = "Pattern"),
+        @JsonSubTypes.Type(value = Required.class, name = "Required"),
+        @JsonSubTypes.Type(value = Size.class, name = "Size")
+})
 public abstract class Validator
 {
     private final String type = getClass().getSimpleName();
     private final String message;
+
+    // Json
+    private Validator()
+    {
+        this.message = null;
+    }
 }
