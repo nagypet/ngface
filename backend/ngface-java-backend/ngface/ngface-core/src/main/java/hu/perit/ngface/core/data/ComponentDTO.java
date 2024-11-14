@@ -24,6 +24,7 @@ import hu.perit.ngface.core.widget.input.DateInput;
 import hu.perit.ngface.core.widget.input.NumericInput;
 import hu.perit.ngface.core.widget.input.TextInput;
 import hu.perit.ngface.core.widget.table.Table;
+import hu.perit.spvitamin.core.reflection.Property;
 import hu.perit.spvitamin.core.reflection.ReflectionUtils;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -34,7 +35,6 @@ import jakarta.validation.ValidatorFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -53,9 +53,9 @@ public abstract class ComponentDTO
 {
     public void formSubmitted(SubmitFormData submitFormData)
     {
-        List<Field> properties = ReflectionUtils.propertiesOf(this.getClass(), true);
+        List<Property> properties = ReflectionUtils.propertiesOf(this.getClass(), false);
 
-        for (Field property : properties)
+        for (Property property : properties)
         {
             handleDTOIdAnnotation(submitFormData, property);
             handleDTOValueAnnotation(submitFormData, property);
@@ -81,7 +81,7 @@ public abstract class ComponentDTO
     }
 
 
-    private void handleDTOValueAnnotation(SubmitFormData submitFormData, Field property)
+    private void handleDTOValueAnnotation(SubmitFormData submitFormData, Property property)
     {
         DTOValue dtoValueAnnotation = property.getAnnotation(DTOValue.class);
         if (dtoValueAnnotation != null)
@@ -105,7 +105,7 @@ public abstract class ComponentDTO
     }
 
 
-    private void handleDTOIdAnnotation(SubmitFormData submitFormData, Field property)
+    private void handleDTOIdAnnotation(SubmitFormData submitFormData, Property property)
     {
         DTOId dtoIdAnnotation = property.getAnnotation(DTOId.class);
         if (dtoIdAnnotation != null)
@@ -264,7 +264,7 @@ public abstract class ComponentDTO
     }
 
 
-    private Class<? extends WidgetData> getDataClass(DTOValue dtoValueAnnotation, Field property)
+    private Class<? extends WidgetData> getDataClass(DTOValue dtoValueAnnotation, Property property)
     {
         if (!dtoValueAnnotation.type().equals(WidgetData.class))
         {
