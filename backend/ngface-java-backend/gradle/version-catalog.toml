@@ -37,4 +37,4 @@ openapi-api = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-api', v
 openapi-ui = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-ui', version.ref = 'springdoc' }
 opencsv = 'com.opencsv:opencsv:5.9'
 slf4j-api = 'org.slf4j:slf4j-api:2.0.13'
-spvitamin = 'hu.perit.spvitamin:spvitamin-dependencies:3.3.3-1-SNAPSHOT'
+spvitamin = 'hu.perit.spvitamin:spvitamin-dependencies:3.3.3-1-RELEASE'
