@@ -98,6 +98,19 @@ test {
 }
 
 
+//----------------------------------------------------------------------------------------------------------------------
+// IMPORTANT: after the generation please manually change this lines
+// export interface WidgetData
+// {
+//     type: string; <= here
+// }
+//
+// export interface Widget<WD, SUB>
+// {
+//     type: string; <= and here
+//     ...
+// }
+//----------------------------------------------------------------------------------------------------------------------
 generateTypeScript {
     jsonLibrary = 'jackson2'
     classPatterns = [
@@ -107,6 +120,7 @@ generateTypeScript {
             'hu.perit.ngface.core.widget.table.**',
             'hu.perit.ngface.core.widget.formattedtext.**',
             'hu.perit.ngface.core.widget.titlebar.**',
+            'hu.perit.ngface.core.widget.collection.**',
             'hu.perit.ngface.core.types.intf.*'
     ]
     customTypeNaming = [
@@ -116,6 +130,7 @@ generateTypeScript {
             'hu.perit.ngface.core.widget.input.DateTimeInput$Data:DateTimeInput.Data',
             'hu.perit.ngface.core.widget.input.DateRangeInput$Data:DateRangeInput.Data',
             'hu.perit.ngface.core.widget.input.Select$Data:Select.Data',
+            'hu.perit.ngface.core.widget.input.Autocomplete$Data:Autocomplete.Data',
             'hu.perit.ngface.core.widget.formattedtext.FormattedText$Data:FormattedText.Data',
             'hu.perit.ngface.core.widget.table.Table$SelectMode:Table.SelectMode',
             'hu.perit.ngface.core.widget.table.Table$Data:Table.Data',
@@ -123,6 +138,7 @@ generateTypeScript {
             'hu.perit.ngface.core.widget.table.Column$TextAlign:Column.TextAlign',
             'hu.perit.ngface.core.widget.table.ColumnGroup$TextAlign:ColumnGroup.TextAlign',
             'hu.perit.ngface.core.widget.table.ValueSet$Item:ValueSet.Item',
+            'hu.perit.ngface.core.widget.collection.WidgetList$Data:WidgetList.Data',
             'hu.perit.ngface.core.types.intf.DataRetrievalParams$Page:DataRetrievalParams.Page',
             'hu.perit.ngface.core.types.intf.DataRetrievalParams$Sort:DataRetrievalParams.Sort',
             'hu.perit.ngface.core.types.intf.DataRetrievalParams$Filter:DataRetrievalParams.Filter',

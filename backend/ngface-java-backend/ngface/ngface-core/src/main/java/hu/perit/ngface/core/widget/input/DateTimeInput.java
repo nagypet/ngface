@@ -16,14 +16,14 @@
 
 package hu.perit.ngface.core.widget.input;
 
-import hu.perit.ngface.core.widget.input.validator.Required;
 import hu.perit.ngface.core.widget.base.Input;
 import hu.perit.ngface.core.widget.base.Value;
+import hu.perit.ngface.core.widget.input.validator.Required;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,7 +33,7 @@ import java.util.List;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class DateTimeInput extends Input<DateTimeInput.Data, LocalDateTime, DateTimeInput>
+public class DateTimeInput extends Input<DateTimeInput.Data, OffsetDateTime, DateTimeInput>
 {
     public DateTimeInput(String id)
     {
@@ -41,7 +41,7 @@ public class DateTimeInput extends Input<DateTimeInput.Data, LocalDateTime, Date
     }
 
     @Override
-    protected DateTimeInput.Data createDataFromSimpleValue(LocalDateTime value)
+    protected DateTimeInput.Data createDataFromSimpleValue(OffsetDateTime value)
     {
         return new Data(value);
     }
@@ -54,9 +54,9 @@ public class DateTimeInput extends Input<DateTimeInput.Data, LocalDateTime, Date
 
     @ToString(callSuper = true)
     @Getter
-    public static class Data extends Value<LocalDateTime>
+    public static class Data extends Value<OffsetDateTime>
     {
-        public Data(LocalDateTime value)
+        public Data(OffsetDateTime value)
         {
             super(value);
         }

@@ -30,7 +30,7 @@ import java.util.function.Function;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FiltererFactory
 {
-    public record FiltererDef(String column, Boolean remote, Function<String, List<String>> valueProvider)
+    public record FiltererDef(String column, Boolean remote, ValueProvider<String, List<String>> valueProvider)
     {
     }
 
@@ -43,7 +43,7 @@ public class FiltererFactory
     }
 
 
-    public FiltererFactory filterer(String column, Boolean remote, Function<String, List<String>> valueProvider)
+    public FiltererFactory filterer(String column, Boolean remote, ValueProvider<String, List<String>> valueProvider)
     {
         this.filtererDefMap.put(column, new FiltererDef(column, remote, valueProvider));
         return this;

@@ -25,6 +25,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -63,6 +64,21 @@ public class Row<T>
     public Row<T> putCell(String colId, String text)
     {
         this.cells.put(colId, new TextCell(text));
+        return this;
+    }
+
+    public Row<T> putCell(String colId, String text, int maxWidth)
+    {
+        TextCell textCell;
+        if (StringUtils.length(text) < maxWidth)
+        {
+            textCell = new TextCell(text);
+        }
+        else
+        {
+            textCell = new TextCell(StringUtils.abbreviate(text, maxWidth)).label(text);
+        }
+        this.cells.put(colId, textCell);
         return this;
     }
 

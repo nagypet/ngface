@@ -58,6 +58,10 @@ public class TableDataBuilder
                 this.data.addFilterer(factory.getFilterer(i.column(), "", true));
             }
         });
+
+        // If the factory changed in between, let's remove the items from this
+        this.data.getFiltererMap().values().removeIf(i -> !factory.getFiltererDefMap().containsKey(i.getColumn()));
+
         return this;
     }
 

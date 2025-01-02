@@ -70,7 +70,7 @@ public class Autocomplete extends Input<Autocomplete.Data, String, Autocomplete>
     @EqualsAndHashCode(callSuper = true)
     public static class Data extends Value<String>
     {
-        private ExtendedReadOnlyData extendedReadOnlyData = new ExtendedReadOnlyData();
+        private final ExtendedReadOnlyData extendedReadOnlyData = new ExtendedReadOnlyData();
 
         // Json
         private Data()

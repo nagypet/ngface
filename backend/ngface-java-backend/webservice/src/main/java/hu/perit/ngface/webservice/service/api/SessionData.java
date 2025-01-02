@@ -17,6 +17,7 @@
 package hu.perit.ngface.webservice.service.api;
 
 import hu.perit.ngface.core.types.table.TableSessionDefaults;
+import hu.perit.ngface.core.widget.table.Table;
 import hu.perit.ngface.webservice.model.AddressTableRow;
 import hu.perit.ngface.webservice.ngface.widgetdemocomponent.WidgetDemoComponentDTO;
 import lombok.Data;
@@ -30,6 +31,6 @@ public class SessionData implements Serializable
     @Serial
     private static final long serialVersionUID = 964123101341819189L;
 
-    private TableSessionDefaults<AddressTableRow, Long> defaults = new TableSessionDefaults<>();
+    private TableSessionDefaults<AddressTableRow, Long> defaults = new TableSessionDefaults<>(Table.SelectMode.MULTI);
     private WidgetDemoComponentDTO widgetDemoComponentDTO;
 }

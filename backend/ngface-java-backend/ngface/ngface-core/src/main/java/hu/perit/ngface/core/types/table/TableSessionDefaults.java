@@ -23,5 +23,10 @@ import lombok.Data;
 public class TableSessionDefaults<R extends AbstractTableRow<I>, I>
 {
     private Table.Data tableData = new Table.Data();
-    private SelectionStore<R, I> selectionStore = new SelectionStore<>();
+    private SelectionStore<R, I> selectionStore;
+
+    public TableSessionDefaults(Table.SelectMode selectMode)
+    {
+        this.selectionStore = new SelectionStore<>(selectMode);
+    }
 }

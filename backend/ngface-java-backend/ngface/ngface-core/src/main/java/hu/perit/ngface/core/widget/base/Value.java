@@ -21,11 +21,14 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+import javax.annotation.Nullable;
+
 @ToString(callSuper = true)
 @RequiredArgsConstructor
 @Getter
 @EqualsAndHashCode(callSuper = true)
 public class Value<V> extends WidgetData
 {
+    @Nullable
     private final V value;
 }

@@ -28,7 +28,6 @@ import hu.perit.ngface.core.widget.table.TableDataBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -55,8 +54,11 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>,I> im
         TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
 
         // Updating selection states
-        SelectionStore<R, I> selectionStore = Optional.of(sessionDefaults).map(TableSessionDefaults::getSelectionStore).orElse(
-            new SelectionStore<>());
+        SelectionStore<R, I> selectionStore = Optional.of(sessionDefaults).map(TableSessionDefaults::getSelectionStore).orElse(null);
+        if (selectionStore == null)
+        {
+            throw new IllegalStateException("SelectionStore is null!");
+        }
         selectionStore.setTotalElements(totalElements);
         selectionStore.updateRowSelectionStates(tableContent.getRows());
 

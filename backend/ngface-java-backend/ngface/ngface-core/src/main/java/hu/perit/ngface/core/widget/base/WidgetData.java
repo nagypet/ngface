@@ -18,6 +18,7 @@ package hu.perit.ngface.core.widget.base;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import hu.perit.ngface.core.widget.collection.WidgetList;
 import hu.perit.ngface.core.widget.formattedtext.FormattedText;
 import hu.perit.ngface.core.widget.input.Autocomplete;
 import hu.perit.ngface.core.widget.input.DateInput;
@@ -35,15 +36,16 @@ import lombok.ToString;
 @ToString
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = TextInput.Data.class, name = "TextInput.Data"),
-    @JsonSubTypes.Type(value = NumericInput.Data.class, name = "NumericInput.Data"),
-    @JsonSubTypes.Type(value = DateInput.Data.class, name = "DateInput.Data"),
-    @JsonSubTypes.Type(value = DateTimeInput.Data.class, name = "DateTimeInput.Data"),
-    @JsonSubTypes.Type(value = DateRangeInput.Data.class, name = "DateRangeInput.Data"),
-    @JsonSubTypes.Type(value = Select.Data.class, name = "Select.Data"),
-    @JsonSubTypes.Type(value = Table.Data.class, name = "Table.Data"),
-    @JsonSubTypes.Type(value = FormattedText.Data.class, name = "FormattedText.Data"),
-    @JsonSubTypes.Type(value = Autocomplete.Data.class, name = "Autocomplete.Data")
+        @JsonSubTypes.Type(value = TextInput.Data.class, name = "TextInput.Data"),
+        @JsonSubTypes.Type(value = NumericInput.Data.class, name = "NumericInput.Data"),
+        @JsonSubTypes.Type(value = DateInput.Data.class, name = "DateInput.Data"),
+        @JsonSubTypes.Type(value = DateTimeInput.Data.class, name = "DateTimeInput.Data"),
+        @JsonSubTypes.Type(value = DateRangeInput.Data.class, name = "DateRangeInput.Data"),
+        @JsonSubTypes.Type(value = Select.Data.class, name = "Select.Data"),
+        @JsonSubTypes.Type(value = Table.Data.class, name = "Table.Data"),
+        @JsonSubTypes.Type(value = FormattedText.Data.class, name = "FormattedText.Data"),
+        @JsonSubTypes.Type(value = Autocomplete.Data.class, name = "Autocomplete.Data"),
+        @JsonSubTypes.Type(value = WidgetList.Data.class, name = "WidgetList.Data")
 })
 @EqualsAndHashCode
 public class WidgetData

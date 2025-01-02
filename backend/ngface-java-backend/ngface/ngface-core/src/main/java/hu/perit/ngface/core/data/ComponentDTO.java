@@ -278,7 +278,7 @@ public abstract class ComponentDTO
             return TextInput.Data.class;
         }
         else if (Number.class.isAssignableFrom(type) || long.class.equals(type) || int.class.equals(type) || float.class.equals(type) || double.class.equals(
-            type))
+                type))
         {
             return NumericInput.Data.class;
         }

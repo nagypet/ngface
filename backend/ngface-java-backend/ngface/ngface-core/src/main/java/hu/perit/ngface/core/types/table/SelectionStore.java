@@ -17,7 +17,9 @@
 package hu.perit.ngface.core.types.table;
 
 import hu.perit.ngface.core.types.intf.RowSelectParams;
+import hu.perit.ngface.core.widget.table.Table;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
 
@@ -34,8 +36,11 @@ import java.util.Map;
  * @param <I>
  */
 @ToString
+@RequiredArgsConstructor
 public class SelectionStore<T extends AbstractTableRow<I>, I>
 {
+    private final Table.SelectMode tableSelectMode;
+
     @Getter
     private RowSelectParams.SelectMode selectMode = RowSelectParams.SelectMode.ALL_UNCHECKED;
     private final Map<I, RowSelectParams.Row<I>> rowMap = new HashMap<>();
@@ -44,6 +49,19 @@ public class SelectionStore<T extends AbstractTableRow<I>, I>
 
     public void singleRowsSelected(List<RowSelectParams.Row<I>> rows)
     {
+        if (tableSelectMode == Table.SelectMode.NONE)
+        {
+            return;
+        }
+        if (tableSelectMode == Table.SelectMode.SINGLE && !rows.isEmpty())
+        {
+            this.rowMap.clear();
+            RowSelectParams.Row<I> row = rows.get(0);
+            this.rowMap.put(row.getId(), row);
+            return;
+        }
+
+        // Multi-select
         for (RowSelectParams.Row<I> row : rows)
         {
             if (this.rowMap.containsKey(row.getId()))
