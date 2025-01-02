@@ -20,24 +20,21 @@ import {Ngface} from '../ngface-models';
 import {NgfaceFormComponent} from './ngface-form/ngface-form.component';
 
 @Component({
-  // tslint:disable-next-line:component-selector
   selector: 'ngface-form-base',
   template: ''
 })
 export abstract class FormBaseComponent
 {
-  // tslint:disable-next-line:variable-name
   @ViewChild(NgfaceFormComponent) private _formComponent: NgfaceFormComponent | undefined;
   get formComponent(): NgfaceFormComponent | undefined
   {
     if (!this._formComponent)
     {
-      console.error('formComponent is not defined! Please insert ng-form tag into your HTML template!');
+      console.error('formComponent is not defined! Please insert ngface-form tag into your HTML template!');
     }
     return this._formComponent;
   }
 
-  // tslint:disable-next-line:variable-name
   private _formData?: Ngface.Form;
   get formData(): Ngface.Form | undefined
   {
@@ -56,6 +53,7 @@ export abstract class FormBaseComponent
   {
     return this.formComponent?.formGroup ?? new FormGroup({});
   }
+
 
   public isWidgetAvailable(widgetId: string): boolean
   {

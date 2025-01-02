@@ -22,7 +22,7 @@ import {MatOptionModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {DebounceInputDirective} from '../../directives/debounce-input-directive';
 import {A11yModule} from '@angular/cdk/a11y';
@@ -35,6 +35,13 @@ export interface AutocompleteRequest
   searchText: string;
   valueSetProvider: AutocompleteValueSetProvider;
 }
+
+export interface AutocompleteValueChangeEvent
+{
+  widgetId: string;
+  value: string;
+}
+
 
 @Component({
   selector: 'ngface-autocomplete',
@@ -59,6 +66,9 @@ export class NgfaceAutocompleteComponent extends InputBaseComponent implements O
 {
   @Output()
   onAutocompleteRequest: EventEmitter<AutocompleteRequest> = new EventEmitter();
+
+  @Output()
+  onValueChange: EventEmitter<AutocompleteValueChangeEvent> = new EventEmitter();
 
   valueSetProvider = new AutocompleteValueSetProvider();
 
@@ -101,6 +111,8 @@ export class NgfaceAutocompleteComponent extends InputBaseComponent implements O
 
   onSearchTextChange($event: string): void
   {
+    this.onValueChange.emit({widgetId: this.widgetid, value: $event});
+
     if (this.valueSetProvider.isRemote())
     {
       this.onAutocompleteRequest.emit({widgetId: this.widgetid, searchText: $event, valueSetProvider: this.valueSetProvider});
@@ -109,5 +121,11 @@ export class NgfaceAutocompleteComponent extends InputBaseComponent implements O
     {
       this.valueSetProvider.searchText = $event;
     }
+  }
+
+
+  onOptionSelected($event: MatAutocompleteSelectedEvent)
+  {
+    this.onValueChange.emit({widgetId: this.widgetid, value: $event.option.value});
   }
 }

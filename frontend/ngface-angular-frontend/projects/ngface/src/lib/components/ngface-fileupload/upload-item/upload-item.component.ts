@@ -8,7 +8,6 @@ import {IUploadEvent, IUploadProgress} from '../ngface-file-upload.type';
 import {BytesPipe} from '../../../directives/bytes.pipe';
 import {AsyncPipe, NgIf} from '@angular/common';
 import {HttpClient, HttpEventType} from '@angular/common/http';
-import {error} from 'ng-packagr/lib/utils/log';
 
 @Component({
   selector: 'upload-item',

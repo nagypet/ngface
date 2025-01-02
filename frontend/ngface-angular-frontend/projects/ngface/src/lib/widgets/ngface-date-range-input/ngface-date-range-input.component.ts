@@ -14,24 +14,37 @@
  * limitations under the License.
  */
 
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {InputBaseComponent} from '../input-base.component';
 import {Ngface} from '../../ngface-models';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, ReactiveFormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn} from '@angular/forms';
+import {NgIf} from '@angular/common';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
+import {debounceTime} from 'rxjs';
+
+export interface DateRangeValueChangeEvent
+{
+  widgetId: string;
+  startDate: Date;
+  endDate: Date;
+}
 
 @Component({
-    // tslint:disable-next-line:component-selector
-    selector: 'ngface-date-range-input',
-    templateUrl: './ngface-date-range-input.component.html',
-    standalone: true,
-    imports: [MatFormFieldModule, MatDatepickerModule, ReactiveFormsModule, NgIf, ResponsiveClassDirective]
+  // tslint:disable-next-line:component-selector
+  selector: 'ngface-date-range-input',
+  templateUrl: './ngface-date-range-input.component.html',
+  standalone: true,
+  imports: [MatFormFieldModule, MatDatepickerModule, ReactiveFormsModule, NgIf, ResponsiveClassDirective]
 })
-export class NgfaceDateRangeInputComponent extends InputBaseComponent implements OnChanges
+export class NgfaceDateRangeInputComponent extends InputBaseComponent implements OnInit, OnChanges
 {
+  @Output()
+  onValueChange: EventEmitter<DateRangeValueChangeEvent> = new EventEmitter();
+
+  private lastEmittedEvent: DateRangeValueChangeEvent | undefined;
+
   // tslint:disable-next-line:variable-name
   private _range: FormGroup<any> = new FormGroup({
     start: new FormControl<Date>(new Date()),
@@ -52,17 +65,42 @@ export class NgfaceDateRangeInputComponent extends InputBaseComponent implements
   // tslint:disable-next-line:variable-name
   protected override get_form_group_item: AbstractControl = this.formGroupItem;
 
+
+
   constructor()
   {
     super();
+  }
+
+  ngOnInit(): void
+  {
+    this.range.valueChanges
+      .pipe(debounceTime(1000))
+      .subscribe(value =>
+      {
+        if (this.range.valid)
+        {
+          let event = {widgetId: this.widgetid, startDate: value.start, endDate: value.end};
+          if (this.lastEmittedEvent?.startDate !== event.startDate || this.lastEmittedEvent?.endDate !== event.endDate)
+          {
+            this.lastEmittedEvent = event;
+            this.onValueChange.emit(event);
+          }
+        }
+      });
   }
 
   override ngOnChanges(): void
   {
     const startDate = this.getData()?.data?.startDate ? this.getData()?.data?.startDate : '';
     const endDate = this.getData()?.data?.endDate ? this.getData()?.data?.endDate : '';
-    this.range.setValue({start: startDate, end: endDate});
 
+    const currentRangeValue = this.range.value;
+    if (currentRangeValue?.start !== startDate || currentRangeValue?.end !== endDate)
+    {
+      this.range.setValue({start: startDate, end: endDate}, {emitEvent: false});
+    }
+    this.lastEmittedEvent = {widgetId: this.widgetid, startDate: this.range.value.start, endDate: this.range.value.end};
     // Validators for startDate
     const startDateValidators = new Array<ValidatorFn>();
     this.getData()?.validators?.forEach(v =>

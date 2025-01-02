@@ -176,17 +176,17 @@
 //----------------------------------------------------------------------------------------------------------------------
 // mat-paginator
 //----------------------------------------------------------------------------------------------------------------------
-.mat-paginator-container {
+.mat-mdc-paginator-container {
   flex-wrap: nowrap !important;
-  min-width: 500px;
+  min-width: 400px;
   align-items: baseline !important;
 }
 
-.mat-paginator-page-size-label {
+.mat-mdc-paginator-page-size-label {
   white-space: nowrap;
 }
 
-.mat-paginator-range-label {
+.mat-mdc-paginator-range-label {
   white-space: nowrap;
 }
 

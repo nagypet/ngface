@@ -1,22 +1,6 @@
-/*
- * Copyright 2020-2024 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2024-10-17 09:07:31.
+// Generated using typescript-generator version 3.2.1263 on 2024-12-30 12:41:56.
 
 export namespace Ngface {
 
@@ -54,6 +38,21 @@ export namespace Ngface {
         badge: string;
     }
 
+    export interface WidgetList extends Widget<WidgetList.Data, WidgetList> {
+        type: "WidgetList";
+        data: WidgetList.Data;
+        widgets: { [index: string]: Widget<any, any> };
+    }
+
+    export namespace WidgetList {
+
+        export interface Data extends WidgetData {
+            type: "WidgetList.Data";
+            widgetDataMap: { [index: string]: WidgetData };
+        }
+
+    }
+
     export interface Form {
         id: string;
         title: string;
@@ -69,20 +68,24 @@ export namespace Ngface {
 
         export interface Data extends Value<string> {
             type: "FormattedText.Data";
-            value: string;
+            value: string | null;
         }
 
     }
 
-    export interface Autocomplete extends Input<Data, string, Autocomplete> {
+    export interface Autocomplete extends Input<Autocomplete.Data, string, Autocomplete> {
         type: "Autocomplete";
-        data: Data;
+        data: Autocomplete.Data;
     }
 
-    export interface Data extends Value<string> {
-        type: "Autocomplete.Data";
-        value: string;
-        extendedReadOnlyData: ExtendedReadOnlyData;
+    export namespace Autocomplete {
+
+        export interface Data extends Value<string> {
+            type: "Autocomplete.Data";
+            value: string | null;
+            extendedReadOnlyData: ExtendedReadOnlyData;
+        }
+
     }
 
     export interface ExtendedReadOnlyData {
@@ -98,7 +101,7 @@ export namespace Ngface {
 
         export interface Data extends Value<Date> {
             type: "DateInput.Data";
-            value: Date;
+            value: Date | null;
         }
 
     }
@@ -129,7 +132,7 @@ export namespace Ngface {
 
         export interface Data extends Value<Date> {
             type: "DateTimeInput.Data";
-            value: Date;
+            value: Date | null;
         }
 
     }
@@ -144,7 +147,7 @@ export namespace Ngface {
 
         export interface Data extends Value<number> {
             type: "NumericInput.Data";
-            value: number;
+            value: number | null;
         }
 
     }
@@ -178,30 +181,36 @@ export namespace Ngface {
 
         export interface Data extends Value<string> {
             type: "TextInput.Data";
-            value: string;
+            value: string | null;
         }
 
     }
 
     export interface Email extends Validator {
+        type: "Email";
     }
 
     export interface Max extends Validator {
+        type: "Max";
         max: number;
     }
 
     export interface Min extends Validator {
+        type: "Min";
         min: number;
     }
 
     export interface Pattern extends Validator {
+        type: "Pattern";
         pattern: string;
     }
 
     export interface Required extends Validator {
+        type: "Required";
     }
 
     export interface Size extends Validator {
+        type: "Size";
         min: number;
         max: number;
     }
@@ -243,7 +252,7 @@ export namespace Ngface {
     export interface FiltererDef {
         column: string;
         remote: boolean;
-        valueProvider: Function<string, string[]>;
+        valueProvider: ValueProvider<string, string[]>;
     }
 
     export interface Paginator {
@@ -251,6 +260,11 @@ export namespace Ngface {
         pageSize: number;
         length: number;
         pageSizeOptions: number[];
+    }
+
+    export interface ParameterizedValueProvider<T, R> extends ValueProvider<T, R> {
+        parameter: string;
+        function: BiFunction<string, T, R>;
     }
 
     export interface Row<T> {
@@ -288,6 +302,9 @@ export namespace Ngface {
     }
 
     export interface TableDataBuilder {
+    }
+
+    export interface ValueProvider<T, R> {
     }
 
     export interface ValueSet {
@@ -384,7 +401,7 @@ export namespace Ngface {
     }
 
     export interface WidgetData {
-        type: "WidgetData" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
+        type: "WidgetData" | "WidgetList.Data" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data" | any;
     }
 
     export interface VoidWidgetData extends WidgetData {
@@ -392,7 +409,7 @@ export namespace Ngface {
     }
 
     export interface Widget<WD, SUB> {
-        type: "Button" | "FormattedText" | "Table" | "Titlebar" | "Autocomplete" | "DateInput" | "DateRangeInput" | "DateTimeInput" | "NumericInput" | "Select" | "TextInput";
+        type: "Button" | "WidgetList" | "FormattedText" | "Table" | "Titlebar" | "Autocomplete" | "DateInput" | "DateRangeInput" | "DateTimeInput" | "NumericInput" | "Select" | "TextInput" | any;
         id: string;
         label: string;
         hint: string;
@@ -401,7 +418,7 @@ export namespace Ngface {
     }
 
     export interface Validator {
-        type: string;
+        type: "Email" | "Max" | "Min" | "Pattern" | "Required" | "Size";
         message: string;
     }
 
@@ -412,7 +429,7 @@ export namespace Ngface {
         digitGrouping: boolean;
     }
 
-    export interface Function<T, R> {
+    export interface BiFunction<T, U, R> {
     }
 
     export namespace DataRetrievalParams.Filter {
@@ -425,7 +442,7 @@ export namespace Ngface {
 
     export interface Value<V> extends WidgetData {
         type: "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
-        value: V;
+        value: V | null;
     }
 
     export interface Input<WD, V, SUB> extends Widget<WD, SUB> {

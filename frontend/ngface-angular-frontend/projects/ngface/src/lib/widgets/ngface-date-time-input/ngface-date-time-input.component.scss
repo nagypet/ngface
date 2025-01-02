@@ -1,0 +1,15 @@
+.date-time-container {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.date-input {
+  flex: 2;
+  min-width: 150px;
+}
+
+.time-input {
+  flex: 1;
+  min-width: 100px;
+}

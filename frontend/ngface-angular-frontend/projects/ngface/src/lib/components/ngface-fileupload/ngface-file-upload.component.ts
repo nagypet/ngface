@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton, MatFabButton} from '@angular/material/button';
 import {NgForOf, NgIf} from '@angular/common';
@@ -29,13 +29,25 @@ export interface FileStatus
   templateUrl: './ngface-file-upload.component.html',
   styleUrl: './ngface-file-upload.component.css'
 })
-export class NgfaceFileUploadComponent
+export class NgfaceFileUploadComponent implements OnChanges
 {
   @ViewChildren(UploadItemComponent)
   fileUploads!: QueryList<UploadItemComponent>;
 
   @Input()
   httpUrl!: string;
+
+  @Input()
+  fileType = '*';
+
+  @Input()
+  multiple = false;
+
+  @Input()
+  autoReset = true;
+
+  @Input()
+  reset = false;
 
   @Input()
   uploadAllColor = 'primary';
@@ -56,6 +68,15 @@ export class NgfaceFileUploadComponent
 
 
   public files: Array<FileStatus> = [];
+
+
+  ngOnChanges(changes: SimpleChanges): void
+  {
+    if (this.reset)
+    {
+      this.files = [];
+    }
+  }
 
 
   onFileInput($event: Event): void
@@ -114,10 +135,20 @@ export class NgfaceFileUploadComponent
     {
       if ($event.file === this.files[i].file)
       {
-        this.files[i].uploaded = true;
+        if ($event.event.type === 4)
+        {
+          if (this.autoReset)
+          {
+            this.files.splice(i, 1);
+          }
+          else
+          {
+            this.files[i].uploaded = true;
+          }
+        }
       }
     }
-    this.onUpload.emit($event)
+    this.onUpload.emit($event);
   }
 
 
@@ -140,7 +171,7 @@ export class NgfaceFileUploadComponent
     let countOpen = this.getCountOpen();
     if (countOpen == 0)
     {
-      return "";
+      return '';
     }
     return countOpen.toString();
   }

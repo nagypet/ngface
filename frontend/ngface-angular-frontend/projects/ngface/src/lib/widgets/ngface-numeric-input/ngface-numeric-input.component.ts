@@ -14,12 +14,20 @@
  * limitations under the License.
  */
 
-import {Component, Inject, LOCALE_ID} from '@angular/core';
+import {Component, EventEmitter, Inject, LOCALE_ID, Output} from '@angular/core';
 import {Ngface} from '../../ngface-models';
 import {InputBaseComponent} from '../input-base.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {IntlNumericInputComponent} from './intl-numeric-input/intl-numeric-input.component';
 import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
+
+
+export interface NumericValueChangeEvent
+{
+  widgetId: string;
+  value: number;
+}
+
 
 @Component({
     // tslint:disable-next-line:component-selector
@@ -30,6 +38,9 @@ import {ResponsiveClassDirective} from '../../directives/responsive-class-direct
 })
 export class NgfaceNumericInputComponent extends InputBaseComponent
 {
+  @Output()
+  onValueChange: EventEmitter<NumericValueChangeEvent> = new EventEmitter();
+
   constructor(@Inject(LOCALE_ID) public locale: string)
   {
     super();
@@ -54,5 +65,10 @@ export class NgfaceNumericInputComponent extends InputBaseComponent
       };
     }
     return this.formdata?.widgets[this.widgetid] as Ngface.NumericInput;
+  }
+
+  onValueChangeEvent($event: number)
+  {
+    this.onValueChange.emit({widgetId: this.widgetid, value: $event});
   }
 }

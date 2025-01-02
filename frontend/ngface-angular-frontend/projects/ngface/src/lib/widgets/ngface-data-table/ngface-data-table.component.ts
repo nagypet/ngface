@@ -379,6 +379,11 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
     return this.formdata?.widgets[this.widgetid] as Ngface.Table<any>;
   }
 
+  public isPaginatorEnabled(): boolean
+  {
+    return !!this.dataSource.paginator;
+  }
+
   getPaginator(): Ngface.Paginator
   {
     if (!this.dataSource.paginator)
@@ -656,4 +661,8 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
     return null;
   }
 
+  hidePageSize(): boolean
+  {
+    return this.el.nativeElement.offsetWidth < 1000 && this.getData().notification.length > 0;
+  }
 }

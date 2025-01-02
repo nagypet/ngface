@@ -24,7 +24,7 @@
   <ng-scrollbar visibility="always" class="ngface-data-table-scrollable-area" track="all">
     <table mat-table matSort>
 
-      @for (column of displayedColumns;track column) {
+      @for (column of displayedColumns; track column) {
         <ng-container [matColumnDef]="column">
 
           @if (column === '___checkbox-column___') {
@@ -66,7 +66,7 @@
               @if (isActionCell(row, column)) {
                 <!-- ActionCell -->
                 <div>
-                  @for (action of getActions(row, column);track action) {
+                  @for (action of getActions(row, column); track action) {
                     <button mat-icon-button
                             [disabled]="!action.enabled"
                             [matTooltip]="action.enabled ? action.label : ''"
@@ -95,7 +95,7 @@
 
       <!-- Column groups-->
       @if (columnGroups.length > 0) {
-        @for (columnGroup of columnGroups;track columnGroup) {
+        @for (columnGroup of columnGroups; track columnGroup) {
           <ng-container [matColumnDef]="columnGroup">
 
             <th [class]="getColGroupClass(columnGroup)" mat-header-cell *matHeaderCellDef
@@ -121,13 +121,16 @@
   <!-- Paginator -->
   <div class="ngface-paginator-container">
     <div class="ngface-notification" [innerHTML]="getNotification()"></div>
-    <mat-paginator #paginator
-                   [length]="getPaginator().length"
-                   [pageIndex]="getPaginator().pageIndex"
-                   [pageSize]="getPaginator().pageSize"
-                   [pageSizeOptions]="getPaginator().pageSizeOptions"
-                   [showFirstLastButtons]="true"
-    >
-    </mat-paginator>
+    @if (isPaginatorEnabled()) {
+      <mat-paginator #paginator
+                     [length]="getPaginator().length"
+                     [pageIndex]="getPaginator().pageIndex"
+                     [pageSize]="getPaginator().pageSize"
+                     [pageSizeOptions]="getPaginator().pageSizeOptions"
+                     [showFirstLastButtons]="true"
+                     [hidePageSize]="hidePageSize()"
+      >
+      </mat-paginator>
+    }
   </div>
 </div>

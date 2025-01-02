@@ -70,11 +70,6 @@ export class NgfaceButtonComponent implements OnInit
     return this.formdata?.widgets[this.widgetid] as Ngface.Button;
   }
 
-  onClick(): void
-  {
-    console.log('Button clicked');
-  }
-
   getClass()
   {
     return {

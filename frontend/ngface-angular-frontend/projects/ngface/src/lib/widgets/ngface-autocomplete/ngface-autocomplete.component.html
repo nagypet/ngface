@@ -26,7 +26,7 @@
          (debounceInput)="onSearchTextChange($event)"
          [debounceTime]="500"
   >
-  <mat-autocomplete #auto="matAutocomplete">
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
     @for (option of valueSetProvider.filteredOptions | async;track option) {
       <mat-option [value]="option">
         {{ option }}

@@ -120,7 +120,7 @@ export class NgfaceErrorDialogComponent implements OnInit
           status: error?.status,
           path: error?.url,
           statusText: error?.statusText,
-          message: error?.error.error
+          message: error?.error
         };
       }
     });
@@ -184,6 +184,11 @@ export class NgfaceErrorDialogComponent implements OnInit
       this.data?.exception?.exceptionClass === 'hu.perit.spvitamin.core.exception.ApplicationRuntimeException')
     {
       return this.data?.message ?? 'Unknown error';
+    }
+
+    if (this.data.status === 408)
+    {
+      return this.data?.message ?? 'Timeout';
     }
 
     return 'An error occurred!';
