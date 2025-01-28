@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2024 the original author or authors.
+ * Copyright 2020-2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatBadgeModule} from '@angular/material/badge';
 import {DeviceTypeService} from '../../services/device-type.service';
 import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
+import {MatTooltip} from '@angular/material/tooltip';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'ngface-titlebar',
@@ -37,7 +39,8 @@ import {ResponsiveClassDirective} from '../../directives/responsive-class-direct
     MatMenuModule,
     MatBadgeModule,
     ResponsiveClassDirective,
-    NgClass
+    NgClass,
+    MatTooltip
   ],
   standalone: true
 })
@@ -49,27 +52,49 @@ export class NgfaceTitlebarComponent implements OnChanges
   @Input()
   widgetid = '';
 
+  @Input()
+  private selectedMenuItemId?: string;
+
+  @Input()
+  logo?: string;
+
+  @Input()
+  public tokenValidSeconds?: number;
+  public tokenValidSecondsString = '00:00:00';
+
+
   @Output()
   menuItemClick: EventEmitter<Ngface.Menu.Item> = new EventEmitter();
 
   @Output()
   actionClick: EventEmitter<Ngface.Action> = new EventEmitter();
 
-  private selectedMenuItemId?: string;
-
-  constructor(public deviceTypeService: DeviceTypeService)
+  constructor(
+    public deviceTypeService: DeviceTypeService,
+    private router: Router,
+  )
   {
   }
+
 
   ngOnChanges(changes: SimpleChanges): void
   {
-    this.selectedMenuItemId = this.getData().menu.defaultItemId;
-    const item = this.getData().menu.items.find(i => i.id === this.selectedMenuItemId);
-    if (item)
+    if (changes['formdata'] || changes['widgetid'])
     {
-      this.onMenuClick(item);
+        this.selectedMenuItemId = this.getData().menu.defaultItemId;
+        const item = this.getData().menu.items.find(i => i.id === this.selectedMenuItemId);
+        if (item)
+        {
+          this.onMenuClick(item);
+        }
+    }
+
+    if (changes['tokenValidSeconds'])
+    {
+      this.tokenValidSecondsString = this.formatTime(this.tokenValidSeconds);
     }
   }
+
 
   getData(): Ngface.Titlebar
   {
@@ -84,6 +109,7 @@ export class NgfaceTitlebarComponent implements OnChanges
         data: {type: 'VoidWidgetData'},
         actions: [],
         label: 'undefined label',
+        buildTime: '',
         enabled: false,
         id: '',
         hint: ''
@@ -113,13 +139,40 @@ export class NgfaceTitlebarComponent implements OnChanges
     return '';
   }
 
-  getIcon(menuItem: Ngface.Menu.Item): string
+  isMobileDesign(): boolean
   {
-    if (menuItem.id === this.selectedMenuItemId)
-    {
-      return 'check';
-    }
+    return (this.deviceTypeService.deviceType === 'Phone' && this.deviceTypeService.orientation === 'Portrait');
+  }
 
-    return menuItem.icon;
+  getSessionTimeoutAdditionalClasses(): string
+  {
+    if (this.tokenValidSeconds)
+    {
+      const n = Math.floor(this.tokenValidSeconds);
+      if (n < 30)
+      {
+        return 'session-timeout-warning';
+      }
+    }
+    return '';
+  }
+
+
+  private formatTime(totalSeconds?: number): string
+  {
+    if (totalSeconds)
+    {
+      const hours = Math.floor(totalSeconds / 3600);
+      totalSeconds %= 3600;
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return this.n(hours) + ':' + this.n(minutes) + ':' + this.n(seconds);
+    }
+    return '';
+  }
+
+  private n(n: number): string
+  {
+    return n > 9 ? '' + n : '0' + n;
   }
 }

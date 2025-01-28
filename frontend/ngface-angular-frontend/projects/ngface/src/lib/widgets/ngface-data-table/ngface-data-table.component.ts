@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2024 the original author or authors.
+ * Copyright 2020-2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +35,7 @@ import {NgClass, NgFor, NgIf} from '@angular/common';
 import ActionCell = Ngface.ActionCell;
 import NumericCell = Ngface.NumericCell;
 import DataRetrievalParams = Ngface.DataRetrievalParams;
+import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
 
 export interface TableReloadEvent
 {
@@ -73,7 +74,7 @@ export interface TableMasterToggleEvent
   templateUrl: './ngface-data-table.component.html',
   styleUrls: ['./ngface-data-table.component.scss'],
   standalone: true,
-  imports: [NgClass, NgIf, NgScrollbarModule, MatTableModule, MatSortModule, NgFor, MatCheckboxModule, SortFilterHeaderComponent, MatTooltipModule, MatButtonModule, MatIconModule, MatPaginatorModule, SafeHtmlPipe]
+  imports: [NgClass, NgIf, NgScrollbarModule, MatTableModule, MatSortModule, NgFor, MatCheckboxModule, SortFilterHeaderComponent, MatTooltipModule, MatButtonModule, MatIconModule, MatPaginatorModule, SafeHtmlPipe, ResponsiveClassDirective]
 })
 export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
 {
@@ -311,7 +312,7 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
 
   private formatCell(cell: Ngface.Cell<any, any> | undefined): string | undefined
   {
-    if (!cell || !cell.value)
+    if (!cell || cell.value == null)
     {
       return undefined;
     }
@@ -460,7 +461,7 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
   getTdClass(row: Ngface.Row<any>, column: string): string | null
   {
     const cell = row.cells[column];
-    if (!cell?.value)
+    if (cell?.value == null)
     {
       return 'cellvalue-null ' + this.getCellClass(column);
     }
@@ -637,7 +638,7 @@ export class NgfaceDataTableComponent implements OnChanges, AfterViewInit
   getColGroupText(columnGroup: string): string
   {
     const columnGroupText = this.getData().columnGroups[columnGroup]?.text;
-    return columnGroupText ? columnGroupText : "";
+    return columnGroupText ? columnGroupText : '';
   }
 
   getColGroupColSpan(columnGroup: string): number

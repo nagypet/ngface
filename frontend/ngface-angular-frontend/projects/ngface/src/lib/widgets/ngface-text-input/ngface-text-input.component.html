@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2020-2024 the original author or authors.
+  ~ Copyright 2020-2025 the original author or authors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 <mat-form-field responsiveClass="ngface-input-field ngface-text-input" [floatLabel]="floatLabelControl.value"
                 [subscriptSizing]="'dynamic'">
   <mat-label>{{ getData().label }}</mat-label>
-  <input matInput type="text" autocomplete="off"
+  <input matInput #textInput type="text" autocomplete="off"
          [formControl]="formControl"
          [placeholder]="getData().placeholder !== null ? getData().placeholder : ''"
          [attr.minlength]="getMinLength()"

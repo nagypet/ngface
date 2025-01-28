@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2024 the original author or authors.
+ * Copyright 2020-2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,28 +14,43 @@
  * limitations under the License.
  */
 
-import {Component} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {Ngface} from '../../ngface-models';
 import {InputBaseComponent} from '../input-base.component';
-import { NgIf } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import {NgIf} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
+import {NgfaceWidgetFactory} from '../ngface-widget-factory';
 
 @Component({
-    // tslint:disable-next-line:component-selector
-    selector: 'ngface-text-input',
-    templateUrl: './ngface-text-input.component.html',
-    standalone: true,
-    imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, NgIf, ResponsiveClassDirective]
+  // tslint:disable-next-line:component-selector
+  selector: 'ngface-text-input',
+  templateUrl: './ngface-text-input.component.html',
+  standalone: true,
+  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, NgIf, ResponsiveClassDirective]
 })
-export class NgfaceTextInputComponent extends InputBaseComponent
+export class NgfaceTextInputComponent extends InputBaseComponent implements AfterViewInit
 {
+  @ViewChild('textInput') textInput!: ElementRef<HTMLInputElement>;
+
+  @Input()
+  focused = false;
 
   constructor()
   {
     super();
+  }
+
+  ngAfterViewInit()
+  {
+    if (this.focused)
+    {
+      setTimeout(() => {
+        this.textInput.nativeElement.focus();
+      });
+    }
   }
 
   getData(): Ngface.TextInput
@@ -43,16 +58,7 @@ export class NgfaceTextInputComponent extends InputBaseComponent
     const widget = this.formdata?.widgets[this.widgetid];
     if (!widget || widget?.type !== 'TextInput')
     {
-      return {
-        type: 'TextInput',
-        data: {type: 'TextInput.Data', value: ''},
-        placeholder: 'widget id: ' + this.widgetid,
-        label: 'undefined label',
-        validators: [],
-        enabled: false,
-        id: '',
-        hint: ''
-      };
+      return NgfaceWidgetFactory.createTextInput();
     }
     return this.formdata?.widgets[this.widgetid] as Ngface.TextInput;
   }

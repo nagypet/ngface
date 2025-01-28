@@ -1,5 +1,5 @@
 /*!
- * Copyright 2020-2024 the original author or authors.
+ * Copyright 2020-2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -106,9 +106,9 @@
   }
 }
 
-.ngface-input-field.phone {
-  width: calc(100vw - 45px) !important;
-}
+//.ngface-input-field.phone {
+//  width: calc(100vw - 45px) !important;
+//}
 
 .ngface-date-range-input {
   width: 300px;
@@ -178,7 +178,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 .mat-mdc-paginator-container {
   flex-wrap: nowrap !important;
-  min-width: 400px;
+  min-width: 300px;
   align-items: baseline !important;
 }
 
@@ -186,7 +186,8 @@
   white-space: nowrap;
 }
 
-.mat-mdc-paginator-range-label {
+.mat-mdc-paginator-range-label.tablet,
+.mat-mdc-paginator-range-label.desktop {
   white-space: nowrap;
 }
 
@@ -195,7 +196,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 .ngface-data-table {
   width: 100%;
-  margin: 20px auto;
+  //margin: 20px auto;
 
   .ngface-data-table-scrollable-area {
     border: var(--app-primary-palette-300 ,rgba(0, 0, 0, .12)) solid 1px;
@@ -345,12 +346,4 @@ ngface-excel-filter {
       white-space: nowrap;
     }
   }
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-// ngface-menu
-//----------------------------------------------------------------------------------------------------------------------
-.ngface-menuitem.selected {
-  background-color: whitesmoke;
 }

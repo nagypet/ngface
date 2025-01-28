@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2024-12-30 12:41:56.
+// Generated using typescript-generator version 3.2.1263 on 2025-01-16 08:15:17.
 
 export namespace Ngface {
 
@@ -349,6 +349,7 @@ export namespace Ngface {
         data: VoidWidgetData;
         appTitle: string;
         version: string;
+        buildTime: string;
         menu: Menu;
         actions: Action[];
     }

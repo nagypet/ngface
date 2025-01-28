@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2024 the original author or authors.
+ * Copyright 2020-2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ public class Titlebar extends Widget<VoidWidgetData, Titlebar>
 {
     private String appTitle = "App title";
     private String version;
+    private String buildTime;
     private Menu menu = new Menu();
     private List<Action> actions;
 
@@ -51,6 +52,13 @@ public class Titlebar extends Widget<VoidWidgetData, Titlebar>
     public Titlebar version(String version)
     {
         this.version = version;
+        return this;
+    }
+
+
+    public Titlebar buildTime(String buildTime)
+    {
+        this.buildTime = buildTime;
         return this;
     }
 
