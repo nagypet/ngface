@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-01-16 08:15:17.
+// Generated using typescript-generator version 3.2.1263 on 2025-02-05 05:21:52.
 
 export namespace Ngface {
 
@@ -175,6 +175,7 @@ export namespace Ngface {
     export interface TextInput extends Input<TextInput.Data, string, TextInput> {
         type: "TextInput";
         data: TextInput.Data;
+        password: boolean | null;
     }
 
     export namespace TextInput {

@@ -47,7 +47,8 @@ export class NgfaceTextInputComponent extends InputBaseComponent implements Afte
   {
     if (this.focused)
     {
-      setTimeout(() => {
+      setTimeout(() =>
+      {
         this.textInput.nativeElement.focus();
       });
     }
@@ -61,5 +62,17 @@ export class NgfaceTextInputComponent extends InputBaseComponent implements Afte
       return NgfaceWidgetFactory.createTextInput();
     }
     return this.formdata?.widgets[this.widgetid] as Ngface.TextInput;
+  }
+
+
+  isPassword(): boolean
+  {
+    const widget = this.formdata?.widgets[this.widgetid];
+    if (!widget || widget?.type !== 'TextInput')
+    {
+      return false;
+    }
+    let textInputWidget = this.formdata?.widgets[this.widgetid] as Ngface.TextInput;
+    return !!textInputWidget.password;
   }
 }

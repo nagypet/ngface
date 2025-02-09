@@ -17,7 +17,7 @@
 <mat-form-field responsiveClass="ngface-input-field ngface-text-input" [floatLabel]="floatLabelControl.value"
                 [subscriptSizing]="'dynamic'">
   <mat-label>{{ getData().label }}</mat-label>
-  <input matInput #textInput type="text" autocomplete="off"
+  <input matInput #textInput [type]="isPassword() ? 'password' : 'text'" autocomplete="off"
          [formControl]="formControl"
          [placeholder]="getData().placeholder !== null ? getData().placeholder : ''"
          [attr.minlength]="getMinLength()"

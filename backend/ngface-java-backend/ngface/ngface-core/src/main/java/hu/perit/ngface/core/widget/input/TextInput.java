@@ -16,16 +16,18 @@
 
 package hu.perit.ngface.core.widget.input;
 
+import hu.perit.ngface.core.widget.base.Input;
+import hu.perit.ngface.core.widget.base.Value;
 import hu.perit.ngface.core.widget.input.validator.Email;
 import hu.perit.ngface.core.widget.input.validator.Pattern;
 import hu.perit.ngface.core.widget.input.validator.Required;
 import hu.perit.ngface.core.widget.input.validator.Size;
-import hu.perit.ngface.core.widget.base.Input;
-import hu.perit.ngface.core.widget.base.Value;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import org.apache.commons.lang3.BooleanUtils;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,8 +37,12 @@ import java.util.List;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
+@Getter
 public class TextInput extends Input<TextInput.Data, String, TextInput>
 {
+    @Nullable
+    private Boolean password;
+
     public TextInput(String id)
     {
         super(id);
@@ -60,6 +66,12 @@ public class TextInput extends Input<TextInput.Data, String, TextInput>
         return Arrays.asList(Required.class, Size.class, Email.class, Pattern.class);
     }
 
+
+    public TextInput password(Boolean password)
+    {
+        this.password = BooleanUtils.isTrue(password);
+        return this;
+    }
 
     @ToString(callSuper = true)
     @Getter

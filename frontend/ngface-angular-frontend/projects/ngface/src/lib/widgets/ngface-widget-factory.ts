@@ -3,28 +3,55 @@ import {Ngface} from '../ngface-models';
 export class NgfaceWidgetFactory
 {
 
-  public static createTextInput(id = '', label = 'undefined label', value = '', validators: Ngface.Validator[] = [])
+  public static createTextInput(input: Partial<{
+    id: string;
+    label: string;
+    value: string;
+    validators: Ngface.Validator[];
+    password: boolean
+  }> = {}): Ngface.TextInput
   {
+    const defaults = {
+      id: '',
+      label: 'undefined label',
+      value: '',
+      validators: [],
+      password: false
+    };
+
+    const params = {...defaults, ...input};
+
     return {
-      id: id,
+      id: params.id,
       type: 'TextInput',
-      label: label,
-      placeholder: label,
+      password: params.password,
+      label: params.label,
+      placeholder: params.label,
       hint: '',
-      data: {type: 'TextInput.Data', value: value},
+      data: {type: 'TextInput.Data', value: params.value},
       enabled: true,
-      validators: validators
+      validators: params.validators
     } as Ngface.TextInput;
   }
 
-  public static createButton(id = '', label = 'undefined label', style: Ngface.Style = 'PRIMARY')
+
+  public static createButton(input: Partial<{ id: string, label: string, style: Ngface.Style, enabled: boolean }> = {}): Ngface.Button
   {
-    return {
-      id: id,
-      type: 'Button',
-      label: label,
-      style: style,
+    const defaults = {
+      id: '',
+      label: 'undefined label',
+      style: 'PRIMARY',
       enabled: true
+    };
+
+    const params = {...defaults, ...input};
+
+    return {
+      id: params.id,
+      type: 'Button',
+      label: params.label,
+      style: params.style,
+      enabled: params.enabled
     } as Ngface.Button;
   }
 }
