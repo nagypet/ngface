@@ -72,7 +72,16 @@ export interface StackTraceElement
   templateUrl: './ngface-error-dialog.component.html',
   styleUrls: ['./ngface-error-dialog.component.scss'],
   standalone: true,
-  imports: [MatDialogModule, MatIconModule, NgIf, NgScrollbarModule, MatButtonModule, A11yModule, ResponsiveClassDirective, NgfaceButtonComponent]
+  imports: [
+    MatDialogModule,
+    MatIconModule,
+    NgIf,
+    NgScrollbarModule,
+    MatButtonModule,
+    A11yModule,
+    ResponsiveClassDirective,
+    NgfaceButtonComponent
+  ]
 })
 export class NgfaceErrorDialogComponent implements OnInit
 {
@@ -97,7 +106,7 @@ export class NgfaceErrorDialogComponent implements OnInit
   {
     inputData.subscribe(error =>
     {
-      if (error?.error.timestamp && error?.error.exception)
+      if (error?.error && error?.error.timestamp && error?.error.exception)
       {
         // This is probably an instance of SpvitaminErrorResponse
         const spvitaminError: SpvitaminErrorResponse = error?.error;
@@ -120,7 +129,7 @@ export class NgfaceErrorDialogComponent implements OnInit
           status: error?.status,
           path: error?.url,
           statusText: error?.statusText,
-          message: error?.error
+          message: error?.message
         };
       }
     });
