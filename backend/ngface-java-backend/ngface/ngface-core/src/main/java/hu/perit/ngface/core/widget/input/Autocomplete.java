@@ -70,17 +70,26 @@ public class Autocomplete extends Input<Autocomplete.Data, String, Autocomplete>
     @EqualsAndHashCode(callSuper = true)
     public static class Data extends Value<String>
     {
-        private final ExtendedReadOnlyData extendedReadOnlyData = new ExtendedReadOnlyData();
+        private final ExtendedReadOnlyData extendedReadOnlyData;
 
         // Json
         private Data()
         {
             super(null);
+            this.extendedReadOnlyData = new ExtendedReadOnlyData();
         }
 
         public Data(String value)
         {
             super(value);
+            this.extendedReadOnlyData = new ExtendedReadOnlyData();
+        }
+
+
+        public Data(String value, Boolean remote)
+        {
+            super(value);
+            this.extendedReadOnlyData = new ExtendedReadOnlyData(remote);
         }
 
 
@@ -88,7 +97,17 @@ public class Autocomplete extends Input<Autocomplete.Data, String, Autocomplete>
         @lombok.Data
         public static class ExtendedReadOnlyData
         {
-            private final ValueSet valueSet = new ValueSet(false);
+            private final ValueSet valueSet;
+
+            public ExtendedReadOnlyData()
+            {
+                this.valueSet = new ValueSet(false);
+            }
+
+            public ExtendedReadOnlyData(Boolean remote)
+            {
+                this.valueSet = new ValueSet(remote);
+            }
 
             public void options(Collection<String> options)
             {
