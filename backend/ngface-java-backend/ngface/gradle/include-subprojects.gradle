@@ -48,7 +48,10 @@ class ProjectConfigurer {
     private void discoverRecursive(File root) {
         root.eachDir() { dir ->
             if (isDirRelevant(dir)) {
-                if (new File(dir, 'build.gradle').exists() && !dir.name.equals("spvitamin") && (Constants.COMPILE_SPVITAMIN || !"${root}".contains("spvitamin"))) {
+                if (new File(dir, 'build.gradle').exists()
+                        && !dir.name.equals("spvitamin")
+                        && (Constants.COMPILE_SPVITAMIN || !"${root}".contains("spvitamin"))
+                ) {
                     this.settings.include "${dir.name}"
                     def projDir = new File("${root}", "${dir.name}")
                     this.settings.project(":${dir.name}").projectDir = projDir
