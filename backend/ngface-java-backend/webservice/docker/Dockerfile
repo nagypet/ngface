@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-openjdk-alpine:17.0.6
+FROM bellsoft/liberica-openjdk-alpine:21
 VOLUME /tmp
 
 RUN apk add mc --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
