@@ -31,4 +31,6 @@ public interface NgfaceQueryService<E>
     Page<E> find(DataRetrievalParams dataRetrievalParams);
 
     List<String> getDistinctValues(String fieldName, String searchText, Class<E> entityClass, List<DataRetrievalParams.Filter> activeFilters);
+
+    <T> List<String> getDistinctValues(String fieldName, String searchText, Class<E> entityClass, List<DataRetrievalParams.Filter> activeFilters, Class<T> fieldType);
 }

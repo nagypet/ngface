@@ -20,6 +20,7 @@ import hu.perit.ngface.core.controller.ComponentController;
 import hu.perit.ngface.core.widget.input.Autocomplete;
 import hu.perit.ngface.webservice.db.addressdb.table.AddressEntity;
 import hu.perit.ngface.webservice.exceptionhandler.ApplicationMessage;
+import hu.perit.ngface.webservice.model.AddressTableRow;
 import hu.perit.ngface.webservice.service.api.AddressService;
 import hu.perit.spvitamin.core.exception.ApplicationRuntimeException;
 import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
@@ -67,7 +68,7 @@ public class TableDetailsComponentController implements ComponentController<Tabl
     private Autocomplete.Data getAutocompleteData(String value)
     {
         Autocomplete.Data data = new Autocomplete.Data(value);
-        List<String> distinctDistricts = this.addressService.getDistinctDistricts(null);
+        List<String> distinctDistricts = this.addressService.getDistinctValues(AddressTableRow.COL_DISTRICT, null, AddressEntity.class, null);
         data.getExtendedReadOnlyData().options(distinctDistricts);
         return data;
     }

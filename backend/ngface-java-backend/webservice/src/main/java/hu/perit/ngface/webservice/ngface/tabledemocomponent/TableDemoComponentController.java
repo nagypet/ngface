@@ -106,9 +106,10 @@ public class TableDemoComponentController extends TableControllerImpl<TableDemoC
 
 
     @Override
-    public void onActionClick(TableActionParams<Long> tableActionParams) throws Exception
+    public Object onActionClick(TableActionParams<Long> tableActionParams) throws Exception
     {
         log.debug(tableActionParams.toString());
+        return null;
     }
 
 
@@ -132,9 +133,33 @@ public class TableDemoComponentController extends TableControllerImpl<TableDemoC
     public FiltererFactory getFiltererFactory()
     {
         return FiltererFactory.builder()
-            .filterer(AddressTableRow.COL_POSTCODE, true, this.addressService::getDistinctPostcodes)
-            .filterer(AddressTableRow.COL_CITY, false, this.addressService::getDistinctCities)
-            .filterer(AddressTableRow.COL_STREET, true, this.addressService::getDistinctStreets)
-            .filterer(AddressTableRow.COL_DISTRICT, true, this.addressService::getDistinctDistricts);
+                .filterer(AddressTableRow.COL_POSTCODE, true, this::getDistinctPostcodes)
+                .filterer(AddressTableRow.COL_CITY, false, this::getDistinctCities)
+                .filterer(AddressTableRow.COL_STREET, true, this::getDistinctStreets)
+                .filterer(AddressTableRow.COL_DISTRICT, true, this::getDistinctDistricts);
+    }
+
+
+    private List<String> getDistinctPostcodes(String searchText)
+    {
+        return this.addressService.getDistinctValues(AddressTableRow.COL_POSTCODE, searchText, AddressEntity.class, getActiveFilters(), Integer.class);
+    }
+
+
+    private List<String> getDistinctCities(String searchText)
+    {
+        return this.addressService.getDistinctValues(AddressTableRow.COL_CITY, searchText, AddressEntity.class, getActiveFilters());
+    }
+
+
+    private List<String> getDistinctStreets(String searchText)
+    {
+        return this.addressService.getDistinctValues(AddressTableRow.COL_STREET, searchText, AddressEntity.class, getActiveFilters());
+    }
+
+
+    private List<String> getDistinctDistricts(String searchText)
+    {
+        return this.addressService.getDistinctValues(AddressTableRow.COL_DISTRICT, searchText, AddressEntity.class, getActiveFilters());
     }
 }

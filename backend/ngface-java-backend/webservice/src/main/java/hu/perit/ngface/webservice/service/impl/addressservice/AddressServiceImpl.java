@@ -22,13 +22,16 @@ import com.opencsv.CSVReaderBuilder;
 import hu.perit.ngface.core.types.intf.DataRetrievalParams;
 import hu.perit.ngface.data.jpa.service.impl.NgfaceQueryServiceImpl;
 import hu.perit.ngface.webservice.config.Constants;
+import hu.perit.ngface.webservice.db.addressdb.AddressDbConfig;
 import hu.perit.ngface.webservice.db.addressdb.repo.AddressRepo;
 import hu.perit.ngface.webservice.db.addressdb.table.AddressEntity;
 import hu.perit.ngface.webservice.model.AddressTableRow;
 import hu.perit.ngface.webservice.service.api.AddressService;
 import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
+import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,12 +48,17 @@ import java.util.Objects;
 @Slf4j
 public class AddressServiceImpl extends NgfaceQueryServiceImpl<AddressEntity> implements AddressService
 {
+    private final EntityManager entityManager;
     private final AddressRepo repo;
 
 
-    public AddressServiceImpl(AddressRepo repo)
+    public AddressServiceImpl(
+            @Qualifier(value = AddressDbConfig.ENTITY_MANAGER_FACTORY) EntityManager entityManager,
+            AddressRepo repo
+    )
     {
         super(repo, Constants.DEFAULT_PAGESIZE);
+        this.entityManager = entityManager;
         this.repo = repo;
     }
 
@@ -108,54 +116,9 @@ public class AddressServiceImpl extends NgfaceQueryServiceImpl<AddressEntity> im
 
 
     @Override
-    public List<String> getDistinctStreets(String searchText)
+    protected EntityManager getEntityManager()
     {
-        if (StringUtils.isBlank(searchText))
-        {
-            return this.repo.getDistinctStreets();
-        }
-        return this.repo.getDistinctStreets("%" + searchText + "%");
-    }
-
-
-    @Override
-    public List<String> getDistinctDistricts(String searchText)
-    {
-        if (StringUtils.isBlank(searchText))
-        {
-            return this.repo.getDistinctDistricts();
-        }
-        return this.repo.getDistinctDistricts("%" + searchText + "%");
-    }
-
-
-    @Override
-    public List<String> getDistinctPostcodes(String searchText)
-    {
-        if (StringUtils.isNotBlank(searchText))
-        {
-            return this.repo.getDistinctPostcodes().stream()
-                .map(String::valueOf)
-                .filter(p -> p.contains(searchText))
-                .toList();
-        }
-        else
-        {
-            return this.repo.getDistinctPostcodes().stream()
-                .map(String::valueOf)
-                .toList();
-        }
-    }
-
-
-    @Override
-    public List<String> getDistinctCities(String searchText)
-    {
-        if (StringUtils.isBlank(searchText))
-        {
-            return this.repo.getDistinctCities();
-        }
-        return this.repo.getDistinctCities("%" + searchText + "%");
+        return this.entityManager;
     }
 
 

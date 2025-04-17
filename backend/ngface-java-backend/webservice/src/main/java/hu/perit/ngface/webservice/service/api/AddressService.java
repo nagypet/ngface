@@ -20,8 +20,6 @@ import hu.perit.ngface.data.jpa.service.api.NgfaceQueryService;
 import hu.perit.ngface.webservice.db.addressdb.table.AddressEntity;
 import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
 
-import java.util.List;
-
 public interface AddressService extends NgfaceQueryService<AddressEntity>
 {
     void deleteAll();
@@ -29,14 +27,6 @@ public interface AddressService extends NgfaceQueryService<AddressEntity>
     void loadFromFile(String fileName, String city) throws Exception;
 
     AddressEntity find(Long id) throws ResourceNotFoundException;
-
-    List<String> getDistinctStreets(String searchText);
-
-    List<String> getDistinctDistricts(String searchText);
-
-    List<String> getDistinctPostcodes(String searchText);
-
-    List<String> getDistinctCities(String searchText);
 
     void update(Long id, Integer postCode, String city, String street, String district);
 }

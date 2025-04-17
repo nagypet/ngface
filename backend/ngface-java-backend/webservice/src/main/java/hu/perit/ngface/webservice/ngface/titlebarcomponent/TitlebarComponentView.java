@@ -21,27 +21,47 @@ import hu.perit.ngface.core.view.ComponentView;
 import hu.perit.ngface.core.widget.form.Form;
 import hu.perit.ngface.core.widget.table.Action;
 import hu.perit.ngface.core.widget.titlebar.Titlebar;
+import hu.perit.spvitamin.spring.manifest.ManifestReader;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+import java.util.Properties;
 
-public class TitlebarComponentView  implements ComponentView
+public class TitlebarComponentView implements ComponentView
 {
+    public static final String APP_TITLE = "ngface demo app";
+    public static final String VERSION_100 = "1.0.0";
+
     @Override
     public Form getForm()
     {
+        Properties manifest = ManifestReader.getManifestAttributes();
+        String version = manifest.getProperty("Implementation-Version", "");
+        String buildTime = manifest.getProperty("Build-Time", "");
+        String build;
+        if (StringUtils.isNoneBlank(buildTime))
+        {
+            build = String.format("%s", buildTime);
+        }
+        else
+        {
+            build = "Started from IDE, no build info is available!";
+        }
+
         return new Form("titlebar")
-            .addWidget(new Titlebar("titlebar")
-                .appTitle("ngface demo application")
-                .version("2.2")
-                .menu(new Menu()
-                    .addItem(new Menu.Item("widgets_demo", "Widgets demo").icon("widgets"))
-                    .addItem(new Menu.Item("table_demo", "Table demo").icon("table_view"))
-                    .defaultItemId("widgets_demo")
-                )
-                .actions(List.of(
-                    new Action("like").icon("favorite"),
-                    new Action("share").icon("share")
-                ))
-            );
+                .addWidget(new Titlebar("titlebar")
+                        .appTitle(APP_TITLE)
+                        .version(StringUtils.isNotBlank(version) ? version : VERSION_100)
+                        .buildTime(build)
+                        .menu(new Menu()
+                                .addItem(new Menu.Item("widgets_demo", "Widgets demo").icon("widgets"))
+                                .addItem(new Menu.Item("table_demo", "Table demo").icon("table_view"))
+                                .defaultItemId("widgets_demo")
+                        )
+                        .actions(List.of(
+                                new Action("like").icon("favorite"),
+                                new Action("share").icon("share")
+                        ))
+                );
     }
 }

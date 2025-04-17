@@ -53,14 +53,14 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements NgfaceQuer
 
         PageRequest pageRequest;
         if (dataRetrievalParams.getSort() != null
-            && StringUtils.isNotBlank(dataRetrievalParams.getSort().getColumn())
-            && !Direction.UNDEFINED.equals(dataRetrievalParams.getSort().getDirection()))
+                && StringUtils.isNotBlank(dataRetrievalParams.getSort().getColumn())
+                && !Direction.UNDEFINED.equals(dataRetrievalParams.getSort().getDirection()))
         {
             Sort.Order sortOrder = new Sort.Order(
-                Direction.ASC.equals(dataRetrievalParams.getSort().getDirection()) ?
-                    Sort.Direction.ASC :
-                    Sort.Direction.DESC,
-                dataRetrievalParams.getSort().getColumn());
+                    Direction.ASC.equals(dataRetrievalParams.getSort().getDirection()) ?
+                            Sort.Direction.ASC :
+                            Sort.Direction.DESC,
+                    dataRetrievalParams.getSort().getColumn());
 
             pageRequest = PageRequest.of(pageNumberInt, pageSizeInt, Sort.by(sortOrder));
         }
@@ -143,22 +143,22 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements NgfaceQuer
             // (Blanks) with some others selected
             valueSet.remove(null);
             return criteriaBuilder.or(
-                criteriaBuilder.isNull(root.get(searchColumn)),
-                criteriaBuilder.in(root.get(searchColumn)).value(valueSet)
+                    criteriaBuilder.isNull(root.get(searchColumn)),
+                    criteriaBuilder.in(root.get(searchColumn)).value(valueSet)
             );
         };
     }
 
 
     /**
-     *  Example:
-     *  protected List<Sort.Order> getDefaultSortOrder()
-     *  {
-     *      return List.of(
-     *              new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_POSTCODE),
-     *              new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_STREET)
-     *      );
-     *  }
+     * Example:
+     * protected List<Sort.Order> getDefaultSortOrder()
+     * {
+     * return List.of(
+     * new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_POSTCODE),
+     * new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_STREET)
+     * );
+     * }
      *
      * @return
      */
@@ -188,8 +188,8 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements NgfaceQuer
     protected List<?> convertFilterValueSetToDbType(String searchColumn, DataRetrievalParams.Filter filter)
     {
         return filter.getValueSet().stream()
-            .map(DataRetrievalParams.Filter.Item::getText)
-            .toList();
+                .map(DataRetrievalParams.Filter.Item::getText)
+                .toList();
     }
 
 
@@ -234,5 +234,48 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements NgfaceQuer
         query.where(predicate);
 
         return getEntityManager().createQuery(query).getResultList();
+    }
+
+
+    @Override
+    public <T> List<String> getDistinctValues(String fieldName, String searchText, Class<E> entityClass, List<DataRetrievalParams.Filter> activeFilters, Class<T> fieldType)
+    {
+        CriteriaBuilder criteriaBuilder = this.getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<T> query = criteriaBuilder.createQuery(fieldType);
+        Root<E> root = query.from(entityClass);
+
+        query.distinct(true);
+        query.select(root.get(fieldName));
+
+        // Default WHERE condition
+        Predicate predicate = criteriaBuilder.conjunction();
+
+        // Additional selection criteria
+        List<DataRetrievalParams.Filter> appliedFilters = new ArrayList<>(getDefaultFilters());
+        if (activeFilters != null)
+        {
+            appliedFilters.addAll(activeFilters);
+        }
+        if (!appliedFilters.isEmpty())
+        {
+            Specification<E> specificationByFilters = getSpecificationByFilters(appliedFilters);
+            Predicate additionalPredicate = specificationByFilters.toPredicate(root, query, criteriaBuilder);
+            if (additionalPredicate != null)
+            {
+                predicate = criteriaBuilder.and(predicate, additionalPredicate);
+            }
+        }
+
+        query.where(predicate);
+
+        List<T> resultList = getEntityManager().createQuery(query).getResultList();
+
+        // If there is no searchText
+        if (searchText == null)
+        {
+            return resultList.stream().map(String::valueOf).toList();
+        }
+
+        return resultList.stream().map(String::valueOf).filter(i -> i.contains(searchText)).toList();
     }
 }

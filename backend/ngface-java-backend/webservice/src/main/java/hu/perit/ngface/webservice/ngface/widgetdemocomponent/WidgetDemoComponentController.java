@@ -20,7 +20,9 @@ import hu.perit.ngface.core.controller.ComponentController;
 import hu.perit.ngface.core.widget.input.Autocomplete;
 import hu.perit.ngface.core.widget.input.DateRangeInput;
 import hu.perit.ngface.core.widget.input.Select;
+import hu.perit.ngface.webservice.db.addressdb.table.AddressEntity;
 import hu.perit.ngface.webservice.exceptionhandler.ApplicationMessage;
+import hu.perit.ngface.webservice.model.AddressTableRow;
 import hu.perit.ngface.webservice.service.api.AddressService;
 import hu.perit.ngface.webservice.service.api.SessionData;
 import hu.perit.ngface.webservice.service.api.SessionPersistenceService;
@@ -83,18 +85,18 @@ public class WidgetDemoComponentController implements ComponentController<Widget
     private static Select.Data getSelectData()
     {
         return new Select.Data()
-            .addOption(new Select.Option("id_first", "First option"))
-            .addOption(new Select.Option("id_second", "Second option"))
-            .addOption(new Select.Option("id_third", "Third option"))
-            .addOption(new Select.Option("id_fourth", "Fourth option"))
-            ;
+                .addOption(new Select.Option("id_first", "First option"))
+                .addOption(new Select.Option("id_second", "Second option"))
+                .addOption(new Select.Option("id_third", "Third option"))
+                .addOption(new Select.Option("id_fourth", "Fourth option"))
+                ;
     }
 
 
     private Autocomplete.Data getAutocompleteDistrictsData(String value)
     {
         Autocomplete.Data data = new Autocomplete.Data(value);
-        List<String> distinctDistricts = this.addressService.getDistinctDistricts(null);
+        List<String> distinctDistricts = this.addressService.getDistinctValues(AddressTableRow.COL_DISTRICT, null, AddressEntity.class, null);
         data.getExtendedReadOnlyData().options(distinctDistricts);
         return data;
     }
@@ -103,7 +105,7 @@ public class WidgetDemoComponentController implements ComponentController<Widget
     private Autocomplete.Data getAutocompleteStreetsData(String value)
     {
         Autocomplete.Data data = new Autocomplete.Data(value);
-        List<String> distinctStreets = this.addressService.getDistinctStreets(null);
+        List<String> distinctStreets = this.addressService.getDistinctValues(AddressTableRow.COL_STREET, null, AddressEntity.class, null);
         data.getExtendedReadOnlyData().options(distinctStreets);
         return data;
     }
