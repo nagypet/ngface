@@ -19,6 +19,11 @@ package hu.perit.ngface.data.jpa.service.impl;
 import hu.perit.ngface.core.types.intf.DataRetrievalParams;
 import hu.perit.ngface.core.types.intf.Direction;
 import hu.perit.ngface.data.jpa.service.api.NgfaceQueryService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -77,7 +82,7 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements NgfaceQuer
     protected Specification<E> getSpecificationByFilters(List<DataRetrievalParams.Filter> filters)
     {
         // Default filters allow a 'hard-coded' filter to be applied always for the given view
-        List<DataRetrievalParams.Filter> appliedFilters = getDefaultFilters();
+        List<DataRetrievalParams.Filter> appliedFilters = new ArrayList<>(getDefaultFilters());
         if (filters != null)
         {
             appliedFilters.addAll(filters);
@@ -109,7 +114,7 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements NgfaceQuer
 
     protected List<DataRetrievalParams.Filter> getDefaultFilters()
     {
-        return new ArrayList<>();
+        return List.of();
     }
 
 
@@ -185,5 +190,49 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements NgfaceQuer
         return filter.getValueSet().stream()
             .map(DataRetrievalParams.Filter.Item::getText)
             .toList();
+    }
+
+
+    protected abstract EntityManager getEntityManager();
+
+
+    @Override
+    public List<String> getDistinctValues(String fieldName, String searchText, Class<E> entityClass, List<DataRetrievalParams.Filter> activeFilters)
+    {
+        CriteriaBuilder criteriaBuilder = this.getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<String> query = criteriaBuilder.createQuery(String.class);
+        Root<E> root = query.from(entityClass);
+
+        query.distinct(true);
+        query.select(root.get(fieldName));
+
+        // Default WHERE condition
+        Predicate predicate = criteriaBuilder.conjunction();
+
+        // If there is a searchText
+        if (searchText != null)
+        {
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(criteriaBuilder.lower(root.get(fieldName)), "%" + searchText + "%"));
+        }
+
+        // Additional selection criteria
+        List<DataRetrievalParams.Filter> appliedFilters = new ArrayList<>(getDefaultFilters());
+        if (activeFilters != null)
+        {
+            appliedFilters.addAll(activeFilters);
+        }
+        if (!appliedFilters.isEmpty())
+        {
+            Specification<E> specificationByFilters = getSpecificationByFilters(appliedFilters);
+            Predicate additionalPredicate = specificationByFilters.toPredicate(root, query, criteriaBuilder);
+            if (additionalPredicate != null)
+            {
+                predicate = criteriaBuilder.and(predicate, additionalPredicate);
+            }
+        }
+
+        query.where(predicate);
+
+        return getEntityManager().createQuery(query).getResultList();
     }
 }

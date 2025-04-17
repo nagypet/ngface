@@ -64,9 +64,9 @@ public abstract class NgfaceTableRestController<C extends TableController<D, ?, 
     }
 
     @Override
-    public void onActionClick(TableActionParams<I> tableActionParams) throws Exception
+    public Object onActionClick(TableActionParams<I> tableActionParams) throws Exception
     {
-        this.tableController.onActionClick(tableActionParams);
+        return this.tableController.onActionClick(tableActionParams);
     }
 
     @Override

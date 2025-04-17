@@ -49,7 +49,7 @@ public interface NgfaceTableRestApi<I>
     void onRowSelect(@Valid @RequestBody RowSelectParams<I> rowSelectParams) throws Exception;
 
     @PutMapping(URL_ACTIONCLICK)
-    void onActionClick(@Valid @RequestBody TableActionParams<I> tableActionParams) throws Exception;
+    Object onActionClick(@Valid @RequestBody TableActionParams<I> tableActionParams) throws Exception;
 
     @PostMapping
     void submitTable(@RequestBody SubmitFormData submitFormData);
