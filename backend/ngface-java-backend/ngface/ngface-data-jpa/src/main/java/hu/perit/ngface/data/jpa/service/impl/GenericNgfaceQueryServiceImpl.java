@@ -18,7 +18,9 @@ package hu.perit.ngface.data.jpa.service.impl;
 
 import hu.perit.ngface.core.types.intf.DataRetrievalParams;
 import hu.perit.ngface.core.types.intf.Direction;
-import hu.perit.ngface.data.jpa.service.api.NgfaceQueryService;
+import hu.perit.ngface.core.types.intf.RowSelectParams;
+import hu.perit.ngface.core.types.table.SelectionStore;
+import hu.perit.ngface.data.jpa.service.api.GenericNgfaceQueryService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -28,7 +30,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -37,7 +41,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
-public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements NgfaceQueryService<E>
+public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements GenericNgfaceQueryService<E, ID>
 {
     private final GenericNgfaceQueryRepo<E, ID> repo;
     private final int defaultPageSize;
@@ -277,5 +281,50 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements NgfaceQuer
         }
 
         return resultList.stream().map(String::valueOf).filter(i -> i.contains(searchText)).toList();
+    }
+
+
+    @Override
+    public List<E> findAllByIds(String idFieldName, List<ID> ids)
+    {
+        DataRetrievalParams.Filter filter = new DataRetrievalParams.Filter();
+        filter.setColumn(idFieldName);
+        filter.setValueSet(ids.stream().map(i -> new DataRetrievalParams.Filter.Item(String.valueOf(i))).toList());
+
+        List<DataRetrievalParams.Filter> appliedFilters = new ArrayList<>(getDefaultFilters());
+        appliedFilters.add(filter);
+
+        Specification<E> spec = getSpecificationByFilters(appliedFilters);
+        return this.repo.findAll(spec);
+    }
+
+
+    @Override
+    public Page<E> findAllBySelection(String idFieldName, SelectionStore<?, ID> selectionStore, Pageable pageable)
+    {
+        if (selectionStore.getSelectMode() == RowSelectParams.SelectMode.SINGLE || selectionStore.getSelectMode() == RowSelectParams.SelectMode.ALL_UNCHECKED)
+        {
+            return new PageImpl<>(findAllByIds(idFieldName, selectionStore.getSelectedRowIds()));
+        }
+
+        // We have to select all available items but the ones stored in the selectionStore
+        List<DataRetrievalParams.Filter> appliedFilters = new ArrayList<>(getDefaultFilters());
+        Specification<E> spec = getSpecificationByFilters(appliedFilters);
+        if (!selectionStore.getUnselectedRowIds().isEmpty())
+        {
+            spec = spec.and(notIn(idFieldName, selectionStore.getUnselectedRowIds()));
+        }
+
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(getDefaultSortOrder()));
+        return this.repo.findAll(spec, pageRequest);
+    }
+
+
+    private Specification<E> notIn(String idFieldName, List<ID> valueSet)
+    {
+        return (root, query, criteriaBuilder) -> {
+            // (Blanks) with some others selected
+            return criteriaBuilder.in(root.get(idFieldName)).value(valueSet).not();
+        };
     }
 }

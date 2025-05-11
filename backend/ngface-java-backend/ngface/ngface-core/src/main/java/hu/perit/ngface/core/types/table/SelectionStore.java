@@ -148,4 +148,13 @@ public class SelectionStore<T extends AbstractTableRow<I>, I>
             .map(RowSelectParams.Row::getId)
             .toList();
     }
+
+
+    public List<I> getUnselectedRowIds()
+    {
+        return this.rowMap.values().stream()
+                .filter(i -> BooleanUtils.isNotTrue(i.getSelected()))
+                .map(RowSelectParams.Row::getId)
+                .toList();
+    }
 }

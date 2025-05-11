@@ -16,21 +16,6 @@
 
 package hu.perit.ngface.data.jpa.service.api;
 
-import hu.perit.ngface.core.types.intf.DataRetrievalParams;
-import org.springframework.data.domain.Page;
-
-import java.util.List;
-
-public interface NgfaceQueryService<E>
+public interface NgfaceQueryService<E> extends GenericNgfaceQueryService<E, Long>
 {
-    /**
-     *
-     * @param dataRetrievalParams
-     * @return
-     */
-    Page<E> find(DataRetrievalParams dataRetrievalParams);
-
-    List<String> getDistinctValues(String fieldName, String searchText, Class<E> entityClass, List<DataRetrievalParams.Filter> activeFilters);
-
-    <T> List<String> getDistinctValues(String fieldName, String searchText, Class<E> entityClass, List<DataRetrievalParams.Filter> activeFilters, Class<T> fieldType);
 }
