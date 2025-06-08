@@ -199,7 +199,7 @@
   //margin: 20px auto;
 
   .ngface-data-table-scrollable-area {
-    border: var(--app-primary-palette-300 ,rgba(0, 0, 0, .12)) solid 1px;
+    border: var(--app-primary-palette-300, rgba(0, 0, 0, .12)) solid 1px;
     border-radius: 5px;
     // height should be set in the app, where the table widget is used
     height: 600px;
@@ -255,6 +255,10 @@
     text-align: right;
   }
 
+  .align-top {
+    vertical-align: top;
+  }
+
   .cellvalue-null {
     color: lightgray;
     font-style: italic;
@@ -262,6 +266,11 @@
 
   label {
     margin-left: 2px;
+    margin-bottom: 8px;
+  }
+
+  p {
+    margin-top: 8px;
     margin-bottom: 8px;
   }
 }

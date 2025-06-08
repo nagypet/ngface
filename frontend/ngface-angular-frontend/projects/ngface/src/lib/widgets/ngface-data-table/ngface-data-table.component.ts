@@ -48,6 +48,7 @@ import ActionCell = Ngface.ActionCell;
 import NumericCell = Ngface.NumericCell;
 import DataRetrievalParams = Ngface.DataRetrievalParams;
 import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
+import {HideTooltipOnClickDirective} from '../../directives/hide-tooltip-on-click-directive';
 
 export interface TableReloadEvent
 {
@@ -86,7 +87,7 @@ export interface TableMasterToggleEvent
   templateUrl: './ngface-data-table.component.html',
   styleUrls: ['./ngface-data-table.component.scss'],
   standalone: true,
-  imports: [NgClass, NgIf, NgScrollbarModule, MatTableModule, MatSortModule, NgFor, MatCheckboxModule, SortFilterHeaderComponent, MatTooltipModule, MatButtonModule, MatIconModule, MatPaginatorModule, SafeHtmlPipe, ResponsiveClassDirective]
+  imports: [NgClass, NgIf, NgScrollbarModule, MatTableModule, MatSortModule, NgFor, MatCheckboxModule, SortFilterHeaderComponent, MatTooltipModule, MatButtonModule, MatIconModule, MatPaginatorModule, SafeHtmlPipe, ResponsiveClassDirective, HideTooltipOnClickDirective]
 })
 export class NgfaceDataTableComponent implements OnDestroy, OnChanges, AfterViewInit
 {
@@ -487,12 +488,13 @@ export class NgfaceDataTableComponent implements OnDestroy, OnChanges, AfterView
   getTdClass(row: Ngface.Row<any>, column: string): string | null
   {
     const cell = row.cells[column];
+    const vertical = 'align-top ';
     if (cell?.value == null)
     {
-      return 'cellvalue-null ' + this.getCellClass(column);
+      return vertical + 'cellvalue-null ' + this.getCellClass(column);
     }
 
-    return this.getCellClass(column);
+    return vertical + this.getCellClass(column);
   }
 
   private getCellClass(column: string): string | null
@@ -695,6 +697,6 @@ export class NgfaceDataTableComponent implements OnDestroy, OnChanges, AfterView
 
   hidePageSize(): boolean
   {
-    return this.el.nativeElement.offsetWidth < 1000 && this.getData().notification.length > 0;
+    return this.el.nativeElement.offsetWidth < 1000 && this.getNotification().length > 0;
   }
 }

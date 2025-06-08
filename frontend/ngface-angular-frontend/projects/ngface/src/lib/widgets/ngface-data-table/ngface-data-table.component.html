@@ -71,6 +71,7 @@
                             [disabled]="!action.enabled"
                             [matTooltip]="action.enabled ? action.label : ''"
                             matTooltipPosition="above"
+                            hideTooltipOnClick
                             (click)="$event.stopPropagation(); actionClick(row, action)"
                     >
                       <mat-icon class="material-icons-outlined" [ngClass]="getActionClass(action)">{{ action.icon }}
@@ -81,7 +82,7 @@
                 </div>
               } @else {
                 <!-- Non-action cell -->
-                <div [innerHTML]="getCellText(row, column) | safeHtml"></div>
+                <p [innerHTML]="getCellText(row, column) | safeHtml"></p>
               }
 
             </td>

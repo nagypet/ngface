@@ -46,6 +46,7 @@ public class Table<T> extends Widget<Table.Data, Table<T>>
     private Row<T> totalRow;
     private SelectMode selectMode = SelectMode.NONE;
     // Notification may contain HTML tags!
+    @Nullable
     private String notification;
 
 

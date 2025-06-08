@@ -288,7 +288,7 @@ export namespace Ngface {
         rows: Row<T>[];
         totalRow: Row<T> | null;
         selectMode: Table.SelectMode;
-        notification: string;
+        notification: string | null;
     }
 
     export namespace Table {
