@@ -22,3 +22,8 @@ copyTo() {
 
 copyTo generator
 copyTo webservice
+copyTo ngface/ngface-core
+copyTo ngface/ngface-data-jpa
+copyTo ngface/ngface-rest
+copyTo ngface/ngface-sse
+

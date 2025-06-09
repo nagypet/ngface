@@ -38,9 +38,12 @@ dependencies {
     // -----------------------------------------------------------------------------------------------------------------
     // Compile dependencies
     // -----------------------------------------------------------------------------------------------------------------
-    //implementation project(':spvitamin-core')
-    implementation platform(libs.spvitamin)
-    implementation 'hu.perit.spvitamin:spvitamin-core'
+    if (Boolean.valueOf(project.findProperty('useSpvitaminProject') ?: 'false')) {
+        implementation project(':spvitamin-core')
+    } else {
+        implementation platform(libs.spvitamin)
+        implementation 'hu.perit.spvitamin:spvitamin-core'
+    }
 
     // Lombok
     compileOnly libs.lombok
@@ -78,8 +81,11 @@ dependencies {
     testAnnotationProcessor libs.lombok
 
     // spvitamin
-    //testImplementation project(':spvitamin-spring-general')
-    testImplementation 'hu.perit.spvitamin:spvitamin-spring-general'
+    if (Boolean.valueOf(project.findProperty('useSpvitaminProject') ?: 'false')) {
+        testImplementation project(':spvitamin-spring-general')
+    } else {
+        testImplementation 'hu.perit.spvitamin:spvitamin-spring-general'
+    }
 
     // JUnit
     testImplementation libs.junit.jupiter.api

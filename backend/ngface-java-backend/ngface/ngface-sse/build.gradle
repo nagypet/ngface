@@ -40,13 +40,16 @@ dependencies {
     // -----------------------------------------------------------------------------------------------------------------
     implementation project(':ngface-core')
 
-//    implementation project(':spvitamin-core')
-//    implementation project(':spvitamin-spring-general')
-//    implementation project(':spvitamin-spring-logging')
-    implementation platform(libs.spvitamin)
-    implementation 'hu.perit.spvitamin:spvitamin-core'
-    implementation 'hu.perit.spvitamin:spvitamin-spring-general'
-    implementation 'hu.perit.spvitamin:spvitamin-spring-logging'
+    if (Boolean.valueOf(project.findProperty('useSpvitaminProject') ?: 'false')) {
+        implementation project(':spvitamin-core')
+        implementation project(':spvitamin-spring-general')
+        implementation project(':spvitamin-spring-logging')
+    } else {
+        implementation platform(libs.spvitamin)
+        implementation 'hu.perit.spvitamin:spvitamin-core'
+        implementation 'hu.perit.spvitamin:spvitamin-spring-general'
+        implementation 'hu.perit.spvitamin:spvitamin-spring-logging'
+    }
 
     // Lombok
     compileOnly libs.lombok
@@ -76,8 +79,12 @@ dependencies {
     testAnnotationProcessor libs.lombok
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//    testImplementation project(':spvitamin-test')
-    testImplementation 'hu.perit.spvitamin:spvitamin-test'
+    if (Boolean.valueOf(project.findProperty('useSpvitaminProject') ?: 'false')) {
+        testImplementation project(':spvitamin-test')
+    } else {
+        testImplementation 'hu.perit.spvitamin:spvitamin-test'
+    }
+
 
     testImplementation libs.logback.classic
     testImplementation libs.logback.core
