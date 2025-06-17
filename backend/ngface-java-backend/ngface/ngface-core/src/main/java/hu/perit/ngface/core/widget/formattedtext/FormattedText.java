@@ -30,6 +30,12 @@ public class FormattedText extends Widget<FormattedText.Data, FormattedText>
         super(id);
     }
 
+    // Json
+    private FormattedText()
+    {
+        super(null);
+    }
+
     public FormattedText html(String value)
     {
         this.data = new Data(value);

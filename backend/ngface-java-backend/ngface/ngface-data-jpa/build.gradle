@@ -66,6 +66,11 @@ dependencies {
 
     testImplementation libs.logback.classic
     testImplementation libs.logback.core
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // AssertJ
+    testImplementation libs.assertj
 }
 
 

@@ -48,7 +48,7 @@ import lombok.ToString;
         @JsonSubTypes.Type(value = WidgetList.Data.class, name = "WidgetList.Data")
 })
 @EqualsAndHashCode
-public class WidgetData
+public abstract class WidgetData
 {
     private final String type = getTypeName();
 

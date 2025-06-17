@@ -16,7 +16,13 @@
 
 package hu.perit.ngface.core.widget.table;
 
-import lombok.*;
+import hu.perit.ngface.core.types.intf.ComparisonOperator;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
 
 @ToString
@@ -27,9 +33,18 @@ import org.apache.commons.lang3.BooleanUtils;
 public class Filterer
 {
     private final String column;
+    private ComparisonOperator operator = ComparisonOperator.IN;
     private ValueSet valueSet = new ValueSet(false);
     private String searchText = "";
     private Boolean active = Boolean.FALSE;
+
+
+    public Filterer operator(ComparisonOperator operator)
+    {
+        this.operator = operator;
+        return this;
+    }
+
 
     public Filterer valueSet(ValueSet valueSet)
     {
@@ -37,17 +52,20 @@ public class Filterer
         return this;
     }
 
+
     public Filterer searchText(String searchText)
     {
         this.searchText = searchText;
         return this;
     }
 
+
     public Filterer active(Boolean active)
     {
         this.active = BooleanUtils.isTrue(active);
         return this;
     }
+
 
     public void clear()
     {

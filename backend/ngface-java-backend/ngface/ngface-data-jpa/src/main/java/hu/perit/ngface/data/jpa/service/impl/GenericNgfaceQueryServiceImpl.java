@@ -133,23 +133,100 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements GenericNgf
         return (root, query, criteriaBuilder) -> {
             List<?> valueSet = convertFilterValueSetToDbType(searchColumn, filter);
 
-            if (!valueSet.contains(null))
+            switch (filter.getOperator())
             {
-                // There is no (Blanks)
-                return criteriaBuilder.in(root.get(searchColumn)).value(valueSet);
-            }
-            else if (valueSet.size() == 1)
-            {
-                // Only (Blanks) is selected
-                return criteriaBuilder.isNull(root.get(searchColumn));
-            }
+                case EQ:
+                    if (valueSet.isEmpty())
+                    {
+                        return criteriaBuilder.conjunction();
+                    }
+                    Object value = valueSet.getFirst();
+                    if (value == null)
+                    {
+                        return criteriaBuilder.isNull(root.get(searchColumn));
+                    }
+                    return criteriaBuilder.equal(root.get(searchColumn), value);
 
-            // (Blanks) with some others selected
-            valueSet.remove(null);
-            return criteriaBuilder.or(
-                    criteriaBuilder.isNull(root.get(searchColumn)),
-                    criteriaBuilder.in(root.get(searchColumn)).value(valueSet)
-            );
+                case NEQ:
+                    if (valueSet.isEmpty())
+                    {
+                        return criteriaBuilder.conjunction();
+                    }
+                    Object neqValue = valueSet.getFirst();
+                    if (neqValue == null)
+                    {
+                        return criteriaBuilder.isNotNull(root.get(searchColumn));
+                    }
+                    return criteriaBuilder.notEqual(root.get(searchColumn), neqValue);
+
+                case GT:
+                    if (valueSet.isEmpty() || valueSet.getFirst() == null)
+                    {
+                        return criteriaBuilder.conjunction();
+                    }
+                    return criteriaBuilder.greaterThan(root.get(searchColumn), (Comparable) valueSet.getFirst());
+
+                case GTE:
+                    if (valueSet.isEmpty() || valueSet.getFirst() == null)
+                    {
+                        return criteriaBuilder.conjunction();
+                    }
+                    return criteriaBuilder.greaterThanOrEqualTo(root.get(searchColumn), (Comparable) valueSet.getFirst());
+
+                case LT:
+                    if (valueSet.isEmpty() || valueSet.getFirst() == null)
+                    {
+                        return criteriaBuilder.conjunction();
+                    }
+                    return criteriaBuilder.lessThan(root.get(searchColumn), (Comparable) valueSet.getFirst());
+
+                case LTE:
+                    if (valueSet.isEmpty() || valueSet.getFirst() == null)
+                    {
+                        return criteriaBuilder.conjunction();
+                    }
+                    return criteriaBuilder.lessThanOrEqualTo(root.get(searchColumn), (Comparable) valueSet.getFirst());
+
+                case BETWEEN:
+                    if (valueSet.size() < 2 || valueSet.get(0) == null || valueSet.get(1) == null)
+                    {
+                        return criteriaBuilder.conjunction();
+                    }
+                    return criteriaBuilder.between(root.get(searchColumn),
+                            (Comparable) valueSet.get(0),
+                            (Comparable) valueSet.get(1));
+
+                case LIKE:
+                    if (valueSet.isEmpty() || valueSet.get(0) == null)
+                    {
+                        return criteriaBuilder.conjunction();
+                    }
+                    String likeValue = valueSet.getFirst().toString();
+                    return criteriaBuilder.like(criteriaBuilder.lower(root.get(searchColumn)),
+                            "%" + likeValue.toLowerCase() + "%");
+
+                case IN:
+                default:
+                    // Handle IN operator (default case)
+                    if (!valueSet.contains(null))
+                    {
+                        // There is no (Blanks)
+                        return criteriaBuilder.in(root.get(searchColumn)).value(valueSet);
+                    }
+                    else if (valueSet.size() == 1)
+                    {
+                        // Only (Blanks) is selected
+                        return criteriaBuilder.isNull(root.get(searchColumn));
+                    }
+
+                    // (Blanks) with some others selected
+                    List<?> nonNullValues = new ArrayList<>(valueSet);
+                    nonNullValues.remove(null);
+                    return criteriaBuilder.or(
+                            criteriaBuilder.isNull(root.get(searchColumn)),
+                            criteriaBuilder.in(root.get(searchColumn)).value(nonNullValues)
+                    );
+            }
         };
     }
 

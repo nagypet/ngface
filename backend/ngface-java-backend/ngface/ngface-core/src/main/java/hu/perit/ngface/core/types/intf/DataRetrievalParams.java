@@ -126,6 +126,8 @@ public class DataRetrievalParams
         @NotNull
         private String column;
 
+        private ComparisonOperator operator = ComparisonOperator.IN;
+
         @NotNull
         private List<Item> valueSet;
 
@@ -139,6 +141,7 @@ public class DataRetrievalParams
 
             Filter filter = new Filter();
             filter.column = filterer.getColumn();
+            filter.operator = filterer.getOperator();
             filter.valueSet = filterer.getValueSet().getValues().stream()
                 .filter(v -> BooleanUtils.isTrue(v.getSelected()))
                 .map(v -> new Item(v.getText())).toList();
