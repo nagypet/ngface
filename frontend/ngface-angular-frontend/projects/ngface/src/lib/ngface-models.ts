@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-02-05 05:21:52.
+// Generated using typescript-generator version 3.2.1263 on 2025-06-17 16:41:30.
 
 export namespace Ngface {
 
@@ -241,6 +241,7 @@ export namespace Ngface {
 
     export interface Filterer {
         column: string;
+        operator: ComparisonOperator;
         valueSet: ValueSet;
         searchText: string;
         active: boolean;
@@ -377,6 +378,7 @@ export namespace Ngface {
 
         export interface Filter {
             column: string;
+            operator: ComparisonOperator;
             valueSet: DataRetrievalParams.Filter.Item[];
         }
 
@@ -403,7 +405,7 @@ export namespace Ngface {
     }
 
     export interface WidgetData {
-        type: "WidgetData" | "WidgetList.Data" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data" | any;
+        type: string | "WidgetList.Data" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
     }
 
     export interface VoidWidgetData extends WidgetData {
@@ -411,7 +413,7 @@ export namespace Ngface {
     }
 
     export interface Widget<WD, SUB> {
-        type: "Button" | "WidgetList" | "FormattedText" | "Table" | "Titlebar" | "Autocomplete" | "DateInput" | "DateRangeInput" | "DateTimeInput" | "NumericInput" | "Select" | "TextInput" | any;
+        type: string | "Button" | "WidgetList" | "FormattedText" | "Table" | "Titlebar" | "Autocomplete" | "DateInput" | "DateRangeInput" | "DateTimeInput" | "NumericInput" | "Select" | "TextInput";
         id: string;
         label: string;
         hint: string;
@@ -456,6 +458,8 @@ export namespace Ngface {
     export interface AbstractFormat {
         validators: Validator[];
     }
+
+    export type ComparisonOperator = "=" | "<>" | ">" | ">=" | "<" | "<=" | "IN" | "BETWEEN" | "LIKE";
 
     export type Direction = "ASC" | "DESC" | "UNDEFINED";
 

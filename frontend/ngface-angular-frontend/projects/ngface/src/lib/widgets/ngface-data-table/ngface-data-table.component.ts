@@ -300,6 +300,7 @@ export class NgfaceDataTableComponent implements OnDestroy, OnChanges, AfterView
     {
       c.push({
         column: filterer.column,
+        operator: filterer.operator,
         valueSet: filterer.valueSet.values.filter(v => v.selected).map(v => this.getText(v))
       });
     });

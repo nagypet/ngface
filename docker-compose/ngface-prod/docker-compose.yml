@@ -42,7 +42,7 @@ services:
   ngface-webservice:
   #####################################################################################
     container_name: ngface-webservice
-    image: docker-registry:5000/ngface-webservice:2.3.0
+    image: docker-registry:5000/ngface-webservice:2.4.0
     networks:
       - ngface-net
     restart: unless-stopped
