@@ -29,7 +29,7 @@ import hu.perit.ngface.core.widget.table.TableDataBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -139,11 +139,21 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>,I> im
     protected List<DataRetrievalParams.Filter> getActiveFilters()
     {
         TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
+
+        List<DataRetrievalParams.Filter> filters = new ArrayList<>(sessionDefaults.getDefaultFilterers().stream().map(this::getFilterFromFilterer).toList());
         Map<String, Filterer> filtererMap = Optional.of(sessionDefaults).map(TableSessionDefaults::getTableData).map(Table.Data::getFiltererMap).orElse(null);
         if (filtererMap == null)
         {
-            return Collections.emptyList();
+            return filters;
         }
-        return filtererMap.values().stream().filter(i -> BooleanUtils.isTrue(i.getActive())).map(DataRetrievalParams.Filter::of).toList();
+        filters.addAll(filtererMap.values().stream().filter(i -> BooleanUtils.isTrue(i.getActive())).map(this::getFilterFromFilterer).toList());
+        return filters;
+    }
+
+
+    // Can be overridden
+    protected DataRetrievalParams.Filter getFilterFromFilterer(Filterer filterer)
+    {
+        return DataRetrievalParams.Filter.of(filterer);
     }
 }

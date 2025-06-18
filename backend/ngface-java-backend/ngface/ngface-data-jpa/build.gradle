@@ -38,6 +38,12 @@ dependencies {
     // Compile dependencies
     // -----------------------------------------------------------------------------------------------------------------
     implementation project(':ngface-core')
+    if (Boolean.valueOf(project.findProperty('useSpvitaminProject') ?: 'false')) {
+        implementation project(':spvitamin-core')
+    } else {
+        implementation platform(libs.spvitamin)
+        implementation 'hu.perit.spvitamin:spvitamin-core'
+    }
 
     // Lombok
     compileOnly libs.lombok

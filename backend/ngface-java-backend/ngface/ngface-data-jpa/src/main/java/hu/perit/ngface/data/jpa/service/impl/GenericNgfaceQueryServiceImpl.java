@@ -21,6 +21,7 @@ import hu.perit.ngface.core.types.intf.Direction;
 import hu.perit.ngface.core.types.intf.RowSelectParams;
 import hu.perit.ngface.core.types.table.SelectionStore;
 import hu.perit.ngface.data.jpa.service.api.GenericNgfaceQueryService;
+import hu.perit.spvitamin.core.typehelpers.ListUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -140,7 +141,7 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements GenericNgf
                     {
                         return criteriaBuilder.conjunction();
                     }
-                    Object value = valueSet.getFirst();
+                    Object value = ListUtils.first(valueSet);
                     if (value == null)
                     {
                         return criteriaBuilder.isNull(root.get(searchColumn));
@@ -152,7 +153,7 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements GenericNgf
                     {
                         return criteriaBuilder.conjunction();
                     }
-                    Object neqValue = valueSet.getFirst();
+                    Object neqValue = ListUtils.first(valueSet);
                     if (neqValue == null)
                     {
                         return criteriaBuilder.isNotNull(root.get(searchColumn));
@@ -160,32 +161,32 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements GenericNgf
                     return criteriaBuilder.notEqual(root.get(searchColumn), neqValue);
 
                 case GT:
-                    if (valueSet.isEmpty() || valueSet.getFirst() == null)
+                    if (ListUtils.first(valueSet) == null)
                     {
                         return criteriaBuilder.conjunction();
                     }
-                    return criteriaBuilder.greaterThan(root.get(searchColumn), (Comparable) valueSet.getFirst());
+                    return criteriaBuilder.greaterThan(root.get(searchColumn), (Comparable) ListUtils.first(valueSet));
 
                 case GTE:
-                    if (valueSet.isEmpty() || valueSet.getFirst() == null)
+                    if (ListUtils.first(valueSet) == null)
                     {
                         return criteriaBuilder.conjunction();
                     }
-                    return criteriaBuilder.greaterThanOrEqualTo(root.get(searchColumn), (Comparable) valueSet.getFirst());
+                    return criteriaBuilder.greaterThanOrEqualTo(root.get(searchColumn), (Comparable) ListUtils.first(valueSet));
 
                 case LT:
-                    if (valueSet.isEmpty() || valueSet.getFirst() == null)
+                    if (ListUtils.first(valueSet) == null)
                     {
                         return criteriaBuilder.conjunction();
                     }
-                    return criteriaBuilder.lessThan(root.get(searchColumn), (Comparable) valueSet.getFirst());
+                    return criteriaBuilder.lessThan(root.get(searchColumn), (Comparable) ListUtils.first(valueSet));
 
                 case LTE:
-                    if (valueSet.isEmpty() || valueSet.getFirst() == null)
+                    if (ListUtils.first(valueSet) == null)
                     {
                         return criteriaBuilder.conjunction();
                     }
-                    return criteriaBuilder.lessThanOrEqualTo(root.get(searchColumn), (Comparable) valueSet.getFirst());
+                    return criteriaBuilder.lessThanOrEqualTo(root.get(searchColumn), (Comparable) ListUtils.first(valueSet));
 
                 case BETWEEN:
                     if (valueSet.size() < 2 || valueSet.get(0) == null || valueSet.get(1) == null)
@@ -197,11 +198,11 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements GenericNgf
                             (Comparable) valueSet.get(1));
 
                 case LIKE:
-                    if (valueSet.isEmpty() || valueSet.get(0) == null)
+                    if (ListUtils.first(valueSet) == null)
                     {
                         return criteriaBuilder.conjunction();
                     }
-                    String likeValue = valueSet.getFirst().toString();
+                    String likeValue = ListUtils.first(valueSet).toString();
                     return criteriaBuilder.like(criteriaBuilder.lower(root.get(searchColumn)),
                             "%" + likeValue.toLowerCase() + "%");
 

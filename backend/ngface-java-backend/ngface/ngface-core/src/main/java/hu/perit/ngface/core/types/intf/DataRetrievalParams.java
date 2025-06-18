@@ -22,7 +22,12 @@ import hu.perit.ngface.core.widget.table.Paginator;
 import hu.perit.ngface.core.widget.table.Sorter;
 import hu.perit.ngface.core.widget.table.Table;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
@@ -31,6 +36,7 @@ import org.mapstruct.factory.Mappers;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -173,6 +179,12 @@ public class DataRetrievalParams
 
     public static DataRetrievalParams applyDefaults(DataRetrievalParams dataRetrievalParams, Table.Data defaults)
     {
+        return applyDefaults(dataRetrievalParams, defaults, List.of());
+    }
+
+
+    public static DataRetrievalParams applyDefaults(DataRetrievalParams dataRetrievalParams, Table.Data defaults, List<DataRetrievalParams.Filter> activeFilters)
+    {
         // Creating a copy or return an empty DataRetrievalParams
         DataRetrievalParams params = Cloner.getInstance().clone(dataRetrievalParams);
 
@@ -198,6 +210,7 @@ public class DataRetrievalParams
         }
 
         // Filter
+        params.addFilters(activeFilters);
         Map<String, Filterer> defaultFiltererMap = defaults.getFiltererMap();
         if (defaultFiltererMap != null)
         {
@@ -205,20 +218,42 @@ public class DataRetrievalParams
             {
                 if (filterNotAvailable(params.getFilters(), filtererEntry.getKey()))
                 {
-                    if (params.getFilters() == null)
-                    {
-                        params.setFilters(new ArrayList<>());
-                    }
                     Filterer filterer = filtererEntry.getValue();
                     if (filterer != null && BooleanUtils.isTrue(filterer.getActive()))
                     {
-                        params.getFilters().add(Filter.of(filterer));
+                        params.addFilter(Filter.of(filterer));
                     }
                 }
             }
         }
 
         return params;
+    }
+
+
+    private void addFilter(Filter filter)
+    {
+        if (filter != null)
+        {
+            if (this.filters == null)
+            {
+                this.filters = new ArrayList<>();
+            }
+            this.filters.add(filter);
+        }
+    }
+
+
+    private void addFilters(Collection<Filter> filters)
+    {
+        if (filters != null && !filters.isEmpty())
+        {
+            if (this.filters == null)
+            {
+                this.filters = new ArrayList<>();
+            }
+            this.filters.addAll(filters);
+        }
     }
 
 

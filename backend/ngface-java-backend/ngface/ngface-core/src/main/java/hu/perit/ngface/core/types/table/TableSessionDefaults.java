@@ -16,14 +16,22 @@
 
 package hu.perit.ngface.core.types.table;
 
+import hu.perit.ngface.core.widget.table.Filterer;
 import hu.perit.ngface.core.widget.table.Table;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class TableSessionDefaults<R extends AbstractTableRow<I>, I>
 {
     private Table.Data tableData = new Table.Data();
     private SelectionStore<R, I> selectionStore;
+    @Setter(AccessLevel.NONE)
+    private List<Filterer> defaultFilterers = new ArrayList<>();
 
     public TableSessionDefaults(Table.SelectMode selectMode)
     {
