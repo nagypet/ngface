@@ -16,6 +16,7 @@
 
 package hu.perit.ngface.core.formating;
 
+import hu.perit.spvitamin.core.util.CurrencyConverter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,9 +28,32 @@ public class CurrencyFormat extends NumericFormat
     public static final NumericFormat USD = new CurrencyFormat("$");
     public static final NumericFormat HUF = new CurrencyFormat("Ft").precision(0);
 
-    public CurrencyFormat(String currency)
+
+    public CurrencyFormat(String currencySymbol)
     {
-        this.suffix = currency;
+        this.suffix = currencySymbol;
         this.precision = 2;
+    }
+
+
+    public static NumericFormat fromCurrencyCode(String currencyCode, NumericFormat defaultFormat)
+    {
+        if (currencyCode == null)
+        {
+            return defaultFormat;
+        }
+        NumericFormat format = switch (currencyCode)
+        {
+            case "EUR" -> EUR;
+            case "USD" -> USD;
+            case "HUF" -> HUF;
+            default -> null;
+        };
+        if (format != null)
+        {
+            return format;
+        }
+        String standardSymbol = CurrencyConverter.getStandardSymbol(currencyCode);
+        return standardSymbol != null ? new CurrencyFormat(standardSymbol) : defaultFormat;
     }
 }
