@@ -15,6 +15,7 @@
  */
 
 .ngface-paginator-container.desktop {
+  margin-top: 10px;
   display: flex;
 
   .ngface-notification {
@@ -99,9 +100,12 @@ td {
   text-overflow: ellipsis;
 
   .mat-mdc-icon-button {
+    //background-color: var(--app-primary-palette-50, lightblue);
+    //border-radius: 5px;
     width: 30px;
     height: 30px;
     padding: 0;
+    //margin-right: 5px;
 
     // does not work! :-(
     .mat-mdc-button-touch-target {
@@ -109,6 +113,7 @@ td {
       height: 30px;
     }
   }
+
 }
 
 
@@ -120,17 +125,17 @@ th.mat-mdc-header-cell {
 
 //th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
 th.mat-mdc-header-cell:not(:first-of-type) {
-  border-left: var(--app-primary-palette-300, whitesmoke) solid 1px;
+  //border-left: var(--app-primary-palette-300, whitesmoke) solid 1px;
 }
 
 td.mat-mdc-cell:not(:first-of-type) {
-  border-left: var(--app-primary-palette-300, whitesmoke) solid 1px;
+  border-left: var(--app-primary-palette-50, whitesmoke) solid 1px;
 }
 
 td.mat-mdc-footer-cell:not(:first-of-type) {
-  border-left: var(--app-primary-palette-300, whitesmoke) solid 1px;
+  border-left: var(--app-primary-palette-50, whitesmoke) solid 1px;
 }
 
 td.mat-mdc-footer-cell {
-  border-top: var(--app-primary-palette-100, rgba(0, 0, 0, .12)) solid 1px!important;
+  border-top: var(--app-primary-palette-50, rgba(0, 0, 0, .12)) solid 1px!important;
 }

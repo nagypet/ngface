@@ -405,7 +405,7 @@ export namespace Ngface {
     }
 
     export interface WidgetData {
-        type: string | "WidgetList.Data" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
+        type: any | "WidgetList.Data" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
     }
 
     export interface VoidWidgetData extends WidgetData {
@@ -413,7 +413,7 @@ export namespace Ngface {
     }
 
     export interface Widget<WD, SUB> {
-        type: string | "Button" | "WidgetList" | "FormattedText" | "Table" | "Titlebar" | "Autocomplete" | "DateInput" | "DateRangeInput" | "DateTimeInput" | "NumericInput" | "Select" | "TextInput";
+        type: any | "Button" | "WidgetList" | "FormattedText" | "Table" | "Titlebar" | "Autocomplete" | "DateInput" | "DateRangeInput" | "DateTimeInput" | "NumericInput" | "Select" | "TextInput";
         id: string;
         label: string;
         hint: string;

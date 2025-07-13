@@ -16,6 +16,7 @@
 
 //@import url("https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp");
 @import './styles/material-design-icons';
+@import './styles/material-design-symbols';
 @import '@angular/cdk/overlay-prebuilt.css';
 @import './styles/ngface-button';
 @import './styles/ngface-dialog';
@@ -24,7 +25,8 @@
 // Color constants
 //----------------------------------------------------------------------------------------------------------------------
 :root {
-  --color-disabled: rgba(0, 0, 0, .12);
+  --ngface-color-disabled: rgba(0, 0, 0, .12);
+  --ngface-color-font: #232323;
 }
 
 
@@ -163,12 +165,13 @@
 // tooltip
 //----------------------------------------------------------------------------------------------------------------------
 .mat-mdc-tooltip {
-  background-color: white;
+  background-color: var(--app-primary-palette-default, #0d6efd);
   border: 1px solid var(--app-primary-palette-default, #0d6efd);
-  border-radius: 5px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, .16);
+  border-radius: 10px;
   padding: 5px 15px !important;
-  --mdc-plain-tooltip-container-color: white;
-  --mdc-plain-tooltip-supporting-text-color: var(--app-primary-palette-default, #0d6efd) !important;
+  --mdc-plain-tooltip-container-color: var(--app-primary-palette-default, #0d6efd);
+  --mdc-plain-tooltip-supporting-text-color: var(--app-primary-contrast-500, #0d6efd) !important;
   --mdc-plain-tooltip-supporting-text-size: 14px;
 }
 
@@ -199,8 +202,8 @@
   //margin: 20px auto;
 
   .ngface-data-table-scrollable-area {
-    border: var(--app-primary-palette-300, rgba(0, 0, 0, .12)) solid 1px;
-    border-radius: 5px;
+    border: var(--app-primary-palette-50, rgba(0, 0, 0, .12)) solid 1px;
+    border-radius: 10px;
     // height should be set in the app, where the table widget is used
     height: 600px;
     overflow: auto;
@@ -355,4 +358,12 @@ ngface-excel-filter {
       white-space: nowrap;
     }
   }
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------
+// mdc-text-field--outlined
+//----------------------------------------------------------------------------------------------------------------------
+.mdc-text-field--outlined {
+  background-color: white;
 }
