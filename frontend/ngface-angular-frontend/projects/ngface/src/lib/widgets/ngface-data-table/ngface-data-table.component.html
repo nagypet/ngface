@@ -65,9 +65,9 @@
             >
               @if (isActionCell(row, column)) {
                 <!-- ActionCell -->
-                <div>
+                <div class="action-cell">
                   @for (action of getActions(row, column); track action) {
-                    <button mat-icon-button
+                    <button mat-icon-button class="action-button"
                             [disabled]="!action.enabled"
                             [matTooltip]="action.enabled ? action.label : ''"
                             matTooltipPosition="above"
