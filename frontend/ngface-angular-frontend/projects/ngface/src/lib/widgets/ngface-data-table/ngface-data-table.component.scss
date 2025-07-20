@@ -53,7 +53,7 @@ table tr:last-child td /*To remove the last border*/
 
 tr.mat-mdc-header-row {
   height: 36px;
-  background-color: var(--app-primary-palette-200, #f5f5f5);
+  background-color: var(--app-primary-palette-50, #f5f5f5);
 }
 
 tr.mat-mdc-row, tr.mat-mdc-footer-row {
@@ -61,7 +61,7 @@ tr.mat-mdc-row, tr.mat-mdc-footer-row {
 }
 
 tr.mat-mdc-footer-row {
-  background-color: var(--app-primary-palette-100, #f5f5f5);
+  background-color: var(--app-primary-palette-50, #f5f5f5);
 }
 
 .mat-mdc-row .mat-mdc-cell {
@@ -81,7 +81,7 @@ tr.mat-mdc-footer-row {
   }
 
   .ngface-row-selected {
-    background-color: var(--app-primary-palette-50, rgba(0, 0, 0, .02));
+    background-color: var(--app-primary-palette-100, rgba(0, 0, 0, .02));
   }
 }
 
