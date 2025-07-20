@@ -16,37 +16,54 @@
 
 import {Component, HostListener, OnInit} from '@angular/core';
 import {HeaderComponent} from './ui/header/header.component';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {RouterOutlet} from '@angular/router';
 import {FooterComponent} from './ui/footer/footer.component';
 import {DeviceTypeService} from '../../../ngface/src/lib/services/device-type.service';
-import {NgIf} from '@angular/common';
+import {environment} from '../environments/environment';
+import {ResponsiveClassDirective} from '../../../ngface/src/lib/directives/responsive-class-directive';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: true,
-    imports: [HeaderComponent, RouterLink, RouterLinkActive, RouterOutlet, FooterComponent, NgIf]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  standalone: true,
+  imports: [
+    HeaderComponent,
+    RouterOutlet,
+    FooterComponent,
+    ResponsiveClassDirective
+  ]
 })
 export class AppComponent implements OnInit
 {
-    title = 'demo-app';
+  title = 'demo-app';
 
 
-    constructor(public deviceTypeService: DeviceTypeService)
-    {
-    }
-
-    ngOnInit(): void
-    {
-        this.onWindowResize();
-    }
+  constructor(public deviceTypeService: DeviceTypeService)
+  {
+  }
 
 
-    @HostListener('window:resize', ['$event'])
-    onWindowResize(): void
-    {
-        this.deviceTypeService.calculateDeviceType();
-    }
+  ngOnInit(): void
+  {
+    this.onWindowResize();
+    this.loadStylesheet(`themes/${environment.theme}/microdms-theme.css`);
+  }
+
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(): void
+  {
+    this.deviceTypeService.calculateDeviceType();
+  }
+
+
+  loadStylesheet(path: string): void
+  {
+    const linkEl = document.createElement('link');
+    linkEl.rel = 'stylesheet';
+    linkEl.href = path;
+    document.head.appendChild(linkEl);
+  }
 }
 

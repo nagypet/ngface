@@ -14,10 +14,8 @@
   ~ limitations under the License.
   -->
 
-<div responsiveClass="container">
-  <ngface-titlebar [formdata]="formData" widgetid="titlebar"
-                   logo="../../assets/perit_logo.png"
-                   (menuItemClick)="onTitlebarMenuItemClick($event)"
-                   (actionClick)="onTitlebarActionClick($event)"
-  ></ngface-titlebar>
-</div>
+<ngface-titlebar [formdata]="formData" widgetid="titlebar"
+                 [logo]="getLogoUrl()"
+                 (menuItemClick)="onTitlebarMenuItemClick($event)"
+                 (actionClick)="onTitlebarActionClick($event)"
+></ngface-titlebar>

@@ -43,7 +43,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(BrowserModule, NgfaceModule, MatDialogModule, A11yModule),
     provideRouter(APP_ROUTES, withHashLocation()),
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
     {provide: MAT_DATE_LOCALE, useValue: 'hu'},
     {provide: LOCALE_ID, useValue: 'de-DE'},
     provideHttpClient(withInterceptorsFromDi())

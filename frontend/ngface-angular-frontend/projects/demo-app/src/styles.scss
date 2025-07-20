@@ -16,52 +16,60 @@
 @use '@angular/material' as mat;
 @use '../../ngface/src/lib/styles/theme' as ngface;
 
+// Change here the currently used theme for development
+@use '../public/themes/theme' as theme;
+
 @include mat.core();
 
-$my-primary: mat.m2-define-palette(mat.$m2-blue-palette);
-$my-accent: mat.m2-define-palette(mat.$m2-blue-palette);
-$my-warn: mat.m2-define-palette(mat.$m2-red-palette);
+// Material theming
+@include mat.all-component-themes(theme.$my-theme);
 
-$my-theme: mat.m2-define-light-theme((
-  color: (
-    primary: $my-primary,
-    accent: $my-accent,
-    warn: $my-warn
-  )
-));
+// Ngface theming
+@include ngface.set-palette(theme.$my-primary, primary);
+@include ngface.set-palette(theme.$my-warn, warn);
 
-@include mat.all-component-themes($my-theme);
-
-@include ngface.set-palette($my-primary, primary);
-@include ngface.set-palette($my-warn, warn);
-
-/* You can add global styles to this file, and also import other style files */
 @import 'bootstrap/dist/css/bootstrap.min.css';
-@import "projects/ngface/src/lib/ngface.scss";
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'ngx-toastr/toastr';
+@import '../../ngface/src/lib/ngface.scss';
 
 html, body {
-  height: 100%;
+//  height: 100%;
 }
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: 0.25px;
+  background-color: var(--app-primary-palette-50);
+  color: var(--color-font);
+  font-family: var(--global-font), sans-serif;
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
 }
 
-.container.mobile {
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-left: 0;
-  margin-right: 0;
-  width: 100%;
-  max-width: unset;
+//----------------------------------------------------------------------------------------------------------------------
+// page-wrapper
+//----------------------------------------------------------------------------------------------------------------------
+.page-wrapper {
+  height: 70vh;
+  margin: 20px 40px;
+  overflow: hidden;
+  border-radius: 25px;
+  background-color: white;
 }
-
-.ngface-titlebar {
-  border-radius: 5px;
-}
-
-.ngface-titlebar.mobile {
+.page-wrapper.phone.portrait {
+  height: calc(100vh - 90px);
   border-radius: 0;
+  margin: 0;
+  overflow: auto;
+}
+
+.ngface-form {
+  border-radius: 0;
+  border: none;
+}
+.ngface-form.desktop {
+  box-shadow: none;
+}
+.ngface-form.mobile {
+  border: none;
 }

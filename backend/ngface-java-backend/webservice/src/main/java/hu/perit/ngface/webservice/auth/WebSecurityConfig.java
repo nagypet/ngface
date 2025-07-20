@@ -16,6 +16,7 @@
 
 package hu.perit.ngface.webservice.auth;
 
+import hu.perit.spvitamin.spring.rest.api.AuthApi;
 import hu.perit.spvitamin.spring.security.auth.SimpleHttpSecurityBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,9 +45,9 @@ public class WebSecurityConfig
     public SecurityFilterChain permitAll(HttpSecurity http) throws Exception
     {
         SimpleHttpSecurityBuilder.newInstance(http)
-            .defaults()
-            .authorizeRequests(i -> i.requestMatchers("/**").permitAll())
-            .and().sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
+                .scope("/**")
+                .authorizeRequests(i -> i.anyRequest().permitAll())
+                .and().sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
 
         return http.build();
     }

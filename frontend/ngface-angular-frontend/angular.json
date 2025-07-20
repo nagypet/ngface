@@ -26,8 +26,10 @@
             ],
             "tsConfig": "projects/demo-app/tsconfig.app.json",
             "assets": [
-              "projects/demo-app/src/favicon.ico",
-              "projects/demo-app/src/assets"
+              {
+                "glob": "**/*",
+                "input": "projects/demo-app/public"
+              }
             ],
             "styles": [
               "projects/demo-app/src/styles.scss"
@@ -94,8 +96,10 @@
             "tsConfig": "projects/demo-app/tsconfig.spec.json",
             "karmaConfig": "projects/demo-app/karma.conf.js",
             "assets": [
-              "projects/demo-app/src/favicon.ico",
-              "projects/demo-app/src/assets"
+              {
+                "glob": "**/*",
+                "input": "projects/demo-app/public"
+              }
             ],
             "styles": [
               "projects/demo-app/src/styles.scss"

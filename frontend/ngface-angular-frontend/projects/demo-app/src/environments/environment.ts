@@ -21,6 +21,7 @@
 export const environment = {
   production: false,
   baseURL: '/ngface-webservice',
+  theme: 'active'
 };
 
 /*

@@ -15,32 +15,30 @@
   -->
 
 
-<div responsiveClass="container">
-  <!-- Table part -->
-  <div responsiveClass="ngface-form">
-    <ngface-data-table [formdata]="formData" widgetid="table-multiselect"
-                       (tableReloadEvent)="onTableReload($event)"
-                       (actionClickEvent)="onTableActionClick($event)"
-                       (tableValueSetSearchEvent)="onTableValueSetSearch($event)"
-                       (tableViewParamsChangeEvent)="onTableViewParamsChange($event)"
-                       (rowClickEvent)="onRowClick($event)"
-                       (masterToggleEvent)="onMasterToggle($event)"
-    >
-    </ngface-data-table>
-    <div responsiveClass="ngface-dialog-actions">
-      <ngface-button [formdata]="formData" widgetid="button-reload" (click)="onReloadClick()"></ngface-button>
-      @if (isWidgetAvailable('button-select-all')) {
-        <ngface-button [formdata]="formData"
-                       widgetid="button-select-all"
-                       (click)="onActionButton('SELECT_ALL')">
-        </ngface-button>
-      }
-      @if (isWidgetAvailable('button-clear-all')) {
-        <ngface-button [formdata]="formData"
-                       widgetid="button-clear-all"
-                       (click)="onActionButton('SELECT_NONE')">
-        </ngface-button>
-      }
-    </div>
+<!-- Table part -->
+<div responsiveClass="ngface-form">
+  <ngface-data-table [formdata]="formData" widgetid="table-multiselect"
+                     (tableReloadEvent)="onTableReload($event)"
+                     (actionClickEvent)="onTableActionClick($event)"
+                     (tableValueSetSearchEvent)="onTableValueSetSearch($event)"
+                     (tableViewParamsChangeEvent)="onTableViewParamsChange($event)"
+                     (rowClickEvent)="onRowClick($event)"
+                     (masterToggleEvent)="onMasterToggle($event)"
+  >
+  </ngface-data-table>
+  <div responsiveClass="ngface-dialog-actions">
+    <ngface-button [formdata]="formData" widgetid="button-reload" (click)="onReloadClick()"></ngface-button>
+    @if (isWidgetAvailable('button-select-all')) {
+      <ngface-button [formdata]="formData"
+                     widgetid="button-select-all"
+                     (click)="onActionButton('SELECT_ALL')">
+      </ngface-button>
+    }
+    @if (isWidgetAvailable('button-clear-all')) {
+      <ngface-button [formdata]="formData"
+                     widgetid="button-clear-all"
+                     (click)="onActionButton('SELECT_NONE')">
+      </ngface-button>
+    }
   </div>
 </div>

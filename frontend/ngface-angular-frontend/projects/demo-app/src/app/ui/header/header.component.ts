@@ -22,55 +22,65 @@ import {Ngface} from '../../../../../ngface/src/lib/ngface-models';
 import {TitlebarService} from '../../core/services/titlebar.service';
 import {DeviceTypeService} from '../../../../../ngface/src/lib/services/device-type.service';
 import {ResponsiveClassDirective} from '../../../../../ngface/src/lib/directives/responsive-class-directive';
+import {environment} from '../../../environments/environment';
 
 @Component({
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.scss'],
-    imports: [
-        RouterOutlet,
-        NgfaceTitlebarComponent,
-        ResponsiveClassDirective
-    ],
-    standalone: true
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
+  imports: [
+    RouterOutlet,
+    NgfaceTitlebarComponent,
+    ResponsiveClassDirective
+  ],
+  standalone: true
 })
 export class HeaderComponent extends FormBaseComponent implements OnInit
 {
 
-    constructor(
-        private router: Router,
-        private titlebarService: TitlebarService,
-        public deviceTypeService: DeviceTypeService
-    )
+  constructor(
+    private router: Router,
+    private titlebarService: TitlebarService,
+    public deviceTypeService: DeviceTypeService
+  )
+  {
+    super();
+  }
+
+
+  ngOnInit(): void
+  {
+    this.titlebarService.getTitlebar().subscribe(form =>
     {
-        super();
-    }
+      console.log(form);
+      this.formData = form;
+    });
+  }
 
-    ngOnInit(): void
+
+  onTitlebarMenuItemClick($event: Ngface.Menu.Item): void
+  {
+    switch ($event.id)
     {
-        this.titlebarService.getTitlebar().subscribe(form =>
-        {
-            console.log(form);
-            this.formData = form;
-        });
+      case 'widgets_demo':
+        this.router.navigate(['widget-demo']);
+        break;
+
+      case 'table_demo':
+        this.router.navigate(['table-demo']);
+        break;
     }
+  }
 
-    onTitlebarMenuItemClick($event: Ngface.Menu.Item): void
-    {
-        switch ($event.id)
-        {
-            case 'widgets_demo':
-                this.router.navigate(['widget-demo']);
-                break;
 
-            case 'table_demo':
-                this.router.navigate(['table-demo']);
-                break;
-        }
-    }
+  onTitlebarActionClick($event: Ngface.Action): void
+  {
 
-    onTitlebarActionClick($event: Ngface.Action): void
-    {
+  }
 
-    }
+
+  getLogoUrl(): string
+  {
+    return `themes/${environment.theme}/company_logo.png`;
+  }
 }

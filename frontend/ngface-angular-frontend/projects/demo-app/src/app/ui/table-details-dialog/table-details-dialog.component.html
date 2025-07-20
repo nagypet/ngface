@@ -16,7 +16,7 @@
 
 <div responsiveClass="ngface-dialog">
     <!-- Title -->
-    <div mat-dialog-title responsiveClass="ngface-dialog-title">{{data.title}}</div>
+    <div mat-dialog-title responsiveClass="ngface-dialog-title" ngface-dialog-close>{{data.title}}</div>
 
     <!-- Main part -->
     <ngface-form [formdata]="formData" mat-dialog-content (keydown.enter)="onOkClick()" responsiveClass="ngface-dialog-main">

@@ -24,51 +24,57 @@ import {NgfaceNumericInputComponent} from '../../../../../ngface/src/lib/widgets
 import {NgfaceFormComponent} from '../../../../../ngface/src/lib/form/ngface-form/ngface-form.component';
 import {NgfaceAutocompleteComponent} from '../../../../../ngface/src/lib/widgets/ngface-autocomplete/ngface-autocomplete.component';
 import {ResponsiveClassDirective} from '../../../../../ngface/src/lib/directives/responsive-class-directive';
+import {NgfaceDialogCloseDirective} from '../../../../../ngface/src/lib/directives/ngface-dialog-close-directive';
 
 @Component({
-    selector: 'app-demo-dialog1',
-    templateUrl: './table-details-dialog.component.html',
-    styleUrls: ['./table-details-dialog.component.scss'],
-    standalone: true,
-    imports: [
-        MatDialogModule,
-        NgfaceFormComponent,
-        NgfaceNumericInputComponent,
-        NgfaceTextInputComponent,
-        NgfaceButtonComponent,
-        NgfaceAutocompleteComponent,
-        ResponsiveClassDirective]
+  selector: 'app-demo-dialog1',
+  templateUrl: './table-details-dialog.component.html',
+  styleUrls: ['./table-details-dialog.component.scss'],
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    NgfaceFormComponent,
+    NgfaceNumericInputComponent,
+    NgfaceTextInputComponent,
+    NgfaceButtonComponent,
+    NgfaceAutocompleteComponent,
+    ResponsiveClassDirective,
+    NgfaceDialogCloseDirective
+  ]
 })
 export class TableDetailsDialogComponent extends FormBaseComponent implements OnInit
 {
-    constructor(public dialogRef: MatDialogRef<TableDetailsDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: Ngface.Form)
-    {
-        super();
-    }
+  constructor(public dialogRef: MatDialogRef<TableDetailsDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: Ngface.Form)
+  {
+    super();
+  }
 
-    ngOnInit(): void
-    {
-        this.formData = this.data;
-    }
 
-    onCancelClick(): void
-    {
-        this.dialogRef.close();
-    }
+  ngOnInit(): void
+  {
+    this.formData = this.data;
+  }
 
-    onOkClick(): void
+
+  onCancelClick(): void
+  {
+    this.dialogRef.close();
+  }
+
+
+  onOkClick(): void
+  {
+    this.formGroup.markAllAsTouched();
+    if (!this.formGroup.valid)
     {
-        this.formGroup.markAllAsTouched();
-        if (!this.formGroup.valid)
-        {
-            console.warn('Data is invalid!');
-        }
-        else
-        {
-            const submitData = this.getSubmitData();
-            console.log(submitData);
-            this.dialogRef.close(submitData);
-        }
+      console.warn('Data is invalid!');
     }
+    else
+    {
+      const submitData = this.getSubmitData();
+      console.log(submitData);
+      this.dialogRef.close(submitData);
+    }
+  }
 }
