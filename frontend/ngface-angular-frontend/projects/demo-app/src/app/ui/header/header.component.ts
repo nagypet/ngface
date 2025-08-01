@@ -15,13 +15,12 @@
  */
 
 import {Component, OnInit} from '@angular/core';
-import {Router, RouterOutlet} from '@angular/router';
+import {Router} from '@angular/router';
 import {FormBaseComponent} from '../../../../../ngface/src/lib/form/form-base.component';
 import {NgfaceTitlebarComponent} from '../../../../../ngface/src/lib/titlebar/ngface-titlebar/ngface-titlebar.component';
 import {Ngface} from '../../../../../ngface/src/lib/ngface-models';
 import {TitlebarService} from '../../core/services/titlebar.service';
 import {DeviceTypeService} from '../../../../../ngface/src/lib/services/device-type.service';
-import {ResponsiveClassDirective} from '../../../../../ngface/src/lib/directives/responsive-class-directive';
 import {environment} from '../../../environments/environment';
 
 @Component({
@@ -29,9 +28,7 @@ import {environment} from '../../../environments/environment';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   imports: [
-    RouterOutlet,
-    NgfaceTitlebarComponent,
-    ResponsiveClassDirective
+    NgfaceTitlebarComponent
   ],
   standalone: true
 })
@@ -82,5 +79,21 @@ export class HeaderComponent extends FormBaseComponent implements OnInit
   getLogoUrl(): string
   {
     return `themes/${environment.theme}/company_logo.png`;
+  }
+
+
+  getSelectedMenuItemId(): string
+  {
+    const url = this.router.url.split('/')[1];
+    switch (url)
+    {
+      case 'widget-demo':
+        return 'widgets_demo';
+
+      case 'table-demo':
+        return 'table_demo';
+    }
+
+    return url;
   }
 }

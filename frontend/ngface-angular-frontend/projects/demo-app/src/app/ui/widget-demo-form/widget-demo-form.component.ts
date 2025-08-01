@@ -16,7 +16,6 @@
 
 import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {WidgetDemoFormService} from '../../core/services/widget-demo-form.service';
-import {NgfaceDataTableComponent} from '../../../../../ngface/src/lib/widgets/ngface-data-table/ngface-data-table.component';
 import {FormBaseComponent} from '../../../../../ngface/src/lib/form/form-base.component';
 import {TableDemoFormService} from '../../core/services/table-demo-form.service';
 import {NgfaceButtonComponent} from '../../../../../ngface/src/lib/widgets/ngface-button/ngface-button.component';
@@ -57,9 +56,8 @@ export namespace WidgetDemoFormComponent
     NgfaceDateRangeInputComponent,
     NgfaceSelectComponent,
     NgfaceButtonComponent,
-    NgfaceDataTableComponent,
     NgfaceAutocompleteComponent,
-    ResponsiveClassDirective
+    ResponsiveClassDirective,
   ]
 })
 export class WidgetDemoFormComponent extends FormBaseComponent implements OnInit, OnDestroy

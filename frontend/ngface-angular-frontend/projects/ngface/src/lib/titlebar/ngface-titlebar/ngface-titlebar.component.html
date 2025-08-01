@@ -33,7 +33,7 @@
     </div>
   }
 
-  @if (logo) {
+  @if (logo && !isMobileDesign()) {
     <img responsiveClass="logo" src="{{logo}}">
   }
 

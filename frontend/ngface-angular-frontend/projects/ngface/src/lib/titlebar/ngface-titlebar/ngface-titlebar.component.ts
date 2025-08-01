@@ -147,7 +147,7 @@ export class NgfaceTitlebarComponent implements OnChanges
 
   isMobileDesign(): boolean
   {
-    return (this.deviceTypeService.deviceType === 'Phone' && this.deviceTypeService.orientation === 'Portrait');
+    return (this.deviceTypeService.deviceType === 'Phone' || this.deviceTypeService.orientation === 'Portrait');
   }
 
   getSessionTimeoutAdditionalClasses(): string

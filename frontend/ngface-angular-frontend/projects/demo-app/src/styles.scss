@@ -50,19 +50,32 @@ body {
 // page-wrapper
 //----------------------------------------------------------------------------------------------------------------------
 .page-wrapper {
-  height: 70vh;
+  height: 70dvh;
   margin: 20px 40px;
   overflow: hidden;
   border-radius: 25px;
   background-color: white;
 }
+.page-wrapper.mobile {
+  height: calc(100dvh - 120px);
+  overflow: auto;
+}
 .page-wrapper.phone.portrait {
-  height: calc(100vh - 90px);
+  height: calc(100dvh - 90px);
+  border-radius: 0;
+  margin: 0;
+  overflow: auto;
+}
+.page-wrapper.phone.landscape {
+  height: 100dvh;
   border-radius: 0;
   margin: 0;
   overflow: auto;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+// ngface-form
+//----------------------------------------------------------------------------------------------------------------------
 .ngface-form {
   border-radius: 0;
   border: none;
@@ -72,4 +85,14 @@ body {
 }
 .ngface-form.mobile {
   border: none;
+}
+.ngface-form.phone.portrait {
+  .ngface-input-field {
+    width: 100%!important;
+    max-width: unset;
+  }
+  .ngface-button {
+    width: 100%;
+    max-width: unset;
+  }
 }

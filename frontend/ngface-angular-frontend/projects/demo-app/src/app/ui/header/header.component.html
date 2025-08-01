@@ -16,6 +16,7 @@
 
 <ngface-titlebar [formdata]="formData" widgetid="titlebar"
                  [logo]="getLogoUrl()"
+                 [selectedMenuItemId]="getSelectedMenuItemId()"
                  (menuItemClick)="onTitlebarMenuItemClick($event)"
                  (actionClick)="onTitlebarActionClick($event)"
 ></ngface-titlebar>
