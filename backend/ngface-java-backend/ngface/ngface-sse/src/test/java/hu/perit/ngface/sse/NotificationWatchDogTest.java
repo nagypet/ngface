@@ -18,7 +18,8 @@ package hu.perit.ngface.sse;
 
 import hu.perit.ngface.sse.notification.SseNotification;
 import hu.perit.ngface.sse.notification.SseUpdateNotification;
-import hu.perit.spvitamin.spring.config.SpringContextMock;
+import hu.perit.spvitamin.core.took.Took;
+import hu.perit.spvitamin.test.spring.config.SpringContextMock;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,7 +50,7 @@ class NotificationWatchDogTest
 
 
     @BeforeEach
-    public void init()
+    void init()
     {
         SpringContextMock.builder()
                 .append(SseService.class, sseService)
@@ -64,14 +65,18 @@ class NotificationWatchDogTest
     {
         SseUpdateNotification<Long> updateNotification = new SseUpdateNotification<>("alma", new HashSet<>());
 
-        notificationWatchDog.resendInMillis(1L, updateNotification);
+        notificationWatchDog.resendInMillis(200L, updateNotification);
 
-        await().atMost(Duration.ofSeconds(10));
+        try (Took took = new Took())
+        {
+            ArgumentCaptor<SseNotification> argumentCaptor = ArgumentCaptor.forClass(SseNotification.class);
+            log.debug("Waiting for verify() for 200 ms ...");
+            await().atMost(Duration.ofSeconds(10)).untilAsserted(() -> verify(sseService).resendNotification(argumentCaptor.capture()));
 
-        ArgumentCaptor<SseNotification> argumentCaptor = ArgumentCaptor.forClass(SseNotification.class);
-        verify(sseService).resendNotification(argumentCaptor.capture());
-        SseNotification sseNotification = argumentCaptor.getValue();
-        assertThat(sseNotification).isNotNull();
-        assertThat(sseNotification.getSubject()).isEqualTo("alma");
+            SseNotification sseNotification = argumentCaptor.getValue();
+            assertThat(took.getDuration()).isGreaterThan(200L);
+            assertThat(sseNotification).isNotNull();
+            assertThat(sseNotification.getSubject()).isEqualTo("alma");
+        }
     }
 }

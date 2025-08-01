@@ -16,11 +16,13 @@
 
 package hu.perit.ngface.sse.notification;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,18 +32,33 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class SseUpdateNotification<T> extends SseNotification
 {
-    private final Set<T> jobIds;
+    @Setter(AccessLevel.NONE)
+    private final Set<T> jobIds = new HashSet<>();
+
 
     public static <T> SseUpdateNotification<T> create(String subject, T jobId)
     {
         return new SseUpdateNotification<>(subject, Set.of(jobId));
     }
 
-    public SseUpdateNotification(String subject, Set<T> jobIds)
+
+    public SseUpdateNotification(String subject, Collection<T> jobIds)
     {
         super(Type.UPDATE, subject);
-        this.jobIds = new HashSet<>(jobIds);
+        this.jobIds.clear();
+        if (jobIds != null && !jobIds.isEmpty())
+        {
+            this.jobIds.addAll(jobIds);
+        }
     }
+
+
+    // Json
+    private SseUpdateNotification()
+    {
+        super(Type.UPDATE, "something");
+    }
+
 
     public void append(SseUpdateNotification<T> updateNotification)
     {

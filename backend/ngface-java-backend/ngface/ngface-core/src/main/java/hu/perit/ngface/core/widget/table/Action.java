@@ -33,11 +33,14 @@ public class Action
     // See https://fonts.google.com/icons?selected=Material+Icons&icon.style=Outlined
     private String icon;
     private boolean enabled = true;
+    private String badge;
+
 
     public Action()
     {
         this.id = null;
     }
+
 
     public Action label(String label)
     {
@@ -45,15 +48,24 @@ public class Action
         return this;
     }
 
+
     public Action icon(String icon)
     {
         this.icon = icon;
         return this;
     }
 
+
     public Action enabled(Boolean enabled)
     {
         this.enabled = BooleanUtils.isTrue(enabled);
+        return this;
+    }
+
+
+    public Action badge(String badge)
+    {
+        this.badge = badge;
         return this;
     }
 }

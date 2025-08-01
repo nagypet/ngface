@@ -35,15 +35,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiPredicate;
 
 /**
- * Backend -> Frontend communication. The frontend may call the subscribe() method via a REST interface in order to get
+ * Backend -> Frontend communication. The frontend may call the subscribe() method via a REST interface to get
  * an instance of an SseEvent (Server-sent-event) object. Calling the fire() method from within the backend will initiate
- * the sending of an event to each frontend which are subscribed.
+ * the sending of an event to each frontend that is subscribed.
  *
- * @param <T>
- *     Type of event to be sent to the client
- * @param <F>
- *     Type of filter key of subscriptions. This can be used to reduce network traffic in order only subscribers
- *     matching a certain criteria will receive the event.
+ * @param <T> Type of event to be sent to the client
+ * @param <F> Type of filter key of subscriptions. This can be used to reduce network traffic in order only subscribers
+ *            matching a certain criteria will receive the event.
  * @author np
  */
 @Slf4j
@@ -55,6 +53,7 @@ public class ServerSentEvent<T, F>
         ONLY_LAST_EVENT,
         ALL_EVENTS
     }
+
 
     private final ResendPolicy resendPolicy;
     private final AtomicInteger lastSubscriptionId = new AtomicInteger(0);
@@ -78,11 +77,9 @@ public class ServerSentEvent<T, F>
 
 
     /**
-     * @param lastReceivedEventIdAsString
-     *     When the SSE connection was closed, the browser sends a new subscribe request, and in this request, he sends
-     *     the last received message id. Upon receiving a non null lastReceivedEventIdAsString, the server should resend the last event.
-     * @param filterKey
-     *     This key can be used to filter subscriptions in the fire() method.
+     * @param lastReceivedEventIdAsString When the SSE connection was closed, the browser sends a new subscribe request, and in this request, he sends
+     *                                    the last received message id. Upon receiving a non null lastReceivedEventIdAsString, the server should resend the last event.
+     * @param filterKey                   This key can be used to filter subscriptions in the fire() method.
      * @return
      */
     public synchronized Subscription<F> subscribe(String lastReceivedEventIdAsString, F filterKey)
@@ -144,14 +141,7 @@ public class ServerSentEvent<T, F>
      */
     public synchronized void fire(T args)
     {
-        // Készítünk egy másolatot, és azon iterálunk
-        List<Subscription<F>> subscriptions = new ArrayList<>(this.subscribers.values());
-        int eventId = this.lastEventId.incrementAndGet();
-        this.eventQueue.add(new EventQueueItem<>(eventId, args));
-        for (Subscription<F> subscription : subscriptions)
-        {
-            this.sendEvent(subscription, eventId, args);
-        }
+        fire(args, null, null);
     }
 
 
@@ -168,7 +158,7 @@ public class ServerSentEvent<T, F>
         this.eventQueue.add(new EventQueueItem<>(eventId, args));
         for (Subscription<F> subscription : subscriptions)
         {
-            if (filterFunction.test(filterCriteria, subscription.filterKey))
+            if (filterFunction == null || filterFunction.test(filterCriteria, subscription.filterKey))
             {
                 this.sendEvent(subscription, eventId, args);
             }
@@ -200,12 +190,11 @@ public class ServerSentEvent<T, F>
         {
             log.debug("Sending event {}:{} => subscription {}", eventName, eventId, subscription.id);
             SseEmitter.SseEventBuilder event = SseEmitter.event()
-                .data(args == null ? "NULL" : args)
-                .name(eventName)
-                .id(String.valueOf(eventId));
+                    .data(args == null ? "NULL" : args)
+                    .name(eventName)
+                    .id(String.valueOf(eventId));
             // Ha SseEventBuilder-t adunk át, akkor nem lehet MediaType-ot definiálni
             subscription.send(event);
-            //subscription.send(args, MediaType.APPLICATION_JSON);
         }
         catch (Exception ex)
         {
@@ -256,8 +245,8 @@ public class ServerSentEvent<T, F>
             Subscription<?> that = (Subscription<?>) o;
 
             return new EqualsBuilder()
-                .append(id, that.id)
-                .isEquals();
+                    .append(id, that.id)
+                    .isEquals();
         }
 
 
@@ -265,8 +254,8 @@ public class ServerSentEvent<T, F>
         public int hashCode()
         {
             return new HashCodeBuilder(17, 37)
-                .append(id)
-                .toHashCode();
+                    .append(id)
+                    .toHashCode();
         }
     }
 

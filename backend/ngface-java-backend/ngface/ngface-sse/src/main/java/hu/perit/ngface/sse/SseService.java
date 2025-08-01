@@ -21,21 +21,38 @@ import hu.perit.ngface.sse.notification.SseNotification;
 
 public interface SseService
 {
+    /**
+     * Subscribes a client to receive server-sent events (SSE).
+     *
+     * @param lastReceivedEventId the last received event ID sent from the client during reconnection.
+     *                            If provided, the server may resend events that occurred after this ID.
+     *                            A null or blank value indicates no events need to be resent.
+     * @return a {@code ServerSentEvent.Subscription<String>} representing the subscription for the client,
+     *         allowing the backend to send events to this client.
+     */
     ServerSentEvent.Subscription<String> subscribe(String lastReceivedEventId);
 
+    /**
+     * Sends a server-sent event (SSE) notification to connected clients.
+     *
+     * @param sseNotification the notification to be sent. Must not be null and should contain a valid type and subject.
+     */
     void sendNotification(SseNotification sseNotification);
 
     /**
-     * @param throwable
+     * Sends an error notification with the provided subject and associated throwable.
+     *
+     * @param subject the subject of the error notification
+     * @param throwable the throwable containing details about the error
      */
     void sendError(String subject, Throwable throwable);
 
     /**
-     * Sends a reload message to the frontend
+     * Sends a reload notification with the provided subject.
+     *
+     * @param subject the subject of the reload notification
      */
     void sendReload(String subject);
-
-    void resendNotification(SseNotification sseNotification);
 
     // Unit test
     int getQueueSize();

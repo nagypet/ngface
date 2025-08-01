@@ -35,12 +35,14 @@ public class SseMessageNotification extends SseNotification
 {
     public static final String TXT_ERROR = "ERROR";
 
+
     public enum Level
     {
         INFO,
         WARNING,
         ERROR
     }
+
 
     private final Level level;
     @Nullable
@@ -50,10 +52,12 @@ public class SseMessageNotification extends SseNotification
     @Nullable
     private final String errorText;
 
+
     public static SseMessageNotification create(String subject, Level level, String message, String details)
     {
         return new SseMessageNotification(subject, level, message, details, null);
     }
+
 
     public static SseMessageNotification create(String subject, Throwable throwable)
     {
@@ -75,6 +79,7 @@ public class SseMessageNotification extends SseNotification
         return create(subject, Level.ERROR, StringUtils.abbreviate(message, 50), StringUtils.abbreviate(message.equalsIgnoreCase(details) ? null : details, 200));
     }
 
+
     public SseMessageNotification(String subject, Level level, @Nullable String message, @Nullable String details, @Nullable String errorText)
     {
         super(Type.MESSAGE, subject);
@@ -82,5 +87,16 @@ public class SseMessageNotification extends SseNotification
         this.message = message;
         this.details = details;
         this.errorText = errorText;
+    }
+
+
+    // Json
+    private SseMessageNotification()
+    {
+        super(Type.MESSAGE, "something");
+        this.level = Level.INFO;
+        this.message = null;
+        this.details = null;
+        this.errorText = null;
     }
 }

@@ -45,6 +45,7 @@ public class Row<T>
     private String idType;
     private final Map<String, Cell<?, ?>> cells = new LinkedHashMap<>();
     private boolean selected;
+    private boolean disabled;
 
     // For JSon deserialization
     private Row()
@@ -209,6 +210,13 @@ public class Row<T>
     public Row<T> selected(Boolean selected)
     {
         this.selected = BooleanUtils.isTrue(selected);
+        return this;
+    }
+
+
+    public Row<T> disabled(Boolean disabled)
+    {
+        this.disabled = BooleanUtils.isTrue(disabled);
         return this;
     }
 }

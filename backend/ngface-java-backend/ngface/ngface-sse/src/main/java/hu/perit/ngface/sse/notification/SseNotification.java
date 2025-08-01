@@ -16,12 +16,17 @@
 
 package hu.perit.ngface.sse.notification;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serial;
 import java.text.MessageFormat;
 
 /**
@@ -31,8 +36,19 @@ import java.text.MessageFormat;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class SseNotification
+@NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = SseReloadNotification.class, name = "RELOAD"),
+        @JsonSubTypes.Type(value = SseMessageNotification.class, name = "MESSAGE"),
+        @JsonSubTypes.Type(value = SseUpdateNotification.class, name = "UPDATE")
+})
+public abstract class SseNotification implements java.io.Serializable
 {
+    @Serial
+    private static final long serialVersionUID = 340568346417904190L;
+
+
     public enum Type
     {
         RELOAD,
@@ -40,10 +56,14 @@ public class SseNotification
         UPDATE
     }
 
+
     private final Type type;
     private final String subject;
+    // This is the originator of the notification.
+    private String sender;
 
-    public SseNotification(Type type, String subject)
+
+    protected SseNotification(Type type, String subject)
     {
         if (StringUtils.isBlank(subject))
         {

@@ -16,10 +16,13 @@
 
 package hu.perit.ngface.sse.notification;
 
+import hu.perit.spvitamin.spring.json.JSonSerializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class SseMessageNotificationTest
 {
@@ -33,7 +36,7 @@ class SseMessageNotificationTest
 
 
     @BeforeEach
-    public void init()
+    void init()
     {
         sseMessageNotification = new SseMessageNotification(SUBJECT, LEVEL, MESSAGE, DETAILS, ERROR_TEXT);
     }
@@ -42,24 +45,24 @@ class SseMessageNotificationTest
     @Test
     void getterTest_shouldReturnCorrectValues()
     {
-        assertEquals(LEVEL, sseMessageNotification.getLevel());
-        assertEquals(MESSAGE, sseMessageNotification.getMessage());
-        assertEquals(DETAILS, sseMessageNotification.getDetails());
-        assertEquals(ERROR_TEXT, sseMessageNotification.getErrorText());
+        assertThat(sseMessageNotification.getLevel()).isEqualTo(LEVEL);
+        assertThat(sseMessageNotification.getMessage()).isEqualTo(MESSAGE);
+        assertThat(sseMessageNotification.getDetails()).isEqualTo(DETAILS);
+        assertThat(sseMessageNotification.getErrorText()).isEqualTo(ERROR_TEXT);
     }
 
 
     @Test
     void equalsTest_whenComparedToItself_shouldReturnTrue()
     {
-        assertEquals(sseMessageNotification, sseMessageNotification);
+        assertThat(sseMessageNotification).isEqualTo(sseMessageNotification);
     }
 
 
     @Test
     void equalsTest_whenComparedToNull_shouldReturnFalse()
     {
-        assertNotEquals(null, sseMessageNotification);
+        assertThat(sseMessageNotification).isNotEqualTo(null);
     }
 
 
@@ -68,7 +71,7 @@ class SseMessageNotificationTest
     {
         SseMessageNotification other = new SseMessageNotification(SUBJECT, LEVEL, MESSAGE, DETAILS, ERROR_TEXT);
 
-        assertEquals(sseMessageNotification, other);
+        assertThat(sseMessageNotification).isEqualTo(other);
     }
 
 
@@ -77,21 +80,21 @@ class SseMessageNotificationTest
     {
         SseMessageNotification other = new SseMessageNotification(SUBJECT, LEVEL, "", DETAILS, ERROR_TEXT);
 
-        assertNotEquals(sseMessageNotification, other);
+        assertThat(sseMessageNotification).isNotEqualTo(other);
     }
 
 
     @Test
     void equalsTest_whenComparedToOtherWithDifferentType_shouldReturnFalse()
     {
-        assertNotEquals(sseMessageNotification, String.valueOf(1));
+        assertThat(sseMessageNotification).isNotEqualTo(String.valueOf(1));
     }
 
 
     @Test
     void canEqualTest_shouldReturnTrue()
     {
-        assertTrue(sseMessageNotification.canEqual(sseMessageNotification));
+        assertThat(sseMessageNotification.canEqual(sseMessageNotification)).isTrue();
     }
 
 
@@ -100,15 +103,17 @@ class SseMessageNotificationTest
     {
         SseMessageNotification other = new SseMessageNotification(SUBJECT, LEVEL, MESSAGE, DETAILS, ERROR_TEXT);
 
-        assertEquals(sseMessageNotification.hashCode(), other.hashCode());
+        assertThat(sseMessageNotification).hasSameHashCodeAs(other);
     }
 
 
     @Test
-    void toStringTest_shouldReturnString()
+    void sseMessageNoticationTest() throws IOException
     {
-        assertEquals("SseMessageNotification(level=INFO, message=message, details=details," +
-                        " errorText=errorText)",
-                sseMessageNotification.toString());
+        SseMessageNotification expected = new SseMessageNotification(SUBJECT, LEVEL, MESSAGE, DETAILS, ERROR_TEXT);
+        String json = JSonSerializer.toJson(expected);
+
+        SseNotification deserialized = JSonSerializer.fromJson(json, SseNotification.class);
+        assertThat(deserialized).isInstanceOf(SseMessageNotification.class).isEqualTo(expected);
     }
 }

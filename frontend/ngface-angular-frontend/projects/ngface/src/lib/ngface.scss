@@ -159,6 +159,7 @@
 // tooltip
 //----------------------------------------------------------------------------------------------------------------------
 .mat-mdc-tooltip {
+  white-space: pre-line;
   background-color: var(--app-primary-palette-default, #0d6efd);
   border: 1px solid var(--app-primary-palette-default, #0d6efd);
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, .16);
@@ -360,4 +361,31 @@ ngface-excel-filter {
 //----------------------------------------------------------------------------------------------------------------------
 .mdc-text-field--outlined {
   background-color: white;
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------
+// MatSnackBar
+//----------------------------------------------------------------------------------------------------------------------
+.snackbar-success {
+  background-color: var(--app-primary-palette-default, #0d6efd)!important;
+  color: white!important;
+}
+
+
+.snackbar-warning {
+  background-color: red!important;
+  color: white!important;
+}
+
+
+.snackbar-info {
+  background-color: white!important;
+  color: white!important;
+}
+
+
+.snackbar-error {
+  background-color: red!important;
+  color: white!important;
 }

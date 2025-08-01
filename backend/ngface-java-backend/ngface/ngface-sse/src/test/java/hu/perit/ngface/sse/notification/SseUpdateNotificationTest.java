@@ -16,65 +16,58 @@
 
 package hu.perit.ngface.sse.notification;
 
+import hu.perit.spvitamin.spring.json.JSonSerializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class SseUpdateNotificationTest
 {
     public static final String SUBJECT = "alma";
 
-    private SseUpdateNotification sseUpdateNotification;
+    private SseUpdateNotification<Long> sseUpdateNotification;
 
 
     @BeforeEach
-    public void init()
+    void init()
     {
-        sseUpdateNotification = new SseUpdateNotification(SUBJECT, Set.of(1L));
+        sseUpdateNotification = new SseUpdateNotification<>(SUBJECT, Set.of(1L));
     }
 
 
     @Test
     void getterTest_shouldReturnCorrectValues()
     {
-        assertEquals(SseNotification.Type.UPDATE, sseUpdateNotification.getType());
-    }
-
-
-    @Test
-    void toStringTest_shouldReturnString()
-    {
-        assertEquals(
-            "SseUpdateNotification(super=SseNotification(type=UPDATE, subject=alma), jobIds=[1])",
-            sseUpdateNotification.toString());
+        assertThat(sseUpdateNotification.getType()).isEqualTo(SseNotification.Type.UPDATE);
     }
 
 
     @Test
     void equalsTest_whenComparedToItself_shouldReturnTrue()
     {
-        assertEquals(sseUpdateNotification, sseUpdateNotification);
+        assertThat(sseUpdateNotification).isEqualTo(sseUpdateNotification);
     }
 
 
     @Test
     void equalsTest_whenComparedToNull_shouldReturnFalse()
     {
-        assertNotEquals(null, sseUpdateNotification);
+        assertThat(sseUpdateNotification).isNotEqualTo(null);
     }
 
 
     @Test
     void equalsTest_whenComparedToOtherWithSameTypeAndSameFields_shouldReturnTrue()
     {
-        SseUpdateNotification other = new SseUpdateNotification(SUBJECT, new HashSet<>());
+        SseUpdateNotification<Long> other = new SseUpdateNotification<>(SUBJECT, new HashSet<>());
         other.getJobIds().add(1L);
 
-        assertEquals(sseUpdateNotification, other);
+        assertThat(sseUpdateNotification).isEqualTo(other);
     }
 
 
@@ -83,21 +76,21 @@ class SseUpdateNotificationTest
     {
         SseUpdateNotification other = new SseUpdateNotification(SUBJECT, new HashSet<>());
 
-        assertNotEquals(sseUpdateNotification, other);
+        assertThat(sseUpdateNotification).isNotEqualTo(other);
     }
 
 
     @Test
     void equalsTest_whenComparedToOtherWithDifferentType_shouldReturnFalse()
     {
-        assertNotEquals(sseUpdateNotification, String.valueOf(1));
+        assertThat(sseUpdateNotification).isNotEqualTo(String.valueOf(1));
     }
 
 
     @Test
     void canEqualTest_shouldReturnTrue()
     {
-        assertTrue(sseUpdateNotification.canEqual(sseUpdateNotification));
+        assertThat(sseUpdateNotification.canEqual(sseUpdateNotification)).isTrue();
     }
 
 
@@ -107,19 +100,33 @@ class SseUpdateNotificationTest
         SseUpdateNotification other = new SseUpdateNotification(SUBJECT, new HashSet<>());
         other.getJobIds().add(1L);
 
-        assertEquals(sseUpdateNotification.hashCode(), other.hashCode());
+        assertThat(sseUpdateNotification.hashCode()).isEqualTo(other.hashCode());
     }
 
 
     @Test
     void appendTest_shouldRun()
     {
-        SseUpdateNotification toAppend = new SseUpdateNotification(SUBJECT, new HashSet<>());
+        SseUpdateNotification<Long> toAppend = new SseUpdateNotification<>(SUBJECT, new HashSet<>());
         toAppend.getJobIds().add(2L);
 
         sseUpdateNotification.append(toAppend);
 
-        assertTrue(sseUpdateNotification.getJobIds().contains(1L));
-        assertTrue(sseUpdateNotification.getJobIds().contains(2L));
+        assertThat(sseUpdateNotification.getJobIds().contains(1L)).isTrue();
+        assertThat(sseUpdateNotification.getJobIds().contains(2L)).isTrue();
+    }
+
+
+
+
+    @Test
+    void sseUpdateNotification() throws IOException
+    {
+        SseUpdateNotification<?> expected = new SseUpdateNotification<>(SUBJECT, new HashSet<>());
+        String json = JSonSerializer.toJson(expected);
+
+        SseNotification deserialized = JSonSerializer.fromJson(json, SseNotification.class);
+        assertThat(deserialized).isInstanceOf(SseUpdateNotification.class);
+        assertThat(deserialized).isEqualTo(expected);
     }
 }

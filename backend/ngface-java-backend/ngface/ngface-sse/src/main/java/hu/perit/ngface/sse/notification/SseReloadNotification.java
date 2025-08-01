@@ -36,4 +36,11 @@ public class SseReloadNotification extends SseNotification
     {
         super(Type.RELOAD, subject);
     }
+
+
+    // Json
+    private SseReloadNotification()
+    {
+        super(Type.RELOAD, "something");
+    }
 }

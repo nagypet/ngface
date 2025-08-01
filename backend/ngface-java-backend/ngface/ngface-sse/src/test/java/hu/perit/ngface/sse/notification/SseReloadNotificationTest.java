@@ -16,9 +16,12 @@
 
 package hu.perit.ngface.sse.notification;
 
+import hu.perit.spvitamin.spring.json.JSonSerializer;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class SseReloadNotificationTest
 {
@@ -30,30 +33,28 @@ class SseReloadNotificationTest
     @Test
     void getterTest_shouldReturnCorrectValues()
     {
-        assertEquals(SseNotification.Type.RELOAD, sseReloadNotification.getType());
+        assertThat(sseReloadNotification.getType()).isEqualTo(SseNotification.Type.RELOAD);
     }
 
 
     @Test
     void toStringTest_shouldReturnString()
     {
-        assertEquals(
-                "SseReloadNotification()",
-                sseReloadNotification.toString());
+        assertThat(sseReloadNotification.toString()).isEqualTo("SseReloadNotification()");
     }
 
 
     @Test
     void equalsTest_whenComparedToItself_shouldReturnTrue()
     {
-        assertEquals(sseReloadNotification, sseReloadNotification);
+        assertThat(sseReloadNotification).isEqualTo(sseReloadNotification);
     }
 
 
     @Test
     void equalsTest_whenComparedToNull_shouldReturnFalse()
     {
-        assertNotEquals(null, sseReloadNotification);
+        assertThat(sseReloadNotification).isNotEqualTo(null);
     }
 
 
@@ -62,21 +63,21 @@ class SseReloadNotificationTest
     {
         SseReloadNotification other = new SseReloadNotification(SUBJECT);
 
-        assertEquals(sseReloadNotification, other);
+        assertThat(sseReloadNotification).isEqualTo(other);
     }
 
 
     @Test
     void equalsTest_whenComparedToOtherWithDifferentType_shouldReturnFalse()
     {
-        assertNotEquals(sseReloadNotification, String.valueOf(1));
+        assertThat(sseReloadNotification).isNotEqualTo(String.valueOf(1));
     }
 
 
     @Test
     void canEqualTest_shouldReturnTrue()
     {
-        assertTrue(sseReloadNotification.canEqual(sseReloadNotification));
+        assertThat(sseReloadNotification.canEqual(sseReloadNotification)).isTrue();
     }
 
 
@@ -85,6 +86,18 @@ class SseReloadNotificationTest
     {
         SseReloadNotification other = new SseReloadNotification(SUBJECT);
 
-        assertEquals(sseReloadNotification.hashCode(), other.hashCode());
+        assertThat(sseReloadNotification.hashCode()).isEqualTo(other.hashCode());
+    }
+
+
+    @Test
+    void SseReloadNotificationTest() throws IOException
+    {
+        SseReloadNotification expected = new SseReloadNotification(SUBJECT);
+        String json = JSonSerializer.toJson(expected);
+
+        SseNotification deserialized = JSonSerializer.fromJson(json, SseNotification.class);
+        assertThat(deserialized).isInstanceOf(SseReloadNotification.class);
+        assertThat(deserialized).isEqualTo(expected);
     }
 }

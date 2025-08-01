@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-06-17 16:41:30.
+// Generated using typescript-generator version 3.2.1263 on 2025-07-31 08:21:29.
 
 export namespace Ngface {
 
@@ -221,6 +221,7 @@ export namespace Ngface {
         label: string;
         icon: string;
         enabled: boolean;
+        badge: string;
     }
 
     export interface Column {
@@ -274,6 +275,7 @@ export namespace Ngface {
         idType: string;
         cells: { [index: string]: Cell<any, any> };
         selected: boolean;
+        disabled: boolean;
     }
 
     export interface Sorter {
