@@ -23,6 +23,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -32,8 +34,11 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @EqualsAndHashCode
-public class ValueSet
+public class ValueSet implements Serializable
 {
+    @Serial
+    private static final long serialVersionUID = 1943622900162277749L;
+
     // If there are more then MAX_SIZE criteria, then they will not be provided, but must be searched for
     private static final int MAX_SIZE = 100;
 
@@ -44,10 +49,12 @@ public class ValueSet
     private Boolean truncated = Boolean.FALSE;
     private List<Item> values = new ArrayList<>();
 
+
     public ValueSet(Boolean remote)
     {
         this.remote = remote;
     }
+
 
     public ValueSet values(Collection<String> valueSet)
     {
@@ -66,6 +73,7 @@ public class ValueSet
         return this;
     }
 
+
     public void selected(String text, Boolean value)
     {
         if (text == null)
@@ -75,19 +83,25 @@ public class ValueSet
         this.values.stream().filter(i -> text.equalsIgnoreCase(i.getText())).forEach(i -> i.selected(BooleanUtils.isTrue(value)));
     }
 
+
     @Getter
     @ToString
     @EqualsAndHashCode
-    public static class Item
+    public static class Item implements Serializable
     {
+        @Serial
+        private static final long serialVersionUID = -4579785670689051036L;
+
         private String text;
         private Boolean selected = Boolean.TRUE;
+
 
         public Item text(String text)
         {
             this.text = text;
             return this;
         }
+
 
         public Item selected(Boolean selected)
         {

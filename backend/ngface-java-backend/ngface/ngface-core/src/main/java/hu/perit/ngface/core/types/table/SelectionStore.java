@@ -16,13 +16,22 @@
 
 package hu.perit.ngface.core.types.table;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hu.perit.ngface.core.types.intf.RowSelectParams;
 import hu.perit.ngface.core.widget.table.Table;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,14 +46,34 @@ import java.util.Map;
  */
 @ToString
 @RequiredArgsConstructor
-public class SelectionStore<T extends AbstractTableRow<I>, I>
+@Getter
+public class SelectionStore<T extends AbstractTableRow<I>, I> implements Serializable
 {
+    @Serial
+    private static final long serialVersionUID = 1762608947635027779L;
+
     private final Table.SelectMode tableSelectMode;
 
-    @Getter
     private RowSelectParams.SelectMode selectMode = RowSelectParams.SelectMode.ALL_UNCHECKED;
     private final Map<I, RowSelectParams.Row<I>> rowMap = new HashMap<>();
     private long totalElements = 0;
+
+
+    @JsonCreator
+    public SelectionStore(
+            @JsonProperty("tableSelectMode") Table.SelectMode tableSelectMode,
+            @JsonProperty("selectMode") RowSelectParams.SelectMode selectMode,
+            @JsonProperty("rowMap") Map<I, RowSelectParams.Row<I>> rowMap,
+            @JsonProperty("totalElements") long totalElements)
+    {
+        this.tableSelectMode = tableSelectMode;
+        this.selectMode = selectMode != null ? selectMode : RowSelectParams.SelectMode.ALL_UNCHECKED;
+        if (rowMap != null)
+        {
+            this.rowMap.putAll(rowMap);
+        }
+        this.totalElements = totalElements;
+    }
 
 
     public void singleRowsSelected(List<RowSelectParams.Row<I>> rows)
@@ -92,6 +121,7 @@ public class SelectionStore<T extends AbstractTableRow<I>, I>
     }
 
 
+    @JsonIgnore
     public Long getSelectedCount()
     {
         if (this.selectMode == RowSelectParams.SelectMode.ALL_UNCHECKED)
@@ -105,11 +135,12 @@ public class SelectionStore<T extends AbstractTableRow<I>, I>
     }
 
 
+    @JsonIgnore
     public void setTotalElements(Long totalElements)
     {
         if (totalElements != null)
         {
-            this.totalElements = totalElements.longValue();
+            this.totalElements = totalElements;
         }
     }
 
@@ -123,6 +154,7 @@ public class SelectionStore<T extends AbstractTableRow<I>, I>
     }
 
 
+    @JsonIgnore
     public boolean isSelected(I id)
     {
         if (id == null)
@@ -141,20 +173,58 @@ public class SelectionStore<T extends AbstractTableRow<I>, I>
     }
 
 
+    @JsonIgnore
     public List<I> getSelectedRowIds()
     {
         return this.rowMap.values().stream()
-            .filter(i -> BooleanUtils.isTrue(i.getSelected()))
-            .map(RowSelectParams.Row::getId)
-            .toList();
+                .filter(i -> BooleanUtils.isTrue(i.getSelected()))
+                .map(RowSelectParams.Row::getId)
+                .toList();
     }
 
 
+    @JsonIgnore
     public List<I> getUnselectedRowIds()
     {
         return this.rowMap.values().stream()
                 .filter(i -> BooleanUtils.isNotTrue(i.getSelected()))
                 .map(RowSelectParams.Row::getId)
                 .toList();
+    }
+
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        SelectionStore<?, ?> that = (SelectionStore<?, ?>) o;
+
+        return new EqualsBuilder()
+                .append(tableSelectMode, that.tableSelectMode)
+                .append(selectMode, that.selectMode)
+                .append(rowMap, that.rowMap)
+                .append(totalElements, that.totalElements)
+                .isEquals();
+    }
+
+
+    @Override
+    public int hashCode()
+    {
+        return new HashCodeBuilder(17, 37)
+                .append(tableSelectMode)
+                .append(selectMode)
+                .append(rowMap)
+                .append(totalElements)
+                .toHashCode();
     }
 }

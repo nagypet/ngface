@@ -17,6 +17,7 @@
 package hu.perit.ngface.core.types.intf;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ import java.util.List;
  *
  */
 @Data
+@EqualsAndHashCode
 public class RowSelectParams<T>
 {
     public enum SelectMode
@@ -38,7 +40,9 @@ public class RowSelectParams<T>
     private SelectMode selectMode;
     private List<Row<T>> rows;
 
+
     @Data
+    @EqualsAndHashCode
     public static class Row<T>
     {
         private T id;

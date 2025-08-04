@@ -20,13 +20,19 @@ import hu.perit.ngface.core.types.intf.ComparisonOperator;
 import lombok.*;
 import org.apache.commons.lang3.BooleanUtils;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @ToString
 @Getter
 @RequiredArgsConstructor()
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @EqualsAndHashCode
-public class Filterer
+public class Filterer implements Serializable
 {
+    @Serial
+    private static final long serialVersionUID = 1181873727453833393L;
+
     private final String column;
     private ComparisonOperator operator = ComparisonOperator.IN;
     private ValueSet valueSet = new ValueSet(false);

@@ -20,18 +20,26 @@ import hu.perit.ngface.core.widget.table.Filterer;
 import hu.perit.ngface.core.widget.table.Table;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class TableSessionDefaults<R extends AbstractTableRow<I>, I>
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class TableSessionDefaults<R extends AbstractTableRow<I>, I> implements Serializable
 {
+    @Serial
+    private static final long serialVersionUID = 7040106510650370072L;
+
     private Table.Data tableData = new Table.Data();
     private SelectionStore<R, I> selectionStore;
     @Setter(AccessLevel.NONE)
     private List<Filterer> defaultFilterers = new ArrayList<>();
+
 
     public TableSessionDefaults(Table.SelectMode selectMode)
     {
