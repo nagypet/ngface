@@ -144,6 +144,8 @@ generateTypeScript {
             'hu.perit.ngface.core.widget.table.Column$TextAlign:Column.TextAlign',
             'hu.perit.ngface.core.widget.table.ColumnGroup$TextAlign:ColumnGroup.TextAlign',
             'hu.perit.ngface.core.widget.table.ValueSet$Item:ValueSet.Item',
+            'hu.perit.ngface.core.widget.table.Action$Style:Action.Style',
+            'hu.perit.ngface.core.widget.table.cell.Cell$Icon$Placement:Icon.Placement',
             'hu.perit.ngface.core.widget.collection.WidgetList$Data:WidgetList.Data',
             'hu.perit.ngface.core.types.intf.DataRetrievalParams$Page:DataRetrievalParams.Page',
             'hu.perit.ngface.core.types.intf.DataRetrievalParams$Sort:DataRetrievalParams.Sort',
@@ -151,7 +153,8 @@ generateTypeScript {
             'hu.perit.ngface.core.types.intf.DataRetrievalParams$Filter$Item:DataRetrievalParams.Filter.Item',
             'hu.perit.ngface.core.types.intf.RowSelectParams$SelectMode:RowSelectParams.SelectMode',
             'hu.perit.ngface.core.types.intf.RowSelectParams$Row:RowSelectParams.Row',
-            'hu.perit.ngface.core.types.intf.Menu$Item:Menu.Item'
+            'hu.perit.ngface.core.types.intf.Menu$Item:Menu.Item',
+            'hu.perit.ngface.core.widget.button.Button$Style:Button.Style'
     ]
     outputFile = 'build/ngface-models.ts'
     outputFileType = 'implementationFile'

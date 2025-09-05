@@ -18,6 +18,8 @@ package hu.perit.ngface.core.widget.table;
 
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,12 +27,16 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @EqualsAndHashCode
-public class Paginator
+public class Paginator implements Serializable
 {
+    @Serial
+    private static final long serialVersionUID = -6946217215070494410L;
+
     private final Integer pageIndex;
     private final Integer pageSize;
     private final Long length;
     private final List<Integer> pageSizeOptions;
+
 
     public static Paginator of(Integer pageIndex, Integer pageSize, Long length, List<Integer> pageSizeOptions)
     {

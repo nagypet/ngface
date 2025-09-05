@@ -18,13 +18,25 @@ package hu.perit.ngface.core.widget.table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.perit.ngface.core.types.intf.Direction;
+import hu.perit.ngface.core.types.table.TableContent;
 import hu.perit.ngface.core.widget.base.Widget;
 import hu.perit.ngface.core.widget.base.WidgetData;
 import hu.perit.ngface.core.widget.exception.NgFaceException;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 @ToString(callSuper = true)
@@ -39,6 +51,7 @@ public class Table<T> extends Widget<Table.Data, Table<T>>
         CHECKBOX
     }
 
+
     private final Map<String, ColumnGroup> columnGroups = new LinkedHashMap<>();
     private final Map<String, Column> columns = new LinkedHashMap<>();
     private final List<Row<T>> rows = new ArrayList<>();
@@ -48,6 +61,7 @@ public class Table<T> extends Widget<Table.Data, Table<T>>
     // Notification may contain HTML tags!
     @Nullable
     private String notification;
+    private Long countSelectedRows;
 
 
     public Table(String id)
@@ -63,6 +77,7 @@ public class Table<T> extends Widget<Table.Data, Table<T>>
         super(null);
         this.data = new Table.Data();
     }
+
 
     public Table<T> addColumnGroup(ColumnGroup columnGroup)
     {
@@ -124,6 +139,8 @@ public class Table<T> extends Widget<Table.Data, Table<T>>
     }
 
 
+    // Use infoFromContent()
+    @Deprecated
     public Table<T> notification(String notification)
     {
         this.notification = notification;
@@ -131,11 +148,24 @@ public class Table<T> extends Widget<Table.Data, Table<T>>
     }
 
 
+    public void infoFromContent(TableContent<?> content)
+    {
+        this.notification = content.getNotification();
+        this.countSelectedRows = content.getCountSelectedRows();
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Data
+    //------------------------------------------------------------------------------------------------------------------
     @ToString(callSuper = true)
     @Getter
     @EqualsAndHashCode(callSuper = true)
-    public static class Data extends WidgetData
+    public static class Data extends WidgetData implements Serializable
     {
+        @Serial
+        private static final long serialVersionUID = -2605282992350167469L;
+
         @Nullable
         private Paginator paginator;
         @Nullable

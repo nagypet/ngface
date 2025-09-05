@@ -47,11 +47,13 @@ public class Row<T>
     private boolean selected;
     private boolean disabled;
 
+
     // For JSon deserialization
     private Row()
     {
         this.id = null;
     }
+
 
     public Row(T id)
     {
@@ -62,11 +64,13 @@ public class Row<T>
         }
     }
 
+
     public Row<T> putCell(String colId, String text)
     {
         this.cells.put(colId, new TextCell(text));
         return this;
     }
+
 
     public Row<T> putCell(String colId, String text, int maxWidth)
     {
@@ -83,6 +87,14 @@ public class Row<T>
         return this;
     }
 
+
+    public Row<T> putCell(String colId, String text, String style, Cell.Icon icon)
+    {
+        this.cells.put(colId, new TextCell(text).style(style).icon(icon));
+        return this;
+    }
+
+
     public Row<T> putCell(String colId, OffsetDateTime offsetDateTime)
     {
         if (offsetDateTime != null)
@@ -96,6 +108,7 @@ public class Row<T>
         }
         return this;
     }
+
 
     public Row<T> putCell(String colId, LocalDateTime localDateTime)
     {
@@ -111,6 +124,7 @@ public class Row<T>
         return this;
     }
 
+
     public Row<T> putCell(String colId, LocalDate localDate)
     {
         if (localDate != null)
@@ -125,11 +139,13 @@ public class Row<T>
         return this;
     }
 
+
     public Row<T> putCell(String colId, BigDecimal value)
     {
         this.cells.put(colId, new NumericCell(value));
         return this;
     }
+
 
     public Row<T> putCell(String colId, BigDecimal value, NumericFormat format)
     {
@@ -137,11 +153,13 @@ public class Row<T>
         return this;
     }
 
+
     public Row<T> putCell(String colId, Integer value)
     {
         this.cells.put(colId, new NumericCell(value != null ? new BigDecimal(value) : null));
         return this;
     }
+
 
     public Row<T> putCell(String colId, Integer value, NumericFormat format)
     {
@@ -149,11 +167,13 @@ public class Row<T>
         return this;
     }
 
+
     public Row<T> putCell(String colId, Long value)
     {
         this.cells.put(colId, new NumericCell(value != null ? new BigDecimal(value) : null));
         return this;
     }
+
 
     public Row<T> putCell(String colId, Long value, NumericFormat format)
     {
@@ -161,11 +181,13 @@ public class Row<T>
         return this;
     }
 
+
     public Row<T> putCell(String colId, Float value)
     {
         this.cells.put(colId, new NumericCell(value != null ? BigDecimal.valueOf(value) : null));
         return this;
     }
+
 
     public Row<T> putCell(String colId, Float value, NumericFormat format)
     {
@@ -173,11 +195,13 @@ public class Row<T>
         return this;
     }
 
+
     public Row<T> putCell(String colId, Double value)
     {
         this.cells.put(colId, new NumericCell(value != null ? BigDecimal.valueOf(value) : null));
         return this;
     }
+
 
     public Row<T> putCell(String colId, Double value, NumericFormat format)
     {
@@ -185,11 +209,13 @@ public class Row<T>
         return this;
     }
 
+
     public Row<T> putCell(String colId, Boolean value)
     {
         this.cells.put(colId, new TextCell(convertBooleanToString(value)));
         return this;
     }
+
 
     private static String convertBooleanToString(Boolean value)
     {
@@ -201,11 +227,13 @@ public class Row<T>
         return BooleanUtils.isTrue(value) ? "1" : "0";
     }
 
+
     public Row<T> putCell(String colId, Cell<?, ?> cell)
     {
         this.cells.put(colId, cell);
         return this;
     }
+
 
     public Row<T> selected(Boolean selected)
     {

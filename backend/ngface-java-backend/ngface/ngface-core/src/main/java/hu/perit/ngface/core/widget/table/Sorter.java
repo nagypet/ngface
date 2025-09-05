@@ -19,13 +19,19 @@ package hu.perit.ngface.core.widget.table;
 import hu.perit.ngface.core.types.intf.Direction;
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @ToString
 @Getter
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @EqualsAndHashCode
-public class Sorter
+public class Sorter implements Serializable
 {
+    @Serial
+    private static final long serialVersionUID = -362227199912156613L;
+
     private final String column;
     private final Direction direction;
 }

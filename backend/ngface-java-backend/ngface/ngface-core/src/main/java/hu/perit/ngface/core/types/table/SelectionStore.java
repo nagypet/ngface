@@ -47,7 +47,7 @@ import java.util.Map;
 @ToString
 @RequiredArgsConstructor
 @Getter
-public class SelectionStore<T extends AbstractTableRow<I>, I> implements Serializable
+public class SelectionStore<T extends AbstractTableRow<I>, I extends Serializable> implements Serializable
 {
     @Serial
     private static final long serialVersionUID = 1762608947635027779L;

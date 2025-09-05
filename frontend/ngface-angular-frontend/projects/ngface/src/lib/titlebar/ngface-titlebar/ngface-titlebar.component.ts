@@ -86,7 +86,7 @@ export class NgfaceTitlebarComponent implements OnChanges
       if (!item)
       {
         console.log('selectedMenuItemId is not found, using defaultItemId');
-        let defaultItemId = this.getData().menu.defaultItemId || this.getData().menu.items[0].id;
+        let defaultItemId = this.getData().menu.defaultItemId || this.getData().menu.items.length > 0 && this.getData().menu.items[0].id;
         item = this.getData().menu.items.find(i => i.id === defaultItemId);
       }
       if (item)

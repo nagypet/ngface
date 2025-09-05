@@ -16,11 +16,18 @@
 
 package hu.perit.ngface.core.widget.table;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @RequiredArgsConstructor
 @ToString
@@ -28,12 +35,23 @@ import org.apache.commons.lang3.BooleanUtils;
 @EqualsAndHashCode
 public class Action
 {
+    public enum Style
+    {
+        ICON,
+        BUTTON,
+        ACTION_GROUP
+    }
+
     private final String id;
     private String label;
     // See https://fonts.google.com/icons?selected=Material+Icons&icon.style=Outlined
     private String icon;
     private boolean enabled = true;
     private String badge;
+    private Style style = Style.ICON;
+    @Setter(AccessLevel.NONE)
+    @Nullable
+    private List<Action> actions;
 
 
     public Action()
@@ -67,5 +85,42 @@ public class Action
     {
         this.badge = badge;
         return this;
+    }
+
+
+    public Action style(Style style)
+    {
+        this.style = style;
+        return this;
+    }
+
+
+    public synchronized Action addAction(Action action)
+    {
+        if (action != null)
+        {
+            if (this.actions == null)
+            {
+                this.actions = new ArrayList<>();
+            }
+            this.actions.add(action);
+        }
+        return this;
+    }
+
+
+    public Action actions(List<Action> actions)
+    {
+        if (actions != null)
+        {
+            this.actions = new ArrayList<>(actions);
+        }
+        return this;
+    }
+
+
+    public List<Action> getActions()
+    {
+        return actions != null ? Collections.unmodifiableList(actions) : null;
     }
 }

@@ -28,14 +28,16 @@ import hu.perit.ngface.core.widget.table.Table;
 import hu.perit.ngface.core.widget.table.TableDataBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
-public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>,I> implements TableController<D, R, I>
+public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>, I extends Serializable> implements TableController<D, R, I>
 {
 
     protected Table.Data getTableData(Integer pageSize, Long length, List<Integer> pageSizeOptions)
@@ -45,9 +47,9 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>,I> im
 
         // Data
         return TableDataBuilder.builder(defaults)
-            .paginator(0, pageSize, length, pageSizeOptions)
-            .filterer(getFiltererFactory())
-            .build();
+                .paginator(0, pageSize, length, pageSizeOptions)
+                .filterer(getFiltererFactory())
+                .build();
     }
 
 
@@ -82,14 +84,21 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>,I> im
     {
         TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
         Filterer filterer = Optional.of(sessionDefaults).map(TableSessionDefaults::getTableData).map(Table.Data::getFiltererMap).map(i -> i.get(column)).orElse(
-            null);
-        if (filterer != null && BooleanUtils.isTrue(filterer.getActive()))
+                null);
+        if (filterer != null && BooleanUtils.isTrue(filterer.getActive()) && useCachedFilter(searchText, filterer.getSearchText()))
         {
             return filterer;
         }
 
         FiltererFactory filtererFactory = getFiltererFactory();
         return filtererFactory.getFilterer(column, searchText, false);
+    }
+
+
+    private boolean useCachedFilter(String searchText, String filtererSearchText)
+    {
+        return StringUtils.equals(searchText, filtererSearchText);
+        //return StringUtils.isBlank(searchText) || StringUtils.equals(searchText, filtererSearchText);
     }
 
 
@@ -127,7 +136,6 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>,I> im
     }
 
 
-
     protected boolean filtererChanged(Map<String, Filterer> newFilterers, Map<String, Filterer> oldFilterers)
     {
         List<Filterer> newActive = newFilterers.values().stream().filter(i -> BooleanUtils.isTrue(i.getActive())).toList();
@@ -136,7 +144,7 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>,I> im
     }
 
 
-    protected List<DataRetrievalParams.Filter> getActiveFilters()
+    protected List<DataRetrievalParams.Filter> getActiveFilters(String exceptForColumn)
     {
         TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
 
@@ -146,8 +154,18 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>,I> im
         {
             return filters;
         }
-        filters.addAll(filtererMap.values().stream().filter(i -> BooleanUtils.isTrue(i.getActive())).map(this::getFilterFromFilterer).toList());
+        filters.addAll(filtererMap.values().stream()
+                .filter(i -> BooleanUtils.isTrue(i.getActive()))
+                .filter(i -> exceptForColumn == null || !exceptForColumn.equals(i.getColumn()))
+                .map(this::getFilterFromFilterer)
+                .toList());
         return filters;
+    }
+
+
+    protected List<DataRetrievalParams.Filter> getActiveFilters()
+    {
+        return this.getActiveFilters(null);
     }
 
 

@@ -27,8 +27,10 @@ import hu.perit.ngface.core.widget.form.Form;
 import hu.perit.ngface.core.widget.table.Filterer;
 import lombok.RequiredArgsConstructor;
 
+import java.io.Serializable;
+
 @RequiredArgsConstructor
-public abstract class NgfaceTableRestController<C extends TableController<D, ?, I>, D extends ComponentDTO, V extends ComponentView, I>
+public abstract class NgfaceTableRestController<C extends TableController<D, ?, I>, D extends ComponentDTO, V extends ComponentView, I extends Serializable>
         implements NgfaceTableRestApi<I>
 {
     protected final C tableController;

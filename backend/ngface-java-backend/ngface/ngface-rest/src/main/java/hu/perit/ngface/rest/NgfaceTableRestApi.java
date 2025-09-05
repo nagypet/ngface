@@ -25,7 +25,9 @@ import hu.perit.ngface.core.widget.table.Filterer;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-public interface NgfaceTableRestApi<I>
+import java.io.Serializable;
+
+public interface NgfaceTableRestApi<I extends Serializable>
 {
     String URL_GET = "/get-table";
     String URL_COLVALUESET = "/filterer";

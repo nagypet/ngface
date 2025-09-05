@@ -21,9 +21,10 @@ import hu.perit.ngface.core.types.table.SelectionStore;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface GenericNgfaceQueryService<E, ID>
+public interface GenericNgfaceQueryService<E, ID extends Serializable>
 {
     /**
      *
@@ -35,6 +36,8 @@ public interface GenericNgfaceQueryService<E, ID>
     List<String> getDistinctValues(String fieldName, String searchText, Class<E> entityClass, List<DataRetrievalParams.Filter> activeFilters);
 
     <T> List<String> getDistinctValues(String fieldName, String searchText, Class<E> entityClass, List<DataRetrievalParams.Filter> activeFilters, Class<T> fieldType);
+
+    <T> List<String> getMinMaxValues(String fieldName, String searchText, Class<E> entityClass, List<DataRetrievalParams.Filter> activeFilters, Class<T> fieldType);
 
     List<E> findAllByIds(String idFieldName, List<ID> ids);
 

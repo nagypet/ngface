@@ -36,6 +36,9 @@ public abstract class Cell<V, SUB extends Cell>
     private final String type = getClass().getSimpleName();
     protected final V value;
     protected String label;
+    protected String style;
+    protected Icon icon;
+
 
     // Json
     private Cell()
@@ -43,9 +46,39 @@ public abstract class Cell<V, SUB extends Cell>
         this.value = null;
     }
 
+
     public SUB label(String label)
     {
         this.label = label;
         return (SUB) this;
+    }
+
+
+    public SUB style(String style)
+    {
+        this.style = style;
+        return (SUB) this;
+    }
+
+
+    public SUB icon(Icon icon)
+    {
+        this.icon = icon;
+        return (SUB) this;
+    }
+
+
+    @Data
+    public static class Icon
+    {
+        public enum Placement
+        {
+            BEFORE,
+            AFTER
+        }
+
+        private final String code;
+        private final Placement placement;
+        private final String color;
     }
 }

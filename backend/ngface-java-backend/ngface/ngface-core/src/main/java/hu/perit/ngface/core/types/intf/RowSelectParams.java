@@ -19,6 +19,8 @@ package hu.perit.ngface.core.types.intf;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -28,8 +30,12 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode
-public class RowSelectParams<T>
+public class RowSelectParams<T extends Serializable> implements Serializable
 {
+    @Serial
+    private static final long serialVersionUID = -6119701621513998810L;
+
+
     public enum SelectMode
     {
         ALL_CHECKED,
@@ -43,8 +49,11 @@ public class RowSelectParams<T>
 
     @Data
     @EqualsAndHashCode
-    public static class Row<T>
+    public static class Row<T extends Serializable> implements Serializable
     {
+        @Serial
+        private static final long serialVersionUID = 2582732606596224958L;
+        
         private T id;
         private Boolean selected;
     }

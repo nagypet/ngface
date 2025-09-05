@@ -30,7 +30,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class TableSessionDefaults<R extends AbstractTableRow<I>, I> implements Serializable
+public class TableSessionDefaults<R extends AbstractTableRow<I>, I extends Serializable> implements Serializable
 {
     @Serial
     private static final long serialVersionUID = 7040106510650370072L;

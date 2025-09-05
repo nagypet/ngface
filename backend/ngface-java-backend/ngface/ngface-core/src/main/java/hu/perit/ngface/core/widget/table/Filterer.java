@@ -33,11 +33,23 @@ public class Filterer implements Serializable
     @Serial
     private static final long serialVersionUID = 1181873727453833393L;
 
+
+    public enum Type
+    {
+        TEXT,
+        NUMBER,
+        DATE,
+        DATETIME,
+        BOOLEAN
+    }
+
     private final String column;
     private ComparisonOperator operator = ComparisonOperator.IN;
     private ValueSet valueSet = new ValueSet(false);
     private String searchText = "";
     private Boolean active = Boolean.FALSE;
+    private Type type = Type.TEXT;
+    private Integer order;
 
 
     public Filterer operator(ComparisonOperator operator)
@@ -64,6 +76,20 @@ public class Filterer implements Serializable
     public Filterer active(Boolean active)
     {
         this.active = BooleanUtils.isTrue(active);
+        return this;
+    }
+
+
+    public Filterer type(Type type)
+    {
+        this.type = type;
+        return this;
+    }
+
+
+    public Filterer order(Integer order)
+    {
+        this.order = order;
         return this;
     }
 

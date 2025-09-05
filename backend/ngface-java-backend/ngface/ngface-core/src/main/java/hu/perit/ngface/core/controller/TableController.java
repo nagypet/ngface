@@ -24,7 +24,9 @@ import hu.perit.ngface.core.types.table.TableSessionDefaults;
 import hu.perit.ngface.core.widget.table.Filterer;
 import hu.perit.ngface.core.widget.table.FiltererFactory;
 
-public interface TableController<D, R extends AbstractTableRow<I>, I>
+import java.io.Serializable;
+
+public interface TableController<D, R extends AbstractTableRow<I>, I extends Serializable>
 {
     D getTable(DataRetrievalParams dataRetrievalParams);
 

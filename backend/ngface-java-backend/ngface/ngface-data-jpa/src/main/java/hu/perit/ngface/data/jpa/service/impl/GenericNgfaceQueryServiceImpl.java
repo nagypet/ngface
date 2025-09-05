@@ -22,6 +22,7 @@ import hu.perit.ngface.core.types.intf.RowSelectParams;
 import hu.perit.ngface.core.types.table.SelectionStore;
 import hu.perit.ngface.data.jpa.service.api.GenericNgfaceQueryService;
 import hu.perit.spvitamin.core.typehelpers.ListUtils;
+import hu.perit.spvitamin.core.util.FieldMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -37,12 +38,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
-public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements GenericNgfaceQueryService<E, ID>
+public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> implements GenericNgfaceQueryService<E, ID>
 {
     private final GenericNgfaceQueryRepo<E, ID> repo;
     private final int defaultPageSize;
@@ -292,9 +294,9 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements GenericNgf
         Predicate predicate = criteriaBuilder.conjunction();
 
         // If there is a searchText
-        if (searchText != null)
+        if (StringUtils.isNotBlank(searchText))
         {
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(criteriaBuilder.lower(root.get(fieldName)), "%" + searchText + "%"));
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(criteriaBuilder.lower(root.get(fieldName)), "%" + searchText.toLowerCase() + "%"));
         }
 
         // Additional selection criteria
@@ -359,6 +361,69 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID> implements GenericNgf
         }
 
         return resultList.stream().map(String::valueOf).filter(i -> i.contains(searchText)).toList();
+    }
+
+
+    @Override
+    public <T> List<String> getMinMaxValues(String fieldName, String searchText, Class<E> entityClass, List<DataRetrievalParams.Filter> activeFilters, Class<T> fieldType)
+    {
+        CriteriaBuilder criteriaBuilder = this.getEntityManager().getCriteriaBuilder();
+
+        // Additional selection criteria
+        List<DataRetrievalParams.Filter> appliedFilters = new ArrayList<>(getDefaultFilters());
+        if (activeFilters != null)
+        {
+            appliedFilters.addAll(activeFilters);
+        }
+
+        // For numeric types, we can use MIN and MAX aggregate functions
+        if (Number.class.isAssignableFrom(fieldType) ||
+                fieldType == Integer.class ||
+                fieldType == Long.class ||
+                fieldType == Double.class ||
+                fieldType == Float.class)
+        {
+            // Create a query that returns a tuple with MIN and MAX values
+            CriteriaQuery<Object[]> query = criteriaBuilder.createQuery(Object[].class);
+            Root<E> root = query.from(entityClass);
+
+            query.multiselect(
+                    criteriaBuilder.min(root.get(fieldName)),
+                    criteriaBuilder.max(root.get(fieldName))
+            );
+
+            // Apply filters
+            if (!appliedFilters.isEmpty())
+            {
+                Specification<E> specificationByFilters = getSpecificationByFilters(appliedFilters);
+                Predicate additionalPredicate = specificationByFilters.toPredicate(root, query, criteriaBuilder);
+                if (additionalPredicate != null)
+                {
+                    query.where(additionalPredicate);
+                }
+            }
+
+            // Execute query
+            Object[] result = getEntityManager().createQuery(query).getSingleResult();
+
+            // Process results
+            List<String> stringResults = new ArrayList<>();
+            if (result.length > 0)
+            {
+                stringResults.add(FieldMapper.toBigDecimal(result[0]).toString());
+            }
+
+            if (result.length > 1)
+            {
+                stringResults.add(FieldMapper.toBigDecimal(result[1]).toString());
+            }
+
+            return stringResults;
+        }
+        else
+        {
+            throw new IllegalArgumentException("The field type is not a numeric type: " + fieldType.getName());
+        }
     }
 
 
