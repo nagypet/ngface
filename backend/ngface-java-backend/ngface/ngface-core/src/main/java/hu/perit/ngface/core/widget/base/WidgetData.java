@@ -32,6 +32,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Data
 @ToString
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
@@ -48,8 +51,11 @@ import lombok.ToString;
         @JsonSubTypes.Type(value = WidgetList.Data.class, name = "WidgetList.Data")
 })
 @EqualsAndHashCode
-public abstract class WidgetData
+public abstract class WidgetData implements Serializable
 {
+    @Serial
+    private static final long serialVersionUID = 643177541662435802L;
+
     private final String type = getTypeName();
 
 
