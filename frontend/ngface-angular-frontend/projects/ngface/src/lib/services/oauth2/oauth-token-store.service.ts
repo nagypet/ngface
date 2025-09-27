@@ -14,25 +14,35 @@
  * limitations under the License.
  */
 
-import {BehaviorSubject} from 'rxjs';
+// TypeScript
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {StoredToken} from './oauth-models';
 
-export class DistinctBehaviorSubject<T> extends BehaviorSubject<T>
+@Injectable({providedIn: 'root'})
+export class OAuthTokenStoreService
 {
-  constructor(
-    initialValue: T,
-    private readonly equals: (a: T, b: T) => boolean = Object.is
-  )
+  private tokenSubject = new BehaviorSubject<StoredToken | null>(null);
+
+  // Feliratkozáshoz (ha kell)
+  token$: Observable<StoredToken | null> = this.tokenSubject.asObservable();
+
+
+  // Szinchr. lekéréshez
+  getToken(): StoredToken | null
   {
-    super(initialValue);
+    return this.tokenSubject.value;
   }
 
 
-  override next(value: T): void
+  setToken(token: StoredToken | null): void
   {
-    //console.log('next', this.getValue(), value);
-    if (!this.equals(this.getValue(), value))
-    {
-      super.next(value);
-    }
+    this.tokenSubject.next(token);
+  }
+
+
+  clear(): void
+  {
+    this.tokenSubject.next(null);
   }
 }

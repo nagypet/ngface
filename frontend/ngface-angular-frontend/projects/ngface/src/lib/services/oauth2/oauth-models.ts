@@ -14,25 +14,22 @@
  * limitations under the License.
  */
 
-import {BehaviorSubject} from 'rxjs';
-
-export class DistinctBehaviorSubject<T> extends BehaviorSubject<T>
+export interface OAuthTokenResponse
 {
-  constructor(
-    initialValue: T,
-    private readonly equals: (a: T, b: T) => boolean = Object.is
-  )
-  {
-    super(initialValue);
-  }
+  access_token: string;
+  expires_in: number;
+  scope?: string;
+}
 
+export interface StoredToken
+{
+  accessToken: string;
+  expiresAt: number;      // epoch millis
+}
 
-  override next(value: T): void
-  {
-    //console.log('next', this.getValue(), value);
-    if (!this.equals(this.getValue(), value))
-    {
-      super.next(value);
-    }
-  }
+export interface OAuthUserInfo
+{
+  sub: string;
+  name: string;
+  preferred_username: string;
 }
