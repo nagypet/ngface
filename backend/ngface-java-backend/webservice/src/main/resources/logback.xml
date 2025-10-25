@@ -76,7 +76,7 @@
 	<logger name="hu.perit.ngface" level="DEBUG" additivity="false">
 		<appender-ref ref="application-message"/>
 	</logger>
-	<logger name="hu.perit.ngface.sse" level="INFO" additivity="false">
+	<logger name="hu.perit.ngface.sse" level="WARN" additivity="false">
 		<appender-ref ref="application-message"/>
 	</logger>
 

@@ -18,10 +18,9 @@ package hu.perit.ngface.webservice.service.sessionpersistenceservice;
 
 import hu.perit.ngface.webservice.service.api.SessionData;
 import hu.perit.ngface.webservice.service.api.SessionPersistenceService;
+import hu.perit.spvitamin.spring.info.RequestQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -48,6 +47,6 @@ public class SessionPersistenceServiceImpl implements SessionPersistenceService
 
     private static String getSessionId()
     {
-        return ((WebAuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails()).getSessionId();
+        return RequestQuery.getSessionId(true);
     }
 }
