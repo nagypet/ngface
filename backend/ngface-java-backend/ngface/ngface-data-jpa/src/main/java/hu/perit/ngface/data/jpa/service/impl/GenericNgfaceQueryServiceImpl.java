@@ -69,11 +69,11 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
                             Sort.Direction.DESC,
                     dataRetrievalParams.getSort().getColumn());
 
-            pageRequest = PageRequest.of(pageNumberInt, pageSizeInt, Sort.by(sortOrder));
+            pageRequest = PageRequest.of(pageNumberInt, pageSizeInt, Sort.by(withSwimlanes(List.of(sortOrder))));
         }
         else
         {
-            pageRequest = PageRequest.of(pageNumberInt, pageSizeInt, Sort.by(getDefaultSortOrder()));
+            pageRequest = PageRequest.of(pageNumberInt, pageSizeInt, Sort.by(withSwimlanes(getDefaultSortOrder())));
         }
 
         Specification<E> spec = getSpecificationByFilters(dataRetrievalParams.getFilters());
@@ -83,6 +83,15 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
         }
 
         return this.repo.findAll(pageRequest);
+    }
+
+
+    List<Sort.Order> withSwimlanes(List<Sort.Order> sortOrder)
+    {
+        List<Sort.Order> result = new ArrayList<>();
+        result.addAll(getSwimlanes());
+        result.addAll(sortOrder);
+        return result;
     }
 
 
@@ -235,13 +244,25 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
 
 
     /**
+     * Method to retrieve a list of swim lane sorting orders. This sort orders gets priority over all other
+     * sort orders and will be kept even if the user chooses his own sort order.
+     *
+     * @return a list of {@link Sort.Order} objects representing the sorting order of swim lanes
+     */
+    protected List<Sort.Order> getSwimlanes()
+    {
+        return List.of();
+    }
+
+
+    /**
      * Example:
      * protected List<Sort.Order> getDefaultSortOrder()
      * {
-     * return List.of(
-     * new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_POSTCODE),
-     * new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_STREET)
-     * );
+     *     return List.of(
+     *         new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_POSTCODE),
+     *         new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_STREET)
+     *     );
      * }
      *
      * @return
@@ -458,7 +479,7 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
             spec = spec.and(notIn(idFieldName, selectionStore.getUnselectedRowIds()));
         }
 
-        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(getDefaultSortOrder()));
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(withSwimlanes(getDefaultSortOrder())));
         return this.repo.findAll(spec, pageRequest);
     }
 

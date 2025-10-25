@@ -16,10 +16,10 @@
 
 package hu.perit.ngface.core.types.intf;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import javax.annotation.Nullable;
 
 @Data
 public class TableActionParams<T>
@@ -29,6 +29,7 @@ public class TableActionParams<T>
         ALL_SELECTED,
         SINGLE
     }
+
 
     private ActionTriggerMode actionTriggerMode;
 

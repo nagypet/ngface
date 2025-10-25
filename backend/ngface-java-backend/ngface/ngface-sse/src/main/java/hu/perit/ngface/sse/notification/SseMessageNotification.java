@@ -17,13 +17,13 @@
 package hu.perit.ngface.sse.notification;
 
 import hu.perit.spvitamin.core.exception.ExceptionWrapper;
+import jakarta.annotation.Nullable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.annotation.Nullable;
 import java.text.MessageFormat;
 import java.util.Optional;
 

@@ -16,6 +16,7 @@
 
 package hu.perit.ngface.core.widget.table;
 
+import jakarta.annotation.Nullable;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,7 +25,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,6 +41,7 @@ public class Action
         BUTTON,
         ACTION_GROUP
     }
+
 
     private final String id;
     private String label;

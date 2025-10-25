@@ -16,12 +16,12 @@
 
 package hu.perit.ngface.core.widget.base;
 
+import jakarta.annotation.Nullable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-import javax.annotation.Nullable;
 
 @ToString(callSuper = true)
 @RequiredArgsConstructor

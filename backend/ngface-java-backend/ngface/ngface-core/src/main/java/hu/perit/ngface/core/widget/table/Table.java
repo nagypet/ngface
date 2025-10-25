@@ -22,6 +22,7 @@ import hu.perit.ngface.core.types.table.TableContent;
 import hu.perit.ngface.core.widget.base.Widget;
 import hu.perit.ngface.core.widget.base.WidgetData;
 import hu.perit.ngface.core.widget.exception.NgFaceException;
+import jakarta.annotation.Nullable;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,7 +30,6 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.annotation.Nullable;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;

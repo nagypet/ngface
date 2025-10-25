@@ -21,6 +21,7 @@ import hu.perit.ngface.core.widget.table.Filterer;
 import hu.perit.ngface.core.widget.table.Paginator;
 import hu.perit.ngface.core.widget.table.Sorter;
 import hu.perit.ngface.core.widget.table.Table;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -34,7 +35,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValueMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -49,6 +49,7 @@ public class DataRetrievalParams
     private Sort sort;
     @Nullable
     private List<Filter> filters;
+
 
     //------------------------------------------------------------------------------------------------------------------
     // Page
@@ -91,6 +92,7 @@ public class DataRetrievalParams
         }
     }
 
+
     //------------------------------------------------------------------------------------------------------------------
     // Sort
     //------------------------------------------------------------------------------------------------------------------
@@ -118,6 +120,7 @@ public class DataRetrievalParams
         }
     }
 
+
     //------------------------------------------------------------------------------------------------------------------
     // Filter
     //------------------------------------------------------------------------------------------------------------------
@@ -144,8 +147,8 @@ public class DataRetrievalParams
             filter.column = filterer.getColumn();
             filter.operator = filterer.getOperator();
             filter.valueSet = filterer.getValueSet().getValues().stream()
-                .filter(v -> BooleanUtils.isTrue(v.getSelected()))
-                .map(v -> new Item(v.getText())).toList();
+                    .filter(v -> BooleanUtils.isTrue(v.getSelected()))
+                    .map(v -> new Item(v.getText())).toList();
             return filter;
         }
 
@@ -160,6 +163,7 @@ public class DataRetrievalParams
             private final String text;
         }
     }
+
 
     //------------------------------------------------------------------------------------------------------------------
     // Cloner

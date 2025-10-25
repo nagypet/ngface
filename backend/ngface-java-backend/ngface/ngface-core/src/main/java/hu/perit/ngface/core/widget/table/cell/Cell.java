@@ -18,8 +18,10 @@ package hu.perit.ngface.core.widget.table.cell;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Data
@@ -68,7 +70,9 @@ public abstract class Cell<V, SUB extends Cell>
     }
 
 
-    @Data
+    @Builder
+    @Getter
+    @EqualsAndHashCode
     public static class Icon
     {
         public enum Placement
@@ -77,8 +81,9 @@ public abstract class Cell<V, SUB extends Cell>
             AFTER
         }
 
-        private final String code;
-        private final Placement placement;
-        private final String color;
+        private String code;
+        private Placement placement;
+        private String color;
+        private String label;
     }
 }

@@ -22,12 +22,12 @@ import hu.perit.ngface.core.widget.input.validator.Email;
 import hu.perit.ngface.core.widget.input.validator.Pattern;
 import hu.perit.ngface.core.widget.input.validator.Required;
 import hu.perit.ngface.core.widget.input.validator.Size;
+import jakarta.annotation.Nullable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,10 +43,12 @@ public class TextInput extends Input<TextInput.Data, String, TextInput>
     @Nullable
     private Boolean password;
 
+
     public TextInput(String id)
     {
         super(id);
     }
+
 
     // Json
     private TextInput()
@@ -54,11 +56,13 @@ public class TextInput extends Input<TextInput.Data, String, TextInput>
         super(null);
     }
 
+
     @Override
     protected TextInput.Data createDataFromSimpleValue(String value)
     {
         return new Data(value);
     }
+
 
     @Override
     protected List<Class<?>> getAllowedValidators()
@@ -73,6 +77,7 @@ public class TextInput extends Input<TextInput.Data, String, TextInput>
         return this;
     }
 
+
     @ToString(callSuper = true)
     @Getter
     public static class Data extends Value<String>
@@ -81,6 +86,7 @@ public class TextInput extends Input<TextInput.Data, String, TextInput>
         {
             super(value);
         }
+
 
         // For JSon deserialization
         private Data()

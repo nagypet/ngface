@@ -1,15 +1,18 @@
-[plugins]
-habarta-typescript-generator = { id = 'cz.habarta.typescript-generator', version = '3.2.1263' }
-io-spring-dependency-management = { id = 'io.spring.dependency-management', version = '1.1.7' }
-org-springframework-boot = { id = 'org.springframework.boot', version = '3.4.3' }
-johnrengelman-shadow = { id = 'com.github.johnrengelman.shadow', version = '8.1.1' }
-
 [versions]
 jackson = '2.17.2'
 junit = '5.11.4'
 logback = '1.5.8'
 mapstruct = '1.6.0'
 springdoc = '2.8.5'
+czhabarta = '3.2.1263'
+
+
+[plugins]
+habarta-typescript-generator = { id = 'cz.habarta.typescript-generator', version.ref = 'czhabarta' }
+io-spring-dependency-management = { id = 'io.spring.dependency-management', version = '1.1.7' }
+johnrengelman-shadow = { id = 'com.github.johnrengelman.shadow', version = '8.1.1' }
+org-springframework-boot = { id = 'org.springframework.boot', version = '3.4.3' }
+
 
 [libraries]
 assertj = 'org.assertj:assertj-core:3.26.3'
@@ -24,6 +27,7 @@ hibernate-validator = 'org.hibernate:hibernate-validator:8.0.1.Final'
 jackson-annotations = { module = 'com.fasterxml.jackson.core:jackson-annotations', version.ref = 'jackson' }
 jackson-core = { module = 'com.fasterxml.jackson.core:jackson-core', version.ref = 'jackson' }
 jackson-databind = { module = 'com.fasterxml.jackson.core:jackson-databind', version.ref = 'jackson' }
+jakarta-annotation-api = 'jakarta.annotation:jakarta.annotation-api:3.0.0'
 jakarta-validation-api = 'jakarta.validation:jakarta.validation-api:3.1.0'
 jetbrains-annotations = 'org.jetbrains:annotations:24.1.0'
 junit-jupiter-api = { module = 'org.junit.jupiter:junit-jupiter-api', version.ref = 'junit' }
@@ -36,5 +40,5 @@ mapstruct-processor = { module = 'org.mapstruct:mapstruct-processor', version.re
 openapi-api = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-api', version.ref = 'springdoc' }
 openapi-ui = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-ui', version.ref = 'springdoc' }
 opencsv = 'com.opencsv:opencsv:5.9'
-slf4j-api = 'org.slf4j:slf4j-api:2.0.13'
+slf4j-api = 'org.slf4j:slf4j-api:2.0.15'
 spvitamin = 'hu.perit.spvitamin:spvitamin-dependencies:3.4.3-1-RELEASE'
