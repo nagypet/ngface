@@ -31,6 +31,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiPredicate;
 
@@ -48,6 +51,8 @@ import java.util.function.BiPredicate;
 public class ServerSentEvent<T, F>
 {
 
+    public static final String FAILED_TO_COMPLETE_SUBSCRIPTION = "Failed to complete subscription {}: {}";
+
     public enum ResendPolicy
     {
         ONLY_LAST_EVENT,
@@ -60,12 +65,14 @@ public class ServerSentEvent<T, F>
     private final Map<Integer, Subscription<F>> subscribers = new HashMap<>();
     private final AtomicInteger lastEventId = new AtomicInteger(0);
     private final CircularFifoQueue<EventQueueItem<T>> eventQueue;
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
 
     public ServerSentEvent()
     {
         this.resendPolicy = ResendPolicy.ONLY_LAST_EVENT;
         this.eventQueue = new CircularFifoQueue<>(1);
+        scheduler.scheduleAtFixedRate(this::sendKeepAliveToAll, 15, 15, TimeUnit.SECONDS);
     }
 
 
@@ -73,6 +80,7 @@ public class ServerSentEvent<T, F>
     {
         this.resendPolicy = resendPolicy;
         this.eventQueue = new CircularFifoQueue<>(maxEventQueueSize);
+        scheduler.scheduleAtFixedRate(this::sendKeepAliveToAll, 15, 15, TimeUnit.SECONDS);
     }
 
 
@@ -84,40 +92,75 @@ public class ServerSentEvent<T, F>
      */
     public synchronized Subscription<F> subscribe(String lastReceivedEventIdAsString, F filterKey)
     {
-        Subscription<F> subscription = new Subscription<>(this.lastSubscriptionId.incrementAndGet(), 30_000L, filterKey);
-        synchronized (this)
-        {
-            this.subscribers.put(subscription.id, subscription);
-            log.debug("Subscription added: {}. Total count of subscriptions: {}", subscription.id, this.subscribers.size());
+        Subscription<F> subscription = new Subscription<>(this.lastSubscriptionId.incrementAndGet(), 300_000L, filterKey);
+        this.subscribers.put(subscription.id, subscription);
+        log.debug("Subscription added: {}. Total count of subscriptions: {}", subscription.id, this.subscribers.size());
 
-            if (StringUtils.isNotBlank(lastReceivedEventIdAsString))
+        if (StringUtils.isNotBlank(lastReceivedEventIdAsString))
+        {
+            int lastReceivedId = Integer.parseInt(lastReceivedEventIdAsString);
+            // Újraküldjük a queue-ból az újabb elemeket
+            for (EventQueueItem<T> event : this.eventQueue)
             {
-                int lastReceivedId = Integer.parseInt(lastReceivedEventIdAsString);
-                // Újraküldjük a queue-ból az újabb elemeket
-                for (EventQueueItem<T> event : this.eventQueue)
+                if (event.eventId > lastReceivedId)
                 {
-                    if (event.eventId > lastReceivedId)
-                    {
-                        this.sendEvent(subscription, event.eventId, event.getEvent());
-                    }
+                    this.sendEvent(subscription, event.eventId, event.getEvent());
                 }
             }
-            else
-            {
-                // Ilyenkor küldünk egy szinkronizáló eseményt az aktuális esemény id-val, hogy a frontend ezt el tudja
-                // tárolni, és a következő újracsatlakozásnál már ezt adja vissza.
-                this.sendSyncEvent(subscription, this.lastEventId.get());
-            }
+        }
+        else
+        {
+            // Ilyenkor küldünk egy szinkronizáló eseményt az aktuális esemény id-val, hogy a frontend ezt el tudja
+            // tárolni, és a következő újracsatlakozásnál már ezt adja vissza.
+            this.sendSyncEvent(subscription, this.lastEventId.get());
         }
 
-        subscription.onCompletion(() -> {
-            log.debug("Subscription completed: {}", subscription.id);
-            this.remove(subscription.id);
+        subscription.onError(throwable -> {
+            log.warn("Subscription {} error: {}", subscription.id, throwable.getMessage());
+            try
+            {
+                subscription.completeWithError(throwable);
+            }
+            catch (Exception ex)
+            {
+                log.warn(FAILED_TO_COMPLETE_SUBSCRIPTION, subscription.id, ex.getMessage());
+            }
+            finally
+            {
+                this.remove(subscription.id);
+            }
         });
+
+        subscription.onCompletion(() -> {
+            log.debug("Subscription {} completed", subscription.id);
+            try
+            {
+                subscription.complete();
+            }
+            catch (Exception ex)
+            {
+                log.warn(FAILED_TO_COMPLETE_SUBSCRIPTION, subscription.id, ex.getMessage());
+            }
+            finally
+            {
+                this.remove(subscription.id);
+            }
+        });
+
         subscription.onTimeout(() -> {
-            log.debug("Subscription timed out: {}", subscription.id);
-            subscription.complete();
-            this.remove(subscription.id);
+            log.debug("Subscription {} timed out", subscription.id);
+            try
+            {
+                subscription.complete();
+            }
+            catch (Exception ex)
+            {
+                log.warn(FAILED_TO_COMPLETE_SUBSCRIPTION, subscription.id, ex.getMessage());
+            }
+            finally
+            {
+                this.remove(subscription.id);
+            }
         });
 
         return subscription;
@@ -129,7 +172,7 @@ public class ServerSentEvent<T, F>
         if (this.subscribers.containsKey(id))
         {
             this.subscribers.remove(id);
-            log.debug("Subscription removed: {}. Total count of subscriptions: {}", id, this.subscribers.size());
+            log.debug("Subscription {} removed. Total count of subscriptions: {}", id, this.subscribers.size());
         }
     }
 
@@ -193,14 +236,11 @@ public class ServerSentEvent<T, F>
                     .data(args == null ? "NULL" : args)
                     .name(eventName)
                     .id(String.valueOf(eventId));
-            // Ha SseEventBuilder-t adunk át, akkor nem lehet MediaType-ot definiálni
             subscription.send(event);
         }
         catch (Exception ex)
         {
-            log.info("Subscription failed: {}", subscription.id);
-            // completeWithError has been commented out with spring boot 3.3.2 because it just caused problems.
-            //subscription.completeWithError(ex);
+            log.info("Send event failed: {}", subscription.id);
             if (ex instanceof IOException)
             {
                 log.info(ex.toString());
@@ -210,6 +250,36 @@ public class ServerSentEvent<T, F>
                 log.error(StackTracer.toString(ex));
             }
             this.remove(subscription.id);
+        }
+    }
+
+
+    private void sendKeepAliveToAll()
+    {
+        synchronized (this)
+        {
+            List<Subscription<F>> subs = new ArrayList<>(this.subscribers.values());
+            for (Subscription<F> subscription : subs)
+            {
+                sendKeepAlive(subscription);
+            }
+        }
+    }
+
+
+    private void sendKeepAlive(Subscription<F> subscription)
+    {
+        try
+        {
+            log.debug("Sending keepalive to subscription {}", subscription.id);
+            SseEmitter.SseEventBuilder event = SseEmitter.event()
+                    .comment("keepalive")
+                    .id(String.valueOf(this.lastEventId.get()));
+            subscription.send(event);
+        }
+        catch (Exception ex)
+        {
+            log.debug("Failed to send keepalive: {}", ex.getMessage());
         }
     }
 

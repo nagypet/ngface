@@ -366,7 +366,7 @@ public class SseServiceImpl implements SseService
             if (handlesNotification(notification))
             {
                 // Sending messages immediatelly
-                log.info(SENDING_NOTIFICATION_FORMAT, notification, "-");
+                log.info(SENDING_NOTIFICATION_FORMAT, notification, "0");
                 this.eventConsumer.accept(notification);
             }
         }
