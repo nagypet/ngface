@@ -44,6 +44,7 @@ public class Row<T>
     private final T id;
     private String idType;
     private final Map<String, Cell<?, ?>> cells = new LinkedHashMap<>();
+    private final Map<String, Object> additionalInfo = new LinkedHashMap<>();
     private boolean selected;
     private boolean disabled;
 
@@ -231,6 +232,13 @@ public class Row<T>
     public Row<T> putCell(String colId, Cell<?, ?> cell)
     {
         this.cells.put(colId, cell);
+        return this;
+    }
+
+
+    public Row<T> putAdditionalInfo(String key, Object value)
+    {
+        this.additionalInfo.put(key, value);
         return this;
     }
 

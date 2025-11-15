@@ -58,23 +58,7 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
         int pageNumberInt = dataRetrievalParams.getPageNumber();
         int pageSizeInt = dataRetrievalParams.getPageSize(defaultPageSize);
 
-        PageRequest pageRequest;
-        if (dataRetrievalParams.getSort() != null
-                && StringUtils.isNotBlank(dataRetrievalParams.getSort().getColumn())
-                && !Direction.UNDEFINED.equals(dataRetrievalParams.getSort().getDirection()))
-        {
-            Sort.Order sortOrder = new Sort.Order(
-                    Direction.ASC.equals(dataRetrievalParams.getSort().getDirection()) ?
-                            Sort.Direction.ASC :
-                            Sort.Direction.DESC,
-                    dataRetrievalParams.getSort().getColumn());
-
-            pageRequest = PageRequest.of(pageNumberInt, pageSizeInt, Sort.by(withSwimlanes(List.of(sortOrder))));
-        }
-        else
-        {
-            pageRequest = PageRequest.of(pageNumberInt, pageSizeInt, Sort.by(withSwimlanes(getDefaultSortOrder())));
-        }
+        PageRequest pageRequest = PageRequest.of(pageNumberInt, pageSizeInt, Sort.by(withSwimlanes(getSortOrder(dataRetrievalParams.getSort()))));
 
         Specification<E> spec = getSpecificationByFilters(dataRetrievalParams.getFilters());
         if (spec != null)
@@ -83,6 +67,27 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
         }
 
         return this.repo.findAll(pageRequest);
+    }
+
+
+    protected List<Sort.Order> getSortOrder(DataRetrievalParams.Sort sort)
+    {
+        if (sort != null
+                && StringUtils.isNotBlank(sort.getColumn())
+                && !Direction.UNDEFINED.equals(sort.getDirection()))
+        {
+            return List.of(new Sort.Order(getDirection(sort.getDirection()), sort.getColumn()));
+        }
+
+        return getDefaultSortOrder();
+    }
+
+
+    protected static Sort.Direction getDirection(Direction direction)
+    {
+        return Direction.ASC.equals(direction) ?
+                Sort.Direction.ASC :
+                Sort.Direction.DESC;
     }
 
 
@@ -111,14 +116,7 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
             {
                 if (StringUtils.isNotBlank(filter.getColumn()))
                 {
-                    if (spec == null)
-                    {
-                        spec = byFilter(filter);
-                    }
-                    else
-                    {
-                        spec = spec.and(byFilter(filter));
-                    }
+                    spec = spec == null ? byFilter(filter) : spec.and(byFilter(filter));
                 }
             }
             return spec;
@@ -200,13 +198,25 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
                     return criteriaBuilder.lessThanOrEqualTo(root.get(searchColumn), (Comparable) ListUtils.first(valueSet));
 
                 case BETWEEN:
-                    if (valueSet.size() < 2 || valueSet.get(0) == null || valueSet.get(1) == null)
+                    // Support partial ranges: if only start or only end is provided, use >= or <= respectively
+                    Object start = valueSet.size() >= 1 ? valueSet.get(0) : null;
+                    Object end = valueSet.size() >= 2 ? valueSet.get(1) : null;
+                    if (start == null && end == null)
                     {
                         return criteriaBuilder.conjunction();
                     }
-                    return criteriaBuilder.between(root.get(searchColumn),
-                            (Comparable) valueSet.get(0),
-                            (Comparable) valueSet.get(1));
+                    if (start != null && end != null)
+                    {
+                        return criteriaBuilder.between(root.get(searchColumn),
+                                (Comparable) start,
+                                (Comparable) end);
+                    }
+                    if (start != null)
+                    {
+                        return criteriaBuilder.greaterThanOrEqualTo(root.get(searchColumn), (Comparable) start);
+                    }
+                    // end != null
+                    return criteriaBuilder.lessThanOrEqualTo(root.get(searchColumn), (Comparable) end);
 
                 case LIKE:
                     if (ListUtils.first(valueSet) == null)
@@ -259,10 +269,10 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
      * Example:
      * protected List<Sort.Order> getDefaultSortOrder()
      * {
-     *     return List.of(
-     *         new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_POSTCODE),
-     *         new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_STREET)
-     *     );
+     * return List.of(
+     * new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_POSTCODE),
+     * new Sort.Order(Sort.Direction.ASC, AddressDTO.COL_STREET)
+     * );
      * }
      *
      * @return

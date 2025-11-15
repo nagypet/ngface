@@ -39,12 +39,22 @@ public class Action
     {
         ICON,
         BUTTON,
-        ACTION_GROUP
+        ACTION_GROUP,
+        LINK
+    }
+
+    public enum TextPlacement
+    {
+        HIDDEN,
+        BEFORE,
+        AFTER
     }
 
 
     private final String id;
     private String label;
+    private String text;
+    private TextPlacement textPlacement = TextPlacement.HIDDEN;
     // See https://fonts.google.com/icons?selected=Material+Icons&icon.style=Outlined
     private String icon;
     private boolean enabled = true;
@@ -64,6 +74,20 @@ public class Action
     public Action label(String label)
     {
         this.label = label;
+        return this;
+    }
+
+
+    public Action text(String text)
+    {
+        this.text = text;
+        return this;
+    }
+
+
+    public Action textPlacement(TextPlacement textPlacement)
+    {
+        this.textPlacement = textPlacement;
         return this;
     }
 

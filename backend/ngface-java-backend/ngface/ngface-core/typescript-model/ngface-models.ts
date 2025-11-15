@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-10-19 12:33:30.
+// Generated using typescript-generator version 3.2.1263 on 2025-11-10 06:50:01.
 
 export namespace Ngface {
 
@@ -219,6 +219,8 @@ export namespace Ngface {
     export interface Action {
         id: string;
         label: string;
+        text: string;
+        textPlacement: TextPlacement;
         icon: string;
         enabled: boolean;
         badge: string;
@@ -280,6 +282,7 @@ export namespace Ngface {
         id: T;
         idType: string;
         cells: { [index: string]: Cell<any, any> };
+        additionalInfo: { [index: string]: any };
         selected: boolean;
         disabled: boolean;
     }
@@ -495,9 +498,11 @@ export namespace Ngface {
 
     export namespace Action {
 
-        export type Style = "ICON" | "BUTTON" | "ACTION_GROUP";
+        export type Style = "ICON" | "BUTTON" | "ACTION_GROUP" | "LINK";
 
     }
+
+    export type TextPlacement = "HIDDEN" | "BEFORE" | "AFTER";
 
     export namespace Column {
 

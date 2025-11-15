@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Data
 public class DataRetrievalParams
@@ -149,6 +150,39 @@ public class DataRetrievalParams
             filter.valueSet = filterer.getValueSet().getValues().stream()
                     .filter(v -> BooleanUtils.isTrue(v.getSelected()))
                     .map(v -> new Item(v.getText())).toList();
+            return filter;
+        }
+
+
+        public static Filter of(String column, ComparisonOperator operator, String firstItem, String... moreItems)
+        {
+            Filter filter = new Filter();
+            filter.column = column;
+            filter.operator = operator;
+            filter.valueSet = new ArrayList<>();
+            filter.valueSet.add(new Item(firstItem));
+            if (moreItems != null)
+            {
+                filter.valueSet.addAll(Stream.of(moreItems).map(Item::new).toList());
+            }
+            return filter;
+        }
+
+
+        public static Filter of(String column, ComparisonOperator operator, List<String> items)
+        {
+            Filter filter = new Filter();
+            filter.column = column;
+            filter.operator = operator;
+            filter.valueSet = new ArrayList<>();
+            if (items != null)
+            {
+                filter.valueSet.addAll(items.stream().map(Item::new).toList());
+            }
+            else
+            {
+                filter.valueSet.add(new Item(null));
+            }
             return filter;
         }
 
