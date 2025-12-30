@@ -59,6 +59,11 @@ public class ValueSet implements Serializable
     public ValueSet values(Collection<String> valueSet)
     {
         this.values = new ArrayList<>();
+        if (valueSet == null)
+        {
+            this.values.add(new Item().text(null));
+            return this;
+        }
         List<String> sortedValueSet = valueSet.stream().sorted(Comparator.nullsFirst(Comparator.naturalOrder())).toList();
         for (String value : sortedValueSet)
         {

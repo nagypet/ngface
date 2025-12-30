@@ -1,22 +1,6 @@
-/*
- * Copyright 2020-2025 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-08-13 08:18:41.
+// Generated using typescript-generator version 3.2.1263 on 2025-11-10 06:50:01.
 
 export namespace Ngface {
 
@@ -31,7 +15,7 @@ export namespace Ngface {
         defaultItemId: string;
     }
 
-    export interface RowSelectParams<T> {
+    export interface RowSelectParams<T> extends Serializable {
         selectMode: RowSelectParams.SelectMode;
         rows: RowSelectParams.Row<T>[];
     }
@@ -235,6 +219,8 @@ export namespace Ngface {
     export interface Action {
         id: string;
         label: string;
+        text: string;
+        textPlacement: TextPlacement;
         icon: string;
         enabled: boolean;
         badge: string;
@@ -280,7 +266,7 @@ export namespace Ngface {
         order: number;
     }
 
-    export interface Paginator {
+    export interface Paginator extends Serializable {
         pageIndex: number;
         pageSize: number;
         length: number;
@@ -296,11 +282,12 @@ export namespace Ngface {
         id: T;
         idType: string;
         cells: { [index: string]: Cell<any, any> };
+        additionalInfo: { [index: string]: any };
         selected: boolean;
         disabled: boolean;
     }
 
-    export interface Sorter {
+    export interface Sorter extends Serializable {
         column: string;
         direction: Direction;
     }
@@ -314,11 +301,12 @@ export namespace Ngface {
         totalRow: Row<T> | null;
         selectMode: Table.SelectMode;
         notification: string | null;
+        countSelectedRows: number;
     }
 
     export namespace Table {
 
-        export interface Data extends WidgetData {
+        export interface Data extends WidgetData, Serializable {
             type: "Table.Data";
             paginator: Paginator | null;
             sorter: Sorter | null;
@@ -365,6 +353,10 @@ export namespace Ngface {
         code: string;
         placement: Icon.Placement;
         color: string;
+        label: string;
+    }
+
+    export interface IconBuilder {
     }
 
     export interface NumericCell extends Cell<number, NumericCell> {
@@ -429,15 +421,18 @@ export namespace Ngface {
 
     export namespace RowSelectParams {
 
-        export interface Row<T> {
+        export interface Row<T> extends Serializable {
             id: T;
             selected: boolean;
         }
 
     }
 
-    export interface WidgetData {
-        type: any | "WidgetList.Data" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
+    export interface Serializable {
+    }
+
+    export interface WidgetData extends Serializable {
+        type: "WidgetList.Data" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
     }
 
     export interface VoidWidgetData extends WidgetData {
@@ -445,7 +440,7 @@ export namespace Ngface {
     }
 
     export interface Widget<WD, SUB> {
-        type: any | "Button" | "WidgetList" | "FormattedText" | "Table" | "Titlebar" | "Autocomplete" | "DateInput" | "DateRangeInput" | "DateTimeInput" | "NumericInput" | "Select" | "TextInput";
+        type: "Button" | "WidgetList" | "FormattedText" | "Table" | "Titlebar" | "Autocomplete" | "DateInput" | "DateRangeInput" | "DateTimeInput" | "NumericInput" | "Select" | "TextInput";
         id: string;
         label: string;
         hint: string;
@@ -463,9 +458,6 @@ export namespace Ngface {
         prefix: string;
         suffix: string;
         digitGrouping: boolean;
-    }
-
-    export interface Serializable {
     }
 
     export interface BiFunction<T, U, R> {
@@ -506,9 +498,11 @@ export namespace Ngface {
 
     export namespace Action {
 
-        export type Style = "ICON" | "BUTTON" | "ACTION_GROUP";
+        export type Style = "ICON" | "BUTTON" | "ACTION_GROUP" | "LINK";
 
     }
+
+    export type TextPlacement = "HIDDEN" | "BEFORE" | "AFTER";
 
     export namespace Column {
 

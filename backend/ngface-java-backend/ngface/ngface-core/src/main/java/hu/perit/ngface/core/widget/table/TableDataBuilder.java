@@ -16,6 +16,7 @@
 
 package hu.perit.ngface.core.widget.table;
 
+import hu.perit.spvitamin.core.typehelpers.LongUtils;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class TableDataBuilder
             return this;
         }
 
-        if (!this.data.getPaginator().getLength().equals(length))
+        if (!LongUtils.equals(this.data.getPaginator().getLength(), length))
         {
             Paginator currentPaginator = this.data.getPaginator();
             this.data.paginator(Paginator.of(currentPaginator.getPageIndex(), currentPaginator.getPageSize(), length, currentPaginator.getPageSizeOptions()));
