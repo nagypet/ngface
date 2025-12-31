@@ -61,8 +61,8 @@ dependencies {
 
     // FasterXML
     implementation libs.jackson.annotations
-    implementation libs.jackson.core
-    implementation libs.jackson.databind
+    implementation libs.jackson3.core
+    implementation libs.jackson3.databind
 
     // Mapstruct
     implementation libs.mapstruct
@@ -89,6 +89,7 @@ dependencies {
     }
 
     // JUnit
+    testRuntimeOnly libs.junit.platform.launcher
     testImplementation libs.junit.jupiter.api
     testImplementation libs.junit.jupiter.engine
 

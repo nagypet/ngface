@@ -1,9 +1,10 @@
 [versions]
-jackson = '2.17.2'
-junit = '5.11.4'
-logback = '1.5.8'
+jackson-annotations = '2.20'
+jackson3 = '3.0.3'
+junit = '6.0.1'
+logback = '1.5.22'
 mapstruct = '1.6.0'
-springdoc = '2.8.5'
+springdoc = '3.0.0'
 czhabarta = '3.2.1263'
 
 
@@ -11,27 +12,29 @@ czhabarta = '3.2.1263'
 habarta-typescript-generator = { id = 'cz.habarta.typescript-generator', version.ref = 'czhabarta' }
 io-spring-dependency-management = { id = 'io.spring.dependency-management', version = '1.1.7' }
 johnrengelman-shadow = { id = 'com.github.johnrengelman.shadow', version = '8.1.1' }
-org-springframework-boot = { id = 'org.springframework.boot', version = '3.4.3' }
+org-springframework-boot = { id = 'org.springframework.boot', version = '4.0.1' }
 
 
 [libraries]
-assertj = 'org.assertj:assertj-core:3.26.3'
+assertj = 'org.assertj:assertj-core:3.27.6'
 commons-cli = 'commons-cli:commons-cli:1.9.0'
 commons-collections4 = 'org.apache.commons:commons-collections4:4.5.0-M2'
 commons-io = 'commons-io:commons-io:2.16.1'
-commons-lang3 = 'org.apache.commons:commons-lang3:3.16.0'
+commons-lang3 = 'org.apache.commons:commons-lang3:3.17.0'
 glassfish-expressly = 'org.glassfish.expressly:expressly:5.0.0'
 google-code-findbugs = 'com.google.code.findbugs:jsr305:3.0.2'
 guava = 'com.google.guava:guava:33.3.0-jre'
 hibernate-validator = 'org.hibernate:hibernate-validator:8.0.1.Final'
-jackson-annotations = { module = 'com.fasterxml.jackson.core:jackson-annotations', version.ref = 'jackson' }
-jackson-core = { module = 'com.fasterxml.jackson.core:jackson-core', version.ref = 'jackson' }
-jackson-databind = { module = 'com.fasterxml.jackson.core:jackson-databind', version.ref = 'jackson' }
+jackson-annotations = { module = 'com.fasterxml.jackson.core:jackson-annotations', version.ref = 'jackson-annotations' }
+jackson3-core = { module = 'tools.jackson.core:jackson-core', version.ref = 'jackson3' }
+jackson3-databind = { module = 'tools.jackson.core:jackson-databind', version.ref = 'jackson3' }
+jackson3-dataformat-yaml = { module = 'tools.jackson.dataformat:jackson-dataformat-yaml', version.ref = 'jackson3' }
 jakarta-annotation-api = 'jakarta.annotation:jakarta.annotation-api:3.0.0'
-jakarta-validation-api = 'jakarta.validation:jakarta.validation-api:3.1.0'
+jakarta-validation-api = 'jakarta.validation:jakarta.validation-api:3.1.1'
 jetbrains-annotations = 'org.jetbrains:annotations:24.1.0'
 junit-jupiter-api = { module = 'org.junit.jupiter:junit-jupiter-api', version.ref = 'junit' }
 junit-jupiter-engine = { module = 'org.junit.jupiter:junit-jupiter-engine', version.ref = 'junit' }
+junit-platform-launcher = { module = 'org.junit.platform:junit-platform-launcher', version.ref = 'junit' }
 logback-classic = { module = 'ch.qos.logback:logback-classic', version.ref = 'logback' }
 logback-core = { module = 'ch.qos.logback:logback-core', version.ref = 'logback' }
 lombok = 'org.projectlombok:lombok:1.18.34'
@@ -40,5 +43,5 @@ mapstruct-processor = { module = 'org.mapstruct:mapstruct-processor', version.re
 openapi-api = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-api', version.ref = 'springdoc' }
 openapi-ui = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-ui', version.ref = 'springdoc' }
 opencsv = 'com.opencsv:opencsv:5.9'
-slf4j-api = 'org.slf4j:slf4j-api:2.0.15'
-spvitamin = 'hu.perit.spvitamin:spvitamin-dependencies:3.4.3-1-RELEASE'
+slf4j-api = 'org.slf4j:slf4j-api:2.0.17'
+spvitamin = 'hu.perit.spvitamin:spvitamin-dependencies:4.0.1-1-RELEASE'

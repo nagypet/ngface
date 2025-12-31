@@ -71,6 +71,9 @@ dependencies {
     // Slf4J
     implementation libs.slf4j.api
 
+    // FasterXML
+    implementation libs.jackson3.core
+
     // -----------------------------------------------------------------------------------------------------------------
     // Test dependencies
     // -----------------------------------------------------------------------------------------------------------------
@@ -85,6 +88,7 @@ dependencies {
         testImplementation 'hu.perit.spvitamin:spvitamin-test'
     }
 
+    testRuntimeOnly libs.junit.platform.launcher
 
     testImplementation libs.logback.classic
     testImplementation libs.logback.core

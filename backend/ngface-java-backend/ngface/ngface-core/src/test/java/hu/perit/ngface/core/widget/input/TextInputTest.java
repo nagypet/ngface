@@ -21,11 +21,9 @@ import hu.perit.spvitamin.core.StackTracer;
 import hu.perit.spvitamin.spring.json.JSonSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
+import tools.jackson.core.JacksonException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
 class TextInputTest
@@ -44,7 +42,7 @@ class TextInputTest
             log.debug(deserializedData.toString());
             assertEquals(data, deserializedData);
         }
-        catch (IOException e)
+        catch (JacksonException e)
         {
             log.error(StackTracer.toString(e));
         }

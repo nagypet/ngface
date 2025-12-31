@@ -25,8 +25,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Duration;
@@ -40,10 +40,10 @@ import static org.mockito.Mockito.verify;
 @Slf4j
 class NotificationWatchDogTest
 {
-    @MockBean
+    @MockitoBean
     private ApplicationContext applicationContext;
 
-    @MockBean
+    @MockitoBean
     SseServiceImpl sseService;
 
     private NotificationWatchDog notificationWatchDog;

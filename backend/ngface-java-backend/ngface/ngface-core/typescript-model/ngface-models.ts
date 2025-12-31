@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-11-10 06:50:01.
+// Generated using typescript-generator version 3.2.1263 on 2025-12-30 09:04:28.
 
 export namespace Ngface {
 

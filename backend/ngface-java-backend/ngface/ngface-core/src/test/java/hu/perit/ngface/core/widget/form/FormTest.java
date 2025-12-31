@@ -17,15 +17,22 @@
 package hu.perit.ngface.core.widget.form;
 
 import hu.perit.ngface.core.widget.button.Button;
-import hu.perit.ngface.core.widget.input.*;
+import hu.perit.ngface.core.widget.input.Autocomplete;
+import hu.perit.ngface.core.widget.input.DateInput;
+import hu.perit.ngface.core.widget.input.DateRangeInput;
+import hu.perit.ngface.core.widget.input.NumericInput;
+import hu.perit.ngface.core.widget.input.Select;
+import hu.perit.ngface.core.widget.input.TextInput;
 import hu.perit.ngface.core.widget.table.Table;
 import hu.perit.spvitamin.spring.json.JSonSerializer;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 class FormTest
 {
     @Test
@@ -39,9 +46,21 @@ class FormTest
         form.addWidget(new DateRangeInput("date-range-input"));
         form.addWidget(new Select("select"));
         form.addWidget(new Autocomplete("autocomplete"));
+
+        String json = JSonSerializer.toJson(form);
+        log.debug(json);
+        Form result = JSonSerializer.fromJson(json, Form.class);
+        assertThat(result).isEqualTo(form);
+    }
+
+    @Test
+    void testTable() throws IOException
+    {
+        Form form = new Form();
         form.addWidget(new Table<Long>("table"));
 
         String json = JSonSerializer.toJson(form);
+        log.debug(json);
         Form result = JSonSerializer.fromJson(json, Form.class);
         assertThat(result).isEqualTo(form);
     }

@@ -74,6 +74,7 @@ dependencies {
     testImplementation libs.logback.core
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly libs.junit.platform.launcher
 
     // AssertJ
     testImplementation libs.assertj

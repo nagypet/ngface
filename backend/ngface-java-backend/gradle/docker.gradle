@@ -22,9 +22,9 @@ if (project.hasProperty('application')) {
 
     ext {
         if (project.hasProperty('imagePrefix')) {
-            dockerImageName = "${imagePrefix}-" + applicationName.toLowerCase()
+            dockerImageName = "${imagePrefix}/" + project.name.toLowerCase()
         } else {
-            dockerImageName = applicationName.toLowerCase()
+            dockerImageName = project.name.toLowerCase()
         }
         dockerBuildDir = new File(buildDir, 'docker').getAbsolutePath()
         dockerImageInputsChanged = false
@@ -102,6 +102,9 @@ if (project.hasProperty('application')) {
         group 'docker'
         description 'Builds docker image based on the installation'
 
+        // Szolgáltatás lekérése
+        def execOps = project.services.get(org.gradle.process.ExecOperations)
+
         dependsOn 'installDist'
         dependsOn 'dockerCopyDependencies'
         dependsOn 'dockerCopySnapshotDependencies'
@@ -114,18 +117,26 @@ if (project.hasProperty('application')) {
             logger.quiet "Building docker image: ${dockerImageName}"
         }
         doLast {
-            exec {
+            execOps.exec {
                 workingDir dockerBuildDir
                 commandLine 'docker', 'build', '-t', "${dockerImageName}", '.'
             }
             if (project.hasProperty('dockerRegistry')) {
-                exec {
+                execOps.exec {
                     workingDir dockerBuildDir
                     commandLine 'docker', 'tag', "${dockerImageName}", "${dockerRegistry}/${dockerImageName}:${version}"
                 }
-                exec {
+                execOps.exec {
+                    workingDir dockerBuildDir
+                    commandLine 'docker', 'tag', "${dockerImageName}", "${dockerRegistry}/${dockerImageName}:latest"
+                }
+                execOps.exec {
                     workingDir dockerBuildDir
                     commandLine 'docker', 'push', "${dockerRegistry}/${dockerImageName}:${version}"
+                }
+                execOps.exec {
+                    workingDir dockerBuildDir
+                    commandLine 'docker', 'push', "${dockerRegistry}/${dockerImageName}:latest"
                 }
             }
         }

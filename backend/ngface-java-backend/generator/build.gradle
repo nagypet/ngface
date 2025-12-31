@@ -16,7 +16,6 @@
 
 plugins {
     id 'application'
-    alias libs.plugins.johnrengelman.shadow
 }
 
 apply from: '../gradle/common.gradle'
@@ -28,7 +27,7 @@ repositories {
 
 
 application {
-    mainClassName = 'hu.perit.ngface.generator.Application'
+    mainClass = 'hu.perit.ngface.generator.Application'
     // Some JVM options already set in common.gradle
     applicationDefaultJvmArgs += ['-Xmx256m', '-Xms32m']
 }

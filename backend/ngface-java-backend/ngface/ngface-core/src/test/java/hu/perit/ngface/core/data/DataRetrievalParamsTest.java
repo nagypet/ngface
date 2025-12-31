@@ -21,8 +21,7 @@ import hu.perit.spvitamin.core.StackTracer;
 import hu.perit.spvitamin.spring.json.JSonSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
+import tools.jackson.core.JacksonException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -46,7 +45,7 @@ class DataRetrievalParamsTest
             log.debug(deserializedData.toString());
             assertThat(dataRetrievalParams).isEqualTo(deserializedData);
         }
-        catch (IOException e)
+        catch (JacksonException e)
         {
             log.error(StackTracer.toString(e));
             fail();
