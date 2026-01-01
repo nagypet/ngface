@@ -7,7 +7,7 @@ package hu.perit.ngface.core.types.table;
 
 import hu.perit.ngface.core.types.intf.RowSelectParams;
 import hu.perit.ngface.core.widget.table.Table;
-import hu.perit.spvitamin.spring.json.JSonSerializer;
+import hu.perit.spvitamin.json.JSonSerializer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

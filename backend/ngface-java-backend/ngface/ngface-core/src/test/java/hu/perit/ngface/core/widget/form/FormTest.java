@@ -24,7 +24,7 @@ import hu.perit.ngface.core.widget.input.NumericInput;
 import hu.perit.ngface.core.widget.input.Select;
 import hu.perit.ngface.core.widget.input.TextInput;
 import hu.perit.ngface.core.widget.table.Table;
-import hu.perit.spvitamin.spring.json.JSonSerializer;
+import hu.perit.spvitamin.json.JSonSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 

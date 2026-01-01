@@ -28,7 +28,7 @@ import hu.perit.ngface.core.widget.table.Table;
 import hu.perit.ngface.core.widget.table.TableDataBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -97,7 +97,7 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>, I ex
 
     private boolean useCachedFilter(String searchText, String filtererSearchText)
     {
-        return StringUtils.equals(searchText, filtererSearchText);
+        return Strings.CS.equals(searchText, filtererSearchText);
         //return StringUtils.isBlank(searchText) || StringUtils.equals(searchText, filtererSearchText);
     }
 

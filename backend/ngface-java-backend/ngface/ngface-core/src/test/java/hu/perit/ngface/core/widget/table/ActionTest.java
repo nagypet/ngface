@@ -16,7 +16,7 @@
 
 package hu.perit.ngface.core.widget.table;
 
-import hu.perit.spvitamin.spring.json.JSonSerializer;
+import hu.perit.spvitamin.json.JSonSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 

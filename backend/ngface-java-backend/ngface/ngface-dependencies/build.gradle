@@ -92,7 +92,7 @@ def customizePom(pom) {
             resolveStrategy = Closure.DELEGATE_FIRST
 
             name "${project.group}:${project.name}"
-            description 'A light-weight backend-frontend communication using widgets.'
+            description = 'A light-weight backend-frontend communication using widgets.'
             url 'https://github.com/nagypet/ngface'
 
             scm {

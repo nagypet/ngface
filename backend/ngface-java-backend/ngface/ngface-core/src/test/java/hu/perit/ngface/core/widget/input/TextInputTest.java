@@ -18,7 +18,7 @@ package hu.perit.ngface.core.widget.input;
 
 import hu.perit.ngface.core.widget.base.WidgetData;
 import hu.perit.spvitamin.core.StackTracer;
-import hu.perit.spvitamin.spring.json.JSonSerializer;
+import hu.perit.spvitamin.json.JSonSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import tools.jackson.core.JacksonException;

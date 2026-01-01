@@ -16,11 +16,10 @@
 
 package hu.perit.ngface.sse.notification;
 
-import hu.perit.spvitamin.spring.json.JSonSerializer;
+import hu.perit.spvitamin.json.JSonSerializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -120,7 +119,7 @@ class SseUpdateNotificationTest
 
 
     @Test
-    void sseUpdateNotification() throws IOException
+    void sseUpdateNotification()
     {
         SseUpdateNotification<?> expected = new SseUpdateNotification<>(SUBJECT, new HashSet<>());
         String json = JSonSerializer.toJson(expected);

@@ -36,7 +36,7 @@ public class NotificationWatchDog
 
     public NotificationWatchDog()
     {
-        BasicThreadFactory factory = new BasicThreadFactory.Builder()
+        BasicThreadFactory factory = BasicThreadFactory.builder()
                 .namingPattern("sse-watchdog-%d")
                 .build();
         executor = Executors.newFixedThreadPool(100, factory);

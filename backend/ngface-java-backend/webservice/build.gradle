@@ -61,6 +61,7 @@ dependencies {
 
     implementation platform(libs.spvitamin)
     implementation 'hu.perit.spvitamin:spvitamin-core'
+    implementation 'hu.perit.spvitamin:spvitamin-json-time'
     implementation 'hu.perit.spvitamin:spvitamin-spring-general'
     implementation 'hu.perit.spvitamin:spvitamin-spring-server'
     implementation 'hu.perit.spvitamin:spvitamin-spring-logging'
@@ -86,6 +87,7 @@ dependencies {
     // Micrometer
     implementation 'io.micrometer:micrometer-tracing'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+    implementation 'org.springframework.boot:spring-boot-micrometer-tracing-brave'
 
     // Springdoc
     implementation libs.openapi.ui

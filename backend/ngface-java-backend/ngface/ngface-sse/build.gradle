@@ -84,8 +84,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     if (Boolean.valueOf(project.findProperty('useSpvitaminProject') ?: 'false')) {
         testImplementation project(':spvitamin-test')
+        testImplementation project(':spvitamin-json-time')
     } else {
         testImplementation 'hu.perit.spvitamin:spvitamin-test'
+        testImplementation 'hu.perit.spvitamin:spvitamin-json-time'
     }
 
     testRuntimeOnly libs.junit.platform.launcher

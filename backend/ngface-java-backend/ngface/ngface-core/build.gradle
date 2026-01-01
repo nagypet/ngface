@@ -83,9 +83,9 @@ dependencies {
 
     // spvitamin
     if (Boolean.valueOf(project.findProperty('useSpvitaminProject') ?: 'false')) {
-        testImplementation project(':spvitamin-spring-general')
+        testImplementation project(':spvitamin-json-time')
     } else {
-        testImplementation 'hu.perit.spvitamin:spvitamin-spring-general'
+        testImplementation 'hu.perit.spvitamin:spvitamin-json-time'
     }
 
     // JUnit
