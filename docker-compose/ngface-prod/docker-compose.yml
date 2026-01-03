@@ -42,7 +42,7 @@ services:
   ngface-webservice:
   #####################################################################################
     container_name: ngface-webservice
-    image: docker-registry:5000/ngface-webservice:latest
+    image: docker-registry:5000/ngface/webservice:latest
     networks:
       - ngface-net
     restart: unless-stopped
@@ -52,7 +52,7 @@ services:
   ngface-app:
   #####################################################################################
     container_name: ngface-app
-    image: docker-registry:5000/ngface-app:latest
+    image: docker-registry:5000/ngface/app:latest
     ports:
       - "127.0.0.1:16000:80"
     networks:

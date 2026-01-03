@@ -102,7 +102,6 @@ if (project.hasProperty('application')) {
         group 'docker'
         description 'Builds docker image based on the installation'
 
-        // Szolgáltatás lekérése
         def execOps = project.services.get(org.gradle.process.ExecOperations)
 
         dependsOn 'installDist'
@@ -133,10 +132,12 @@ if (project.hasProperty('application')) {
                 execOps.exec {
                     workingDir dockerBuildDir
                     commandLine 'docker', 'push', "${dockerRegistry}/${dockerImageName}:${version}"
+                    logger.quiet "pushed ${dockerRegistry}/${dockerImageName}:${version}"
                 }
                 execOps.exec {
                     workingDir dockerBuildDir
                     commandLine 'docker', 'push', "${dockerRegistry}/${dockerImageName}:latest"
+                    logger.quiet "pushed ${dockerRegistry}/${dockerImageName}:latest"
                 }
             }
         }
