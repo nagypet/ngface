@@ -44,6 +44,26 @@ class ProjectConfigurer {
         println String.format("Dependency check took %d ms", System.currentTimeMillis() - startTime)
     }
 
+    /**
+     * Reads the 'useSpvitaminProject' property from the given root's gradle.properties if present.
+     */
+    private static boolean readUseSpvitaminProject(File root) {
+        try {
+            File props = new File(root, 'gradle.properties')
+            if (props.exists()) {
+                Properties p = new Properties()
+                props.withInputStream { p.load(it) }
+                def v = p.getProperty('useSpvitaminProject')
+                if (v != null) {
+                    return Boolean.valueOf(v.trim())
+                }
+            }
+        } catch (Throwable ignored) {
+            // fallback to default below
+        }
+        return false
+    }
+
 
     /**
      * Recursively searches folders starting with '../' containing a build.gradle file.
@@ -69,6 +89,7 @@ class ProjectConfigurer {
 
     private void getDependendentProjects(File root, int level, Set<String> deps) {
         File buildGradleFile = new File(root, "build.gradle")
+        boolean useSpvitamin = readUseSpvitaminProject(this.rootDir)
         if (buildGradleFile.exists()) {
             buildGradleFile.eachLine { line ->
                 if (!(line =~ /^\s*\/\//) &&
@@ -81,6 +102,10 @@ class ProjectConfigurer {
                     def matcher = line =~ /:[a-z-A-Z0-9]*/
                     if (matcher.size() == 1) {
                         def projName = matcher[0].substring(1).strip()
+                        // If useSpvitaminProject=false, skip including spvitamin projects referenced conditionally
+                        if (!useSpvitamin && projName.startsWith('spvitamin')) {
+                            return
+                        }
                         if (deps.contains(projName)) {
                             return
                         }
