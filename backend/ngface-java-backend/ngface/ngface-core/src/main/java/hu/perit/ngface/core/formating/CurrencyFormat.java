@@ -19,6 +19,7 @@ package hu.perit.ngface.core.formating;
 import hu.perit.spvitamin.core.util.CurrencyConverter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.StringUtils;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -38,7 +39,7 @@ public class CurrencyFormat extends NumericFormat
 
     public static NumericFormat fromCurrencyCode(String currencyCode, NumericFormat defaultFormat)
     {
-        if (currencyCode == null)
+        if (StringUtils.isBlank(currencyCode))
         {
             return defaultFormat;
         }

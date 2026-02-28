@@ -21,6 +21,7 @@ import hu.perit.ngface.core.widget.table.Filterer;
 import hu.perit.ngface.core.widget.table.Paginator;
 import hu.perit.ngface.core.widget.table.Sorter;
 import hu.perit.ngface.core.widget.table.Table;
+import hu.perit.spvitamin.core.typehelpers.IntUtils;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -67,14 +68,14 @@ public class DataRetrievalParams
 
         public Page index(Integer page)
         {
-            this.index = page;
+            this.index = IntUtils.get(page);
             return this;
         }
 
 
         public Page size(Integer size)
         {
-            this.size = size;
+            this.size = Math.max(1, IntUtils.get(size));
             return this;
         }
 
@@ -87,8 +88,8 @@ public class DataRetrievalParams
             }
 
             Page page = new Page();
-            page.index = paginator.getPageIndex();
-            page.size = paginator.getPageSize();
+            page.size = IntUtils.max(1, paginator.getPageSize());
+            page.index = IntUtils.min(paginator.getLastPageIndex(), paginator.getPageIndex());
             return page;
         }
     }

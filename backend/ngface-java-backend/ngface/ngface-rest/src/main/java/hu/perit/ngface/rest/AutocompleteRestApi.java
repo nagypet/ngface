@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-import {Ngface} from "../ngface-models";
+package hu.perit.ngface.rest;
 
-export interface ValueSetItem
+import hu.perit.ngface.core.widget.input.AbstractOption;
+import hu.perit.ngface.core.widget.input.GenericValueSet;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+public interface AutocompleteRestApi<T extends AbstractOption>
 {
-  masterSelect: boolean;
-  text: string;
-  selected: boolean;
-  selectable: boolean;
-}
-
-
-export interface GenericValueSetItem
-{
-  masterSelect: boolean;
-  id: string;
-  value: Ngface.AbstractOption;
-  selected: boolean;
-  selectable: boolean;
+    @GetMapping
+    GenericValueSet<T> getAutocomplete(
+            @RequestParam(value = "name") String name,
+            @RequestParam(value = "searchText") String searchText
+    );
 }

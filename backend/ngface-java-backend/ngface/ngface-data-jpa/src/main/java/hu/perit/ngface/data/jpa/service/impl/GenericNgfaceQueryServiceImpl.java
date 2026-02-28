@@ -26,6 +26,8 @@ import hu.perit.spvitamin.core.util.FieldMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
@@ -153,9 +155,9 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
                     Object value = ListUtils.first(valueSet);
                     if (value == null)
                     {
-                        return criteriaBuilder.isNull(root.get(searchColumn));
+                        return criteriaBuilder.isNull(resolvePath(root, searchColumn));
                     }
-                    return criteriaBuilder.equal(root.get(searchColumn), value);
+                    return criteriaBuilder.equal(resolvePath(root, searchColumn), value);
 
                 case NEQ:
                     if (valueSet.isEmpty())
@@ -165,37 +167,37 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
                     Object neqValue = ListUtils.first(valueSet);
                     if (neqValue == null)
                     {
-                        return criteriaBuilder.isNotNull(root.get(searchColumn));
+                        return criteriaBuilder.isNotNull(resolvePath(root, searchColumn));
                     }
-                    return criteriaBuilder.notEqual(root.get(searchColumn), neqValue);
+                    return criteriaBuilder.notEqual(resolvePath(root, searchColumn), neqValue);
 
                 case GT:
                     if (ListUtils.first(valueSet) == null)
                     {
                         return criteriaBuilder.conjunction();
                     }
-                    return criteriaBuilder.greaterThan(root.get(searchColumn), (Comparable) ListUtils.first(valueSet));
+                    return criteriaBuilder.greaterThan(resolvePath(root, searchColumn), (Comparable) ListUtils.first(valueSet));
 
                 case GTE:
                     if (ListUtils.first(valueSet) == null)
                     {
                         return criteriaBuilder.conjunction();
                     }
-                    return criteriaBuilder.greaterThanOrEqualTo(root.get(searchColumn), (Comparable) ListUtils.first(valueSet));
+                    return criteriaBuilder.greaterThanOrEqualTo(resolvePath(root, searchColumn), (Comparable) ListUtils.first(valueSet));
 
                 case LT:
                     if (ListUtils.first(valueSet) == null)
                     {
                         return criteriaBuilder.conjunction();
                     }
-                    return criteriaBuilder.lessThan(root.get(searchColumn), (Comparable) ListUtils.first(valueSet));
+                    return criteriaBuilder.lessThan(resolvePath(root, searchColumn), (Comparable) ListUtils.first(valueSet));
 
                 case LTE:
                     if (ListUtils.first(valueSet) == null)
                     {
                         return criteriaBuilder.conjunction();
                     }
-                    return criteriaBuilder.lessThanOrEqualTo(root.get(searchColumn), (Comparable) ListUtils.first(valueSet));
+                    return criteriaBuilder.lessThanOrEqualTo(resolvePath(root, searchColumn), (Comparable) ListUtils.first(valueSet));
 
                 case BETWEEN:
                     // Support partial ranges: if only start or only end is provided, use >= or <= respectively
@@ -213,10 +215,10 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
                     }
                     if (start != null)
                     {
-                        return criteriaBuilder.greaterThanOrEqualTo(root.get(searchColumn), (Comparable) start);
+                        return criteriaBuilder.greaterThanOrEqualTo(resolvePath(root, searchColumn), (Comparable) start);
                     }
                     // end != null
-                    return criteriaBuilder.lessThanOrEqualTo(root.get(searchColumn), (Comparable) end);
+                    return criteriaBuilder.lessThanOrEqualTo(resolvePath(root, searchColumn), (Comparable) end);
 
                 case LIKE:
                     if (ListUtils.first(valueSet) == null)
@@ -224,7 +226,7 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
                         return criteriaBuilder.conjunction();
                     }
                     String likeValue = ListUtils.first(valueSet).toString();
-                    return criteriaBuilder.like(criteriaBuilder.lower(root.get(searchColumn)),
+                    return criteriaBuilder.like(criteriaBuilder.lower(resolvePath(root, searchColumn)),
                             "%" + likeValue.toLowerCase() + "%");
 
                 case IN:
@@ -233,20 +235,20 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
                     if (!valueSet.contains(null))
                     {
                         // There is no (Blanks)
-                        return criteriaBuilder.in(root.get(searchColumn)).value(valueSet);
+                        return criteriaBuilder.in(resolvePath(root, searchColumn)).value(valueSet);
                     }
                     else if (valueSet.size() == 1)
                     {
                         // Only (Blanks) is selected
-                        return criteriaBuilder.isNull(root.get(searchColumn));
+                        return criteriaBuilder.isNull(resolvePath(root, searchColumn));
                     }
 
                     // (Blanks) with some others selected
                     List<?> nonNullValues = new ArrayList<>(valueSet);
                     nonNullValues.remove(null);
                     return criteriaBuilder.or(
-                            criteriaBuilder.isNull(root.get(searchColumn)),
-                            criteriaBuilder.in(root.get(searchColumn)).value(nonNullValues)
+                            criteriaBuilder.isNull(resolvePath(root, searchColumn)),
+                            criteriaBuilder.in(resolvePath(root, searchColumn)).value(nonNullValues)
                     );
             }
         };
@@ -319,7 +321,7 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
         Root<E> root = query.from(entityClass);
 
         query.distinct(true);
-        query.select(root.get(fieldName));
+        query.select(resolvePath(root, fieldName));
 
         // Default WHERE condition
         Predicate predicate = criteriaBuilder.conjunction();
@@ -327,7 +329,8 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
         // If there is a searchText
         if (StringUtils.isNotBlank(searchText))
         {
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(criteriaBuilder.lower(root.get(fieldName)), "%" + searchText.toLowerCase() + "%"));
+            Expression<String> path = resolvePath(root, fieldName);
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(criteriaBuilder.lower(path), "%" + searchText.toLowerCase() + "%"));
         }
 
         // Additional selection criteria
@@ -352,6 +355,22 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
     }
 
 
+    private <T> Path<T> resolvePath(Root<E> root, String propertyPath)
+    {
+        if (StringUtils.isBlank(propertyPath))
+        {
+            throw new IllegalArgumentException("propertyPath is blank");
+        }
+
+        Path<?> path = root;
+        for (String part : propertyPath.split("\\."))
+        {
+            path = path.get(part);
+        }
+        return (Path<T>) path;
+    }
+
+
     @Override
     public <T> List<String> getDistinctValues(String fieldName, String searchText, Class<E> entityClass, List<DataRetrievalParams.Filter> activeFilters, Class<T> fieldType)
     {
@@ -360,7 +379,7 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
         Root<E> root = query.from(entityClass);
 
         query.distinct(true);
-        query.select(root.get(fieldName));
+        query.select(resolvePath(root, fieldName));
 
         // Default WHERE condition
         Predicate predicate = criteriaBuilder.conjunction();
@@ -500,5 +519,19 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
             // (Blanks) with some others selected
             return criteriaBuilder.in(root.get(idFieldName)).value(valueSet).not();
         };
+    }
+
+
+    @Override
+    public List<E> findByActiveFilters(List<DataRetrievalParams.Filter> activeFilters)
+    {
+        List<DataRetrievalParams.Filter> appliedFilters = new ArrayList<>(getDefaultFilters());
+        if (activeFilters != null)
+        {
+            appliedFilters.addAll(activeFilters);
+        }
+
+        Specification<E> spec = getSpecificationByFilters(appliedFilters);
+        return this.repo.findAll(spec);
     }
 }

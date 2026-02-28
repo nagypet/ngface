@@ -18,8 +18,10 @@ package hu.perit.ngface.core.data;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class MyComponentDTO extends ComponentDTO
 {
