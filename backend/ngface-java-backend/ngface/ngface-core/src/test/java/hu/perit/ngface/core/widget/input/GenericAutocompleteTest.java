@@ -17,7 +17,7 @@
 package hu.perit.ngface.core.widget.input;
 
 import hu.perit.spvitamin.core.StackTracer;
-import hu.perit.spvitamin.spring.json.JSonSerializer;
+import hu.perit.spvitamin.json.JSonSerializer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -25,8 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
+import tools.jackson.core.JacksonException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -63,7 +63,7 @@ class GenericAutocompleteTest
             assertNotNull(deserialized.getExtendedReadOnlyData().getValueSet());
             assertEquals(Boolean.TRUE, deserialized.getExtendedReadOnlyData().getValueSet().getRemote());
         }
-        catch (IOException e)
+        catch (JacksonException e)
         {
             log.error(StackTracer.toString(e));
             fail(e);
