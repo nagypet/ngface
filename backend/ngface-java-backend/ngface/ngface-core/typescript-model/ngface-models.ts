@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-12-30 09:04:28.
+// Generated using typescript-generator version 3.2.1263 on 2026-01-29 07:09:51.
 
 export namespace Ngface {
 
@@ -73,6 +73,12 @@ export namespace Ngface {
 
     }
 
+    export interface AbstractOption extends Comparable<AbstractOption> {
+        texts: string[];
+        id: string;
+        type: string;
+    }
+
     export interface Autocomplete extends Input<Autocomplete.Data, string, Autocomplete> {
         type: "Autocomplete";
         data: Autocomplete.Data;
@@ -83,13 +89,20 @@ export namespace Ngface {
         export interface Data extends Value<string> {
             type: "Autocomplete.Data";
             value: string | null;
-            extendedReadOnlyData: ExtendedReadOnlyData;
+            extendedReadOnlyData: Autocomplete.Data.ExtendedReadOnlyData;
         }
 
     }
 
-    export interface ExtendedReadOnlyData {
-        valueSet: ValueSet;
+    export namespace Autocomplete.Data {
+
+        export interface ExtendedReadOnlyData {
+            valueSet: ValueSet;
+        }
+
+    }
+
+    export interface AutocompleteOption extends AbstractOption {
     }
 
     export interface DateInput extends Input<DateInput.Data, Date, DateInput> {
@@ -133,6 +146,44 @@ export namespace Ngface {
         export interface Data extends Value<Date> {
             type: "DateTimeInput.Data";
             value: Date | null;
+        }
+
+    }
+
+    export interface GenericAutocomplete<T> extends Input<GenericAutocomplete.Data<T>, T, GenericAutocomplete<T>> {
+        type: "GenericAutocomplete";
+        data: GenericAutocomplete.Data<T>;
+    }
+
+    export namespace GenericAutocomplete {
+
+        export interface Data<T> extends Value<T> {
+            type: "GenericAutocomplete.Data";
+            value: T | null;
+            extendedReadOnlyData: GenericAutocomplete.Data.ExtendedReadOnlyData<T>;
+        }
+
+    }
+
+    export namespace GenericAutocomplete.Data {
+
+        export interface ExtendedReadOnlyData<T> {
+            valueSet: GenericValueSet<T>;
+        }
+
+    }
+
+    export interface GenericValueSet<T> extends Serializable {
+        remote: boolean;
+        truncated: boolean;
+        values: GenericValueSet.Item<T>[];
+    }
+
+    export namespace GenericValueSet {
+
+        export interface Item<T> extends Serializable {
+            value: T;
+            selected: boolean;
         }
 
     }
@@ -432,7 +483,7 @@ export namespace Ngface {
     }
 
     export interface WidgetData extends Serializable {
-        type: "WidgetList.Data" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
+        type: "WidgetList.Data" | "DateRangeInput.Data" | "Select.Data" | "Table.Data" | "VoidWidgetData" | "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "GenericAutocomplete.Data" | "NumericInput.Data" | "TextInput.Data";
     }
 
     export interface VoidWidgetData extends WidgetData {
@@ -440,7 +491,7 @@ export namespace Ngface {
     }
 
     export interface Widget<WD, SUB> {
-        type: "Button" | "WidgetList" | "FormattedText" | "Table" | "Titlebar" | "Autocomplete" | "DateInput" | "DateRangeInput" | "DateTimeInput" | "NumericInput" | "Select" | "TextInput";
+        type: "Button" | "WidgetList" | "FormattedText" | "Table" | "Titlebar" | "Autocomplete" | "DateInput" | "DateRangeInput" | "DateTimeInput" | "GenericAutocomplete" | "NumericInput" | "Select" | "TextInput";
         id: string;
         label: string;
         hint: string;
@@ -472,12 +523,15 @@ export namespace Ngface {
     }
 
     export interface Value<V> extends WidgetData {
-        type: "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "NumericInput.Data" | "TextInput.Data";
+        type: "Value" | "FormattedText.Data" | "Autocomplete.Data" | "DateInput.Data" | "DateTimeInput.Data" | "GenericAutocomplete.Data" | "NumericInput.Data" | "TextInput.Data";
         value: V | null;
     }
 
+    export interface Comparable<T> {
+    }
+
     export interface Input<WD, V, SUB> extends Widget<WD, SUB> {
-        type: "Autocomplete" | "DateInput" | "DateRangeInput" | "DateTimeInput" | "NumericInput" | "Select" | "TextInput";
+        type: "Autocomplete" | "DateInput" | "DateRangeInput" | "DateTimeInput" | "GenericAutocomplete" | "NumericInput" | "Select" | "TextInput";
         placeholder: string;
         validators: Validator[];
     }

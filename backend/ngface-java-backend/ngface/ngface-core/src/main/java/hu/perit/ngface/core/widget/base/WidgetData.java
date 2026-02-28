@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import hu.perit.ngface.core.widget.collection.WidgetList;
 import hu.perit.ngface.core.widget.formattedtext.FormattedText;
 import hu.perit.ngface.core.widget.input.Autocomplete;
+import hu.perit.ngface.core.widget.input.GenericAutocomplete;
 import hu.perit.ngface.core.widget.input.DateInput;
 import hu.perit.ngface.core.widget.input.DateRangeInput;
 import hu.perit.ngface.core.widget.input.DateTimeInput;
@@ -48,6 +49,7 @@ import java.io.Serializable;
         @JsonSubTypes.Type(value = Table.Data.class, name = "Table.Data"),
         @JsonSubTypes.Type(value = FormattedText.Data.class, name = "FormattedText.Data"),
         @JsonSubTypes.Type(value = Autocomplete.Data.class, name = "Autocomplete.Data"),
+        @JsonSubTypes.Type(value = GenericAutocomplete.Data.class, name = "GenericAutocomplete.Data"),
         @JsonSubTypes.Type(value = WidgetList.Data.class, name = "WidgetList.Data")
 })
 @EqualsAndHashCode

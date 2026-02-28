@@ -20,7 +20,14 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import hu.perit.ngface.core.widget.button.Button;
 import hu.perit.ngface.core.widget.formattedtext.FormattedText;
-import hu.perit.ngface.core.widget.input.*;
+import hu.perit.ngface.core.widget.input.Autocomplete;
+import hu.perit.ngface.core.widget.input.DateInput;
+import hu.perit.ngface.core.widget.input.DateRangeInput;
+import hu.perit.ngface.core.widget.input.DateTimeInput;
+import hu.perit.ngface.core.widget.input.GenericAutocomplete;
+import hu.perit.ngface.core.widget.input.NumericInput;
+import hu.perit.ngface.core.widget.input.Select;
+import hu.perit.ngface.core.widget.input.TextInput;
 import hu.perit.ngface.core.widget.table.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -46,6 +53,7 @@ import lombok.ToString;
         @JsonSubTypes.Type(value = Table.class, name = "Table"),
         @JsonSubTypes.Type(value = FormattedText.class, name = "FormattedText"),
         @JsonSubTypes.Type(value = Autocomplete.class, name = "Autocomplete"),
+        @JsonSubTypes.Type(value = GenericAutocomplete.class, name = "GenericAutocomplete"),
         @JsonSubTypes.Type(value = Button.class, name = "Button")
 })
 public abstract class Widget<WD extends WidgetData, SUB extends Widget>

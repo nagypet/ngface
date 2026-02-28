@@ -24,6 +24,7 @@ import hu.perit.ngface.core.types.table.TableContent;
 import hu.perit.ngface.core.types.table.TableSessionDefaults;
 import hu.perit.ngface.core.widget.table.Filterer;
 import hu.perit.ngface.core.widget.table.FiltererFactory;
+import hu.perit.ngface.core.widget.table.Paginator;
 import hu.perit.ngface.core.widget.table.Table;
 import hu.perit.ngface.core.widget.table.TableDataBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,7 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>, I ex
     protected Table.Data getTableData(Integer pageSize, Long length, List<Integer> pageSizeOptions)
     {
         TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
-        Table.Data defaults = Optional.of(sessionDefaults).map(TableSessionDefaults::getTableData).orElse(null);
+        Table.Data defaults = Optional.ofNullable(sessionDefaults).map(TableSessionDefaults::getTableData).orElse(null);
 
         // Data
         return TableDataBuilder.builder(defaults)
@@ -58,7 +59,7 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>, I ex
         TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
 
         // Updating selection states
-        SelectionStore<R, I> selectionStore = Optional.of(sessionDefaults).map(TableSessionDefaults::getSelectionStore).orElse(null);
+        SelectionStore<R, I> selectionStore = Optional.ofNullable(sessionDefaults).map(TableSessionDefaults::getSelectionStore).orElse(null);
         if (selectionStore == null)
         {
             throw new IllegalStateException("SelectionStore is null!");
@@ -83,7 +84,7 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>, I ex
     public Filterer getFilterer(String column, String searchText)
     {
         TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
-        Filterer filterer = Optional.of(sessionDefaults).map(TableSessionDefaults::getTableData).map(Table.Data::getFiltererMap).map(i -> i.get(column)).orElse(
+        Filterer filterer = Optional.ofNullable(sessionDefaults).map(TableSessionDefaults::getTableData).map(Table.Data::getFiltererMap).map(i -> i.get(column)).orElse(
                 null);
         if (filterer != null && BooleanUtils.isTrue(filterer.getActive()) && useCachedFilter(searchText, filterer.getSearchText()))
         {
@@ -98,7 +99,7 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>, I ex
     private boolean useCachedFilter(String searchText, String filtererSearchText)
     {
         return Strings.CS.equals(searchText, filtererSearchText);
-        //return StringUtils.isBlank(searchText) || StringUtils.equals(searchText, filtererSearchText);
+        //return StringUtils.isBlank(searchText) || Strings.CS.equals(searchText, filtererSearchText);
     }
 
 
@@ -131,6 +132,12 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>, I ex
             sessionDefaults.getSelectionStore().clearSingleSelections();
         }
 
+        // Fix out-of-bound page index
+        if (data.getPaginator() != null)
+        {
+            data.paginator(Paginator.validPaginator(data.getPaginator()));
+        }
+
         sessionDefaults.setTableData(data);
         saveSessionDefaults(sessionDefaults);
     }
@@ -149,7 +156,7 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>, I ex
         TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
 
         List<DataRetrievalParams.Filter> filters = new ArrayList<>(sessionDefaults.getDefaultFilterers().stream().map(this::getFilterFromFilterer).toList());
-        Map<String, Filterer> filtererMap = Optional.of(sessionDefaults).map(TableSessionDefaults::getTableData).map(Table.Data::getFiltererMap).orElse(null);
+        Map<String, Filterer> filtererMap = Optional.ofNullable(sessionDefaults).map(TableSessionDefaults::getTableData).map(Table.Data::getFiltererMap).orElse(null);
         if (filtererMap == null)
         {
             return filters;
