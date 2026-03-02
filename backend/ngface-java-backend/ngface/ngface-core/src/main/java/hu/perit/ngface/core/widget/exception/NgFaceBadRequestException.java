@@ -22,4 +22,10 @@ public class NgFaceBadRequestException extends RuntimeException
     {
         super(message);
     }
+
+
+    public NgFaceBadRequestException(Throwable cause)
+    {
+        super(cause);
+    }
 }
