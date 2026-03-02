@@ -20,6 +20,7 @@ import hu.perit.ngface.core.types.intf.DataRetrievalParams;
 import hu.perit.ngface.core.types.intf.Direction;
 import hu.perit.ngface.core.types.intf.RowSelectParams;
 import hu.perit.ngface.core.types.table.SelectionStore;
+import hu.perit.ngface.core.widget.exception.NgFaceBadRequestException;
 import hu.perit.ngface.data.jpa.service.api.GenericNgfaceQueryService;
 import hu.perit.spvitamin.core.typehelpers.ListUtils;
 import hu.perit.spvitamin.core.util.FieldMapper;
@@ -143,6 +144,7 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
 
         String searchColumn = getSearchColumn(filter.getColumn());
         return (root, query, criteriaBuilder) -> {
+
             List<?> valueSet = convertFilterValueSetToDbType(searchColumn, filter);
 
             switch (filter.getOperator())
@@ -359,15 +361,22 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
     {
         if (StringUtils.isBlank(propertyPath))
         {
-            throw new IllegalArgumentException("propertyPath is blank");
+            throw new NgFaceBadRequestException("propertyPath is blank");
         }
 
-        Path<?> path = root;
-        for (String part : propertyPath.split("\\."))
+        try
         {
-            path = path.get(part);
+            Path<?> path = root;
+            for (String part : propertyPath.split("\\."))
+            {
+                path = path.get(part);
+            }
+            return (Path<T>) path;
         }
-        return (Path<T>) path;
+        catch (RuntimeException ex)
+        {
+            throw new NgFaceBadRequestException(ex);
+        }
     }
 
 
