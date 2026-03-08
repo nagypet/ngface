@@ -37,9 +37,18 @@ class ProjectConfigurer {
 
     void doIt() {
         long startTime = System.currentTimeMillis()
+        println "Scanning folder: " + this.rootDir
         println "Included projects:"
 
-        this.discoverRecursive(this.rootDir)
+        if ("ngface-java".equals(this.rootDir.getName()))
+        {
+            this.discoverRecursive(this.rootDir)
+            this.discoverRecursive(new File(this.rootDir.getParentFile(), "spvitamin"))
+        }
+        else
+        {
+            this.discoverRecursive(this.rootDir)
+        }
 
         println String.format("Dependency check took %d ms", System.currentTimeMillis() - startTime)
     }

@@ -16,7 +16,9 @@
 
 package hu.perit.ngface.core.widget.form;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hu.perit.ngface.core.widget.base.Widget;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import lombok.ToString;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Peter Nagy
@@ -37,13 +40,21 @@ public class Form
 {
     private final String id;
     private String title;
-    private final Map<String, Widget<?, ?>> widgets = new LinkedHashMap<>();
+    /**
+     * Intentionally raw type: this avoids Jackson generic specialization issues for polymorphic widget subtypes (e.g. Table).
+     */
+    @SuppressWarnings("rawtypes")
+    @Getter(AccessLevel.NONE)
+    @JsonProperty
+    private final Map<String, Widget> widgets = new LinkedHashMap<>();
+
 
     // For JSon deserialization
     protected Form()
     {
         this.id = null;
     }
+
 
     public Form title(String title)
     {
@@ -56,5 +67,17 @@ public class Form
     {
         this.widgets.put(widget.getId(), widget);
         return this;
+    }
+
+
+    public <W extends Widget<?, ?>> Optional<W> getWidget(String widgetId, Class<W> widgetClass)
+    {
+        @SuppressWarnings("rawtypes")
+        Widget widget = this.widgets.get(widgetId);
+        if (!widgetClass.isInstance(widget))
+        {
+            return Optional.empty();
+        }
+        return Optional.of(widgetClass.cast(widget));
     }
 }
