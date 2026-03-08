@@ -53,11 +53,12 @@ class FormTest
         assertThat(result).isEqualTo(form);
     }
 
+
     @Test
     void testTable() throws IOException
     {
         Form form = new Form();
-        form.addWidget(new Table<Long>("table"));
+        form.addWidget(new Table<Long>("table-id"));
 
         String json = JSonSerializer.toJson(form);
         log.debug(json);
