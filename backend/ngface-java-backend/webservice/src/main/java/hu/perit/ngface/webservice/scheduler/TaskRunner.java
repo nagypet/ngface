@@ -34,6 +34,6 @@ public class TaskRunner
     @Scheduled(timeUnit = TimeUnit.SECONDS, fixedDelay = 1)
     void sendNotification()
     {
-        this.sseService.sendNotification(SseUpdateNotification.create("tick", 0L));
+        this.sseService.sendNotification(SseUpdateNotification.create(null, "tick", 0L));
     }
 }
