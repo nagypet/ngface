@@ -12,7 +12,7 @@ czhabarta = '3.2.1263'
 habarta-typescript-generator = { id = 'cz.habarta.typescript-generator', version.ref = 'czhabarta' }
 io-spring-dependency-management = { id = 'io.spring.dependency-management', version = '1.1.7' }
 johnrengelman-shadow = { id = 'com.github.johnrengelman.shadow', version = '8.1.1' }
-org-springframework-boot = { id = 'org.springframework.boot', version = '4.0.1' }
+org-springframework-boot = { id = 'org.springframework.boot', version = '4.0.3' }
 
 
 [libraries]
@@ -44,4 +44,4 @@ openapi-api = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-api', v
 openapi-ui = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-ui', version.ref = 'springdoc' }
 opencsv = 'com.opencsv:opencsv:5.12.0'
 slf4j-api = 'org.slf4j:slf4j-api:2.0.17'
-spvitamin = 'hu.perit.spvitamin:spvitamin-dependencies:4.0.1-1-RELEASE'
+spvitamin = 'hu.perit.spvitamin:spvitamin-dependencies:4.0.3-1-RELEASE'

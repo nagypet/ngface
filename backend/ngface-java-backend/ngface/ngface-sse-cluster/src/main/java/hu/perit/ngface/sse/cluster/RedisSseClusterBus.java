@@ -1,7 +1,7 @@
 package hu.perit.ngface.sse.cluster;
 
 import hu.perit.spvitamin.core.StackTracer;
-import hu.perit.spvitamin.spring.json.JSonSerializer;
+import hu.perit.spvitamin.json.JSonSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;

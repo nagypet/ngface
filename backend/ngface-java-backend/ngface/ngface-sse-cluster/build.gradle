@@ -33,8 +33,6 @@ repositories {
 
 
 dependencies {
-    implementation platform(libs.spvitamin)
-
     implementation libs.jetbrains.annotations
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -45,13 +43,11 @@ dependencies {
 
     if (Boolean.valueOf(project.findProperty('useSpvitaminProject') ?: 'false')) {
         implementation project(':spvitamin-core')
-        implementation project(':spvitamin-spring-general')
-        implementation project(':spvitamin-spring-logging')
+        implementation project(':spvitamin-json-time')
     } else {
         implementation platform(libs.spvitamin)
         implementation 'hu.perit.spvitamin:spvitamin-core'
-        implementation 'hu.perit.spvitamin:spvitamin-spring-general'
-        implementation 'hu.perit.spvitamin:spvitamin-spring-logging'
+        implementation 'hu.perit.spvitamin:spvitamin-json-time'
     }
 
     // Lombok
