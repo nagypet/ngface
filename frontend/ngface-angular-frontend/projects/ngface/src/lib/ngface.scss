@@ -63,9 +63,10 @@
   margin-bottom: 20px;
 
   // When ngface-input-field placed in a ngface-row, there should be a right margin
-  .ngface-input-field {
-    margin-right: 20px;
-  }
+  gap: 20px;
+  //.ngface-input-field {
+  //  margin-right: 20px;
+  //}
 }
 
 .ngface-row.phone.portrait {

@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #
 # Copyright 2020-2025 the original author or authors.
 #
@@ -16,12 +14,4 @@
 # limitations under the License.
 #
 
-copyTo() {
-  cp ./gradle.properties ./$1
-}
-
-copyTo ngface-core
-copyTo ngface-data-jpa
-copyTo ngface-rest
-copyTo ngface-sse
-copyTo ngface-sse-cluster
+hu.perit.ngface.sse.cluster.config.NgfaceSseClusterAutoConfiguration

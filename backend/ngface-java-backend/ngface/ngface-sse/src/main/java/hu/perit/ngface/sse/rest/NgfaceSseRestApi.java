@@ -25,5 +25,8 @@ public interface NgfaceSseRestApi
     //------------------------------------------------------------------------------------------------------------------
     // subscribe()
     //------------------------------------------------------------------------------------------------------------------
-    ResponseEntity<SseEmitter> subscribe(@RequestParam(value = "lastEventId", required = false) String lastEventId);
+    ResponseEntity<SseEmitter> subscribe(
+            @RequestParam(value = "lastEventId", required = false) String lastEventId,
+            @RequestParam(value = "client", required = false) String client
+    );
 }

@@ -49,6 +49,7 @@ public class Filterer implements Serializable
     private String searchText = "";
     private Boolean active = Boolean.FALSE;
     private Type type = Type.TEXT;
+    private String defaultLabel;
     private Integer order;
 
 
@@ -83,6 +84,13 @@ public class Filterer implements Serializable
     public Filterer type(Type type)
     {
         this.type = type;
+        return this;
+    }
+
+
+    public Filterer defaultLabel(String defaultLabel)
+    {
+        this.defaultLabel = defaultLabel;
         return this;
     }
 

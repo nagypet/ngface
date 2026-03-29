@@ -25,13 +25,19 @@ import org.apache.commons.lang3.BooleanUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FiltererFactory
 {
-    public record FiltererDef(String column, Boolean remote, ValueProvider<String, List<String>> valueProvider, Filterer.Type type, Integer order)
+    public record FiltererDef(
+            String column,
+            Boolean remote,
+            ValueProvider<String, List<String>> valueProvider,
+            Filterer.Type type,
+            String defaultLabel,
+            Integer order
+    )
     {
     }
 
@@ -46,21 +52,28 @@ public class FiltererFactory
 
     public FiltererFactory filterer(String column, Boolean remote, ValueProvider<String, List<String>> valueProvider)
     {
-        this.filtererDefMap.put(column, new FiltererDef(column, remote, valueProvider, Filterer.Type.TEXT, null));
+        this.filtererDefMap.put(column, new FiltererDef(column, remote, valueProvider, Filterer.Type.TEXT, null, null));
         return this;
     }
 
 
     public FiltererFactory filterer(String column, Boolean remote, ValueProvider<String, List<String>> valueProvider, Filterer.Type type)
     {
-        this.filtererDefMap.put(column, new FiltererDef(column, remote, valueProvider, type, null));
+        this.filtererDefMap.put(column, new FiltererDef(column, remote, valueProvider, type, null, null));
         return this;
     }
 
 
     public FiltererFactory filterer(String column, Boolean remote, ValueProvider<String, List<String>> valueProvider, Filterer.Type type, Integer order)
     {
-        this.filtererDefMap.put(column, new FiltererDef(column, remote, valueProvider, type, order));
+        this.filtererDefMap.put(column, new FiltererDef(column, remote, valueProvider, type, null, order));
+        return this;
+    }
+
+
+    public FiltererFactory filterer(String column, Boolean remote, ValueProvider<String, List<String>> valueProvider, Filterer.Type type, String defaultLabel, Integer order)
+    {
+        this.filtererDefMap.put(column, new FiltererDef(column, remote, valueProvider, type, defaultLabel, order));
         return this;
     }
 
@@ -78,8 +91,22 @@ public class FiltererFactory
                 .valueSet(getValueSet(searchText, skipRemote, filtererDef))
                 .searchText(searchText)
                 .type(filtererDef.type)
-                .operator(filtererDef.type == Filterer.Type.TEXT ? ComparisonOperator.IN : ComparisonOperator.BETWEEN)
+                .operator(getOperator(filtererDef))
+                .defaultLabel(filtererDef.defaultLabel)
                 .order(filtererDef.order);
+    }
+
+
+    private static ComparisonOperator getOperator(FiltererDef filtererDef)
+    {
+        return switch (filtererDef.type)
+        {
+            case TEXT -> ComparisonOperator.IN;
+            case NUMBER -> ComparisonOperator.BETWEEN;
+            case DATE -> ComparisonOperator.BETWEEN;
+            case DATETIME -> ComparisonOperator.BETWEEN;
+            case BOOLEAN -> ComparisonOperator.EQ;
+        };
     }
 
 

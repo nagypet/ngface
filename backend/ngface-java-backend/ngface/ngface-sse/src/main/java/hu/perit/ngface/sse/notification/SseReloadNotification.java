@@ -23,24 +23,25 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class SseReloadNotification extends SseNotification
 {
-    public static SseReloadNotification create(String subject)
+    public static SseReloadNotification create(String client, String subject)
     {
-        return new SseReloadNotification(subject);
+        return new SseReloadNotification(client, subject);
     }
 
-    public SseReloadNotification(String subject)
+
+    public SseReloadNotification(String client, String subject)
     {
-        super(Type.RELOAD, subject);
+        super(Type.RELOAD, client, subject);
     }
 
 
     // Json
     private SseReloadNotification()
     {
-        super(Type.RELOAD, "something");
+        super(Type.RELOAD, null, "something");
     }
 }

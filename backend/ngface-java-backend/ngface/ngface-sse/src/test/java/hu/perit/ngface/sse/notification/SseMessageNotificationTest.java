@@ -29,6 +29,7 @@ class SseMessageNotificationTest
     SseMessageNotification sseMessageNotification;
 
     private static final SseMessageNotification.Level LEVEL = SseMessageNotification.Level.INFO;
+    private static final String CLIENT = null;
     private static final String SUBJECT = "subject";
     private static final String MESSAGE = "message";
     private static final String DETAILS = "details";
@@ -38,7 +39,7 @@ class SseMessageNotificationTest
     @BeforeEach
     void init()
     {
-        sseMessageNotification = new SseMessageNotification(SUBJECT, LEVEL, MESSAGE, DETAILS, ERROR_TEXT);
+        sseMessageNotification = new SseMessageNotification(CLIENT, SUBJECT, LEVEL, MESSAGE, DETAILS, ERROR_TEXT);
     }
 
 
@@ -69,7 +70,7 @@ class SseMessageNotificationTest
     @Test
     void equalsTest_whenComparedToOtherWithSameTypeAndSameFields_shouldReturnTrue()
     {
-        SseMessageNotification other = new SseMessageNotification(SUBJECT, LEVEL, MESSAGE, DETAILS, ERROR_TEXT);
+        SseMessageNotification other = new SseMessageNotification(CLIENT, SUBJECT, LEVEL, MESSAGE, DETAILS, ERROR_TEXT);
 
         assertThat(sseMessageNotification).isEqualTo(other);
     }
@@ -78,7 +79,7 @@ class SseMessageNotificationTest
     @Test
     void equalsTest_whenComparedToOtherWithSameTypeAndDifferentFields_shouldReturnFalse()
     {
-        SseMessageNotification other = new SseMessageNotification(SUBJECT, LEVEL, "", DETAILS, ERROR_TEXT);
+        SseMessageNotification other = new SseMessageNotification(CLIENT, SUBJECT, LEVEL, "", DETAILS, ERROR_TEXT);
 
         assertThat(sseMessageNotification).isNotEqualTo(other);
     }
@@ -101,7 +102,7 @@ class SseMessageNotificationTest
     @Test
     void hashCodeTest_shouldReturnInteger()
     {
-        SseMessageNotification other = new SseMessageNotification(SUBJECT, LEVEL, MESSAGE, DETAILS, ERROR_TEXT);
+        SseMessageNotification other = new SseMessageNotification(CLIENT, SUBJECT, LEVEL, MESSAGE, DETAILS, ERROR_TEXT);
 
         assertThat(sseMessageNotification).hasSameHashCodeAs(other);
     }
@@ -110,7 +111,7 @@ class SseMessageNotificationTest
     @Test
     void sseMessageNoticationTest() throws IOException
     {
-        SseMessageNotification expected = new SseMessageNotification(SUBJECT, LEVEL, MESSAGE, DETAILS, ERROR_TEXT);
+        SseMessageNotification expected = new SseMessageNotification(CLIENT, SUBJECT, LEVEL, MESSAGE, DETAILS, ERROR_TEXT);
         String json = JSonSerializer.toJson(expected);
 
         SseNotification deserialized = JSonSerializer.fromJson(json, SseNotification.class);

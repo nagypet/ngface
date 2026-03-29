@@ -34,9 +34,9 @@ public class NgfaceSseRestController implements NgfaceSseRestApi
     // subscribe()
     //------------------------------------------------------------------------------------------------------------------
     @Override
-    public ResponseEntity<SseEmitter> subscribe(String lastEventId)
+    public ResponseEntity<SseEmitter> subscribe(String lastEventId, String client)
     {
-        ServerSentEvent.Subscription<String> subscription = this.sseService.subscribe(lastEventId);
+        ServerSentEvent.Subscription<String> subscription = this.sseService.subscribe(lastEventId, client);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.TEXT_EVENT_STREAM);
         headers.add("X-Accel-Buffering", "no");

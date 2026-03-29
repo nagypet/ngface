@@ -27,6 +27,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +49,7 @@ import java.util.function.BiPredicate;
  * @author np
  */
 @Slf4j
-public class ServerSentEvent<T, F>
+public class ServerSentEvent<T, F extends Serializable>
 {
 
     public static final String FAILED_TO_COMPLETE_SUBSCRIPTION = "Failed to complete subscription {}: {}";
@@ -231,7 +232,7 @@ public class ServerSentEvent<T, F>
     {
         try
         {
-            log.debug("Sending event {}:{} => subscription {}", eventName, eventId, subscription.id);
+            log.debug("Sending event {}:{} => subscription {}, {}", eventName, eventId, subscription.id, subscription.filterKey);
             SseEmitter.SseEventBuilder event = SseEmitter.event()
                     .data(args == null ? "NULL" : args)
                     .name(eventName)
@@ -271,7 +272,7 @@ public class ServerSentEvent<T, F>
     {
         try
         {
-            log.debug("Sending keepalive to subscription {}", subscription.id);
+            log.debug("Sending keepalive to subscription {}, {}", subscription.id, subscription.filterKey);
             SseEmitter.SseEventBuilder event = SseEmitter.event()
                     .comment("keepalive")
                     .id(String.valueOf(this.lastEventId.get()));
@@ -285,7 +286,7 @@ public class ServerSentEvent<T, F>
 
 
     @Getter
-    public static class Subscription<F> extends SseEmitter
+    public static class Subscription<F extends Serializable> extends SseEmitter implements Serializable
     {
         private final int id;
         private final F filterKey;

@@ -37,8 +37,8 @@ public class SseRestController extends NgfaceSseRestController
     //------------------------------------------------------------------------------------------------------------------
     @GetMapping(value = "/frontend/sse/subscribe")
     @Override
-    public ResponseEntity<SseEmitter> subscribe(String lastEventId)
+    public ResponseEntity<SseEmitter> subscribe(String lastEventId, String client)
     {
-        return super.subscribe(lastEventId);
+        return super.subscribe(lastEventId, client);
     }
 }
