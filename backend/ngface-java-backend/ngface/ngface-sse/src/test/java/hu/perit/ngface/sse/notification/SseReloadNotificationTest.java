@@ -25,9 +25,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class SseReloadNotificationTest
 {
+    private static final String CLIENT = null;
     private static final String SUBJECT = "subject";
 
-    private final SseReloadNotification sseReloadNotification = new SseReloadNotification(SUBJECT);
+    private final SseReloadNotification sseReloadNotification = new SseReloadNotification(CLIENT, SUBJECT);
 
 
     @Test
@@ -40,7 +41,7 @@ class SseReloadNotificationTest
     @Test
     void toStringTest_shouldReturnString()
     {
-        assertThat(sseReloadNotification.toString()).isEqualTo("SseReloadNotification()");
+        assertThat(sseReloadNotification).hasToString("SseReloadNotification(super=SseNotification(type=RELOAD, client=null, subject=subject, sender=null))");
     }
 
 
@@ -61,7 +62,7 @@ class SseReloadNotificationTest
     @Test
     void equalsTest_whenComparedToOtherWithSameTypeAndSameFields_shouldReturnTrue()
     {
-        SseReloadNotification other = new SseReloadNotification(SUBJECT);
+        SseReloadNotification other = new SseReloadNotification(CLIENT, SUBJECT);
 
         assertThat(sseReloadNotification).isEqualTo(other);
     }
@@ -84,7 +85,7 @@ class SseReloadNotificationTest
     @Test
     void hashCodeTest_shouldReturnInteger()
     {
-        SseReloadNotification other = new SseReloadNotification(SUBJECT);
+        SseReloadNotification other = new SseReloadNotification(CLIENT, SUBJECT);
 
         assertThat(sseReloadNotification.hashCode()).isEqualTo(other.hashCode());
     }
@@ -93,7 +94,7 @@ class SseReloadNotificationTest
     @Test
     void SseReloadNotificationTest() throws IOException
     {
-        SseReloadNotification expected = new SseReloadNotification(SUBJECT);
+        SseReloadNotification expected = new SseReloadNotification(CLIENT, SUBJECT);
         String json = JSonSerializer.toJson(expected);
 
         SseNotification deserialized = JSonSerializer.fromJson(json, SseNotification.class);

@@ -36,15 +36,15 @@ public class SseUpdateNotification<T> extends SseNotification
     private final Set<T> jobIds = new HashSet<>();
 
 
-    public static <T> SseUpdateNotification<T> create(String subject, T jobId)
+    public static <T> SseUpdateNotification<T> create(String client, String subject, T jobId)
     {
-        return new SseUpdateNotification<>(subject, Set.of(jobId));
+        return new SseUpdateNotification<>(client, subject, Set.of(jobId));
     }
 
 
-    public SseUpdateNotification(String subject, Collection<T> jobIds)
+    public SseUpdateNotification(String client, String subject, Collection<T> jobIds)
     {
-        super(Type.UPDATE, subject);
+        super(Type.UPDATE, client, subject);
         this.jobIds.clear();
         if (jobIds != null && !jobIds.isEmpty())
         {
@@ -56,7 +56,7 @@ public class SseUpdateNotification<T> extends SseNotification
     // Json
     private SseUpdateNotification()
     {
-        super(Type.UPDATE, "something");
+        super(Type.UPDATE, null, "something");
     }
 
 

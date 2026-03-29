@@ -58,12 +58,17 @@ public abstract class SseNotification implements java.io.Serializable
 
 
     private final Type type;
+    // If the client is null, then the notification is sent to all clients.
+    private final String client;
     private final String subject;
-    // This is the originator of the notification.
+    // This is the originator of the notification. By convention, if the notification is sent by the current instance,
+    // then the sender is null. Otherwise, it is the name of the sending instance. The content of this field is arbitrary,
+    // not necessarily the host name. Do not suppose anything about the content of this field. Check only if it is null.
+    @Getter(AccessLevel.NONE)
     private String sender;
 
 
-    protected SseNotification(Type type, String subject)
+    protected SseNotification(Type type, String client, String subject)
     {
         if (StringUtils.isBlank(subject))
         {
@@ -76,6 +81,13 @@ public abstract class SseNotification implements java.io.Serializable
         }
 
         this.subject = subject;
+        this.client = client;
         this.type = type;
+    }
+
+
+    public boolean isFromForeignInstance()
+    {
+        return StringUtils.isNotBlank(this.sender);
     }
 }

@@ -27,10 +27,11 @@ public interface SseService
      * @param lastReceivedEventId the last received event ID sent from the client during reconnection.
      *                            If provided, the server may resend events that occurred after this ID.
      *                            A null or blank value indicates no events need to be resent.
+     * @param client              the client ID to be associated with the subscription.
      * @return a {@code ServerSentEvent.Subscription<String>} representing the subscription for the client,
-     *         allowing the backend to send events to this client.
+     * allowing the backend to send events to this client.
      */
-    ServerSentEvent.Subscription<String> subscribe(String lastReceivedEventId);
+    ServerSentEvent.Subscription<String> subscribe(String lastReceivedEventId, String client);
 
     /**
      * Sends a server-sent event (SSE) notification to connected clients.
@@ -42,17 +43,19 @@ public interface SseService
     /**
      * Sends an error notification with the provided subject and associated throwable.
      *
-     * @param subject the subject of the error notification
+     * @param client    the client ID associated with the error notification. If null, the notification is sent to all clients.
+     * @param subject   the subject of the error notification
      * @param throwable the throwable containing details about the error
      */
-    void sendError(String subject, Throwable throwable);
+    void sendError(String client, String subject, Throwable throwable);
 
     /**
      * Sends a reload notification with the provided subject.
      *
+     * @param client  the client ID associated with the error notification. If null, the notification is sent to all clients.
      * @param subject the subject of the reload notification
      */
-    void sendReload(String subject);
+    void sendReload(String client, String subject);
 
     // Unit test
     int getQueueSize();

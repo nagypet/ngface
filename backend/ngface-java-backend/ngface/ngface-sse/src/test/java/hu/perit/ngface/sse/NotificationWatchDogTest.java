@@ -63,7 +63,7 @@ class NotificationWatchDogTest
     @Test
     void resendInMillisTest_shouldVerifyMock()
     {
-        SseUpdateNotification<Long> updateNotification = new SseUpdateNotification<>("alma", new HashSet<>());
+        SseUpdateNotification<Long> updateNotification = new SseUpdateNotification<>(null, "alma", new HashSet<>());
 
         notificationWatchDog.resendInMillis(200L, updateNotification);
 

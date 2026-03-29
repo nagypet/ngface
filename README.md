@@ -12,6 +12,9 @@
     * [table-details-dialog.component.ts](#table-details-dialogcomponentts)
     * [table-demo-form.component.ts](#table-demo-formcomponentts)
   * [Backend code generator](#backend-code-generator)
+* [Binding the ngface lib to the app](#binding-the-ngface-lib-to-the-app)
+  * [Initializing the DeviceTypeService](#initializing-the-devicetypeservice)
+  * [Theming](#theming)
 * [Open issues](#open-issues)
 * [Contact](#contact)
 <!-- TOC -->
@@ -457,6 +460,15 @@ Ngface will use only the primary and the warn palette.
 # Open issues
 
 - PasswordInput
+
+# Release notes
+
+## 3.4.3
+
+- 2026-03-29: SseRestController.subscribe new parameter: client
+- 2026-03-29: new modul: ngface-sse-cluster to use in a clustered environment
+- 2026-03-29: file-upload component improvements
+- 2026-03-29: Filterer component improvements: a default label can be provided to use in a filter panel
 
 # Contact
 Developed by [perit](https://perit.hu).

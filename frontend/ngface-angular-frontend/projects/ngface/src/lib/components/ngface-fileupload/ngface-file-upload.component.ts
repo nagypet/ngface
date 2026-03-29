@@ -43,7 +43,7 @@ export interface FileStatus
     MatBadge
   ],
   templateUrl: './ngface-file-upload.component.html',
-  styleUrl: './ngface-file-upload.component.css'
+  styleUrl: './ngface-file-upload.component.scss'
 })
 export class NgfaceFileUploadComponent implements OnChanges
 {
@@ -84,6 +84,8 @@ export class NgfaceFileUploadComponent implements OnChanges
 
   @Output() onQueued: EventEmitter<File | undefined> = new EventEmitter<File | undefined>();
 
+  @Output() onAllUploaded: EventEmitter<void> = new EventEmitter<void>();
+
 
   public files: Array<FileStatus> = [];
 
@@ -121,13 +123,14 @@ export class NgfaceFileUploadComponent implements OnChanges
       console.log(fileUpload);
       fileUpload.upload();
     });
+    this.onAllUploaded.emit();
   }
 
 
   removeAll(): void
   {
     this.onQueued.emit(undefined);
-    for (let i = 0; i < this.files.length; i++)
+    for (let i = this.files.length - 1; i >= 0; i--)
     {
       if (!this.files[i].uploaded)
       {

@@ -1,0 +1,127 @@
+/*
+ * Copyright 2020-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+plugins {
+    alias libs.plugins.org.springframework.boot
+    alias libs.plugins.io.spring.dependency.management
+    id 'java-library'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'signing'
+    alias libs.plugins.habarta.typescript.generator
+}
+apply from: '../gradle/common.gradle'
+
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+
+dependencies {
+    implementation platform(libs.spvitamin)
+
+    implementation libs.jetbrains.annotations
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Compile dependencies
+    // -----------------------------------------------------------------------------------------------------------------
+    implementation project(':ngface-core')
+    implementation project(':ngface-sse')
+
+    if (Boolean.valueOf(project.findProperty('useSpvitaminProject') ?: 'false')) {
+        implementation project(':spvitamin-core')
+        implementation project(':spvitamin-spring-general')
+        implementation project(':spvitamin-spring-logging')
+    } else {
+        implementation platform(libs.spvitamin)
+        implementation 'hu.perit.spvitamin:spvitamin-core'
+        implementation 'hu.perit.spvitamin:spvitamin-spring-general'
+        implementation 'hu.perit.spvitamin:spvitamin-spring-logging'
+    }
+
+    // Lombok
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+
+    // Spring Boot
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.session:spring-session-data-redis'
+
+    // Validation
+    implementation libs.jakarta.validation.api
+
+    // apache.commons
+    implementation libs.commons.lang3
+    implementation libs.commons.collections4
+
+    // Google findbugs
+    implementation libs.google.code.findbugs
+
+    // Slf4J
+    implementation libs.slf4j.api
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Test dependencies
+    // -----------------------------------------------------------------------------------------------------------------
+    // Lombok
+    testCompileOnly libs.lombok
+    testAnnotationProcessor libs.lombok
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    if (Boolean.valueOf(project.findProperty('useSpvitaminProject') ?: 'false')) {
+        testImplementation project(':spvitamin-test')
+    } else {
+        testImplementation 'hu.perit.spvitamin:spvitamin-test'
+    }
+
+
+    testImplementation libs.logback.classic
+    testImplementation libs.logback.core
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+
+generateTypeScript {
+    jsonLibrary = 'jackson2'
+    classPatterns = [
+            'hu.perit.ngface.sse.notification.**'
+    ]
+    customTypeNaming = [
+            'hu.perit.ngface.sse.notification.SseNotification$Type:SseNotification.Type',
+            'hu.perit.ngface.sse.notification.SseMessageNotification$Level:SseMessageNotification.Level',
+    ]
+    outputFile = 'build/ngface-sse-models.ts'
+    outputFileType = 'implementationFile'
+    outputKind = 'module'
+    namespace = 'NgfaceSse'
+    //disableTaggedUnions = true
+    optionalProperties = 'useSpecifiedAnnotations'
+    optionalAnnotations = [
+            'javax.annotation.Nullable',
+            'jakarta.annotation.Nullable'
+    ]
+    optionalPropertiesDeclaration = 'questionMark'
+}
+
+dist.configure {
+    finalizedBy generateTypeScript
+}

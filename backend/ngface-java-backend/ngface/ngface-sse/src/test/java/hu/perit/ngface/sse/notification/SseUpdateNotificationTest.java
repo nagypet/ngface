@@ -27,6 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class SseUpdateNotificationTest
 {
+    public static final String CLIENT = null;
     public static final String SUBJECT = "alma";
 
     private SseUpdateNotification<Long> sseUpdateNotification;
@@ -35,7 +36,7 @@ class SseUpdateNotificationTest
     @BeforeEach
     void init()
     {
-        sseUpdateNotification = new SseUpdateNotification<>(SUBJECT, Set.of(1L));
+        sseUpdateNotification = new SseUpdateNotification<>(CLIENT, SUBJECT, Set.of(1L));
     }
 
 
@@ -63,7 +64,7 @@ class SseUpdateNotificationTest
     @Test
     void equalsTest_whenComparedToOtherWithSameTypeAndSameFields_shouldReturnTrue()
     {
-        SseUpdateNotification<Long> other = new SseUpdateNotification<>(SUBJECT, new HashSet<>());
+        SseUpdateNotification<Long> other = new SseUpdateNotification<>(CLIENT, SUBJECT, new HashSet<>());
         other.getJobIds().add(1L);
 
         assertThat(sseUpdateNotification).isEqualTo(other);
@@ -73,7 +74,7 @@ class SseUpdateNotificationTest
     @Test
     void equalsTest_whenComparedToOtherWithSameTypeAndDifferentFields_shouldReturnFalse()
     {
-        SseUpdateNotification other = new SseUpdateNotification(SUBJECT, new HashSet<>());
+        SseUpdateNotification other = new SseUpdateNotification(CLIENT, SUBJECT, new HashSet<>());
 
         assertThat(sseUpdateNotification).isNotEqualTo(other);
     }
@@ -96,7 +97,7 @@ class SseUpdateNotificationTest
     @Test
     void hashCodeTest_shouldReturnInteger()
     {
-        SseUpdateNotification other = new SseUpdateNotification(SUBJECT, new HashSet<>());
+        SseUpdateNotification other = new SseUpdateNotification(CLIENT, SUBJECT, new HashSet<>());
         other.getJobIds().add(1L);
 
         assertThat(sseUpdateNotification.hashCode()).isEqualTo(other.hashCode());
@@ -106,7 +107,7 @@ class SseUpdateNotificationTest
     @Test
     void appendTest_shouldRun()
     {
-        SseUpdateNotification<Long> toAppend = new SseUpdateNotification<>(SUBJECT, new HashSet<>());
+        SseUpdateNotification<Long> toAppend = new SseUpdateNotification<>(CLIENT, SUBJECT, new HashSet<>());
         toAppend.getJobIds().add(2L);
 
         sseUpdateNotification.append(toAppend);
@@ -121,7 +122,7 @@ class SseUpdateNotificationTest
     @Test
     void sseUpdateNotification()
     {
-        SseUpdateNotification<?> expected = new SseUpdateNotification<>(SUBJECT, new HashSet<>());
+        SseUpdateNotification<?> expected = new SseUpdateNotification<>(CLIENT, SUBJECT, new HashSet<>());
         String json = JSonSerializer.toJson(expected);
 
         SseNotification deserialized = JSonSerializer.fromJson(json, SseNotification.class);

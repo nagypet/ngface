@@ -29,7 +29,7 @@ import java.util.Optional;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class SseMessageNotification extends SseNotification
 {
@@ -53,13 +53,13 @@ public class SseMessageNotification extends SseNotification
     private final String errorText;
 
 
-    public static SseMessageNotification create(String subject, Level level, String message, String details)
+    public static SseMessageNotification create(String client, String subject, Level level, String message, String details)
     {
-        return new SseMessageNotification(subject, level, message, details, null);
+        return new SseMessageNotification(client, subject, level, message, details, null);
     }
 
 
-    public static SseMessageNotification create(String subject, Throwable throwable)
+    public static SseMessageNotification create(String client, String subject, Throwable throwable)
     {
         if (StringUtils.isBlank(subject))
         {
@@ -68,7 +68,7 @@ public class SseMessageNotification extends SseNotification
 
         if (throwable == null)
         {
-            return create(subject, Level.ERROR, TXT_ERROR, null);
+            return create(client, subject, Level.ERROR, TXT_ERROR, null);
         }
 
         ExceptionWrapper exception = ExceptionWrapper.of(throwable);
@@ -76,13 +76,13 @@ public class SseMessageNotification extends SseNotification
                 .map(t -> StringUtils.isNotBlank(t.getMessage()) ? t.getMessage() : t.toString())
                 .orElse(TXT_ERROR);
         String details = throwable.getMessage();
-        return create(subject, Level.ERROR, StringUtils.abbreviate(message, 50), StringUtils.abbreviate(message.equalsIgnoreCase(details) ? null : details, 200));
+        return create(client, subject, Level.ERROR, StringUtils.abbreviate(message, 50), StringUtils.abbreviate(message.equalsIgnoreCase(details) ? null : details, 200));
     }
 
 
-    public SseMessageNotification(String subject, Level level, @Nullable String message, @Nullable String details, @Nullable String errorText)
+    public SseMessageNotification(String client, String subject, Level level, @Nullable String message, @Nullable String details, @Nullable String errorText)
     {
-        super(Type.MESSAGE, subject);
+        super(Type.MESSAGE, client, subject);
         this.level = level;
         this.message = message;
         this.details = details;
@@ -93,7 +93,7 @@ public class SseMessageNotification extends SseNotification
     // Json
     private SseMessageNotification()
     {
-        super(Type.MESSAGE, "something");
+        super(Type.MESSAGE, null, "something");
         this.level = Level.INFO;
         this.message = null;
         this.details = null;

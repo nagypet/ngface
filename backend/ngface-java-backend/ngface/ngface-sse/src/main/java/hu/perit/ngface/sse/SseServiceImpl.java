@@ -16,15 +16,25 @@
 
 package hu.perit.ngface.sse;
 
+import hu.perit.ngface.sse.cluster.ClusterNotification;
+import hu.perit.ngface.sse.cluster.NoopSseClusterBus;
+import hu.perit.ngface.sse.cluster.SseClusterBus;
 import hu.perit.ngface.sse.notification.SseMessageNotification;
 import hu.perit.ngface.sse.notification.SseNotification;
 import hu.perit.ngface.sse.notification.SseReloadNotification;
 import hu.perit.ngface.sse.notification.SseUpdateNotification;
+import hu.perit.spvitamin.core.timeformatter.TimeFormatter;
+import hu.perit.spvitamin.spring.httplogging.LoggingHelper;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -45,20 +55,41 @@ public class SseServiceImpl implements SseService
 {
     public static final String SENDING_NOTIFICATION_FORMAT = "Sending notification: {}, last sent {} ms ago";
 
+    private static final String CLUSTER_CHANNEL = "ngface-sse-notifications";
+
     private final NotificationWatchDog notificationWatchDog;
+    private final ObjectProvider<SseClusterBus> clusterBusProvider;
 
     private final ServerSentEvent<SseNotification, String> serverSentEvent = new ServerSentEvent<>();
     private final LinkedBlockingDeque<SseNotification> queue = new LinkedBlockingDeque<>();
     private final Thread processingThread = new Thread(this::dispatchNotifications);
     private final Map<SseNotification, SseNotificationDispatcher> notificationDispatcherList = new HashMap<>();
     private final ApplicationEventPublisher publisher;
+    private SseClusterBus clusterBus; // Ez lehet, hogy lehet inicializációval is
 
 
     @PostConstruct
     protected void postConstruct()
     {
+        this.clusterBus = clusterBusProvider.getIfAvailable(NoopSseClusterBus::new);
         this.processingThread.setName("sse-notification");
         this.processingThread.start();
+
+        if (this.clusterBus instanceof NoopSseClusterBus)
+        {
+            log.info("SSE cluster mode disabled (single-node)");
+        }
+        else
+        {
+            log.info("SSE cluster mode enabled (nodeId={}, channel={})", LoggingHelper.getHostName(), CLUSTER_CHANNEL);
+        }
+    }
+
+
+    @EventListener(ApplicationReadyEvent.class)
+    protected void onApplicationReady()
+    {
+        this.clusterBus.subscribe(CLUSTER_CHANNEL, ClusterNotification.class, this::onClusterNotification);
     }
 
 
@@ -128,16 +159,32 @@ public class SseServiceImpl implements SseService
 
     private void eventConsumer(SseNotification notification)
     {
-        this.serverSentEvent.fire(notification);
+        // 1) Lokális kiküldés
+        this.serverSentEvent.fire(notification, notification.getClient(), SseServiceImpl::shouldSendNotification);
+
+        // 2) Cluster publish (Noop esetben no-op)
+        this.clusterBus.publish(CLUSTER_CHANNEL, new ClusterNotification(LoggingHelper.getHostName(), notification));
+
+        // 3) Lokális Spring event
         SseNotificationFiredEvent sseNotificationFiredEvent = new SseNotificationFiredEvent(this, notification);
         this.publisher.publishEvent(sseNotificationFiredEvent);
     }
 
 
-    @Override
-    public ServerSentEvent.Subscription<String> subscribe(String lastReceivedEventId)
+    private static boolean shouldSendNotification(String client, String filter)
     {
-        return this.serverSentEvent.subscribe(lastReceivedEventId, null);
+        if (StringUtils.isAnyBlank(client, filter))
+        {
+            return true;
+        }
+        return Strings.CI.equals(client, filter);
+    }
+
+
+    @Override
+    public ServerSentEvent.Subscription<String> subscribe(String lastReceivedEventId, String client)
+    {
+        return this.serverSentEvent.subscribe(lastReceivedEventId, client);
     }
 
 
@@ -149,17 +196,17 @@ public class SseServiceImpl implements SseService
 
 
     @Override
-    public void sendError(String subject, Throwable throwable)
+    public void sendError(String client, String subject, Throwable throwable)
     {
-        SseNotification notification = SseMessageNotification.create(subject, throwable);
+        SseNotification notification = SseMessageNotification.create(client, subject, throwable);
         queueNotification(notification);
     }
 
 
     @Override
-    public void sendReload(String subject)
+    public void sendReload(String client, String subject)
     {
-        SseReloadNotification notification = SseReloadNotification.create(subject);
+        SseReloadNotification notification = SseReloadNotification.create(client, subject);
         queueNotification(notification);
     }
 
@@ -190,6 +237,27 @@ public class SseServiceImpl implements SseService
     public int getQueueSize()
     {
         return this.queue.size();
+    }
+
+
+    private void onClusterNotification(ClusterNotification clusterNotification)
+    {
+        if (clusterNotification == null)
+        {
+            return;
+        }
+
+        // Dedup: amit mi publikáltunk, azt ne küldjük ki még egyszer saját magunknak
+        if (Strings.CI.equals(LoggingHelper.getHostName(), clusterNotification.getOrigin()))
+        {
+            return;
+        }
+
+        SseNotification sseNotification = clusterNotification.getSseNotification();
+        this.serverSentEvent.fire(sseNotification, sseNotification.getClient(), SseServiceImpl::shouldSendNotification);
+
+        SseNotificationFiredEvent sseNotificationFiredEvent = new SseNotificationFiredEvent(this, sseNotification);
+        this.publisher.publishEvent(sseNotificationFiredEvent);
     }
 
 
@@ -229,7 +297,7 @@ public class SseServiceImpl implements SseService
                 // Send the RELOAD event only if it was last sent at least 1000 ms ago
                 if (diff >= 1000)
                 {
-                    log.info(SENDING_NOTIFICATION_FORMAT, notification, diff);
+                    log.info(SENDING_NOTIFICATION_FORMAT, notification, TimeFormatter.getHumanReadableDuration(diff));
                     this.eventConsumer.accept(notification);
                     this.pendingNotifications = null;
                     lastReloadSent = System.currentTimeMillis();
