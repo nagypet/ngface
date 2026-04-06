@@ -17,6 +17,7 @@
 package hu.perit.ngface.sse;
 
 import hu.perit.spvitamin.core.StackTracer;
+import hu.perit.spvitamin.core.exception.ExceptionWrapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -242,7 +243,8 @@ public class ServerSentEvent<T, F extends Serializable>
         catch (Exception ex)
         {
             log.info("Send event failed: {}", subscription.id);
-            if (ex instanceof IOException)
+            ExceptionWrapper exception = ExceptionWrapper.of(ex);
+            if (exception.causedBy(IOException.class))
             {
                 log.info(ex.toString());
             }

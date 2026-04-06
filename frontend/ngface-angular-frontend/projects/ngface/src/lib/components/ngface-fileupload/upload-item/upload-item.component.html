@@ -15,7 +15,7 @@
   -->
 
 <div class="upload-queue" *ngIf="uploadProgress$ | async as uploadProgress">
-  <mat-card class="upload-item-card">
+  <mat-card appearance="outlined" class="upload-item-card">
     <span class="file-summary">{{ file.name }}({{ file.size | bytes }})</span>
     @if (!completed) {
       <div class="upload-progress">

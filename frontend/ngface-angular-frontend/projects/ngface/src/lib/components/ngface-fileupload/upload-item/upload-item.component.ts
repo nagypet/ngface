@@ -38,7 +38,7 @@ import {HttpClient, HttpEventType} from '@angular/common/http';
     NgIf
   ],
   templateUrl: './upload-item.component.html',
-  styleUrl: './upload-item.component.css'
+  styleUrl: './upload-item.component.scss'
 })
 export class UploadItemComponent implements OnInit, OnDestroy
 {

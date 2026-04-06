@@ -365,7 +365,7 @@ public class SseServiceImpl implements SseService
                 if (diff >= 1000)
                 {
                     appendToPendingNotifications(updateNotification);
-                    log.info(SENDING_NOTIFICATION_FORMAT, this.pendingNotifications, diff);
+                    log.info(SENDING_NOTIFICATION_FORMAT, this.pendingNotifications, TimeFormatter.getHumanReadableDuration(diff));
                     this.eventConsumer.accept(this.pendingNotifications);
                     this.pendingNotifications = null;
                     this.lastUpdateSent = System.currentTimeMillis();
