@@ -327,6 +327,16 @@ public class SseServiceImpl implements SseService
                 this.pendingNotifications = reloadNotification;
             }
         }
+
+
+        @Override
+        public void triggerEventFired(SseNotification notification)
+        {
+            if (handlesNotification(notification))
+            {
+                this.triggerEventInProgress = false;
+            }
+        }
     }
 
 

@@ -40,6 +40,7 @@ public enum ComparisonOperator
     @JsonProperty("<=")
     LTE("<="),
     IN("IN"),
+    NIN("NIN"),
     BETWEEN("BETWEEN"),
     LIKE("LIKE");
 
