@@ -22,6 +22,7 @@ import hu.perit.ngface.core.types.intf.RowSelectParams;
 import hu.perit.ngface.core.types.table.SelectionStore;
 import hu.perit.ngface.core.widget.exception.NgFaceBadRequestException;
 import hu.perit.ngface.data.jpa.service.api.GenericNgfaceQueryService;
+import hu.perit.ngface.data.jpa.service.util.DirectionUtil;
 import hu.perit.spvitamin.core.typehelpers.ListUtils;
 import hu.perit.spvitamin.core.util.FieldMapper;
 import jakarta.persistence.EntityManager;
@@ -79,18 +80,10 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
                 && StringUtils.isNotBlank(sort.getColumn())
                 && !Direction.UNDEFINED.equals(sort.getDirection()))
         {
-            return List.of(new Sort.Order(getDirection(sort.getDirection()), sort.getColumn()));
+            return List.of(new Sort.Order(DirectionUtil.getJpaDirection(sort.getDirection()), sort.getColumn()));
         }
 
         return getDefaultSortOrder();
-    }
-
-
-    protected static Sort.Direction getDirection(Direction direction)
-    {
-        return Direction.ASC.equals(direction) ?
-                Sort.Direction.ASC :
-                Sort.Direction.DESC;
     }
 
 
@@ -230,6 +223,27 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
                     String likeValue = ListUtils.first(valueSet).toString();
                     return criteriaBuilder.like(criteriaBuilder.lower(resolvePath(root, searchColumn)),
                             "%" + likeValue.toLowerCase() + "%");
+
+                case NIN:
+                    // Handle NIN (NOT IN) operator
+                    if (!valueSet.contains(null))
+                    {
+                        // There is no (Blanks)
+                        return criteriaBuilder.in(resolvePath(root, searchColumn)).value(valueSet).not();
+                    }
+                    else if (valueSet.size() == 1)
+                    {
+                        // Only (Blanks) is selected → NOT NULL
+                        return criteriaBuilder.isNotNull(resolvePath(root, searchColumn));
+                    }
+
+                    // (Blanks) with some others: NOT NULL AND NOT IN (nonNullValues)
+                    List<?> nonNullNinValues = new ArrayList<>(valueSet);
+                    nonNullNinValues.remove(null);
+                    return criteriaBuilder.and(
+                            criteriaBuilder.isNotNull(resolvePath(root, searchColumn)),
+                            criteriaBuilder.in(resolvePath(root, searchColumn)).value(nonNullNinValues).not()
+                    );
 
                 case IN:
                 default:
