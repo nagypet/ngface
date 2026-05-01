@@ -21,6 +21,7 @@ import hu.perit.ngface.core.types.intf.Direction;
 import hu.perit.ngface.core.types.intf.RowSelectParams;
 import hu.perit.ngface.core.types.table.SelectionStore;
 import hu.perit.ngface.core.widget.exception.NgFaceBadRequestException;
+import hu.perit.ngface.data.jpa.service.api.AggregationType;
 import hu.perit.ngface.data.jpa.service.api.GenericNgfaceQueryService;
 import hu.perit.ngface.data.jpa.service.util.DirectionUtil;
 import hu.perit.spvitamin.core.typehelpers.ListUtils;
@@ -43,8 +44,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -556,5 +560,101 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
 
         Specification<E> spec = getSpecificationByFilters(appliedFilters);
         return this.repo.findAll(spec);
+    }
+
+
+    @Override
+    public <T> BigDecimal aggregate(AggregationType aggregationType, String fieldName, Class<E> entityClass,
+                                    List<DataRetrievalParams.Filter> filters, Class<T> fieldType)
+    {
+        if (aggregationType != AggregationType.COUNT && !Number.class.isAssignableFrom(fieldType))
+        {
+            throw new IllegalArgumentException(
+                    "Aggregation type " + aggregationType + " requires a numeric field type, but got: " + fieldType.getName());
+        }
+
+        CriteriaBuilder criteriaBuilder = this.getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Number> query = criteriaBuilder.createQuery(Number.class);
+        Root<E> root = query.from(entityClass);
+
+        Expression<Number> fieldExpression = root.get(fieldName);
+        Expression<? extends Number> aggregateExpression = switch (aggregationType)
+        {
+            case COUNT -> criteriaBuilder.count(root.get(fieldName));
+            case SUM -> criteriaBuilder.sum(fieldExpression);
+            case AVG -> criteriaBuilder.avg(fieldExpression);
+        };
+
+        query.select(aggregateExpression);
+
+        List<DataRetrievalParams.Filter> appliedFilters = new ArrayList<>(getDefaultFilters());
+        if (filters != null)
+        {
+            appliedFilters.addAll(filters);
+        }
+        if (!appliedFilters.isEmpty())
+        {
+            Specification<E> specificationByFilters = getSpecificationByFilters(appliedFilters);
+            Predicate predicate = specificationByFilters.toPredicate(root, query, criteriaBuilder);
+            if (predicate != null)
+            {
+                query.where(predicate);
+            }
+        }
+
+        Number result = getEntityManager().createQuery(query).getSingleResult();
+        return result != null ? FieldMapper.toBigDecimal(result) : BigDecimal.ZERO;
+    }
+
+
+    @Override
+    public <T> Map<String, BigDecimal> aggregate(AggregationType aggregationType, String fieldName, Class<E> entityClass,
+                                                 List<DataRetrievalParams.Filter> filters, Class<T> fieldType,
+                                                 String groupByField)
+    {
+        if (aggregationType != AggregationType.COUNT && !Number.class.isAssignableFrom(fieldType))
+        {
+            throw new IllegalArgumentException(
+                    "Aggregation type " + aggregationType + " requires a numeric field type, but got: " + fieldType.getName());
+        }
+
+        CriteriaBuilder criteriaBuilder = this.getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Object[]> query = criteriaBuilder.createQuery(Object[].class);
+        Root<E> root = query.from(entityClass);
+
+        Expression<Number> fieldExpression = root.get(fieldName);
+        Expression<? extends Number> aggregateExpression = switch (aggregationType)
+        {
+            case COUNT -> criteriaBuilder.count(root.get(fieldName));
+            case SUM -> criteriaBuilder.sum(fieldExpression);
+            case AVG -> criteriaBuilder.avg(fieldExpression);
+        };
+
+        query.multiselect(root.get(groupByField), aggregateExpression);
+        query.groupBy(root.get(groupByField));
+
+        List<DataRetrievalParams.Filter> appliedFilters = new ArrayList<>(getDefaultFilters());
+        if (filters != null)
+        {
+            appliedFilters.addAll(filters);
+        }
+        if (!appliedFilters.isEmpty())
+        {
+            Specification<E> specificationByFilters = getSpecificationByFilters(appliedFilters);
+            Predicate predicate = specificationByFilters.toPredicate(root, query, criteriaBuilder);
+            if (predicate != null)
+            {
+                query.where(predicate);
+            }
+        }
+
+        Map<String, BigDecimal> resultMap = new LinkedHashMap<>();
+        for (Object[] row : getEntityManager().createQuery(query).getResultList())
+        {
+            String groupKey = row[0] != null ? String.valueOf(row[0]) : null;
+            BigDecimal aggregateValue = row[1] != null ? FieldMapper.toBigDecimal(row[1]) : BigDecimal.ZERO;
+            resultMap.put(groupKey, aggregateValue);
+        }
+        return resultMap;
     }
 }

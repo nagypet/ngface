@@ -22,7 +22,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 public interface GenericNgfaceQueryService<E, ID extends Serializable>
 {
@@ -44,4 +46,37 @@ public interface GenericNgfaceQueryService<E, ID extends Serializable>
     Page<E> findAllBySelection(String idFieldName, SelectionStore<?, ID> selectionStore, Pageable pageable);
 
     List<E> findByActiveFilters(List<DataRetrievalParams.Filter> activeFilters);
+
+    /**
+     * Runs an aggregation (COUNT, SUM, AVG) on the given field with optional filters.
+     * SUM and AVG require a numeric field type; COUNT works on any type.
+     *
+     * @param aggregationType the type of aggregation to perform
+     * @param fieldName       the entity field to aggregate
+     * @param entityClass     the entity class
+     * @param filters         optional filters to apply as WHERE conditions
+     * @param fieldType       the Java type of the field (used for type validation)
+     * @return the aggregation result as BigDecimal
+     * @throws IllegalArgumentException if SUM or AVG is used on a non-numeric field type
+     */
+    <T> BigDecimal aggregate(AggregationType aggregationType, String fieldName, Class<E> entityClass,
+                             List<DataRetrievalParams.Filter> filters, Class<T> fieldType);
+
+    /**
+     * Runs an aggregation grouped by a field. Returns a map where keys are the distinct values
+     * of {@code groupByField} (as String) and values are the aggregation results.
+     * SUM and AVG require a numeric field type; COUNT works on any type.
+     *
+     * @param aggregationType the type of aggregation to perform
+     * @param fieldName       the entity field to aggregate
+     * @param entityClass     the entity class
+     * @param filters         optional filters to apply as WHERE conditions
+     * @param fieldType       the Java type of the field (used for type validation)
+     * @param groupByField    the entity field to group by
+     * @return map of groupBy field value → aggregation result
+     * @throws IllegalArgumentException if SUM or AVG is used on a non-numeric field type
+     */
+    <T> Map<String, BigDecimal> aggregate(AggregationType aggregationType, String fieldName, Class<E> entityClass,
+                                          List<DataRetrievalParams.Filter> filters, Class<T> fieldType,
+                                          String groupByField);
 }
