@@ -124,6 +124,31 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>, I ex
     }
 
 
+    @Override
+    public void onRowDelete(List<I> deletedRowIds) throws Exception
+    {
+        if (deletedRowIds == null)
+        {
+            return;
+        }
+        log.debug(deletedRowIds.toString());
+
+        TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
+        SelectionStore<R, I> selectionStore = sessionDefaults.getSelectionStore();
+
+        // Unselecting the deleted row
+        List<RowSelectParams.Row<I>> list = deletedRowIds.stream().map(i -> {
+            RowSelectParams.Row<I> row = new RowSelectParams.Row<>();
+            row.setId(i);
+            row.setSelected(false);
+            return row;
+        }).toList();
+        selectionStore.singleRowsSelected(list);
+
+        saveSessionDefaults(sessionDefaults);
+    }
+
+
     protected void onSave(Table.Data data)
     {
         TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();

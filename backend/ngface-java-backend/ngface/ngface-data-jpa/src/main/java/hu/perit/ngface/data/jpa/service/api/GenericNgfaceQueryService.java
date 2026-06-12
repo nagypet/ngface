@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface GenericNgfaceQueryService<E, ID extends Serializable>
 {
@@ -40,6 +41,8 @@ public interface GenericNgfaceQueryService<E, ID extends Serializable>
     <T> List<String> getDistinctValues(String fieldName, String searchText, Class<E> entityClass, List<DataRetrievalParams.Filter> activeFilters, Class<T> fieldType);
 
     <T> List<String> getMinMaxValues(String fieldName, String searchText, Class<E> entityClass, List<DataRetrievalParams.Filter> activeFilters, Class<T> fieldType);
+
+    Optional<E> findById(ID id);
 
     List<E> findAllByIds(String idFieldName, List<ID> ids);
 

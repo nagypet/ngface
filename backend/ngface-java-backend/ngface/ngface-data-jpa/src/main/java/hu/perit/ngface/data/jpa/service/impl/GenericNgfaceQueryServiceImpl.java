@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -168,7 +169,11 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
                     {
                         return criteriaBuilder.isNotNull(resolvePath(root, searchColumn));
                     }
-                    return criteriaBuilder.notEqual(resolvePath(root, searchColumn), neqValue);
+                    Path<?> neqPath = resolvePath(root, searchColumn);
+                    return criteriaBuilder.or(
+                        criteriaBuilder.notEqual(neqPath, neqValue),
+                        criteriaBuilder.isNull(neqPath)
+                    );
 
                 case GT:
                     if (ListUtils.first(valueSet) == null)
@@ -505,6 +510,13 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
 
 
     @Override
+    public Optional<E> findById(ID id)
+    {
+        return this.repo.findById(id);
+    }
+
+
+    @Override
     public List<E> findAllByIds(String idFieldName, List<ID> ids)
     {
         DataRetrievalParams.Filter filter = new DataRetrievalParams.Filter();
@@ -651,7 +663,7 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
         Map<String, BigDecimal> resultMap = new LinkedHashMap<>();
         for (Object[] row : getEntityManager().createQuery(query).getResultList())
         {
-            String groupKey = row[0] != null ? String.valueOf(row[0]) : null;
+            String groupKey = StringUtils.defaultIfBlank(row[0] != null ? String.valueOf(row[0]) : null, "");
             BigDecimal aggregateValue = row[1] != null ? FieldMapper.toBigDecimal(row[1]) : BigDecimal.ZERO;
             resultMap.put(groupKey, aggregateValue);
         }
