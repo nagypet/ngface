@@ -31,6 +31,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.Strings;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueMappingStrategy;
@@ -267,6 +268,29 @@ public class DataRetrievalParams
         }
 
         return params;
+    }
+
+
+    @JsonIgnore
+    public List<DataRetrievalParams.Filter> getFilter(String column)
+    {
+        if (this.filters == null)
+        {
+            return List.of();
+        }
+        return this.filters.stream()
+                .filter(i -> Strings.CI.equals(column, i.getColumn()))
+                .toList();
+    }
+
+
+    public static List<DataRetrievalParams.Filter> getFilter(DataRetrievalParams dataRetrievalParams, String column)
+    {
+        if (dataRetrievalParams == null)
+        {
+            return List.of();
+        }
+        return dataRetrievalParams.getFilter(column);
     }
 
 

@@ -25,6 +25,7 @@ import hu.perit.ngface.core.widget.table.Filterer;
 import hu.perit.ngface.core.widget.table.FiltererFactory;
 
 import java.io.Serializable;
+import java.util.List;
 
 public interface TableController<D, R extends AbstractTableRow<I>, I extends Serializable>
 {
@@ -51,6 +52,8 @@ public interface TableController<D, R extends AbstractTableRow<I>, I extends Ser
      * @throws Exception
      */
     void onRowSelect(RowSelectParams<I> rowSelectParams) throws Exception;
+
+    void onRowDelete(List<I> deletedRowIds) throws Exception;
 
     TableSessionDefaults<R, I> getSessionDefaults();
 

@@ -28,9 +28,11 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -102,6 +104,20 @@ public class Row<T>
         {
             String text = offsetDateTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             this.cells.put(colId, new TextCell(text));
+        }
+        else
+        {
+            this.cells.put(colId, new TextCell(""));
+        }
+        return this;
+    }
+
+
+    public Row<T> putCell(String colId, Instant instant)
+    {
+        if (instant != null)
+        {
+            putCell(colId, OffsetDateTime.ofInstant(instant, ZoneId.systemDefault()));
         }
         else
         {
