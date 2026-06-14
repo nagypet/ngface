@@ -44,7 +44,6 @@ public class Row<T>
 {
     @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "idType")
     private final T id;
-    private String idType;
     private final Map<String, Cell<?, ?>> cells = new LinkedHashMap<>();
     private final Map<String, Object> additionalInfo = new LinkedHashMap<>();
     private boolean selected;
@@ -61,10 +60,13 @@ public class Row<T>
     public Row(T id)
     {
         this.id = id;
-        if (id != null)
-        {
-            this.idType = id.getClass().getName();
-        }
+    }
+
+
+    @ToString.Include
+    public String getIdType()
+    {
+        return id != null ? id.getClass().getName() : null;
     }
 
 

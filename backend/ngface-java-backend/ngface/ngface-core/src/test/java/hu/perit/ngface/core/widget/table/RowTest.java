@@ -64,6 +64,7 @@ class RowTest
 
         String inputAsString = JSonSerializer.toJson(input);
         log.debug(inputAsString);
+        assertThat(inputAsString).isEqualTo("{\"id\":12,\"cells\":{\"long-col\":{\"type\":\"NumericCell\",\"value\":1000,\"label\":null,\"style\":null,\"icon\":null,\"format\":{\"validators\":[],\"precision\":null,\"prefix\":null,\"suffix\":null,\"digitGrouping\":null}},\"string-col\":{\"type\":\"TextCell\",\"value\":\"alma\",\"label\":null,\"style\":null,\"icon\":null}},\"additionalInfo\":{},\"selected\":false,\"disabled\":false,\"idType\":\"java.lang.Long\"}");
         Row<?> result = JSonSerializer.fromJson(inputAsString, Row.class);
         assertThat(result).isEqualTo(input);
     }

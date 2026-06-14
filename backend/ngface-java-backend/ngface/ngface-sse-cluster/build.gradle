@@ -21,7 +21,6 @@ plugins {
     id 'jacoco'
     id 'maven-publish'
     id 'signing'
-    alias libs.plugins.habarta.typescript.generator
 }
 apply from: '../gradle/common.gradle'
 
@@ -93,31 +92,4 @@ dependencies {
 
 test {
     useJUnitPlatform()
-}
-
-
-generateTypeScript {
-    jsonLibrary = 'jackson2'
-    classPatterns = [
-            'hu.perit.ngface.sse.notification.**'
-    ]
-    customTypeNaming = [
-            'hu.perit.ngface.sse.notification.SseNotification$Type:SseNotification.Type',
-            'hu.perit.ngface.sse.notification.SseMessageNotification$Level:SseMessageNotification.Level',
-    ]
-    outputFile = 'build/ngface-sse-models.ts'
-    outputFileType = 'implementationFile'
-    outputKind = 'module'
-    namespace = 'NgfaceSse'
-    //disableTaggedUnions = true
-    optionalProperties = 'useSpecifiedAnnotations'
-    optionalAnnotations = [
-            'javax.annotation.Nullable',
-            'jakarta.annotation.Nullable'
-    ]
-    optionalPropertiesDeclaration = 'questionMark'
-}
-
-dist.configure {
-    finalizedBy generateTypeScript
 }

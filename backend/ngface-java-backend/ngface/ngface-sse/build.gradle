@@ -102,8 +102,14 @@ test {
 }
 
 
+import cz.habarta.typescript.generator.JsonLibrary
+import cz.habarta.typescript.generator.OptionalProperties
+import cz.habarta.typescript.generator.OptionalPropertiesDeclaration
+import cz.habarta.typescript.generator.TypeScriptFileType
+import cz.habarta.typescript.generator.TypeScriptOutputKind
+
 generateTypeScript {
-    jsonLibrary = 'jackson2'
+    jsonLibrary = JsonLibrary.jackson3
     classPatterns = [
             'hu.perit.ngface.sse.notification.**'
     ]
@@ -112,18 +118,18 @@ generateTypeScript {
             'hu.perit.ngface.sse.notification.SseMessageNotification$Level:SseMessageNotification.Level',
     ]
     outputFile = 'build/ngface-sse-models.ts'
-    outputFileType = 'implementationFile'
-    outputKind = 'module'
+    outputFileType = TypeScriptFileType.implementationFile
+    outputKind = TypeScriptOutputKind.module
     namespace = 'NgfaceSse'
     //disableTaggedUnions = true
-    optionalProperties = 'useSpecifiedAnnotations'
+    optionalProperties = OptionalProperties.useSpecifiedAnnotations
     optionalAnnotations = [
             'javax.annotation.Nullable',
             'jakarta.annotation.Nullable'
     ]
-    optionalPropertiesDeclaration = 'questionMark'
+    optionalPropertiesDeclaration = OptionalPropertiesDeclaration.nullableType
 }
 
 dist.configure {
-    finalizedBy generateTypeScript
+    finalizedBy 'generateTypeScript'
 }

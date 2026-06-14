@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
 public interface AbstractOption extends Comparable<AbstractOption>
 {
     default String getType()

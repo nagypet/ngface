@@ -25,6 +25,10 @@ plugins {
 }
 apply from: '../gradle/common.gradle'
 
+// Spring Boot 4.1.0 manages junit at 6.0.3, but 6.0.3 has a bug with KotlinReflectionUtils.
+// Override to use 6.1.0 where this is fixed.
+ext['junit-jupiter.version'] = libs.versions.junit.get()
+
 
 repositories {
     mavenCentral()
@@ -119,8 +123,14 @@ test {
 //     ...
 // }
 //----------------------------------------------------------------------------------------------------------------------
+import cz.habarta.typescript.generator.JsonLibrary
+import cz.habarta.typescript.generator.OptionalProperties
+import cz.habarta.typescript.generator.OptionalPropertiesDeclaration
+import cz.habarta.typescript.generator.TypeScriptFileType
+import cz.habarta.typescript.generator.TypeScriptOutputKind
+
 generateTypeScript {
-    jsonLibrary = 'jackson2'
+    jsonLibrary = JsonLibrary.jackson3
     classPatterns = [
             'hu.perit.ngface.core.widget.input.**',
             'hu.perit.ngface.core.widget.form.**',
@@ -163,18 +173,18 @@ generateTypeScript {
             'hu.perit.ngface.core.widget.button.Button$Style:Button.Style'
     ]
     outputFile = 'build/ngface-models.ts'
-    outputFileType = 'implementationFile'
-    outputKind = 'module'
+    outputFileType = TypeScriptFileType.implementationFile
+    outputKind = TypeScriptOutputKind.module
     namespace = 'Ngface'
-    optionalProperties = 'useSpecifiedAnnotations'
+    optionalProperties = OptionalProperties.useSpecifiedAnnotations
     optionalAnnotations = [
             'javax.annotation.Nullable',
             'jakarta.annotation.Nullable'
     ]
-    optionalPropertiesDeclaration = 'nullableType'
+    optionalPropertiesDeclaration = OptionalPropertiesDeclaration.nullableType
     disableTaggedUnions = true
 }
 
 dist.configure {
-    finalizedBy generateTypeScript
+    finalizedBy 'generateTypeScript'
 }
