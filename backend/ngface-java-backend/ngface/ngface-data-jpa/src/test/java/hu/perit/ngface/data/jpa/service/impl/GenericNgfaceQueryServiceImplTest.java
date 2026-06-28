@@ -418,7 +418,7 @@ class GenericNgfaceQueryServiceImplTest
         when(mockRepo.findAll(any(Specification.class))).thenReturn(expectedEntities);
 
         // Act
-        List<TestEntity> result = queryService.findAllByIds(idFieldName, ids);
+        List<TestEntity> result = queryService.findAllByIds(idFieldName, ids, null);
 
         // Assert
         assertThat(result).isNotNull();

@@ -517,13 +517,17 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
 
 
     @Override
-    public List<E> findAllByIds(String idFieldName, List<ID> ids)
+    public List<E> findAllByIds(String idFieldName, List<ID> ids, List<DataRetrievalParams.Filter> activeFilters)
     {
         DataRetrievalParams.Filter filter = new DataRetrievalParams.Filter();
         filter.setColumn(idFieldName);
         filter.setValueSet(ids.stream().map(i -> new DataRetrievalParams.Filter.Item(String.valueOf(i))).toList());
 
         List<DataRetrievalParams.Filter> appliedFilters = new ArrayList<>(getDefaultFilters());
+        if (activeFilters != null)
+        {
+            appliedFilters.addAll(activeFilters);
+        }
         appliedFilters.add(filter);
 
         Specification<E> spec = getSpecificationByFilters(appliedFilters);
@@ -532,15 +536,19 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
 
 
     @Override
-    public Page<E> findAllBySelection(String idFieldName, SelectionStore<?, ID> selectionStore, Pageable pageable)
+    public Page<E> findAllBySelection(String idFieldName, SelectionStore<?, ID> selectionStore, List<DataRetrievalParams.Filter> activeFilters, Pageable pageable)
     {
         if (selectionStore.getSelectMode() == RowSelectParams.SelectMode.SINGLE || selectionStore.getSelectMode() == RowSelectParams.SelectMode.ALL_UNCHECKED)
         {
-            return new PageImpl<>(findAllByIds(idFieldName, selectionStore.getSelectedRowIds()));
+            return new PageImpl<>(findAllByIds(idFieldName, selectionStore.getSelectedRowIds(), activeFilters));
         }
 
         // We have to select all available items but the ones stored in the selectionStore
         List<DataRetrievalParams.Filter> appliedFilters = new ArrayList<>(getDefaultFilters());
+        if (activeFilters != null)
+        {
+            appliedFilters.addAll(activeFilters);
+        }
         Specification<E> spec = getSpecificationByFilters(appliedFilters);
         if (!selectionStore.getUnselectedRowIds().isEmpty())
         {

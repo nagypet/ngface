@@ -44,9 +44,9 @@ public interface GenericNgfaceQueryService<E, ID extends Serializable>
 
     Optional<E> findById(ID id);
 
-    List<E> findAllByIds(String idFieldName, List<ID> ids);
+    List<E> findAllByIds(String idFieldName, List<ID> ids, List<DataRetrievalParams.Filter> activeFilters);
 
-    Page<E> findAllBySelection(String idFieldName, SelectionStore<?, ID> selectionStore, Pageable pageable);
+    Page<E> findAllBySelection(String idFieldName, SelectionStore<?, ID> selectionStore, List<DataRetrievalParams.Filter> activeFilters, Pageable pageable);
 
     List<E> findByActiveFilters(List<DataRetrievalParams.Filter> activeFilters);
 

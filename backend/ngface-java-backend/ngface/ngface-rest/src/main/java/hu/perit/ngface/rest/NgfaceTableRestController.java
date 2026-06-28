@@ -25,6 +25,7 @@ import hu.perit.ngface.core.types.intf.TableActionParams;
 import hu.perit.ngface.core.view.ComponentView;
 import hu.perit.ngface.core.widget.form.Form;
 import hu.perit.ngface.core.widget.table.Filterer;
+import hu.perit.spvitamin.spring.config.SpringContext;
 import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
@@ -65,11 +66,15 @@ public abstract class NgfaceTableRestController<C extends TableController<D, ?, 
         this.tableController.onRowSelect(rowSelectParams);
     }
 
+
     @Override
     public Object onActionClick(TableActionParams<I> tableActionParams) throws Exception
     {
+        TableActionAuthorizationProvider tableActionAuthorizationProvider = SpringContext.getBean(TableActionAuthorizationProvider.class);
+        tableActionAuthorizationProvider.authorize(this.getClass().getSimpleName(), tableActionParams.getActionId());
         return this.tableController.onActionClick(tableActionParams);
     }
+
 
     @Override
     public void submitTable(SubmitFormData submitFormData)
