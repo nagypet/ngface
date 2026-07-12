@@ -45,4 +45,10 @@ public class TableSessionDefaults<R extends AbstractTableRow<I>, I extends Seria
     {
         this.selectionStore = new SelectionStore<>(selectMode);
     }
+
+
+    public void setTableData(Table.Data tableData)
+    {
+        this.tableData = tableData != null ? tableData : new Table.Data();
+    }
 }

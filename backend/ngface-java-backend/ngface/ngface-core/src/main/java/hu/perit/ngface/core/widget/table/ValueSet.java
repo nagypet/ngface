@@ -22,6 +22,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @ToString
 @Getter
@@ -56,18 +58,18 @@ public class ValueSet implements Serializable
     }
 
 
-    public ValueSet values(Collection<String> valueSet)
+    public ValueSet values(Collection<String> itemTexts)
     {
         this.values = new ArrayList<>();
-        if (valueSet == null)
+        if (itemTexts == null)
         {
             this.values.add(new Item().text(null));
             return this;
         }
-        List<String> sortedValueSet = valueSet.stream().sorted(Comparator.nullsFirst(Comparator.naturalOrder())).toList();
-        for (String value : sortedValueSet)
+        List<String> sortedItemTexts = itemTexts.stream().sorted(Comparator.nullsFirst(Comparator.naturalOrder())).toList();
+        for (String text : sortedItemTexts)
         {
-            this.values.add(new Item().text(value));
+            this.values.add(new Item().text(text));
             if (this.values.size() >= MAX_SIZE)
             {
                 this.truncated = Boolean.TRUE;
@@ -75,6 +77,19 @@ public class ValueSet implements Serializable
                 break;
             }
         }
+        return this;
+    }
+
+
+    public ValueSet items(Collection<Item> items)
+    {
+        this.values = new ArrayList<>();
+        if (items == null)
+        {
+            this.values.add(new Item().text(null));
+            return this;
+        }
+        this.values = items.stream().sorted(Comparator.nullsFirst(Comparator.naturalOrder())).toList();
         return this;
     }
 
@@ -92,7 +107,7 @@ public class ValueSet implements Serializable
     @Getter
     @ToString
     @EqualsAndHashCode
-    public static class Item implements Serializable
+    public static class Item implements Serializable, Comparable<Item>
     {
         @Serial
         private static final long serialVersionUID = -4579785670689051036L;
@@ -112,6 +127,16 @@ public class ValueSet implements Serializable
         {
             this.selected = selected;
             return this;
+        }
+
+
+        @Override
+        public int compareTo(ValueSet.Item other)
+        {
+            Objects.requireNonNull(other, "other must not be null");
+            return new CompareToBuilder()
+                    .append(this.text, other.text)
+                    .toComparison();
         }
     }
 }

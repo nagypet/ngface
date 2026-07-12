@@ -63,6 +63,8 @@ public class Action
     @Setter(AccessLevel.NONE)
     @Nullable
     private List<Action> actions;
+    // If true, the action is always enabled, even if the table row is disabled
+    private boolean forceEnabled = false;
 
 
     public Action()
@@ -140,6 +142,13 @@ public class Action
         {
             this.actions = new ArrayList<>(actions);
         }
+        return this;
+    }
+
+
+    public Action forceEnabled(boolean forceEnabled)
+    {
+        this.forceEnabled = forceEnabled;
         return this;
     }
 

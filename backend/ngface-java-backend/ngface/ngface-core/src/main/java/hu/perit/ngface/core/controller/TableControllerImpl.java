@@ -27,6 +27,8 @@ import hu.perit.ngface.core.widget.table.FiltererFactory;
 import hu.perit.ngface.core.widget.table.Paginator;
 import hu.perit.ngface.core.widget.table.Table;
 import hu.perit.ngface.core.widget.table.TableDataBuilder;
+import hu.perit.ngface.core.widget.table.ValueSet;
+import hu.perit.spvitamin.core.typehelpers.MapUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.Strings;
@@ -44,7 +46,7 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>, I ex
     protected Table.Data getTableData(Integer pageSize, Long length, List<Integer> pageSizeOptions)
     {
         TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
-        Table.Data defaults = Optional.ofNullable(sessionDefaults).map(TableSessionDefaults::getTableData).orElse(null);
+        Table.Data defaults = sessionDefaults.getTableData();
 
         // Data
         return TableDataBuilder.builder(defaults)
@@ -84,7 +86,7 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>, I ex
     public Filterer getFilterer(String column, String searchText)
     {
         TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
-        Filterer filterer = Optional.ofNullable(sessionDefaults).map(TableSessionDefaults::getTableData).map(Table.Data::getFiltererMap).map(i -> i.get(column)).orElse(
+        Filterer filterer = Optional.ofNullable(sessionDefaults.getTableData()).map(Table.Data::getFiltererMap).map(i -> i.get(column)).orElse(
                 null);
         if (filterer != null && BooleanUtils.isTrue(filterer.getActive()) && useCachedFilter(searchText, filterer.getSearchText()))
         {
@@ -180,8 +182,10 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>, I ex
     {
         TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
 
+        // Reading default filters
         List<DataRetrievalParams.Filter> filters = new ArrayList<>(sessionDefaults.getDefaultFilterers().stream().map(this::getFilterFromFilterer).toList());
-        Map<String, Filterer> filtererMap = Optional.ofNullable(sessionDefaults).map(TableSessionDefaults::getTableData).map(Table.Data::getFiltererMap).orElse(null);
+        // Reading active filters from the session
+        Map<String, Filterer> filtererMap = Optional.ofNullable(sessionDefaults.getTableData()).map(Table.Data::getFiltererMap).orElse(null);
         if (filtererMap == null)
         {
             return filters;
@@ -205,5 +209,66 @@ public abstract class TableControllerImpl<D, R extends AbstractTableRow<I>, I ex
     protected DataRetrievalParams.Filter getFilterFromFilterer(Filterer filterer)
     {
         return DataRetrievalParams.Filter.of(filterer);
+    }
+
+
+    protected void addDefaultFilterer(DataRetrievalParams.Filter filter)
+    {
+        TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
+        List<Filterer> defaultFilterers = sessionDefaults.getDefaultFilterers();
+        Map<String, Filterer> filtererMap = MapUtils.toMap(defaultFilterers, Filterer::getColumn);
+        Filterer filterer = filtererMap.get(filter.getColumn());
+
+        if (filterer == null)
+        {
+            filterer = new Filterer(filter.getColumn());
+            defaultFilterers.add(filterer);
+        }
+
+        filterer.active(true);
+        filterer.operator(filter.getOperator());
+        filterer.valueSet(new ValueSet(false).values(filter.getValueSet().stream().map(i -> i.getText()).toList()));
+        filterer.searchText(null);
+
+        saveSessionDefaults(sessionDefaults);
+    }
+
+
+    protected void setFilter(String column, String searchText, String firstItem, String... moreItems)
+    {
+        TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
+        applyFilter(sessionDefaults, column, searchText, firstItem, moreItems);
+        saveSessionDefaults(sessionDefaults);
+    }
+
+
+    protected void applyFilter(TableSessionDefaults<R, I> sessionDefaults, String column, String searchText, String firstItem, String... moreItems)
+    {
+        Filterer filterer = getFiltererFactory().getFilterer(column, searchText, true);
+        if (filterer == null)
+        {
+            return;
+        }
+        Map<String, Filterer> filtererMap = sessionDefaults.getTableData().getFiltererMap();
+
+        List<String> values = new ArrayList<>();
+        values.add(firstItem);
+        if (moreItems != null)
+        {
+            values.addAll(List.of(moreItems));
+        }
+        filterer.getValueSet().items(values.stream().map(i -> new ValueSet.Item().text(i).selected(true)).toList());
+        filterer.searchText(searchText);
+        filterer.active(true);
+
+        filtererMap.put(column, filterer);
+    }
+
+
+    protected void clearSelections()
+    {
+        TableSessionDefaults<R, I> sessionDefaults = getSessionDefaults();
+        sessionDefaults.getSelectionStore().clearSingleSelections();
+        saveSessionDefaults(sessionDefaults);
     }
 }

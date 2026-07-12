@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-01-29 07:09:51.
+// Generated using typescript-generator version 4.1.1 on 2026-07-09 08:32:09.
 
 export namespace Ngface {
 
@@ -74,9 +74,9 @@ export namespace Ngface {
     }
 
     export interface AbstractOption extends Comparable<AbstractOption> {
-        texts: string[];
+        type: "hu.perit.ngface.core.widget.input.AutocompleteOption";
         id: string;
-        type: string;
+        texts: string[];
     }
 
     export interface Autocomplete extends Input<Autocomplete.Data, string, Autocomplete> {
@@ -103,6 +103,8 @@ export namespace Ngface {
     }
 
     export interface AutocompleteOption extends AbstractOption {
+        type: "hu.perit.ngface.core.widget.input.AutocompleteOption";
+        text: string[];
     }
 
     export interface DateInput extends Input<DateInput.Data, Date, DateInput> {
@@ -277,6 +279,7 @@ export namespace Ngface {
         badge: string;
         style: Action.Style;
         actions: Action[] | null;
+        forceEnabled: boolean;
     }
 
     export interface Column {
@@ -302,6 +305,7 @@ export namespace Ngface {
         searchText: string;
         active: boolean;
         type: Type;
+        defaultLabel: string | null;
         order: number;
     }
 
@@ -314,6 +318,7 @@ export namespace Ngface {
         remote: boolean;
         valueProvider: ValueProvider<string, string[]>;
         type: Type;
+        defaultLabel: string;
         order: number;
     }
 
@@ -331,11 +336,11 @@ export namespace Ngface {
 
     export interface Row<T> {
         id: T;
-        idType: string;
         cells: { [index: string]: Cell<any, any> };
         additionalInfo: { [index: string]: any };
         selected: boolean;
         disabled: boolean;
+        idType: string;
     }
 
     export interface Sorter extends Serializable {
@@ -540,7 +545,7 @@ export namespace Ngface {
         validators: Validator[];
     }
 
-    export type ComparisonOperator = "=" | "<>" | ">" | ">=" | "<" | "<=" | "IN" | "BETWEEN" | "LIKE";
+    export type ComparisonOperator = "=" | "<>" | ">" | ">=" | "<" | "<=" | "IN" | "NIN" | "BETWEEN" | "LIKE";
 
     export type Direction = "ASC" | "DESC" | "UNDEFINED";
 

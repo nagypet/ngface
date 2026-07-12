@@ -17,6 +17,7 @@
 package hu.perit.ngface.core.widget.table;
 
 import hu.perit.ngface.core.types.intf.ComparisonOperator;
+import jakarta.annotation.Nullable;
 import lombok.*;
 import org.apache.commons.lang3.BooleanUtils;
 
@@ -49,6 +50,7 @@ public class Filterer implements Serializable
     private String searchText = "";
     private Boolean active = Boolean.FALSE;
     private Type type = Type.TEXT;
+    @Nullable
     private String defaultLabel;
     private Integer order;
 

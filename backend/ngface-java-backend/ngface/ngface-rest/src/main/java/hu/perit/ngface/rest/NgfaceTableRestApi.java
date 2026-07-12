@@ -23,6 +23,7 @@ import hu.perit.ngface.core.types.intf.TableActionParams;
 import hu.perit.ngface.core.widget.form.Form;
 import hu.perit.ngface.core.widget.table.Filterer;
 import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -34,23 +35,23 @@ public interface NgfaceTableRestApi<I extends Serializable>
     String URL_SELECT = "/row-select";
     String URL_ACTIONCLICK = "/action-click";
 
-    @PostMapping(URL_GET)
+    @PostMapping(value = URL_GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     Form getTable(@Valid @RequestBody DataRetrievalParams dataRetrievalParams);
 
-    @GetMapping
+    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     Form getTableRow(@RequestParam I rowId);
 
-    @GetMapping(URL_COLVALUESET)
+    @GetMapping(value = URL_COLVALUESET, produces = MediaType.APPLICATION_JSON_VALUE)
     Filterer getColumnFilterer(
-        @RequestParam(value = "column") String column,
-        @RequestParam(value = "searchText") String searchText
+            @RequestParam(value = "column") String column,
+            @RequestParam(value = "searchText") String searchText
     );
 
 
-    @PutMapping(URL_SELECT)
+    @PutMapping(value = URL_SELECT, consumes = MediaType.APPLICATION_JSON_VALUE)
     void onRowSelect(@Valid @RequestBody RowSelectParams<I> rowSelectParams) throws Exception;
 
-    @PutMapping(URL_ACTIONCLICK)
+    @PutMapping(value = URL_ACTIONCLICK, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     Object onActionClick(@Valid @RequestBody TableActionParams<I> tableActionParams) throws Exception;
 
     @PostMapping

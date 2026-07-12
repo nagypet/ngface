@@ -144,7 +144,8 @@ export class ExcelFilterComponent implements OnInit
           remote: this.filterer.valueSet.remote
         },
         type: this.filterer.type,
-        order: this.filterer.order
+        order: this.filterer.order,
+        defaultLabel: this.filterer.defaultLabel
       };
     }
 
