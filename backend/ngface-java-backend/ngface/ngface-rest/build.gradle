@@ -38,6 +38,16 @@ dependencies {
     // Compile dependencies
     // -----------------------------------------------------------------------------------------------------------------
     implementation project(':ngface-core')
+    if (Boolean.valueOf(project.findProperty('useSpvitaminProject') ?: 'false')) {
+        implementation project(':spvitamin-core')
+        implementation project(':spvitamin-spring-general')
+        implementation project(':spvitamin-spring-security')
+    } else {
+        implementation platform(libs.spvitamin)
+        implementation 'hu.perit.spvitamin:spvitamin-core'
+        implementation 'hu.perit.spvitamin:spvitamin-spring-general'
+        implementation 'hu.perit.spvitamin:spvitamin-spring-security'
+    }
 
     // Lombok
     compileOnly libs.lombok
@@ -45,6 +55,7 @@ dependencies {
 
     // Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // Validation
     implementation libs.jakarta.validation.api

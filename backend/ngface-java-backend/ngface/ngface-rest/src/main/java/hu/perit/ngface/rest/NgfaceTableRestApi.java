@@ -38,7 +38,7 @@ public interface NgfaceTableRestApi<I extends Serializable>
     @PostMapping(value = URL_GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     Form getTable(@Valid @RequestBody DataRetrievalParams dataRetrievalParams);
 
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     Form getTableRow(@RequestParam I rowId);
 
     @GetMapping(value = URL_COLVALUESET, produces = MediaType.APPLICATION_JSON_VALUE)
