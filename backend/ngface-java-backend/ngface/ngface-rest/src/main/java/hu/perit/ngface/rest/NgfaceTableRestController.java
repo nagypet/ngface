@@ -29,6 +29,7 @@ import hu.perit.spvitamin.spring.config.SpringContext;
 import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @RequiredArgsConstructor
 public abstract class NgfaceTableRestController<C extends TableController<D, ?, I>, D extends ComponentDTO, V extends ComponentView, I extends Serializable>
@@ -63,6 +64,10 @@ public abstract class NgfaceTableRestController<C extends TableController<D, ?, 
     @Override
     public void onRowSelect(RowSelectParams<I> rowSelectParams) throws Exception
     {
+        if (rowSelectParams != null && rowSelectParams.getSelectMode() == RowSelectParams.SelectMode.SINGLE)
+        {
+            authorizeRowSelect(rowSelectParams.getRows().stream().map(RowSelectParams.Row::getId).toList());
+        }
         this.tableController.onRowSelect(rowSelectParams);
     }
 
@@ -88,4 +93,6 @@ public abstract class NgfaceTableRestController<C extends TableController<D, ?, 
     protected abstract V supplyView(D data);
 
     protected abstract D supplyDTO();
+
+    protected abstract void authorizeRowSelect(List<I> rowIds) throws Exception;
 }

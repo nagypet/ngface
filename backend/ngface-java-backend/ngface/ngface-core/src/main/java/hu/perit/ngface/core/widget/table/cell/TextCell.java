@@ -16,8 +16,13 @@
 
 package hu.perit.ngface.core.widget.table.cell;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
+
 public class TextCell extends Cell<String, TextCell>
 {
+    private static final Safelist SAFELIST = Safelist.relaxed().addAttributes(":all", "style");
+
     public TextCell(String text)
     {
         super(text);
@@ -27,5 +32,15 @@ public class TextCell extends Cell<String, TextCell>
     private TextCell()
     {
         super(null);
+    }
+
+    @Override
+    public String getValue()
+    {
+        String val = super.getValue();
+        if (val == null) {
+            return null;
+        }
+        return Jsoup.clean(val, SAFELIST);
     }
 }
