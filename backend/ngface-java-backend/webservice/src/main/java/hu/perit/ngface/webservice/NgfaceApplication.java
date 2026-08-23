@@ -16,8 +16,7 @@
 
 package hu.perit.ngface.webservice;
 
-import hu.perit.spvitamin.spring.environment.EnvironmentPostProcessor;
-import org.springframework.boot.SpringApplication;
+import hu.perit.spvitamin.spring.SpvitaminApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -28,9 +27,7 @@ public class NgfaceApplication
 
     public static void main(String[] args)
     {
-        SpringApplication application = new SpringApplication(NgfaceApplication.class);
-        application.addListeners(new EnvironmentPostProcessor());
-        application.run(args);
+        SpvitaminApplication.run(NgfaceApplication.class, args);
     }
 
 }

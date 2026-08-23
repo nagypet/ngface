@@ -36,6 +36,7 @@ import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -437,12 +438,12 @@ public abstract class GenericNgfaceQueryServiceImpl<E, ID extends Serializable> 
         List<T> resultList = getEntityManager().createQuery(query).getResultList();
 
         // If there is no searchText
-        if (searchText == null)
+        if (StringUtils.isBlank(searchText))
         {
-            return resultList.stream().map(String::valueOf).toList();
+            return resultList.stream().map(i -> i != null ? i.toString() : null).toList();
         }
 
-        return resultList.stream().map(String::valueOf).filter(i -> i.contains(searchText)).toList();
+        return resultList.stream().map(i -> i != null ? i.toString() : null).filter(i -> Strings.CI.contains(i, searchText)).toList();
     }
 
 

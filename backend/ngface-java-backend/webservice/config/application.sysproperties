@@ -1,0 +1,6 @@
+user.country=US
+user.language=en
+org.freemarker.loggerLibrary=none
+file.encoding=utf-8
+java.net.preferIPv4Stack=true
+#logging.config=config/logback-local.xml

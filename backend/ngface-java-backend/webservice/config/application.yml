@@ -56,6 +56,7 @@ server:
 # * or comma separated roles (e.g. ADMIN)
 security:
   production-mode: false
+  mode: NONE
   allowed-origins: "https://ngface.perit.hu"
   allowed-headers: "*"
   allowed-methods: "OPTIONS, GET, POST, PUT, DELETE, PATCH"

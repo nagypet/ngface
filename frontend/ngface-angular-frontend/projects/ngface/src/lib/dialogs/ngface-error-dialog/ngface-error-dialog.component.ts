@@ -151,7 +151,7 @@ export class NgfaceErrorDialogComponent implements OnInit
 
   private static getButton(buttonId: string, label: string, style: Ngface.Button.Style): Ngface.Button
   {
-    return {id: buttonId, type: 'Button', label, style, badge: '', hint: '', data: {type: 'VoidWidgetData'}, enabled: true};
+    return {id: buttonId, type: 'Button', label, style, badge: '', hint: '', data: {type: 'VoidWidgetData'}, enabled: true, options: null};
   }
 
   ngOnInit(): void

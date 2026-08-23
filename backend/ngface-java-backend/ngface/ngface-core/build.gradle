@@ -148,6 +148,7 @@ generateTypeScript {
             'hu.perit.ngface.core.widget.input.DateTimeInput$Data:DateTimeInput.Data',
             'hu.perit.ngface.core.widget.input.DateRangeInput$Data:DateRangeInput.Data',
             'hu.perit.ngface.core.widget.input.Select$Data:Select.Data',
+            'hu.perit.ngface.core.widget.input.Select$Option:Select.Option',
             'hu.perit.ngface.core.widget.input.Autocomplete$Data:Autocomplete.Data',
             'hu.perit.ngface.core.widget.input.Autocomplete$Data$ExtendedReadOnlyData:Autocomplete.Data.ExtendedReadOnlyData',
             'hu.perit.ngface.core.widget.input.GenericAutocomplete$Data:GenericAutocomplete.Data',
@@ -170,7 +171,8 @@ generateTypeScript {
             'hu.perit.ngface.core.types.intf.RowSelectParams$SelectMode:RowSelectParams.SelectMode',
             'hu.perit.ngface.core.types.intf.RowSelectParams$Row:RowSelectParams.Row',
             'hu.perit.ngface.core.types.intf.Menu$Item:Menu.Item',
-            'hu.perit.ngface.core.widget.button.Button$Style:Button.Style'
+            'hu.perit.ngface.core.widget.button.Button$Style:Button.Style',
+            'hu.perit.ngface.core.widget.button.Button$Option:Button.Option'
     ]
     outputFile = 'build/ngface-models.ts'
     outputFileType = TypeScriptFileType.implementationFile

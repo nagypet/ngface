@@ -31,6 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequestMapping("/frontend/forms/table-form")
@@ -93,5 +95,12 @@ public class TableDemoFormRestController extends NgfaceTableRestController<Table
     protected TableDemoComponentDTO supplyDTO()
     {
         return new TableDemoComponentDTO();
+    }
+
+
+    @Override
+    protected void authorizeRowSelect(List<Long> rowIds) throws Exception
+    {
+        // Just do nothing
     }
 }

@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 4.1.1 on 2026-07-09 08:32:09.
+// Generated using typescript-generator version 4.1.1 on 2026-08-16 07:25:10.
 
 export namespace Ngface {
 
@@ -36,6 +36,16 @@ export namespace Ngface {
         data: VoidWidgetData;
         style: Button.Style;
         badge: string;
+        options: { [index: string]: string } | null;
+    }
+
+    export namespace Button {
+
+        export interface Option {
+            id: string;
+            value: string;
+        }
+
     }
 
     export interface WidgetList extends Widget<WidgetList.Data, WidgetList> {
@@ -75,8 +85,8 @@ export namespace Ngface {
 
     export interface AbstractOption extends Comparable<AbstractOption> {
         type: "hu.perit.ngface.core.widget.input.AutocompleteOption";
-        id: string;
         texts: string[];
+        id: string;
     }
 
     export interface Autocomplete extends Input<Autocomplete.Data, string, Autocomplete> {
@@ -220,9 +230,13 @@ export namespace Ngface {
 
     }
 
-    export interface Option {
-        id: string;
-        value: string;
+    export namespace Select {
+
+        export interface Option {
+            id: string;
+            value: string;
+        }
+
     }
 
     export interface TextInput extends Input<TextInput.Data, string, TextInput> {
@@ -385,7 +399,7 @@ export namespace Ngface {
 
     export namespace ValueSet {
 
-        export interface Item extends Serializable {
+        export interface Item extends Serializable, Comparable<ValueSet.Item> {
             text: string;
             selected: boolean;
         }

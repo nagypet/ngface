@@ -152,7 +152,7 @@
                     } @else  if (action.style === 'BUTTON') {
                       <!-- Button ------------------------------------------------------------------------------------->
                       <button class="action-button-button ngface-button"
-                              [disabled]="!action.forceEnabled || (action.enabled && !row.disabled)"
+                              [disabled]="!(action.forceEnabled || (action.enabled && !row.disabled))"
                               (click)="$event.stopPropagation(); actionClick(row, action)"
                       >
                         {{ action.text }}

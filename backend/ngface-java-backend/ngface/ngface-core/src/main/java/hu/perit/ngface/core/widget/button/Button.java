@@ -18,9 +18,13 @@ package hu.perit.ngface.core.widget.button;
 
 import hu.perit.ngface.core.widget.base.VoidWidgetData;
 import hu.perit.ngface.core.widget.base.Widget;
+import jakarta.annotation.Nullable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Getter
 @ToString(callSuper = true)
@@ -42,11 +46,15 @@ public class Button extends Widget<VoidWidgetData, Button>
 
     private Style style = Style.NONE;
     private String badge;
+    @Nullable
+    private final Map<String, String> options = new LinkedHashMap<>();
+
 
     public Button(String id)
     {
         super(id);
     }
+
 
     // Json
     private Button()
@@ -54,11 +62,13 @@ public class Button extends Widget<VoidWidgetData, Button>
         super(null);
     }
 
+
     public Button style(Style style)
     {
         this.style = style;
         return this;
     }
+
 
     public Button badge(String badge)
     {
@@ -66,9 +76,26 @@ public class Button extends Widget<VoidWidgetData, Button>
         return this;
     }
 
+
     public Button badge(Long badge)
     {
         this.badge = badge != null ? String.valueOf(badge) : "";
         return this;
+    }
+
+
+    public Button addOption(String id, String value)
+    {
+        this.options.put(id, value);
+        return this;
+    }
+
+
+    @ToString
+    @lombok.Data
+    public static class Option
+    {
+        private final String id;
+        private final String value;
     }
 }

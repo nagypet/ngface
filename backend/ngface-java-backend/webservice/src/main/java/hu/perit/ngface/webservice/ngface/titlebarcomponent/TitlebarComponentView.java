@@ -21,8 +21,10 @@ import hu.perit.ngface.core.view.ComponentView;
 import hu.perit.ngface.core.widget.form.Form;
 import hu.perit.ngface.core.widget.table.Action;
 import hu.perit.ngface.core.widget.titlebar.Titlebar;
+import hu.perit.spvitamin.spring.config.SpringContext;
 import hu.perit.spvitamin.spring.manifest.ManifestReader;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.env.Environment;
 
 import java.util.List;
 import java.util.Properties;
@@ -35,7 +37,9 @@ public class TitlebarComponentView implements ComponentView
     @Override
     public Form getForm()
     {
-        Properties manifest = ManifestReader.getManifestAttributes();
+        Environment environment = SpringContext.getBean(Environment.class);
+        String applicationName = environment.getProperty("spring.application.name");
+        Properties manifest = ManifestReader.getManifestAttributes(applicationName);
         String version = manifest.getProperty("Implementation-Version", "");
         String buildTime = manifest.getProperty("Build-Time", "");
         String build;
