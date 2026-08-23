@@ -54,7 +54,9 @@
     </div>
     <div responsiveClass="ngface-dialog-actions">
       <ngface-button [formdata]="formData" widgetid="button-ok" (click)="onOkClick()"></ngface-button>
+      <ngface-button [formdata]="formData" widgetid="button-cancel" (click)="onCancelClick()"></ngface-button>
       <ngface-button [formdata]="formData" widgetid="button-delete" (click)="onDeleteClick()"></ngface-button>
+      <ngface-button [formdata]="formData" widgetid="button-push" (click)="onPushClick()" (optionClick)="onPushOptionClick($event)"></ngface-button>
     </div>
   </ngface-form>
 </div>

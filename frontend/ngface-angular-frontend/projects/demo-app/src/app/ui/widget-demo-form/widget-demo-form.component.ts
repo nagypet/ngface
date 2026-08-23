@@ -18,7 +18,7 @@ import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {WidgetDemoFormService} from '../../core/services/widget-demo-form.service';
 import {FormBaseComponent} from '../../../../../ngface/src/lib/form/form-base.component';
 import {TableDemoFormService} from '../../core/services/table-demo-form.service';
-import {NgfaceButtonComponent} from '../../../../../ngface/src/lib/widgets/ngface-button/ngface-button.component';
+import {NgfaceButtonComponent, OptionClickEvent} from '../../../../../ngface/src/lib/widgets/ngface-button/ngface-button.component';
 import {NgfaceSelectComponent} from '../../../../../ngface/src/lib/widgets/ngface-select/ngface-select.component';
 import {
   NgfaceDateRangeInputComponent
@@ -68,7 +68,7 @@ export class WidgetDemoFormComponent extends FormBaseComponent implements OnInit
   constructor(
     private widgetDemoFormService: WidgetDemoFormService,
     private tableDemoFormService: TableDemoFormService,
-    private zone: NgZone
+    private zone: NgZone,
   )
   {
     super();
@@ -146,12 +146,28 @@ export class WidgetDemoFormComponent extends FormBaseComponent implements OnInit
   }
 
 
+  onCancelClick(): void
+  {
+  }
+
+
   onDeleteClick(): void
   {
     this.widgetDemoFormService.deleteForm().subscribe(next =>
     {
       console.log(next);
     });
+  }
+
+
+  onPushClick(): void
+  {
+  }
+
+
+  onPushOptionClick(event: OptionClickEvent): void
+  {
+    console.log(event);
   }
 
 

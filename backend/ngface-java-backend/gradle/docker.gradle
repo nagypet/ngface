@@ -80,8 +80,14 @@ if (project.hasProperty('application')) {
         dependsOn 'installDist'
         dependsOn 'finalizeInstallDist'
 
-        from 'config'
         into "$dockerBuildDir/bin"
+        into("/config") {
+            from "config"
+        }
+        // Deployment will not be copied into the image, we are building a general image for every customer
+//        into(".") {
+//            from "../deployment/${project.name}"
+//        }
 
         doLast { dockerImageInputsChanged = true }
     }
@@ -99,9 +105,10 @@ if (project.hasProperty('application')) {
     }
 
     tasks.register('dockerBackendImage') {
-        group 'docker'
-        description 'Builds docker image based on the installation'
+        group = 'docker'
+        description = 'Builds docker image based on the installation'
 
+        // Szolg�ltat�s lek�r�se
         def execOps = project.services.get(org.gradle.process.ExecOperations)
 
         dependsOn 'installDist'
@@ -132,12 +139,10 @@ if (project.hasProperty('application')) {
                 execOps.exec {
                     workingDir dockerBuildDir
                     commandLine 'docker', 'push', "${dockerRegistry}/${dockerImageName}:${version}"
-                    logger.quiet "pushed ${dockerRegistry}/${dockerImageName}:${version}"
                 }
                 execOps.exec {
                     workingDir dockerBuildDir
                     commandLine 'docker', 'push', "${dockerRegistry}/${dockerImageName}:latest"
-                    logger.quiet "pushed ${dockerRegistry}/${dockerImageName}:latest"
                 }
             }
         }
@@ -154,6 +159,6 @@ if (project.hasProperty('application')) {
  * Placeholder task
  *******************************************************************************************************/
 tasks.register('dockerImage') {
-    group 'docker'
-    description 'Builds docker image.'
+    group = 'docker'
+    description = 'Builds docker image.'
 }
