@@ -16,6 +16,7 @@
 
 package hu.perit.ngface.core.formating;
 
+import hu.perit.spvitamin.core.util.Currency;
 import hu.perit.spvitamin.core.util.CurrencyConverter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,6 +35,16 @@ public class CurrencyFormat extends NumericFormat
     {
         this.suffix = currencySymbol;
         this.precision = 2;
+    }
+
+
+    public static NumericFormat fromCurrencyCode(Currency currency, NumericFormat defaultFormat)
+    {
+        if (currency == null)
+        {
+            return defaultFormat;
+        }
+        return fromCurrencyCode(currency.toString(), defaultFormat);
     }
 
 

@@ -25,13 +25,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 /**
- * Evaluates action-level authorization rules defined in {@code ngface.rolemap}
- * in application.yml.
+ * Evaluates action-level authorization rules defined in {@code ngface.rolemap} or
+ * {@code ngface.actionmap} in application.yml.
  *
  * <p>Called by {@code NgfaceTableRestController.onActionClick} before dispatching to the
  * component controller. If the action is not listed in the configuration, access is denied.
+ * When multiple roles are configured for an action, the user needs to have at least one of them.
  */
 @Service
 @RequiredArgsConstructor
@@ -44,12 +46,12 @@ public class TableActionAuthorizationProviderImpl implements TableActionAuthoriz
     @Override
     public void authorize(String controllerSimpleName, String actionId)
     {
-        String requiredRoleName = this.actionPermissionsProperties
-                .getRequiredRole(controllerSimpleName, actionId)
+        List<String> requiredRoles = this.actionPermissionsProperties
+                .getRequiredRoles(controllerSimpleName, actionId)
                 .orElseThrow(() -> new AuthorizationException(getErrorMessage(controllerSimpleName, actionId)));
 
         AuthenticatedUser authenticatedUser = this.authorizationService.getAuthenticatedUser();
-        if (!authenticatedUser.hasRole(requiredRoleName))
+        if (requiredRoles.stream().noneMatch(authenticatedUser::hasRole))
         {
             throw new AuthorizationException(getErrorMessage(controllerSimpleName, actionId));
         }

@@ -22,27 +22,45 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
- * Loads the {@code mebil-service.action-permissions} section from application.yml.
+ * Loads action-level authorization rules from application.yml.
  *
- * <p>Structure in YAML:
+ * <p>Two equivalent configuration formats are supported:
+ *
+ * <p><b>Legacy format</b> ({@code ngface.rolemap}) — grouped by role:
  * <pre>
  * ngface:
  *   rolemap:
  *     ROLE_ADMIN:
  *       - "TransferPackageItemTableRestController:FINALIZE"
- *       - "TransferPackageItemTableRestController:REOPEN"
+ *       - "TransferPackageItemTableRestController:APPROVE"
  *     ROLE_APPROVER:
  *       - "TransferPackageItemTableRestController:APPROVE"
  * </pre>
  *
- * <p>At startup an inverted index is built: "ControllerName:ACTION" → role name,
+ * <p><b>New format</b> ({@code ngface.actionmap}) — grouped by controller (preferred):
+ * <pre>
+ * ngface:
+ *   actionmap:
+ *     TransferPackageItemTableRestController:
+ *       FINALIZE: "ROLE_ADMIN"
+ *       APPROVE:  "ROLE_ADMIN, ROLE_APPROVER"
+ * </pre>
+ *
+ * <p>Both formats can be used simultaneously; their entries are merged.
+ * When an action is associated with multiple roles the authorization check uses OR logic —
+ * the user needs to have at least one of the listed roles.
+ *
+ * <p>At startup an inverted index is built: "ControllerName:ACTION" → list of role names,
  * so lookups are O(1).
  */
 @Data
@@ -52,14 +70,19 @@ import java.util.Optional;
 public class ActionPermissionsProperties
 {
     /**
-     * ROLE_NAME → list of "ControllerSimpleName:ACTION_ID" entries
+     * Legacy format: ROLE_NAME → list of "ControllerSimpleName:ACTION_ID" entries.
      */
     private Map<String, List<String>> rolemap = new LinkedHashMap<>();
 
     /**
-     * Inverted index built at startup.
+     * New format: ControllerSimpleName → (ACTION_ID → comma-separated role names).
      */
-    private final Map<String, String> index = new HashMap<>();
+    private Map<String, Map<String, String>> actionmap = new LinkedHashMap<>();
+
+    /**
+     * Inverted index built at startup: action key → list of required roles (OR logic).
+     */
+    private final Map<String, List<String>> index = new HashMap<>();
 
 
     @PostConstruct
@@ -69,19 +92,28 @@ public class ActionPermissionsProperties
         {
             for (String controllerAction : actions)
             {
-                String previous = index.put(Case.toLower(controllerAction), roleName);
-                if (previous != null)
-                {
-                    log.warn("Duplicate action-permissions entry '{}': was {}, now {}", controllerAction, previous, roleName);
-                }
+                index.computeIfAbsent(Case.toLower(controllerAction), k -> new ArrayList<>()).add(roleName);
             }
         });
+
+        actionmap.forEach((controllerName, actions) ->
+            actions.forEach((actionId, rolesStr) ->
+            {
+                List<String> roles = Arrays.stream(rolesStr.split(","))
+                        .map(String::trim)
+                        .filter(s -> !s.isEmpty())
+                        .collect(Collectors.toList());
+                index.computeIfAbsent(Case.toLower(controllerName + ":" + actionId), k -> new ArrayList<>()).addAll(roles);
+            })
+        );
+
         log.info("ActionPermissionsProperties: {} action rules loaded", index.size());
     }
 
 
-    public Optional<String> getRequiredRole(String controllerSimpleName, String actionId)
+    public Optional<List<String>> getRequiredRoles(String controllerSimpleName, String actionId)
     {
-        return Optional.ofNullable(index.get(Case.toLower(controllerSimpleName + ":" + actionId)));
+        List<String> roles = index.get(Case.toLower(controllerSimpleName + ":" + actionId));
+        return (roles == null || roles.isEmpty()) ? Optional.empty() : Optional.of(roles);
     }
 }

@@ -21,6 +21,7 @@ import hu.perit.ngface.core.formating.NumericFormat;
 import hu.perit.ngface.core.widget.table.cell.Cell;
 import hu.perit.ngface.core.widget.table.cell.NumericCell;
 import hu.perit.ngface.core.widget.table.cell.TextCell;
+import hu.perit.spvitamin.core.util.Currency;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -232,6 +233,13 @@ public class Row<T>
     public Row<T> putCell(String colId, Boolean value)
     {
         this.cells.put(colId, new TextCell(convertBooleanToString(value)));
+        return this;
+    }
+
+
+    public Row<T> putCell(String colId, Currency currency)
+    {
+        this.cells.put(colId, new TextCell(currency != null ? currency.toString() : null));
         return this;
     }
 
