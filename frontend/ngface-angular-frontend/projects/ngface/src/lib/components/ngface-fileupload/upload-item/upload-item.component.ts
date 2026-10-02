@@ -26,19 +26,18 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {HttpClient, HttpEventType} from '@angular/common/http';
 
 @Component({
-  selector: 'upload-item',
-  standalone: true,
-  imports: [
-    MatCard,
-    MatProgressBar,
-    MatIconButton,
-    MatIcon,
-    BytesPipe,
-    AsyncPipe,
-    NgIf
-  ],
-  templateUrl: './upload-item.component.html',
-  styleUrl: './upload-item.component.scss'
+    selector: 'upload-item',
+    imports: [
+        MatCard,
+        MatProgressBar,
+        MatIconButton,
+        MatIcon,
+        BytesPipe,
+        AsyncPipe,
+        NgIf
+    ],
+    templateUrl: './upload-item.component.html',
+    styleUrl: './upload-item.component.scss'
 })
 export class UploadItemComponent implements OnInit, OnDestroy
 {

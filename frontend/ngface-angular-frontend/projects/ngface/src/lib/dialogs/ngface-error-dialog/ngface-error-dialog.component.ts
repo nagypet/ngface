@@ -68,20 +68,19 @@ export interface StackTraceElement
 }
 
 @Component({
-  selector: 'lib-ngface-error-dialog',
-  templateUrl: './ngface-error-dialog.component.html',
-  styleUrls: ['./ngface-error-dialog.component.scss'],
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    MatIconModule,
-    NgIf,
-    NgScrollbarModule,
-    MatButtonModule,
-    A11yModule,
-    ResponsiveClassDirective,
-    NgfaceButtonComponent
-  ]
+    selector: 'lib-ngface-error-dialog',
+    templateUrl: './ngface-error-dialog.component.html',
+    styleUrls: ['./ngface-error-dialog.component.scss'],
+    imports: [
+        MatDialogModule,
+        MatIconModule,
+        NgIf,
+        NgScrollbarModule,
+        MatButtonModule,
+        A11yModule,
+        ResponsiveClassDirective,
+        NgfaceButtonComponent
+    ]
 })
 export class NgfaceErrorDialogComponent implements OnInit
 {

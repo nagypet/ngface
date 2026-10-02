@@ -58,24 +58,23 @@ export interface AutocompleteValueSetChangeEvent
 
 
 @Component({
-  selector: 'ngface-autocomplete',
-  templateUrl: './ngface-autocomplete.component.html',
-  imports: [
-    MatFormFieldModule,
-    MatOptionModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    AsyncPipe,
-    DebounceInputDirective,
-    A11yModule,
-    ResponsiveClassDirective,
-    MatCheckboxModule,
-    MatIconModule,
-    MatButtonModule,
-  ],
-  standalone: true
+    selector: 'ngface-autocomplete',
+    templateUrl: './ngface-autocomplete.component.html',
+    imports: [
+        MatFormFieldModule,
+        MatOptionModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        AsyncPipe,
+        DebounceInputDirective,
+        A11yModule,
+        ResponsiveClassDirective,
+        MatCheckboxModule,
+        MatIconModule,
+        MatButtonModule,
+    ]
 })
 export class NgfaceAutocompleteComponent extends InputBaseComponent implements OnChanges, OnDestroy
 {

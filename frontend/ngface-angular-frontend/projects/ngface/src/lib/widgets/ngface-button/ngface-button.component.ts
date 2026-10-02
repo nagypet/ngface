@@ -32,10 +32,9 @@ export interface OptionClickEvent
 }
 
 @Component({
-  selector: 'ngface-button',
-  templateUrl: './ngface-button.component.html',
-  standalone: true,
-  imports: [MatButtonModule, NgClass, MatTooltipModule, MatBadgeModule, MatMenuModule, MatIconModule, ResponsiveClassDirective]
+    selector: 'ngface-button',
+    templateUrl: './ngface-button.component.html',
+    imports: [MatButtonModule, NgClass, MatTooltipModule, MatBadgeModule, MatMenuModule, MatIconModule, ResponsiveClassDirective]
 })
 export class NgfaceButtonComponent implements OnInit
 {

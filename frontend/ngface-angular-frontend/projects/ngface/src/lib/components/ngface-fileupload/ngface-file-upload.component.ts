@@ -31,19 +31,18 @@ export interface FileStatus
 // Adapted this project to my needs: https://github.com/nishantmc/angular-material-fileupload.git
 
 @Component({
-  selector: 'ngface-file-upload',
-  standalone: true,
-  imports: [
-    MatIcon,
-    MatFabButton,
-    MatButton,
-    NgIf,
-    NgForOf,
-    UploadItemComponent,
-    MatBadge
-  ],
-  templateUrl: './ngface-file-upload.component.html',
-  styleUrl: './ngface-file-upload.component.scss'
+    selector: 'ngface-file-upload',
+    imports: [
+        MatIcon,
+        MatFabButton,
+        MatButton,
+        NgIf,
+        NgForOf,
+        UploadItemComponent,
+        MatBadge
+    ],
+    templateUrl: './ngface-file-upload.component.html',
+    styleUrl: './ngface-file-upload.component.scss'
 })
 export class NgfaceFileUploadComponent implements OnChanges
 {

@@ -32,11 +32,10 @@ export interface DateRangeValueChangeEvent
 }
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'ngface-date-range-input',
-  templateUrl: './ngface-date-range-input.component.html',
-  standalone: true,
-  imports: [MatFormFieldModule, MatDatepickerModule, ReactiveFormsModule, NgIf, ResponsiveClassDirective]
+    // tslint:disable-next-line:component-selector
+    selector: 'ngface-date-range-input',
+    templateUrl: './ngface-date-range-input.component.html',
+    imports: [MatFormFieldModule, MatDatepickerModule, ReactiveFormsModule, NgIf, ResponsiveClassDirective]
 })
 export class NgfaceDateRangeInputComponent extends InputBaseComponent implements OnInit, OnDestroy, OnChanges
 {
