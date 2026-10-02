@@ -35,6 +35,10 @@ public interface TableController<D, R extends AbstractTableRow<I>, I extends Ser
 
     Filterer getFilterer(String column, String searchText);
 
+    Filterer applyColumnFilter(String column, String searchText, List<String> values);
+
+    Filterer clearColumnFilter(String column);
+
     FiltererFactory getFiltererFactory();
 
     void onSave(D data);

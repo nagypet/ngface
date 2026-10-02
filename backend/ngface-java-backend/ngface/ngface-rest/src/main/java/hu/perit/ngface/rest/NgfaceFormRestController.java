@@ -21,8 +21,10 @@ import hu.perit.ngface.core.data.ComponentDTO;
 import hu.perit.ngface.core.types.intf.SubmitFormData;
 import hu.perit.ngface.core.view.ComponentView;
 import hu.perit.ngface.core.widget.form.Form;
+import hu.perit.spvitamin.spring.rest.SuppressRestEndpoints;
 import lombok.RequiredArgsConstructor;
 
+@SuppressRestEndpoints
 @RequiredArgsConstructor
 public abstract class NgfaceFormRestController<C extends ComponentController<D, I>, D extends ComponentDTO, V extends ComponentView, I>
     implements NgfaceFormRestApi<I>

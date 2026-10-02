@@ -23,10 +23,18 @@ import hu.perit.ngface.core.types.intf.TableActionParams;
 import hu.perit.ngface.core.widget.form.Form;
 import hu.perit.ngface.core.widget.table.Filterer;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.Serializable;
+import java.util.List;
 
 public interface NgfaceTableRestApi<I extends Serializable>
 {
@@ -34,6 +42,7 @@ public interface NgfaceTableRestApi<I extends Serializable>
     String URL_COLVALUESET = "/filterer";
     String URL_SELECT = "/row-select";
     String URL_ACTIONCLICK = "/action-click";
+    String URL_FILTERS = "/filters";
 
     @PostMapping(value = URL_GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     Form getTable(@Valid @RequestBody DataRetrievalParams dataRetrievalParams);
@@ -44,9 +53,20 @@ public interface NgfaceTableRestApi<I extends Serializable>
     @GetMapping(value = URL_COLVALUESET, produces = MediaType.APPLICATION_JSON_VALUE)
     Filterer getColumnFilterer(
             @RequestParam(value = "column") String column,
-            @RequestParam(value = "searchText") String searchText
+            @RequestParam(value = "searchText", required = false) String searchText
     );
 
+    @PostMapping(value = URL_FILTERS, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    Filterer applyColumnFilter(
+            @RequestParam(value = "column") String column,
+            @RequestParam(value = "searchText", required = false) String searchText,
+            @Valid @RequestBody @NotEmpty List<@NotBlank String> valueSet
+    );
+
+    @DeleteMapping(value = URL_FILTERS, produces = MediaType.APPLICATION_JSON_VALUE)
+    Filterer clearColumnFilter(
+            @RequestParam(value = "column", required = false) String column
+    );
 
     @PutMapping(value = URL_SELECT, consumes = MediaType.APPLICATION_JSON_VALUE)
     void onRowSelect(@Valid @RequestBody RowSelectParams<I> rowSelectParams) throws Exception;

@@ -23,15 +23,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class EventStreamConfig implements WebMvcConfigurer
 {
-
-    // Deprecated
-//    @Override
-//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
-//    {
-//        converters.add(new EventStreamHttpMessageConverter());
-//    }
-
-
     @Override
     public void configureMessageConverters(HttpMessageConverters.ServerBuilder builder)
     {

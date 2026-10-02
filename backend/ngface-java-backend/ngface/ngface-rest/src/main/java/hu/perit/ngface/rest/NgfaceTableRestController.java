@@ -26,11 +26,13 @@ import hu.perit.ngface.core.view.ComponentView;
 import hu.perit.ngface.core.widget.form.Form;
 import hu.perit.ngface.core.widget.table.Filterer;
 import hu.perit.spvitamin.spring.config.SpringContext;
+import hu.perit.spvitamin.spring.rest.SuppressRestEndpoints;
 import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
 
+@SuppressRestEndpoints
 @RequiredArgsConstructor
 public abstract class NgfaceTableRestController<C extends TableController<D, ?, I>, D extends ComponentDTO, V extends ComponentView, I extends Serializable>
         implements NgfaceTableRestApi<I>
@@ -58,6 +60,20 @@ public abstract class NgfaceTableRestController<C extends TableController<D, ?, 
     public Filterer getColumnFilterer(String column, String searchText)
     {
         return this.tableController.getFilterer(column, searchText);
+    }
+
+
+    @Override
+    public Filterer applyColumnFilter(String column, String searchText, List<String> values)
+    {
+        return this.tableController.applyColumnFilter(column, searchText, values);
+    }
+
+
+    @Override
+    public Filterer clearColumnFilter(String column)
+    {
+        return this.tableController.clearColumnFilter(column);
     }
 
 

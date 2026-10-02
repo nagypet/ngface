@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 4.1.1 on 2026-08-16 07:25:10.
+// Generated using typescript-generator version 4.1.1 on 2026-09-11 07:30:13.
 
 export namespace Ngface {
 
@@ -85,8 +85,8 @@ export namespace Ngface {
 
     export interface AbstractOption extends Comparable<AbstractOption> {
         type: "hu.perit.ngface.core.widget.input.AutocompleteOption";
-        texts: string[];
         id: string;
+        texts: string[];
     }
 
     export interface Autocomplete extends Input<Autocomplete.Data, string, Autocomplete> {
@@ -336,6 +336,29 @@ export namespace Ngface {
         order: number;
     }
 
+    export interface FiltererGroup extends Widget<VoidWidgetData, FiltererGroup>, FiltererPanelItem {
+        type: "FiltererGroup";
+        data: VoidWidgetData;
+        items: FiltererPanelItem[];
+    }
+
+    export interface FiltererPanel extends Widget<VoidWidgetData, FiltererPanel> {
+        type: "FiltererPanel";
+        data: VoidWidgetData;
+        items: FiltererPanelItem[];
+        countActiveFilters: number;
+    }
+
+    export interface FiltererPanelItem {
+        countActiveFilters: number;
+    }
+
+    export interface FiltererWidget extends Widget<VoidWidgetData, FiltererWidget>, FiltererPanelItem {
+        type: "FiltererWidget";
+        data: VoidWidgetData;
+        column: string;
+    }
+
     export interface Paginator extends Serializable {
         pageIndex: number;
         pageSize: number;
@@ -510,7 +533,7 @@ export namespace Ngface {
     }
 
     export interface Widget<WD, SUB> {
-        type: "Button" | "WidgetList" | "FormattedText" | "Table" | "Titlebar" | "Autocomplete" | "DateInput" | "DateRangeInput" | "DateTimeInput" | "GenericAutocomplete" | "NumericInput" | "Select" | "TextInput";
+        type: "Button" | "WidgetList" | "FormattedText" | "FiltererGroup" | "FiltererPanel" | "FiltererWidget" | "Table" | "Titlebar" | "Autocomplete" | "DateInput" | "DateRangeInput" | "DateTimeInput" | "GenericAutocomplete" | "NumericInput" | "Select" | "TextInput";
         id: string;
         label: string;
         hint: string;

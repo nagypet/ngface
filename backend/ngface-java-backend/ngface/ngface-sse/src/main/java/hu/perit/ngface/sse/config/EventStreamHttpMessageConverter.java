@@ -16,8 +16,8 @@
 
 package hu.perit.ngface.sse.config;
 
+import hu.perit.spvitamin.json.JSonSerializer;
 import hu.perit.spvitamin.spring.exceptionhandler.RestExceptionResponse;
-import hu.perit.spvitamin.spring.logging.ObjectLogger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
@@ -25,6 +25,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 public class EventStreamHttpMessageConverter extends AbstractHttpMessageConverter<RestExceptionResponse>
@@ -38,13 +41,13 @@ public class EventStreamHttpMessageConverter extends AbstractHttpMessageConverte
     @Override
     protected boolean supports(Class<?> clazz)
     {
-        return clazz.isAssignableFrom(RestExceptionResponse.class);
+        return RestExceptionResponse.class.isAssignableFrom(clazz);
     }
 
 
     @Override
     protected RestExceptionResponse readInternal(Class<? extends RestExceptionResponse> clazz, HttpInputMessage inputMessage)
-        throws HttpMessageNotReadableException
+            throws HttpMessageNotReadableException
     {
         return null;
     }
@@ -52,8 +55,19 @@ public class EventStreamHttpMessageConverter extends AbstractHttpMessageConverte
 
     @Override
     protected void writeInternal(RestExceptionResponse restExceptionResponse, HttpOutputMessage outputMessage)
-        throws HttpMessageNotWritableException
+            throws HttpMessageNotWritableException
     {
-        log.info("writeInternal() {}", ObjectLogger.toString(restExceptionResponse));
+        try
+        {
+            String json = JSonSerializer.toJson(restExceptionResponse);
+            log.info("writeInternal() {}", json);
+            String sseEvent = "data: " + json + "\n\n";
+            outputMessage.getBody().write(sseEvent.getBytes(StandardCharsets.UTF_8));
+            outputMessage.getBody().flush();
+        }
+        catch (IOException e)
+        {
+            throw new HttpMessageNotWritableException("Could not write SSE error event", e);
+        }
     }
 }
