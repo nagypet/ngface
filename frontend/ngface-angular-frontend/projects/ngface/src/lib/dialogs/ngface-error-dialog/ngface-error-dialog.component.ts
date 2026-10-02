@@ -22,7 +22,7 @@ import {ErrorService} from '../../services/error.service';
 import {A11yModule} from '@angular/cdk/a11y';
 import {MatButtonModule} from '@angular/material/button';
 import {NgScrollbarModule} from 'ngx-scrollbar';
-import {formatDate, NgIf} from '@angular/common';
+import { formatDate } from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
 import {DeviceTypeService} from '../../services/device-type.service';
@@ -72,15 +72,14 @@ export interface StackTraceElement
     templateUrl: './ngface-error-dialog.component.html',
     styleUrls: ['./ngface-error-dialog.component.scss'],
     imports: [
-        MatDialogModule,
-        MatIconModule,
-        NgIf,
-        NgScrollbarModule,
-        MatButtonModule,
-        A11yModule,
-        ResponsiveClassDirective,
-        NgfaceButtonComponent
-    ]
+    MatDialogModule,
+    MatIconModule,
+    NgScrollbarModule,
+    MatButtonModule,
+    A11yModule,
+    ResponsiveClassDirective,
+    NgfaceButtonComponent
+]
 })
 export class NgfaceErrorDialogComponent implements OnInit
 {

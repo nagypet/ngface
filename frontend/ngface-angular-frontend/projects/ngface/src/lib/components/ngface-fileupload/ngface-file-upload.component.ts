@@ -17,7 +17,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton, MatFabButton} from '@angular/material/button';
-import {NgForOf, NgIf} from '@angular/common';
+
 import {UploadItemComponent} from './upload-item/upload-item.component';
 import {IUploadEvent} from './ngface-file-upload.type';
 import {MatBadge} from '@angular/material/badge';
@@ -33,14 +33,12 @@ export interface FileStatus
 @Component({
     selector: 'ngface-file-upload',
     imports: [
-        MatIcon,
-        MatFabButton,
-        MatButton,
-        NgIf,
-        NgForOf,
-        UploadItemComponent,
-        MatBadge
-    ],
+    MatIcon,
+    MatFabButton,
+    MatButton,
+    UploadItemComponent,
+    MatBadge
+],
     templateUrl: './ngface-file-upload.component.html',
     styleUrl: './ngface-file-upload.component.scss'
 })

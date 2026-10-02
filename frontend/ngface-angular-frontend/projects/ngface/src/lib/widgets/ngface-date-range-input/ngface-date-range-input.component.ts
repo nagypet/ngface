@@ -18,7 +18,7 @@ import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} fr
 import {InputBaseComponent} from '../input-base.component';
 import {Ngface} from '../../ngface-models';
 import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn} from '@angular/forms';
-import {NgIf} from '@angular/common';
+
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {ResponsiveClassDirective} from '../../directives/responsive-class-directive';
@@ -35,7 +35,7 @@ export interface DateRangeValueChangeEvent
     // tslint:disable-next-line:component-selector
     selector: 'ngface-date-range-input',
     templateUrl: './ngface-date-range-input.component.html',
-    imports: [MatFormFieldModule, MatDatepickerModule, ReactiveFormsModule, NgIf, ResponsiveClassDirective]
+    imports: [MatFormFieldModule, MatDatepickerModule, ReactiveFormsModule, ResponsiveClassDirective]
 })
 export class NgfaceDateRangeInputComponent extends InputBaseComponent implements OnInit, OnDestroy, OnChanges
 {
