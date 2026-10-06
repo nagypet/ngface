@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {environment} from '../../../../../app/src/environments/environment';
+import {NGFACE_BASE_URL} from './environment.token';
 import {SpvitaminSecurity} from './spvitamin-security-models';
 import {AbstractAuthService} from './abstract-auth.service';
 
@@ -27,6 +27,7 @@ import {AbstractAuthService} from './abstract-auth.service';
 export class AuthenticationRepositoryService
 {
   private readonly serviceUrl = '/api/spvitamin/authentication-repository';
+  private readonly baseUrl: string = inject(NGFACE_BASE_URL);
   private _authService?: AbstractAuthService;
   public set authService(authService: AbstractAuthService)
   {
@@ -44,6 +45,6 @@ export class AuthenticationRepositoryService
 
   public getAuthenticationRepository(): Observable<SpvitaminSecurity.AuthenticationRepository>
   {
-    return this.httpClient.get(`${environment.baseURL}${this.serviceUrl}`) as Observable<SpvitaminSecurity.AuthenticationRepository>;
+    return this.httpClient.get(`${this.baseUrl}${this.serviceUrl}`) as Observable<SpvitaminSecurity.AuthenticationRepository>;
   }
 }

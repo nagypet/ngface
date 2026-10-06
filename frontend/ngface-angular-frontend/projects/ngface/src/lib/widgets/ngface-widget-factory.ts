@@ -15,6 +15,8 @@
  */
 
 import {Ngface} from '../ngface-models';
+import TextPlacement = Ngface.TextPlacement;
+import Action = Ngface.Action;
 
 export class NgfaceWidgetFactory
 {
@@ -118,7 +120,12 @@ export class NgfaceWidgetFactory
   }
 
 
-  public static createButton(input: Partial<{ id: string, label: string, style: Ngface.Button.Style, enabled: boolean }> = {}): Ngface.Button
+  public static createButton(input: Partial<{
+    id: string,
+    label: string,
+    style: Ngface.Button.Style,
+    enabled: boolean
+  }> = {}): Ngface.Button
   {
     const defaults = {
       id: '',
@@ -166,5 +173,68 @@ export class NgfaceWidgetFactory
       enabled: true,
       validators: params.validators
     } as Ngface.Select;
+  }
+
+
+  public static createTitlebar(
+    id: string,
+    appTitle: string,
+    version: string,
+    menu: Ngface.Menu,
+    actions: Ngface.Action[]
+  ): Ngface.Titlebar
+  {
+    return {
+      id: id,
+      type: 'Titlebar',
+      appTitle: appTitle,
+      version: version,
+      buildTime: '',
+      menu: menu,
+      actions: actions
+    } as Ngface.Titlebar;
+  }
+
+
+  public static createAction(input: Partial<{
+    id: string;
+    label: string;
+    text: string;
+    textPlacement: TextPlacement;
+    icon: string;
+    enabled: boolean;
+    badge: string;
+    style: Action.Style;
+    actions: Action[] | null;
+    forceEnabled: boolean;
+  }> = {}): Ngface.Action
+  {
+    const defaults = {
+      textPlacement: 'AFTER',
+      enabled: true,
+      badge: '',
+      style: 'BUTTON',
+      actions: null,
+      forceEnabled: false
+    };
+
+    const params = {...defaults, ...input};
+    if (!params.text)
+    {
+      params.text = params.label;
+    }
+
+    return {
+      id: params.id,
+      label: params.label,
+      text: params.text,
+      textPlacement: params.textPlacement,
+      icon: params.icon,
+      enabled: params.enabled,
+      badge: params.badge,
+      style: params.style,
+      actions: params.actions,
+      forceEnabled: params.forceEnabled,
+    } as Ngface.Action;
   }
 }
